@@ -34,6 +34,31 @@
     }
   }
 
+  /* ---------- ambient hero video: desktop only, not on reduced motion or data saver ---------- */
+  var hv = $('.hero__vid');
+  if (hv) {
+    var saveData = navigator.connection && navigator.connection.saveData;
+    var wide = window.matchMedia('(min-width: 861px)').matches;
+    if (!reduce && !saveData && wide) {
+      hv.src = hv.dataset.src;
+      hv.addEventListener('playing', function () { hv.classList.add('is-playing'); }, { once: true });
+      var tryPlay = function () { var p = hv.play(); if (p && p.catch) p.catch(function () {}); };
+      if (document.readyState === 'complete') setTimeout(tryPlay, 600); else window.addEventListener('load', function () { setTimeout(tryPlay, 600); });
+      // pause when the hero is off screen to save battery
+      if ('IntersectionObserver' in window) new IntersectionObserver(function (es) { if (es[0].isIntersecting) tryPlay(); else hv.pause(); }).observe(hero);
+    }
+  }
+
+  /* ---------- gentle parallax on the hero background ---------- */
+  var hbg = $('.hero__bg');
+  if (hbg && !reduce) {
+    var ticking = false;
+    window.addEventListener('scroll', function () {
+      if (ticking) return; ticking = true;
+      requestAnimationFrame(function () { var y = Math.min(window.scrollY, 900); hbg.style.transform = 'translate3d(0,' + (y * 0.18).toFixed(1) + 'px,0)'; ticking = false; });
+    }, { passive: true });
+  }
+
   /* ---------- scroll reveals, staggered per group ---------- */
   var SEL = '.h2, main .sub, .why__item, .who__item, .opt, .uses li, .inbox li, .assure li, .price, .qty-row, .faq details, .story__text p, .quote, .box, .bigfacts li, .cues li, .note, .vid__frame, .steps--3 li, .more, .row-actions, .last__h, .form .field';
   var targets = $$(SEL).filter(function (el) { return !el.closest('.hero, .drawer, .mnav, .top, .panel'); });

@@ -697,3 +697,26 @@ input, select, textarea { border-color: var(--field-line); }
 .vid__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-weight: 700; margin: 4px 0 14px; }
 .vid__toggle.is-paused::before { border: 0; width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-inline-end: 11px solid currentColor; }
 .vid__toggle[aria-pressed]::before { content: none; }
+
+/* =========================================================
+   Backgrounds generated in Higgsfield (img/bg-*.webp, video/bg-hero.mp4)
+   ========================================================= */
+.hero { position: relative; isolation: isolate; overflow: hidden; }
+.hero__bg { position: absolute; inset: 0; z-index: -1; background: var(--paper) url("../img/bg-hero.webp") left center / cover no-repeat; }
+.hero__vid { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: left center; opacity: 0; transition: opacity 1200ms ease; }
+.hero__vid.is-playing { opacity: 1; }
+/* keep the text side calm and readable (Hebrew reads from the right) */
+.hero__bg::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to left, rgba(246, 248, 243, .96) 0%, rgba(246, 248, 243, .9) 34%, rgba(246, 248, 243, .35) 62%, rgba(246, 248, 243, 0) 85%), linear-gradient(to top, var(--paper) 0%, rgba(246, 248, 243, 0) 22%); }
+.hero__art::before { opacity: .55; }
+@media (max-width: 860px) {
+  .hero__bg { background-image: url("../img/bg-hero-m.webp"); background-position: center bottom; }
+  .hero__bg::after { background: linear-gradient(to bottom, rgba(246, 248, 243, .97) 0%, rgba(246, 248, 243, .9) 48%, rgba(246, 248, 243, .25) 78%, var(--paper) 100%); }
+  .hero__vid { display: none; }
+}
+
+.draw--bg { position: relative; isolation: isolate; background: var(--paper) url("../img/bg-draw.webp") left center / cover no-repeat; }
+.draw--bg::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(to left, rgba(246, 248, 243, .94) 0%, rgba(246, 248, 243, .82) 45%, rgba(246, 248, 243, .45) 100%); }
+@media (max-width: 860px) {
+  .draw--bg { background-image: url("../img/bg-draw-m.webp"); background-position: center; }
+  .draw--bg::before { background: rgba(246, 248, 243, .78); }
+}
