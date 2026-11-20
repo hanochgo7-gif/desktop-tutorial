@@ -100,9 +100,9 @@
       <p class="sub">הפרטים נשלחים לרויטל בוואטסאפ, והיא חוזרת אליכם.</p>
     </div>
     <form class="form" data-lead-form="פנייה מהאתר – עסקים, מנחים וסדנאות" novalidate>
-      <div class="field"><label for="b-name">שם</label><input id="b-name" name="name" autocomplete="name" required></div>
-      <div class="field"><label for="b-phone">טלפון</label><input id="b-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required></div>
-      <div class="field"><label for="b-org">ארגון / קבוצה</label><input id="b-org" name="org" autocomplete="organization"></div>
+      <div class="field"><label for="b-name">שם</label><input id="b-name" name="name" autocomplete="name" required aria-describedby="b-name-err"><p class="field__err" id="b-name-err" aria-live="polite"></p></div>
+      <div class="field"><label for="b-phone">טלפון</label><input id="b-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required aria-describedby="b-phone-err"><p class="field__err" id="b-phone-err" aria-live="polite"></p></div>
+      <div class="field"><label for="b-org">ארגון / קבוצה <small>(לא חובה)</small></label><input id="b-org" name="org" autocomplete="organization"></div>
       <div class="field"><label for="b-type">במה מדובר?</label>
         <select id="b-type" name="type">
           <option>רכישת כמות</option>
@@ -111,7 +111,7 @@
           <option>משהו אחר</option>
         </select>
       </div>
-      <div class="field"><label for="b-size">כמה משתתפים / קופסאות?</label><input id="b-size" name="size" inputmode="numeric"></div>
+      <div class="field"><label for="b-size">כמה משתתפים / קופסאות?</label><input id="b-size" name="size" placeholder="למשל: 20 משתתפים, 3 קופסאות"></div>
       <div class="field"><label for="b-date">מועד משוער <small>(לא חובה)</small></label><input id="b-date" name="date" placeholder="למשל: אמצע ינואר"></div>
       <div class="field field--full"><label for="b-msg">עוד משהו שכדאי שנדע</label><textarea id="b-msg" name="msg" rows="3"></textarea></div>
       <p class="form__err" data-err role="alert"></p>

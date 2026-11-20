@@ -42,13 +42,14 @@
 <section class="hero">
   <div class="wrap hero__in">
     <div class="hero__copy">
-      <p class="eyebrow">משחק קלפים · <span dir="ltr">2–35</span> משתתפים · מגיל 12</p>
+      <p class="eyebrow">משחק קלפים · <span dir="ltr">2–35</span> משתתפים · מגיל 12 · חוקים פשוטים</p>
       <h1><span>הקבוצה מנחשת</span> <span>מה אתם.</span><br><em><span>אתם מגלים</span> <span>אם הם צדקו.</span></em></h1>
-      <p class="lede">בכל קלף שתי מילים. בוחרים בשקט איזו מהן מתארת אתכם, וכל השאר מנחשים. ברגע החשיפה מתחיל הצחוק, ומיד אחריו השיחה.</p>
+      <p class="lede">משחק קלפים לחברים, למשפחה, לזוגות ולצוותים. בכל קלף שתי מילים: בוחרים בשקט מה מתאר אתכם, וכולם מנחשים. לא צריך לספר כלום, ובכל זאת נפתחות השיחות הכי טובות.</p>
       <div class="hero__cta">
-        <button class="btn btn--main" type="button" data-add>הוסיפו לסל · <span data-price>140</span> ₪</button>
-        <a class="btn btn--ghost" href="#draw">שלפו קלף לדוגמה</a>
+        <button class="btn btn--main" type="button" data-order>להזמנה · <span data-price>140</span> ₪</button>
+        <a class="btn btn--ghost" href="#draw">נסו קלף עכשיו, בלי לקנות</a>
       </div>
+      <p class="proof">נולד בהנחיית קבוצות של חיילים ומילואימניקים · נוצר על ידי רויטל, מנחת קבוצות</p>
       <ul class="facts" aria-label="מה בקופסה">
         <li><strong>73</strong> קלפי או-או</li>
         <li><strong>70</strong> קלפי הצבעה</li>
@@ -132,7 +133,7 @@
     <div class="draw__copy">
       <h2 id="draw-h" class="h2">שלפו קלף. מה אתם יותר?</h2>
       <p class="sub">בחרו בשקט, ואז שאלו מישהו שיושב לידכם מה הוא חושב שבחרתם.</p>
-      <p class="draw__status" data-draw-status aria-live="polite"></p>
+      <p class="draw__status" data-draw-status aria-live="polite">לחצו על "שלפו קלף", ואז הקישו על המילה שמתארת אתכם.</p>
       <div class="draw__actions">
         <button class="btn btn--main" type="button" data-draw>שלפו קלף</button>
         <button class="btn btn--ghost" type="button" data-share hidden>שלחו לחבר שינחש</button>
@@ -208,19 +209,21 @@
         <li><b>70 קלפי הצבעה</b>, כחולים וירוקים, לקבוצה של עד 35 משתתפים</li>
         <li><b>הוראות</b> למשחק בזוג ולמשחק בקבוצה</li>
       </ul>
-      <p class="price"><span data-price>140</span> ₪ <small>המחיר הסופי</small></p>
+      <p class="price"><span data-price>140</span> ₪ <small>המחיר הסופי, בלי הפתעות</small></p>
+      <p class="price-note">קופסה אחת מספיקה לקבוצה של עד <span dir="ltr">35</span> משתתפים</p>
       <div class="qty-row">
         <div class="qty" role="group" aria-label="כמות">
           <button type="button" data-qty="+1" aria-label="הוספת יחידה">+</button>
           <output data-qty-out aria-live="polite">1</output>
           <button type="button" data-qty="-1" aria-label="הורדת יחידה">−</button>
         </div>
-        <button class="btn btn--main btn--wide" type="button" data-add-qty>הוסיפו לסל</button>
+        <button class="btn btn--main btn--wide" type="button" data-add-qty>להזמנה</button>
       </div>
       <ul class="assure">
-        <li>אפשר לשלוח ישר למי שמקבל את המתנה, עם ברכה</li>
-        <li>נארז ונשלח ידנית, באהבה, על ידי רויטל</li>
-        <li>ביטול והחזרה לפי חוק הגנת הצרכן: 14 ימים</li>
+        <li>לא משלמים באתר: רויטל מאשרת איתכם משלוח וסכום, ורק אז משלמים (אשראי או ביט)</li>
+        <li>מתנה? שולחים ישר למקבל/ת, עם ברכה אישית</li>
+        <li>נארז ונשלח ידנית על ידי רויטל</li>
+        <li>14 ימים לביטול לפי חוק, ומוצר פגום מוחלף בלי עלות</li>
       </ul>
     </div>
   </div>
@@ -235,8 +238,9 @@
       <p class="more"><a href="business.html">כל האפשרויות לעסקים ומנחים ←</a></p>
     </div>
     <form class="form" data-lead-form="פנייה מהאתר – לעסקים ומנחים" novalidate>
-      <div class="field"><label for="b-name">שם</label><input id="b-name" name="name" autocomplete="name" required></div>
-      <div class="field"><label for="b-org">ארגון / קבוצה</label><input id="b-org" name="org" autocomplete="organization"></div>
+      <div class="field"><label for="b-name">שם</label><input id="b-name" name="name" autocomplete="name" required aria-describedby="b-name-err"><p class="field__err" id="b-name-err" aria-live="polite"></p></div>
+      <div class="field"><label for="b-phone">טלפון</label><input id="b-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required aria-describedby="b-phone-err"><p class="field__err" id="b-phone-err" aria-live="polite"></p></div>
+      <div class="field"><label for="b-org">ארגון / קבוצה <small>(לא חובה)</small></label><input id="b-org" name="org" autocomplete="organization"></div>
       <div class="field"><label for="b-type">במה מדובר?</label>
         <select id="b-type" name="type">
           <option>רכישת כמות</option>
@@ -244,7 +248,7 @@
           <option>משהו אחר</option>
         </select>
       </div>
-      <div class="field"><label for="b-size">כמה משתתפים / קופסאות?</label><input id="b-size" name="size" inputmode="numeric"></div>
+      <div class="field"><label for="b-size">כמה משתתפים / קופסאות?</label><input id="b-size" name="size" placeholder="למשל: 20 משתתפים, 3 קופסאות"></div>
       <div class="field field--full"><label for="b-msg">עוד משהו שכדאי שנדע</label><textarea id="b-msg" name="msg" rows="3"></textarea></div>
       <p class="form__err" data-err role="alert"></p>
       <button class="btn btn--main" type="submit">שליחה בוואטסאפ</button>
@@ -270,7 +274,9 @@
       <details><summary>אפשר לשלוח כמתנה ישר למקבל?</summary>
         <p>כן. בהזמנה מסמנים "זו מתנה", כותבים את פרטי המקבל ואפשר להוסיף ברכה.</p></details>
       <details><summary>איך עובד המשלוח?</summary>
-        <p data-shipping-faq>אפשר לבחור נקודת איסוף, דואר ישראל או שליח עד הבית. העלות וזמן ההגעה יאושרו לכם יחד עם ההזמנה.</p></details>
+        <p data-shipping-faq>אפשר לבחור נקודת איסוף, דואר ישראל או שליח עד הבית. רויטל מאשרת איתכם את מחיר המשלוח ואת זמן ההגעה לפני התשלום, ואם לא מתאים מבטלים בלי עלות.</p></details>
+      <details><summary>איך משלמים? צריך כרטיס אשראי באתר?</summary>
+        <p>לא משלמים באתר. שולחים את ההזמנה (היא נפתחת כהודעה מוכנה בוואטסאפ), רויטל חוזרת אליכם לאישור, ואז משלמים באשראי או בביט. קבלה נשלחת לכל הזמנה.</p></details>
       <details><summary>ואם אני רוצה לבטל?</summary>
         <p>אפשר לבטל תוך 14 ימים מקבלת המשחק, לפי חוק הגנת הצרכן. הפרטים ב<a href="terms.html">תקנון</a>.</p></details>
     </div>
@@ -280,7 +286,7 @@
 <section class="last">
   <div class="wrap last__in">
     <p class="last__h">הערב הבא שלכם מתחיל בשאלה אחת: <em>מה אתם יותר?</em></p>
-    <button class="btn btn--main" type="button" data-add>הוסיפו לסל · <span data-price>140</span> ₪</button>
+    <button class="btn btn--main" type="button" data-order>להזמנה · <span data-price>140</span> ₪</button>
   </div>
 </section>
 
