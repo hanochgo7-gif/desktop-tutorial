@@ -50,30 +50,111 @@ ul, ol { padding: 0; list-style: none; }
 .at-page-head .at-h1 { font-size: clamp(3rem, 7.4vw, 7rem); line-height: 1.04; }
 .at-page-head p { margin-top: 1.6rem; }
 
-/* ---------- פתיחה: הסרט על כל המסך ---------- */
+/* ---------- פתיחה: לפני. אחרי. (js/renovate.js) ----------
+   טלפון אמיתי: האתר הקודם של ש. גוטובסקי, ועליו קו שעולה מלמטה ובונה את החדש. מעל הקו רצועה של השרטוט (מתוך המידות של האתר האמיתי).
+   בלי תנועה (מהמערכת, מתפריט הנגישות או בלי JS): שני טלפונים זה ליד זה, לפני ואחרי. */
 body.at-home .top { position: fixed; inset: 0 0 auto; background: transparent; }
 body.at-home .top.is-scrolled, html.menu-open body.at-home .top { background: #000; }
-.at-hero { position: relative; height: 100vh; height: 100svh; min-height: 560px; overflow: hidden; display: grid; align-items: end; }
-.at-hero-film { position: absolute; inset: 0; z-index: 0; background: #000 url("/work/films/reel.webp") center / cover no-repeat; }
-.at-hero-film video { width: 100%; height: 100%; object-fit: cover; }
-.at-hero-film::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, #000 0%, rgba(0, 0, 0, .5) 26%, rgba(0, 0, 0, .12) 58%, rgba(0, 0, 0, .3) 100%); }
-.at-hero-in { position: relative; z-index: 1; padding: 0 var(--m) clamp(3.2rem, 11vh, 7.5rem); }
-.at-hero .at-h1 { font-size: clamp(3.1rem, 8.6vw, 9.4rem); line-height: 1.02; }
-.at-hero .at-h1 span { display: block; }
-.at-hero-line { margin-top: clamp(1.4rem, 3vh, 2rem); color: rgba(237, 232, 223, .82); font-size: clamp(1rem, 1.25vw, 1.15rem); }
-.at-hero .at-btn { margin-top: clamp(2rem, 5vh, 3rem); }
-.at-pause { position: absolute; z-index: 2; bottom: clamp(3.2rem, 11vh, 7.5rem); inset-inline-end: var(--m); width: 40px; height: 40px; display: grid; place-items: center; padding: 0; border-radius: 50%;
-  border: 1px solid rgba(237, 232, 223, .3); background: transparent; color: var(--fg); cursor: pointer; transition: border-color .3s ease; }
-.at-pause:hover { border-color: var(--fg); }
-.at-pause svg { width: 14px; height: 14px; }
-.at-pause .i-play, .at-pause.is-paused .i-pause { display: none; }
-.at-pause.is-paused .i-play { display: block; }
-/* כניסה אחת, איטית: הכותרת והשורה עולות מעל הסרט */
-html.motion .at-hero [data-in] { opacity: 0; transform: translateY(22px); transition: opacity 1.6s var(--ease), transform 1.8s var(--ease); }
-html.motion .at-hero.is-in [data-in] { opacity: 1; transform: none; }
-html.motion .at-hero.is-in [data-in="2"] { transition-delay: .35s; }
-html.motion .at-hero.is-in [data-in="3"] { transition-delay: .8s; }
-html.motion .at-hero.is-in [data-in="4"] { transition-delay: 1.1s; }
+.rn { --pw: clamp(220px, calc((100svh - 290px) * .4621), 316px); --pwb: calc(var(--pw) * .78); --d: 1.2s; --bd: 1.1s; --be: cubic-bezier(.42, .12, .2, 1);
+  position: relative; min-height: 100vh; min-height: 100svh; box-sizing: border-box; padding: 100px var(--m) 48px;
+  display: grid; grid-template-columns: minmax(0, 1.06fr) minmax(0, .94fr); grid-template-areas: "copy stage" "act stage"; align-content: center; column-gap: clamp(2rem, 5vw, 6rem); }
+.rn-copy { grid-area: copy; align-self: end; }
+.rn-act { grid-area: act; align-self: start; margin-top: clamp(2rem, 5vh, 3rem); }
+.rn-stage { grid-area: stage; align-self: center; justify-self: center; margin: 0; display: grid; grid-template-columns: auto auto; grid-template-areas: "tags ctrl" "ph ph" "cap cap"; column-gap: 1.5rem; align-items: center; }
+.rn-h1 { font: 300 clamp(2.4rem, 5.5vw, 6.2rem)/1.05 var(--serif); letter-spacing: -.016em; }
+.rn-h1 span { display: block; }
+.rn-sub { margin-top: clamp(1.1rem, 2.6vh, 1.8rem); font: 300 clamp(1.3rem, 2vw, 1.9rem)/1.3 var(--serif); color: rgba(237, 232, 223, .7); }
+.rn-sure { margin-top: 1rem; color: var(--mute); font-size: .92rem; }
+
+.rn-tags { grid-area: tags; display: flex; align-items: center; gap: .9rem; margin-bottom: .9rem; font: 400 .9rem/1 var(--sans); color: var(--mute); }
+.rn-tags i { position: relative; width: 56px; height: 1px; background: var(--line-2); overflow: hidden; }
+.rn-tags i::after { content: ""; position: absolute; inset: 0; background: var(--fg); transform-origin: 100% 50%; }
+.rn-tag-a { color: var(--fg); }
+.rn-phones { grid-area: ph; display: flex; align-items: flex-end; gap: clamp(14px, 2.4vw, 36px); }
+.rn-was { display: none; }
+.rn-label { margin-top: .8rem; font-size: .9rem; color: var(--mute); }
+.rn-now .rn-label { color: var(--fg); }
+.rn-cap { grid-area: cap; display: grid; gap: .15rem; margin-top: 1.1rem; }
+.rn-client { font: 300 1.2rem/1.2 var(--serif); }
+.rn-field { color: var(--mute); font-size: .88rem; }
+.rn-ctrl { grid-area: ctrl; justify-self: end; display: flex; gap: .2rem; margin: 0 0 .9rem; margin-inline-end: -10px; }
+.rn-ctrl[hidden] { display: none; }
+.rn-btn { display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; padding: 0 10px; border: 0; background: none; color: var(--mute); font: 400 .86rem/1 var(--sans); cursor: pointer; transition: color .3s ease; }
+.rn-btn:hover { color: var(--fg); }
+.rn-btn svg { width: 15px; height: 15px; flex: none; }
+.rn-pause .i-play, .rn-pause[aria-pressed="true"] .i-pause { display: none; }
+.rn-pause[aria-pressed="true"] .i-play { display: block; }
+.rn-btn[hidden] { display: none; }
+
+/* הטלפון: מסגרת דקה, בלי מותג */
+.rn-phone { position: relative; padding: 6px; border-radius: calc(var(--pw) * .15); background: #0b0b0b; border: 1px solid rgba(237, 232, 223, .17); }
+.rn-screen { position: relative; width: var(--pw); aspect-ratio: 390 / 844; overflow: hidden; border-radius: calc(var(--pw) * .125); background: #e9e9e9; isolation: isolate; }
+.rn-screen > img, .rn-new, .rn-new > img, .rn-wire { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.rn-old { filter: grayscale(.6) brightness(.8); }
+.rn-wire { background: #0a0a0a; clip-path: inset(0 0 100% 0); }
+.rn-new { overflow: hidden; background: #0a0a0a; }
+.rn-strip { position: absolute; inset: 0 0 auto 0; aspect-ratio: 390 / 7931; opacity: 0; will-change: transform; }
+.rn-strip img { display: block; width: 100%; height: auto; }
+.rn .rn-new > .rn-chrome { opacity: 0; transition: opacity .3s ease; }
+.rn.is-scroll .rn-strip, .rn.is-scroll .rn-new > .rn-chrome { opacity: 1; }
+.rn-scan { position: absolute; inset: 0; z-index: 2; pointer-events: none; transform: translateY(100%); visibility: hidden; }
+.rn-scan i { position: absolute; inset: 0 0 auto 0; height: 2px; margin-top: -1px; background: var(--fg); }
+
+/* התנועה: רק כשמותר. הכותרת עולה, ואחרי שנייה הקו בונה את האתר החדש */
+html.motion:not(.a11y-no-motion) .rn [data-in] { animation: rn-rise .9s var(--ease) both; }
+html.motion:not(.a11y-no-motion) .rn [data-in="1"] { animation-delay: .2s; }
+html.motion:not(.a11y-no-motion) .rn [data-in="2"] { animation-delay: .32s; }
+html.motion:not(.a11y-no-motion) .rn [data-in="3"] { animation-delay: .5s; }
+html.motion:not(.a11y-no-motion) .rn [data-in="4"] { animation-delay: .62s; }
+@keyframes rn-rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+html.motion:not(.a11y-no-motion) .rn .rn-new { clip-path: inset(100% 0 0 0); animation: rn-new var(--bd) var(--be) var(--d) forwards; }
+html.motion:not(.a11y-no-motion) .rn .rn-wire { clip-path: inset(100% 0 0 0); animation: rn-wire var(--bd) var(--be) var(--d) forwards; }
+html.motion:not(.a11y-no-motion) .rn .rn-scan { animation: rn-scan var(--bd) var(--be) var(--d) forwards; }
+html.motion:not(.a11y-no-motion) .rn .rn-scan i { animation: rn-out .3s ease calc(var(--d) + var(--bd) - .2s) forwards; }
+html.motion:not(.a11y-no-motion) .rn .rn-tags i::after { transform: scaleX(0); animation: rn-fill var(--bd) var(--be) var(--d) forwards; }
+html.motion:not(.a11y-no-motion) .rn .rn-tag-b { color: var(--fg); animation: rn-dim .25s ease calc(var(--d) + var(--bd)) forwards; }
+html.motion:not(.a11y-no-motion) .rn .rn-tag-a { color: var(--mute); animation: rn-lit .25s ease calc(var(--d) + var(--bd)) forwards; }
+html.motion:not(.a11y-no-motion) .rn .rn-main { animation: rn-settle .45s ease-out calc(var(--d) + var(--bd)); }
+@keyframes rn-new { from { clip-path: inset(100% 0 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes rn-wire { from { clip-path: inset(90% 0 0 0); } to { clip-path: inset(-10% 0 0 0); } }
+@keyframes rn-scan { from { transform: translateY(100%); visibility: visible; } to { transform: translateY(0); visibility: visible; } }
+@keyframes rn-out { to { opacity: 0; } }
+@keyframes rn-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes rn-dim { to { color: var(--mute); } }
+@keyframes rn-lit { to { color: var(--fg); } }
+@keyframes rn-settle { 40% { transform: scale(1.015); } }
+.rn.is-paused .rn-stage, .rn.is-paused .rn-stage * { animation-play-state: paused !important; }
+.rn.is-reset .rn-stage, .rn.is-reset .rn-stage * { animation: none !important; }
+.rn.is-again { --d: .35s; }
+
+/* בלי תנועה: שני טלפונים, לפני ואחרי */
+html:not(.motion) .rn, html.a11y-no-motion .rn { --pw: clamp(170px, calc((100svh - 300px) * .4621), 290px); }
+html:not(.motion) .rn-was, html.a11y-no-motion .rn-was { display: block; }
+html:not(.motion) .rn-was, html.a11y-no-motion .rn-was { --pw: var(--pwb); }
+html:not(.motion) .rn-was .rn-phone, html.a11y-no-motion .rn-was .rn-phone { opacity: .8; }
+html:not(.motion) .rn-was img, html.a11y-no-motion .rn-was img { filter: grayscale(.6) brightness(.85); }
+html:not(.motion) .rn-old, html.a11y-no-motion .rn-old, html:not(.motion) .rn-wire, html.a11y-no-motion .rn-wire, html:not(.motion) .rn-scan, html.a11y-no-motion .rn-scan,
+html:not(.motion) .rn-tags, html.a11y-no-motion .rn-tags, html:not(.motion) .rn-ctrl, html.a11y-no-motion .rn-ctrl { display: none; }
+html.motion:not(.a11y-no-motion) .rn-label { display: none; }
+
+@media (max-width: 899px) {
+  .rn { --pw: clamp(128px, min(52vw, calc((100svh - 468px) * .4621)), 250px); grid-template-columns: minmax(0, 1fr); grid-template-areas: "copy" "act" "stage";
+    align-content: start; padding: 88px var(--m) 36px; }
+  .rn-h1 { font-size: clamp(2.05rem, 9.6vw, 3.4rem); }
+  .rn-sub { margin-top: .7rem; font-size: clamp(1.1rem, 4.8vw, 1.5rem); }
+  .rn-stage { justify-self: stretch; margin-top: clamp(.9rem, 2.4vh, 1.6rem); grid-template-columns: minmax(0, 1fr) auto; }
+  .rn-tags, .rn-ctrl { margin-bottom: .7rem; }
+  .rn-phones { justify-content: center; }
+  .rn-cap { justify-items: center; text-align: center; margin-top: .8rem; }
+  .rn-client { font-size: 1.05rem; }
+  /* בטלפון הפנייה היא הפס הקבוע בתחתית (וואטסאפ וחיוג), אז בפתיחה נשארת רק השורה שמתחת */
+  .rn-act { margin-top: .55rem; }
+  .rn-act .at-btn { display: none; }
+  .rn-sure { font-size: .9rem; margin-top: 0; }
+  html:not(.motion) .rn, html.a11y-no-motion .rn { --pw: clamp(120px, 40vw, 230px); }
+}
+/* מסך צר מאוד: הכפתורים בלי המילים (המילים נשארות לקורא המסך) */
+@media (max-width: 379px) { .rn-btn span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; } .rn-btn { padding: 0 12px; } }
 
 /* ---------- כניסה בגלילה: דהייה איטית ---------- */
 html.motion [data-rv] { opacity: 0; transform: translateY(28px); transition: opacity 1.4s var(--ease), transform 1.6s var(--ease); }
@@ -110,6 +191,123 @@ html.motion .is-in .at-media img, html.motion .at-media.is-in img { transform: n
   .at-proj--6 { grid-column: 8 / span 5; margin-top: 24vh; }
 }
 .at-more { margin-top: clamp(4rem, 12vh, 8rem); }
+
+/* ---------- עבודות בדף הבית: האתר האמיתי הוא התמונה ----------
+   מסך מחשב עם הקלטת גלילה של האתר (מתנגנת רק כשהיא על המסך), והטלפון של אותו אתר לידו */
+.wk .at-head { align-items: baseline; }
+.wk-list { display: grid; gap: clamp(5rem, 15vh, 10rem); }
+.wk-item { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(16px, 2.4vw, 40px); align-items: end; }
+.wk-stage { position: relative; grid-column: 1 / -1; padding-bottom: 9%; }
+.wk-screen { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #0d0d0d; border: 1px solid var(--line); border-radius: 3px; }
+.wk-screen img, .wk-screen video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.wk-screen video { opacity: 0; transition: opacity .6s ease; }
+.wk-screen video.is-on { opacity: 1; }
+.wk-phone { position: absolute; bottom: 0; inset-inline-end: 4%; width: 19%; padding: 4px; border-radius: 16%/7.4%; background: #0b0b0b; border: 1px solid rgba(237, 232, 223, .2); }
+.wk-phone img { width: 100%; height: auto; aspect-ratio: 480 / 1039; object-fit: cover; object-position: top; border-radius: 13%/6%; }
+.wk-play { position: absolute; z-index: 2; top: 12px; inset-inline-start: 12px; width: 36px; height: 36px; display: grid; place-items: center; padding: 0; border-radius: 50%;
+  border: 1px solid rgba(237, 232, 223, .4); background: rgba(0, 0, 0, .55); color: var(--fg); cursor: pointer; opacity: .75; transition: opacity .3s ease, border-color .3s ease; }
+.wk-play:hover, .wk-play:focus-visible { opacity: 1; border-color: var(--fg); }
+.wk-play svg { width: 12px; height: 12px; }
+.wk-play .i-play, .wk-play[aria-pressed="true"] .i-pause { display: none; }
+.wk-play[aria-pressed="true"] .i-play { display: block; }
+.wk-txt { grid-column: 1 / -1; display: grid; gap: .35rem; margin-top: 1.6rem; max-width: 34rem; }
+.wk-name { font: 300 clamp(2rem, 3.4vw, 3.2rem)/1.05 var(--serif); letter-spacing: -.012em; }
+.wk-field { color: var(--mute); font-size: .95rem; }
+.wk-out { margin-top: .7rem; color: var(--fg); font-size: 1.02rem; line-height: 1.6; max-width: 32ch; }
+.wk-links { display: flex; flex-wrap: wrap; gap: 0 1.6rem; margin-top: .5rem; }
+@media (min-width: 900px) {
+  .wk-stage { grid-column: 4 / span 9; }
+  .wk-txt { grid-column: 1 / span 3; grid-row: 1; margin: 0 0 9%; }
+  .wk-item:nth-child(even) .wk-stage { grid-column: 1 / span 9; }
+  .wk-item:nth-child(even) .wk-txt { grid-column: 10 / span 3; }
+  .wk-item:nth-child(even) .wk-phone { inset-inline-end: auto; inset-inline-start: 4%; }
+}
+@media (max-width: 899px) {
+  .wk-stage { margin-inline: calc(-1 * var(--m)); padding-bottom: 22%; }
+  .wk-screen { border-inline: 0; border-radius: 0; }
+  .wk-phone { width: 27%; inset-inline-end: var(--m); }
+  .wk-txt { margin-top: 1.2rem; }
+}
+
+/* ---------- אלנביס: גוררים את התפר בין החנות הקודמת לחדשה ---------- */
+.ba { display: grid; gap: clamp(2.6rem, 6vh, 4rem); align-items: center; }
+.ba .at-h2 span { display: block; }
+.ba-txt { display: grid; gap: 1rem; max-width: 36rem; }
+.ba-num { display: grid; grid-template-columns: auto auto; justify-content: start; column-gap: clamp(2rem, 5vw, 4rem); row-gap: .3rem; margin-top: 1.4rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+.ba-num dt { grid-column: 1 / -1; color: var(--mute); font-size: .92rem; margin-bottom: .4rem; }
+.ba-num dd { margin: 0; display: grid; gap: .1rem; }
+.ba-num dd span { color: var(--mute); font-size: .86rem; }
+.ba-num b { font: 300 clamp(2.2rem, 3.6vw, 3.4rem)/1 var(--serif); font-variant-numeric: tabular-nums; justify-self: start; }
+.ba-num dd:first-of-type b { color: var(--mute); text-decoration: line-through; text-decoration-thickness: 1px; }
+.ba-fig { margin: 0; justify-self: center; display: grid; justify-items: center; gap: .9rem; --pw: clamp(220px, 62vw, 300px); }
+.ba-screen { --cut: 50%; touch-action: pan-y; }
+.ba-screen > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.ba-after { clip-path: inset(0 calc(100% - var(--cut)) 0 0); }
+.ba-seam { position: absolute; top: 0; bottom: 0; left: var(--cut); width: 0; pointer-events: none; }
+.ba-seam::before { content: ""; position: absolute; top: 0; bottom: 0; left: -.5px; width: 1px; background: var(--fg); }
+.ba-seam i { position: absolute; top: 50%; left: 0; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%; background: #000; border: 1px solid var(--fg); }
+.ba-seam i::before, .ba-seam i::after { content: ""; position: absolute; top: 50%; width: 0; height: 0; margin-top: -4px; border: 4px solid transparent; }
+.ba-seam i::before { left: 8px; border-right-color: var(--fg); }
+.ba-seam i::after { right: 8px; border-left-color: var(--fg); }
+.ba-range { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; -webkit-appearance: none; appearance: none; background: transparent; }
+.ba-range::-webkit-slider-thumb { -webkit-appearance: none; width: 48px; height: 100vh; }
+.ba-range::-moz-range-thumb { width: 48px; height: 100vh; border: 0; }
+.ba-range:focus-visible + .ba-seam i { outline: 1px solid var(--fg); outline-offset: 4px; }
+.ba-tag { position: absolute; z-index: 2; top: 12%; padding: .3rem .6rem; border-radius: 99px; background: rgba(0, 0, 0, .72); color: var(--fg); font: 400 .78rem/1 var(--sans); pointer-events: none; }
+.ba-tag-b { right: 8px; }
+.ba-tag-a { left: 8px; }
+.ba-hint { color: var(--mute); font-size: .86rem; }
+@media (min-width: 900px) {
+  .ba { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(16px, 2.4vw, 40px); }
+  .ba > .ba-txt { grid-column: 1 / span 5; }
+  .ba > .ba-fig { grid-column: 7 / span 6; }
+  .ba-fig { --pw: clamp(240px, calc((100svh - 220px) * .4621), 320px); }
+}
+
+/* תיק העבודות: לפני ואחרי מתחת לפרויקט */
+.case-ba { grid-column: 1 / -1; display: grid; gap: 2rem; align-items: center; justify-items: center; margin-top: clamp(3rem, 9vh, 6rem); }
+.case-ba .ba-num { margin-top: 0; }
+.case-ba-txt { display: grid; gap: .8rem; justify-self: stretch; }
+@media (min-width: 900px) { .case-ba { grid-template-columns: auto minmax(0, 22rem); justify-content: center; column-gap: clamp(3rem, 8vw, 8rem); } .at-case.wk-item { min-height: 0; } }
+
+/* ---------- אחרי העבודות: פנייה ---------- */
+.cta { display: grid; gap: clamp(1.8rem, 4vh, 2.6rem); justify-items: start; }
+
+/* ---------- איך זה עובד, ומה מובטח ---------- */
+.how-steps { display: grid; gap: 2.4rem clamp(16px, 2.4vw, 40px); counter-reset: none; }
+.how-steps li { display: grid; grid-template-columns: auto 1fr; column-gap: 1.1rem; align-items: baseline; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+.how-n { grid-row: span 2; font: 300 clamp(2.4rem, 3.4vw, 3.4rem)/.9 var(--serif); color: var(--mute); }
+.how-steps h3 { font: 300 clamp(1.45rem, 2vw, 1.9rem)/1.2 var(--serif); }
+.how-steps p { color: var(--mute); font-size: .95rem; }
+.promise { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem clamp(16px, 2.4vw, 40px); margin-top: clamp(3.4rem, 9vh, 5.5rem); }
+.promise li { position: relative; padding-inline-start: 1.6rem; color: var(--fg); font-size: .98rem; line-height: 1.45; }
+.promise li::before { content: ""; position: absolute; inset-inline-start: 0; top: .32em; width: 10px; height: 6px; border-bottom: 1px solid var(--fg); border-inline-start: 1px solid var(--fg); transform: rotate(-45deg); }
+[dir="rtl"] .promise li::before { border-inline-start: 0; border-left: 1px solid var(--fg); }
+@media (min-width: 900px) { .how-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); } .promise { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* ---------- סרטים ותמונות: שורה אחת ---------- */
+.fs .at-head { align-items: baseline; }
+.fs-row { display: grid; grid-template-columns: 2.2fr repeat(4, minmax(0, 1fr)); gap: clamp(10px, 1.2vw, 20px); align-items: start; }
+.fs-row button { display: block; width: 100%; padding: 0; border: 0; background: none; color: inherit; text-align: start; cursor: pointer; }
+.fs-row .at-media { aspect-ratio: 4 / 5; }
+.fs-row .fs-lead .at-media { aspect-ratio: 16 / 10.4; }
+@media (min-width: 900px) { .fs-row .at-media, .fs-row .fs-lead .at-media { aspect-ratio: auto; height: clamp(200px, 19vw, 300px); } }
+.fs-row .at-media img, .fs-row .at-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.fs-row li:not(.fs-lead) img { opacity: .82; transition: opacity .5s ease, transform 1.6s var(--ease); }
+.fs-row button:hover img, .fs-row button:focus-visible img { opacity: 1; }
+.fs-t { display: block; margin-top: .75rem; font-size: .95rem; color: var(--fg); }
+.fs-lead .fs-t { font: 300 1.5rem/1.2 var(--serif); }
+.fs-k { display: block; margin-top: .15rem; font-size: .8rem; color: var(--mute); }
+.fs .at-note { margin-top: clamp(1.6rem, 4vh, 2.4rem); }
+.fs .at-play { width: 64px; height: 64px; }
+@media (max-width: 899px) {
+  .fs-row { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.6rem; }
+  .fs-row .fs-lead { grid-column: 1 / -1; }
+  .fs-row li:not(.fs-lead) .at-media { aspect-ratio: 1; }
+}
+
+/* ---------- יצירת קשר ---------- */
+.ct-me { max-width: 34ch; font: 300 clamp(1.3rem, 2vw, 1.75rem)/1.45 var(--serif); color: var(--fg); }
 
 /* ---------- סרטים ---------- */
 .at-feature { display: block; width: 100%; padding: 0; border: 0; background: none; text-align: start; cursor: pointer; }
@@ -317,7 +515,6 @@ html.a11y-font-xl { font-size: 136%; }
 html.a11y-links a { text-decoration: underline !important; text-underline-offset: 3px; }
 html.a11y-readable body, html.a11y-readable button, html.a11y-readable input, html.a11y-readable h1, html.a11y-readable h2, html.a11y-readable h3, html.a11y-readable p, html.a11y-readable a { font-family: Arial, "Assistant", sans-serif !important; letter-spacing: .01em; }
 html.a11y-contrast { --mute: #d6d1c8; --fg-dim: #fff; --line: rgba(237, 232, 223, .5); --line-2: rgba(237, 232, 223, .8); }
-html.a11y-contrast .at-hero-film::after { background: rgba(0, 0, 0, .72); }
 html.a11y-no-motion *, html.a11y-no-motion *::before, html.a11y-no-motion *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
 html.a11y-cursor, html.a11y-cursor * { cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24'><path d='M4 2l16 11h-7l4 8-3 1-4-8-6 6z' fill='%23000' stroke='%23fff' stroke-width='1.2'/></svg>") 4 2, auto !important; }
 html.a11y-focus *:focus { outline: 3px solid var(--fg) !important; outline-offset: 2px !important; }

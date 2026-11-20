@@ -174,7 +174,7 @@ def head(title, desc, url, img, extra=''):
 <link rel="stylesheet" href="../css/hanoch.css">
 <style>{CSS}{BLOG_CSS}</style>
 <link rel="stylesheet" href="../css/inner.css?v=5">
-<link rel="stylesheet" href="../css/head.css?v=3">
+<link rel="stylesheet" href="../css/head.css?v=4">
 {extra}
 <script src="../js/consent.js?v=5" defer></script>
 <script src="../js/adcode.js" defer></script>
@@ -187,11 +187,10 @@ def head(title, desc, url, img, extra=''):
 '''
 
 
-FOOT = f'''<div class="sv-dock" id="dock"><a class="sv-btn" href="{WA_BLOG}" target="_blank" rel="noopener">וואטסאפ</a><a class="sv-btn ghost" href="tel:+{WA}">חיוג</a></div>
-''' + footer('../') + '''
+FOOT = footer('../', wa=WA_BLOG) + '''
 <script src="../js/fluid.js" defer></script>
 <script src="../js/a11y.js" defer></script>
-<script src="../js/chrome.js?v=1" defer></script>
+<script src="../js/chrome.js?v=2" defer></script>
 <script src="../js/vendor/lenis.min.js" defer></script>
 <script src="../js/smooth.js?v=2" defer></script>
 <script src="../js/assistant.js?v=3" defer></script>
@@ -229,7 +228,7 @@ def render(p, posts):
   <p class="bl-meta"><b>{esc(p.get('kicker', 'מדריך'))}</b><span>חנוך גוטובסקי</span><time datetime="{p['date'].isoformat()}">{heb_date(p['date'])}</time><span>{mins} דקות קריאה</span></p>
   <h1>{esc(p['h1'])}</h1>
   <p class="sv-lead">{inline(p['lead'])}</p>
-  <p class="sv-early" id="quote-top"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">לשאול את חנוך בוואטסאפ</a></p>
+  <p class="sv-early" id="quote-top" data-dock-wait><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">לשאול את חנוך בוואטסאפ</a></p>
   <figure class="bl-cover"><img src="../{p['cover']}"{srcset(p['cover'], '(max-width: 900px) 100vw, 860px')} alt="{esc(p['cover_alt'])}" width="1200" height="675" fetchpriority="high" decoding="async"></figure>
   {tocs}
   {body}

@@ -63,6 +63,62 @@
     loops.forEach(function (v) { lio.observe(v); });
   }
 
+  /* ---------- עבודות: הקלטת הגלילה של כל אתר מתנגנת רק כשרוב המסך שלה נראה ----------
+     הסרטון נטען רק בפעם הראשונה שהוא מגיע למסך. כפתור קטן בפינה עוצר אותו (WCAG 2.2.2) */
+  var screens = [].slice.call(d.querySelectorAll('.wk-screen video[data-src]'));
+  if (!still() && !saver && 'IntersectionObserver' in window) {
+    var ICON = '<svg class="i-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h3v14H7zM14 5h3v14h-3z" fill="currentColor"/></svg><svg class="i-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>';
+    var sio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) {
+        var v = e.target;
+        if (e.intersectionRatio >= 0.6) {
+          if (!v.src) { v.src = innerWidth >= 900 ? v.dataset.src : v.dataset.srcSm; v.addEventListener('playing', function () { v.classList.add('is-on'); }); }
+          if (!v.dataset.held) play(v);
+        } else if (v.src) v.pause();
+      });
+    }, { threshold: [0, 0.6] });
+    screens.forEach(function (v) {
+      var name = (v.closest('.wk-item').querySelector('.wk-name') || {}).textContent || '';
+      var b = d.createElement('button');
+      b.type = 'button'; b.className = 'wk-play'; b.setAttribute('aria-pressed', 'false');
+      b.setAttribute('aria-label', 'עצירת ההקלטה של האתר של ' + name); b.innerHTML = ICON;
+      b.addEventListener('click', function () {
+        var hold = !v.dataset.held;
+        if (hold) { v.dataset.held = '1'; v.pause(); } else { delete v.dataset.held; if (v.src) play(v); }
+        b.setAttribute('aria-pressed', hold ? 'true' : 'false');
+        b.setAttribute('aria-label', (hold ? 'הפעלת' : 'עצירת') + ' ההקלטה של האתר של ' + name);
+      });
+      v.parentNode.appendChild(b);
+      sio.observe(v);
+    });
+  }
+
+  /* ---------- לפני ואחרי: התפר נגרר (טווח רגיל, עובד גם במקלדת ובקורא מסך) ----------
+     כשההשוואה מגיעה למסך, התפר זז פעם אחת קצת הצידה וחוזר, כדי לרמוז שאפשר להזיז אותו */
+  [].forEach.call(d.querySelectorAll('.ba-range'), function (r) {
+    var scr = r.closest('.ba-screen'), touched = false;
+    var set = function (v) { scr.style.setProperty('--cut', v + '%'); };
+    r.addEventListener('input', function () { touched = true; set(r.value); });
+    set(r.value);
+    if (still() || !('IntersectionObserver' in window)) return;
+    var hint = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return;
+      hint.disconnect();
+      setTimeout(function () {
+        var t0 = null, from = +r.value;
+        var step = function (t) {
+          if (touched) return;
+          if (t0 === null) t0 = t;
+          var k = Math.min(1, (t - t0) / 1600), v = from + 14 * Math.sin(k * Math.PI);
+          set(v.toFixed(2));
+          if (k < 1) requestAnimationFrame(step); else set(r.value);
+        };
+        requestAnimationFrame(step);
+      }, 500);
+    }, { threshold: 0.6 });
+    hint.observe(scr);
+  });
+
   /* ---------- חלון לצפייה בסרט המלא ---------- */
   var dlg = d.querySelector('.at-film-lb');
   if (!dlg || typeof dlg.showModal !== 'function') return;

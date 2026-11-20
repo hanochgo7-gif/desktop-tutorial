@@ -41,14 +41,6 @@ body { background: var(--ink, #0a0a0b); }
 }
 .sv-early { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 1.6rem 0 0; }
 .sv .sv-early a.sv-cb { color: var(--fg, #ede8de); }
-/* טלפון: פס פנייה קבוע בתחתית, וכפתור הנגישות עולה מעליו */
-.sv-dock { display: none; }
-@media (max-width: 700px) {
-  .sv-dock { display: flex; gap: 8px; position: fixed; z-index: 20; inset-inline: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); padding: 6px; border-radius: 99px; background: rgba(10,10,11,.86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(237,232,222,.12); }
-  .sv-dock .sv-btn { flex: 1; justify-content: center; min-height: 44px; padding: 0 14px; }
-  body { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
-  .a11y { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
-}
 .sv { max-width: 860px; margin: 0 auto; padding: 56px var(--gutter) 40px; }
 .sv-crumbs { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); display: flex; align-items: center; gap: 0 .5rem; flex-wrap: wrap; }
 .sv-crumbs a { display: inline-flex; align-items: center; min-height: 32px; color: var(--fg-dim); }
@@ -78,9 +70,6 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 .sv-facts { margin-top: .9rem; color: var(--fg-dim); font-size: .92rem; }
 .sv-cb { display: inline-flex; align-items: center; min-height: 48px; padding: 0 4px; border: 0; background: none; color: var(--fg, #ede8de); font: inherit; font-family: var(--f-body); font-size: .95rem; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 .sv-cb:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 6px; }
-.sv-dock.sv-dock-wait { opacity: 0; transform: translateY(14px); pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
-.sv-dock.sv-dock-wait.sv-dock-on { opacity: 1; transform: none; pointer-events: auto; }
-@media (prefers-reduced-motion: reduce) { .sv-dock.sv-dock-wait { transition: none; } }
 .sv-faq details { border-bottom: 1px solid rgba(237,232,222,.1); padding: 6px 0; }
 .sv-faq summary { padding-block: 8px; cursor: pointer; font-family: var(--f-body); font-size: 1.08rem; color: var(--fg, #ede8de); }
 .sv-faq summary h3 { display: inline; font: inherit; }
@@ -99,7 +88,7 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 @media (max-width: 700px) { .sv-foot { row-gap: 0; } .sv-foot a, .sv-crumbs a { min-height: 44px; } }
 </style>
 <link rel="stylesheet" href="../../css/inner.css?v=5">
-<link rel="stylesheet" href="../../css/head.css?v=3">
+<link rel="stylesheet" href="../../css/head.css?v=4">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebPage", "@id": "https://hgpro.io/services/en/website-design.html#page", "url": "https://hgpro.io/services/en/website-design.html", "name": "Custom Website Design, No Templates | HG Studio", "description": "Website design built around your business: a visual language of its own, motion, 3D and accessibility. Five sites, five design languages. See the work.", "inLanguage": "en", "isPartOf": {"@id": "https://hgpro.io/#website"}, "breadcrumb": {"@id": "https://hgpro.io/services/en/website-design.html#crumbs"}}, {"@type": "BreadcrumbList", "@id": "https://hgpro.io/services/en/website-design.html#crumbs", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HG Studio", "item": "https://hgpro.io/en.html"}, {"@type": "ListItem", "position": 2, "name": "Services", "item": "https://hgpro.io/services/en/"}, {"@type": "ListItem", "position": 3, "name": "Website design", "item": "https://hgpro.io/services/en/website-design.html"}]}, {"@type": "Service", "name": "Website design", "serviceType": "Web design", "url": "https://hgpro.io/services/en/website-design.html", "description": "Website design built around your business: a visual language of its own, motion, 3D and accessibility. Five sites, five design languages. See the work.", "provider": {"@type": "ProfessionalService", "@id": "https://hgpro.io/#business", "name": "HG Studio", "url": "https://hgpro.io/", "telephone": "+972-54-552-2053", "email": "boss@hgpro.io", "image": "https://hgpro.io/work/og-home.jpg", "areaServed": "IL"}, "areaServed": {"@type": "Country", "name": "Israel"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do you work with templates?", "acceptedAnswer": {"@type": "Answer", "text": "No. Every site is designed and built from scratch around the business, so it has no twin on the internet."}}, {"@type": "Question", "name": "I am not sure what I want. Is that OK?", "acceptedAnswer": {"@type": "Answer", "text": "Absolutely. In the intro call we work out the business and the customers together, and I propose a direction. You approve it before anything else happens."}}, {"@type": "Question", "name": "Will the design work well on phones?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. I design for phone and desktop side by side, and test on real devices before launch."}}]}]}</script>
 <script src="../../js/consent.js?v=5" defer></script>
 <script src="../../js/adcode.js" defer></script>
@@ -112,14 +101,14 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
   <a class="logo" href="../../en.html" aria-label="HG Studio, home">HG<b>·</b>STUDIO</a>
   <nav class="nav" aria-label="Main"><a href="../../archive/en.html">Work</a><a href="../../services/en/" aria-current="page">Services</a><a class="top-lang" href="../../" lang="he" hreflang="he">עברית</a></nav>
   <a class="top-wa" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">WhatsApp</a>
-  <details class="menu"><summary aria-label="Menu"><span></span><span></span></summary><div class="menu-sheet"><a href="../../archive/en.html">Work</a><a href="../../services/en/" aria-current="page">Services</a><a class="top-lang" href="../../" lang="he" hreflang="he">עברית</a><a href="tel:+972545522053">Call <span dir="ltr">+972 54-552-2053</span></a></div></details>
+  <details class="menu"><summary aria-label="Menu"><span></span><span></span></summary><div class="menu-sheet"><a href="../../archive/en.html">Work</a><a href="../../services/en/" aria-current="page">Services</a><a class="top-lang" href="../../" lang="he" hreflang="he">עברית</a><a class="menu-wa" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">WhatsApp</a><a href="tel:+972545522053">Call <span dir="ltr">+972 54-552-2053</span></a></div></details>
 </header>
 <main class="sv sv-has-aside" id="main">
   <aside class="sv-aside" aria-label="On this page"><div class="sv-aside-in"><p class="sv-aside-k">On this page</p><ol><li><a href="#s1">How a design is born</a></li><li><a href="#s2">What the design includes</a></li><li><a href="#s3">Design that sells</a></li><li><a href="#s-how">How it works</a></li><li><a href="#s-price">How pricing works</a></li><li><a href="#s-work">From the portfolio</a></li><li><a href="#s-faq">FAQ</a></li><li><a href="#cta-h">Tell me about your business</a></li></ol><a class="sv-aside-wa" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">Message me on WhatsApp</a></div></aside>
   <nav class="sv-crumbs" aria-label="Breadcrumb"><a href="../../en.html">HG Studio</a><span aria-hidden="true">/</span><a href="./">Services</a><span aria-hidden="true">/</span><span aria-current="page">Website design</span></nav>
   <h1>Website design</h1>
   <p class="sv-lead">Every business has a character, and its website should feel like it. A fuel infrastructure company should not look like a clinic, and a boxing coach should not look like a private chef. So every site I design gets a language of its own: typefaces, colors, motion, even the way the buttons behave.</p>
-  <p class="sv-early" id="quote-top"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">Tell me about your business on WhatsApp</a><a class="sv-cb" href="tel:+972545522053" dir="ltr">+972 54-552-2053</a></p>
+  <p class="sv-early" id="quote-top" data-dock-wait><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">Tell me about your business on WhatsApp</a><a class="sv-cb" href="tel:+972545522053" dir="ltr">+972 54-552-2053</a></p>
   <p class="sv-facts">A fixed price in a written proposal, and you talk to me directly.</p>
   <h2 id="s1">How a design is born</h2><p>It starts with one question: what should your customer feel in the first five seconds? From there comes a direction: a fight ring for a boxing coach, an evening in fig and beet colors for a private chef, cherry blossoms for a skin clinic. The design does not decorate the content. It tells it.</p><h2 id="s2">What the design includes</h2><ul><li>A design direction and a full visual language: colors, typefaces, icons and imagery.</li><li>Design for phone and desktop, not just "responsive".</li><li>Motion and scroll animation that guide the eye without slowing the site down.</li><li>3D, product renders and studio-grade images made with AI, where they fit.</li><li>Accessibility from the design stage: contrast, text sizes and keyboard focus.</li></ul><h2 id="s3">Design that sells</h2><p>A beautiful site that brings no leads is a picture on the wall. Every design decision is checked against the goal: is it clear what you do, is it easy to get in touch, and is there a reason to choose you.</p>
   <h2 id="s-how">How it works</h2>
@@ -143,13 +132,12 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
   <p class="ft-reach"><a href="tel:+972545522053" dir="ltr">+972 54-552-2053</a><a href="mailto:boss@hgpro.io">boss@hgpro.io</a></p>
   <nav class="ft-nav" aria-label="Footer"><a href="../../en-accessibility.html">Accessibility</a><a href="../../en-privacy.html">Privacy</a><a href="../../en-terms.html">Terms</a><a href="#" data-consent-open>Cookies</a></nav>
 </footer>
-<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">WhatsApp</a><a class="sv-btn ghost" href="tel:+972545522053">Call</a></div>
+<nav class="dock" id="dock" aria-label="Quick contact"><a class="dock-wa" href="https://wa.me/972545522053?text=Hi%20Hanoch%2C%20I%20found%20your%20%22Website%20design%22%20page.%20My%20business%3A%20" target="_blank" rel="noopener">WhatsApp</a><a class="dock-call" href="tel:+972545522053">Call</a></nav>
 <script src="../../js/fluid.js" defer></script>
 <script src="../../js/vendor/lenis.min.js" defer></script>
 <script src="../../js/smooth.js?v=2" defer></script>
 <script src="../../js/a11y.js" defer></script>
-<script src="../../js/chrome.js?v=1" defer></script>
+<script src="../../js/chrome.js?v=2" defer></script>
 <script src="../../js/assistant.js?v=3" defer></script>
-<script>(function(){var d=document.getElementById("dock"),t=document.getElementById("quote-top");if(!d||!t||!("IntersectionObserver" in window))return;d.classList.add("sv-dock-wait");new IntersectionObserver(function(e){d.classList.toggle("sv-dock-on",!e[0].isIntersecting&&e[0].boundingClientRect.top<0)}).observe(t)})()</script>
 </body>
 </html>

@@ -73,7 +73,7 @@ def page(lang, file, other, title, desc, h1, body):
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="css/hanoch.css">
 {STYLE}
-<link rel="stylesheet" href="css/head.css?v=3">
+<link rel="stylesheet" href="css/head.css?v=4">
 <script src="js/consent.js?v=5" defer></script>
 <script src="js/adcode.js" defer></script>
 <script src="js/ga.js" defer></script>
@@ -90,7 +90,7 @@ def page(lang, file, other, title, desc, h1, body):
 {footer('', he)}
 <script src="js/fluid.js" defer></script>
 <script src="js/a11y.js" defer></script>
-<script src="js/chrome.js?v=1" defer></script>
+<script src="js/chrome.js?v=2" defer></script>
 <script src="js/assistant.js?v=3" defer></script>
 </body>
 </html>

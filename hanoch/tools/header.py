@@ -11,13 +11,15 @@ def header(up, wa, current='', he=True):
         links = [('work.html', 'עבודות'), ('#films', 'סרטים'), ('gallery/', 'תמונות'), ('services/', 'שירותים'), ('#contact', 'צור קשר')]
         lang = f'<a class="top-lang" href="{up}en.html" lang="en" hreflang="en">EN</a>'
         home, home_label, nav_label, menu_label, cta = (up or '/'), 'HG Studio, לדף הבית', 'ראשי', 'תפריט', 'וואטסאפ'
-        extra = ('<a href="tel:+972545522053">חיוג <span dir="ltr">054-5522053</span></a>'
+        extra = (f'<a class="menu-wa" href="{esc(wa)}" target="_blank" rel="noopener">וואטסאפ</a>'
+                 '<a href="tel:+972545522053">חיוג <span dir="ltr">054-5522053</span></a>'
                  '<button type="button" data-callback hidden>שאחזור אליכם בשעה נוחה</button>')
     else:
         links = [('archive/en.html', 'Work'), ('services/en/', 'Services')]
         lang = f'<a class="top-lang" href="{up or "/"}" lang="he" hreflang="he">עברית</a>'
         home, home_label, nav_label, menu_label, cta = up + 'en.html', 'HG Studio, home', 'Main', 'Menu', 'WhatsApp'
-        extra = '<a href="tel:+972545522053">Call <span dir="ltr">+972 54-552-2053</span></a>'
+        extra = (f'<a class="menu-wa" href="{esc(wa)}" target="_blank" rel="noopener">WhatsApp</a>'
+                 '<a href="tel:+972545522053">Call <span dir="ltr">+972 54-552-2053</span></a>')
 
     def a(href, label):
         cur = ' aria-current="page"' if href == current else ''
@@ -32,17 +34,26 @@ def header(up, wa, current='', he=True):
             f'</header>')
 
 
-def footer(up, he=True):
-    # שורה אחת: הסימן, טלפון, מייל, וקישורים למה שלא צריך להיות בתפריט הראשי
+WA_DEFAULT = 'https://wa.me/972545522053'
+
+
+def footer(up, he=True, wa=WA_DEFAULT):
+    # שורה אחת: הסימן, טלפון, מייל, וקישורים למה שלא צריך להיות בתפריט הראשי.
+    # אחריה פס הפנייה הקבוע של הטלפון (css/head.css, js/chrome.js): וואטסאפ בצד של האגודל (ימין), וחיוג לידו.
+    # עמוד עם אלמנט data-dock-wait (למשל הכפתור בפתיחה) מציג את הפס רק אחרי שהאלמנט יצא מהמסך למעלה
     if he:
         links = [('faq.html', 'שאלות'), ('blog/', 'מאמרים'), ('accessibility.html', 'נגישות'), ('privacy.html', 'פרטיות'), ('terms.html', 'תנאים')]
         home, nav_label, cookies, tel = (up or '/'), 'תחתון', 'עוגיות', '054-5522053'
+        dock_label, dock_wa, dock_call = 'פנייה מהירה', 'וואטסאפ', 'חיוג'
     else:
         links = [('en-accessibility.html', 'Accessibility'), ('en-privacy.html', 'Privacy'), ('en-terms.html', 'Terms')]
         home, nav_label, cookies, tel = up + 'en.html', 'Footer', 'Cookies', '+972 54-552-2053'
+        dock_label, dock_wa, dock_call = 'Quick contact', 'WhatsApp', 'Call'
     nav = ''.join(f'<a href="{up}{h}">{l}</a>' for h, l in links)
     return (f'<footer class="ft">\n'
             f'  <a class="ft-mark" href="{home}" aria-label="HG Studio">HG<b>·</b>STUDIO</a>\n'
             f'  <p class="ft-reach"><a href="tel:+972545522053" dir="ltr">{tel}</a><a href="mailto:boss@hgpro.io">boss@hgpro.io</a></p>\n'
             f'  <nav class="ft-nav" aria-label="{nav_label}">{nav}<a href="#" data-consent-open>{cookies}</a></nav>\n'
-            f'</footer>')
+            f'</footer>\n'
+            f'<nav class="dock" id="dock" aria-label="{dock_label}"><a class="dock-wa" href="{html.escape(wa)}" target="_blank" rel="noopener">{dock_wa}</a>'
+            f'<a class="dock-call" href="tel:+972545522053">{dock_call}</a></nav>')

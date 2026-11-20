@@ -42,14 +42,6 @@ body { background: var(--ink, #0a0a0b); }
 }
 .sv-early { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 1.6rem 0 0; }
 .sv .sv-early a.sv-cb { color: var(--fg, #ede8de); }
-/* טלפון: פס פנייה קבוע בתחתית, וכפתור הנגישות עולה מעליו */
-.sv-dock { display: none; }
-@media (max-width: 700px) {
-  .sv-dock { display: flex; gap: 8px; position: fixed; z-index: 20; inset-inline: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); padding: 6px; border-radius: 99px; background: rgba(10,10,11,.86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(237,232,222,.12); }
-  .sv-dock .sv-btn { flex: 1; justify-content: center; min-height: 44px; padding: 0 14px; }
-  body { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
-  .a11y { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
-}
 .sv { max-width: 860px; margin: 0 auto; padding: 56px var(--gutter) 40px; }
 .sv-crumbs { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); display: flex; align-items: center; gap: 0 .5rem; flex-wrap: wrap; }
 .sv-crumbs a { display: inline-flex; align-items: center; min-height: 32px; color: var(--fg-dim); }
@@ -79,9 +71,6 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 .sv-facts { margin-top: .9rem; color: var(--fg-dim); font-size: .92rem; }
 .sv-cb { display: inline-flex; align-items: center; min-height: 48px; padding: 0 4px; border: 0; background: none; color: var(--fg, #ede8de); font: inherit; font-family: var(--f-body); font-size: .95rem; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 .sv-cb:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 6px; }
-.sv-dock.sv-dock-wait { opacity: 0; transform: translateY(14px); pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
-.sv-dock.sv-dock-wait.sv-dock-on { opacity: 1; transform: none; pointer-events: auto; }
-@media (prefers-reduced-motion: reduce) { .sv-dock.sv-dock-wait { transition: none; } }
 .sv-faq details { border-bottom: 1px solid rgba(237,232,222,.1); padding: 6px 0; }
 .sv-faq summary { padding-block: 8px; cursor: pointer; font-family: var(--f-body); font-size: 1.08rem; color: var(--fg, #ede8de); }
 .sv-faq summary h3 { display: inline; font: inherit; }
@@ -100,7 +89,7 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 @media (max-width: 700px) { .sv-foot { row-gap: 0; } .sv-foot a, .sv-crumbs a { min-height: 44px; } }
 </style>
 <link rel="stylesheet" href="../css/inner.css?v=5">
-<link rel="stylesheet" href="../css/head.css?v=3">
+<link rel="stylesheet" href="../css/head.css?v=4">
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebPage", "@id": "https://hgpro.io/services/seo.html#page", "url": "https://hgpro.io/services/seo.html", "name": "קידום אתרים אורגני (SEO) לעסקים | HG Studio", "description": "קידום אורגני בגוגל: מחקר מילות מפתח, עמודי נחיתה לכל שירות ועיר, מהירות, סימון עסקי ופרופיל Google Business. בלי טריקים שגוגל מעניש עליהם.", "inLanguage": "he-IL", "isPartOf": {"@id": "https://hgpro.io/#website"}, "breadcrumb": {"@id": "https://hgpro.io/services/seo.html#crumbs"}}, {"@type": "BreadcrumbList", "@id": "https://hgpro.io/services/seo.html#crumbs", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "HG Studio", "item": "https://hgpro.io/"}, {"@type": "ListItem", "position": 2, "name": "שירותים", "item": "https://hgpro.io/services/"}, {"@type": "ListItem", "position": 3, "name": "קידום אתרים אורגני", "item": "https://hgpro.io/services/seo.html"}]}, {"@type": "Service", "name": "קידום אתרים אורגני", "serviceType": "Search engine optimization", "url": "https://hgpro.io/services/seo.html", "description": "קידום אורגני בגוגל: מחקר מילות מפתח, עמודי נחיתה לכל שירות ועיר, מהירות, סימון עסקי ופרופיל Google Business. בלי טריקים שגוגל מעניש עליהם.", "provider": {"@type": "ProfessionalService", "@id": "https://hgpro.io/#business", "name": "HG Studio", "url": "https://hgpro.io/", "telephone": "+972-54-552-2053", "email": "boss@hgpro.io", "image": "https://hgpro.io/work/og-home.jpg", "areaServed": "IL"}, "areaServed": {"@type": "Country", "name": "Israel"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "תוך כמה זמן אהיה בעמוד הראשון?", "acceptedAnswer": {"@type": "Answer", "text": "אי אפשר להבטיח מקום ראשון. בונים בסיס חזק, מודדים, וממשיכים לשפר."}}, {"@type": "Question", "name": "מה זה פרופיל Google Business?", "acceptedAnswer": {"@type": "Answer", "text": "הכרטיס של העסק במפות ובחיפוש המקומי. הגדרה נכונה שלו היא אחת הדרכים המהירות להביא פניות מאזור העבודה שלכם."}}, {"@type": "Question", "name": "עוברים מאתר ישן? מה קורה עם הדירוג?", "acceptedAnswer": {"@type": "Answer", "text": "הוא לא אמור להיפגע, אם עושים את זה נכון: מעבירים את התוכן ומגדירים הפניה מכל כתובת ישנה לחדשה."}}]}]}</script>
 <script src="../js/consent.js?v=5" defer></script>
 <script src="../js/adcode.js" defer></script>
@@ -113,14 +102,14 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
   <a class="logo" href="../" aria-label="HG Studio, לדף הבית">HG<b>·</b>STUDIO</a>
   <nav class="nav" aria-label="ראשי"><a href="../work.html">עבודות</a><a href="../#films">סרטים</a><a href="../gallery/">תמונות</a><a href="../services/" aria-current="page">שירותים</a><a href="../#contact">צור קשר</a><a class="top-lang" href="../en.html" lang="en" hreflang="en">EN</a></nav>
   <a class="top-wa" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%A7%D7%99%D7%93%D7%95%D7%9D%20%D7%90%D7%AA%D7%A8%D7%99%D7%9D%20%D7%90%D7%95%D7%A8%D7%92%D7%A0%D7%99%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">וואטסאפ</a>
-  <details class="menu"><summary aria-label="תפריט"><span></span><span></span></summary><div class="menu-sheet"><a href="../work.html">עבודות</a><a href="../#films">סרטים</a><a href="../gallery/">תמונות</a><a href="../services/" aria-current="page">שירותים</a><a href="../#contact">צור קשר</a><a class="top-lang" href="../en.html" lang="en" hreflang="en">EN</a><a href="tel:+972545522053">חיוג <span dir="ltr">054-5522053</span></a><button type="button" data-callback hidden>שאחזור אליכם בשעה נוחה</button></div></details>
+  <details class="menu"><summary aria-label="תפריט"><span></span><span></span></summary><div class="menu-sheet"><a href="../work.html">עבודות</a><a href="../#films">סרטים</a><a href="../gallery/">תמונות</a><a href="../services/" aria-current="page">שירותים</a><a href="../#contact">צור קשר</a><a class="top-lang" href="../en.html" lang="en" hreflang="en">EN</a><a class="menu-wa" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%A7%D7%99%D7%93%D7%95%D7%9D%20%D7%90%D7%AA%D7%A8%D7%99%D7%9D%20%D7%90%D7%95%D7%A8%D7%92%D7%A0%D7%99%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">וואטסאפ</a><a href="tel:+972545522053">חיוג <span dir="ltr">054-5522053</span></a><button type="button" data-callback hidden>שאחזור אליכם בשעה נוחה</button></div></details>
 </header>
 <main class="sv sv-has-aside" id="main">
   <aside class="sv-aside" aria-label="בעמוד הזה"><div class="sv-aside-in"><p class="sv-aside-k">בעמוד הזה</p><ol><li><a href="#s1">מה עושים בפועל</a></li><li><a href="#s2">כמה זמן לוקח לראות תוצאות</a></li><li><a href="#s3">עובד גם בחיפוש של בינה מלאכותית</a></li><li><a href="#s-how">איך זה עובד</a></li><li><a href="#s-price">איך נקבע המחיר</a></li><li><a href="#s-work">מהתיק</a></li><li><a href="#s-faq">שאלות נפוצות</a></li><li><a href="#cta-h">ספרו לי על העסק</a></li></ol><a class="sv-aside-wa" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%A7%D7%99%D7%93%D7%95%D7%9D%20%D7%90%D7%AA%D7%A8%D7%99%D7%9D%20%D7%90%D7%95%D7%A8%D7%92%D7%A0%D7%99%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">לכתוב לי בוואטסאפ</a></div></aside>
   <nav class="sv-crumbs" aria-label="מיקום באתר"><a href="../">HG Studio</a><span aria-hidden="true">/</span><a href="./">שירותים</a><span aria-hidden="true">/</span><span aria-current="page">קידום אתרים אורגני</span></nav>
   <h1>קידום אתרים אורגני (SEO)</h1>
   <p class="sv-lead">קידום אורגני טוב מתחיל בבסיס: אתר מהיר, מסודר וברור, שגוגל מבין מה הוא עושה ולמי. אחר כך מגיעים התוכן, העמודים לכל שירות ועיר, והפרופיל העסקי. אני לא משתמש בטריקים שגוגל מעניש עליהם, כי הם עובדים חודש ואז מעלימים את האתר.</p>
-  <p class="sv-early" id="quote-top"><a class="sv-btn" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%A7%D7%99%D7%93%D7%95%D7%9D%20%D7%90%D7%AA%D7%A8%D7%99%D7%9D%20%D7%90%D7%95%D7%A8%D7%92%D7%A0%D7%99%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">ספרו לי על העסק בוואטסאפ</a><a class="sv-cb" href="tel:+972545522053" dir="ltr">054-5522053</a><button class="sv-cb" type="button" data-callback hidden>או שאחזור אליכם בשעה נוחה</button></p>
+  <p class="sv-early" id="quote-top" data-dock-wait><a class="sv-btn" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%A7%D7%99%D7%93%D7%95%D7%9D%20%D7%90%D7%AA%D7%A8%D7%99%D7%9D%20%D7%90%D7%95%D7%A8%D7%92%D7%A0%D7%99%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">ספרו לי על העסק בוואטסאפ</a><a class="sv-cb" href="tel:+972545522053" dir="ltr">054-5522053</a><button class="sv-cb" type="button" data-callback hidden>או שאחזור אליכם בשעה נוחה</button></p>
   <p class="sv-facts">מחיר סגור בהצעה כתובה, ומדברים ישירות איתי. יש לכם כבר אתר? <a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%90%D7%A9%D7%9E%D7%97%20%D7%A9%D7%AA%D7%91%D7%93%D7%95%D7%A7%20%D7%90%D7%AA%20%D7%94%D7%90%D7%AA%D7%A8%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">שלחו לי אותו לבדיקה</a></p>
   <h2 id="s1">מה עושים בפועל</h2><ul><li>מחקר מילות מפתח: מה הלקוחות שלכם באמת מחפשים.</li><li>כותרות, תיאורים ומבנה כותרות נכון בכל עמוד.</li><li>סימון עסקי (Schema) לשירותים, מחירים, שאלות נפוצות וסרטונים.</li><li>עמודי נחיתה לכל שירות ולכל אזור שבו אתם עובדים.</li><li>מהירות טעינה, מפת אתר, הפניות מאתר ישן ו-Search Console.</li><li>הגדרת פרופיל Google Business, שהוא דרך מהירה להופיע במפה.</li></ul><h2 id="s2">כמה זמן לוקח לראות תוצאות</h2><p>אף אחד לא יכול להבטיח מקום ראשון. בדרך כלל רואים תזוזה תוך שבועות עד חודשים, תלוי בתחום ובתחרות. מה שאפשר להבטיח הוא בסיס חזק שמשתפר עם הזמן, ומדידה שמראה מה עובד.</p><h2 id="s3">עובד גם בחיפוש של בינה מלאכותית</h2><p>יותר ויותר אנשים שואלים את ChatGPT, Gemini ו-Perplexity במקום לחפש. אתר עם תוכן ברור, נתונים מסודרים וקובץ llms.txt מקבל סיכוי טוב יותר להופיע גם שם.</p>
   <h2 id="s-how">איך זה עובד</h2>
@@ -144,15 +133,14 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
   <p class="ft-reach"><a href="tel:+972545522053" dir="ltr">054-5522053</a><a href="mailto:boss@hgpro.io">boss@hgpro.io</a></p>
   <nav class="ft-nav" aria-label="תחתון"><a href="../faq.html">שאלות</a><a href="../blog/">מאמרים</a><a href="../accessibility.html">נגישות</a><a href="../privacy.html">פרטיות</a><a href="../terms.html">תנאים</a><a href="#" data-consent-open>עוגיות</a></nav>
 </footer>
-<div class="sv-dock" id="dock"><a class="sv-btn" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%A7%D7%99%D7%93%D7%95%D7%9D%20%D7%90%D7%AA%D7%A8%D7%99%D7%9D%20%D7%90%D7%95%D7%A8%D7%92%D7%A0%D7%99%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">וואטסאפ</a><a class="sv-btn ghost" href="tel:+972545522053">חיוג</a></div>
+<nav class="dock" id="dock" aria-label="פנייה מהירה"><a class="dock-wa" href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9E%D7%94%D7%A2%D7%9E%D7%95%D7%93%20%22%D7%A7%D7%99%D7%93%D7%95%D7%9D%20%D7%90%D7%AA%D7%A8%D7%99%D7%9D%20%D7%90%D7%95%D7%A8%D7%92%D7%A0%D7%99%22%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%94%D7%A2%D7%A1%D7%A7%20%D7%A9%D7%9C%D7%99%3A%20" target="_blank" rel="noopener">וואטסאפ</a><a class="dock-call" href="tel:+972545522053">חיוג</a></nav>
 <script src="../js/fluid.js" defer></script>
 <script src="../js/vendor/lenis.min.js" defer></script>
 <script src="../js/smooth.js?v=2" defer></script>
 <script src="../js/a11y.js" defer></script>
-<script src="../js/chrome.js?v=1" defer></script>
+<script src="../js/chrome.js?v=2" defer></script>
 <script src="../js/assistant.js?v=3" defer></script>
 <script src="../js/hgos.js" data-token="71beb2321649887aeab7e16baf3a853968173c6a20291cb1" data-consent="hg" defer></script>
 <script src="../js/callback.js" defer></script>
-<script>(function(){var d=document.getElementById("dock"),t=document.getElementById("quote-top");if(!d||!t||!("IntersectionObserver" in window))return;d.classList.add("sv-dock-wait");new IntersectionObserver(function(e){d.classList.toggle("sv-dock-on",!e[0].isIntersecting&&e[0].boundingClientRect.top<0)}).observe(t)})()</script>
 </body>
 </html>

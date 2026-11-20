@@ -28,11 +28,13 @@ for path, up, current, he, asset in PAGES:
         s = s[:m2.end()] + h + '\n' + s[m2.end():]
         s = re.sub(r'\n\s*<a class="back" href="[^"]*">[^<]*</a>', '', s)
         if 'head.css' not in s:
-            s = re.sub(r'(<link rel="stylesheet" href="[^"]*hanoch\.css[^"]*">)', r'\1\n<link rel="stylesheet" href="' + asset + 'css/head.css?v=3">', s, 1)
+            s = re.sub(r'(<link rel="stylesheet" href="[^"]*hanoch\.css[^"]*">)', r'\1\n<link rel="stylesheet" href="' + asset + 'css/head.css?v=4">', s, 1)
         if 'chrome.js' not in s:
-            s = re.sub(r'(<script src="[^"]*a11y\.js"[^>]*></script>)', r'\1\n<script src="' + asset + 'js/chrome.js?v=1" defer></script>', s, 1)
-    ft = footer(up, he)
-    m3 = re.search(r'<footer class="ft">.*?\n</footer>', s, re.S)
+            s = re.sub(r'(<script src="[^"]*a11y\.js"[^>]*></script>)', r'\1\n<script src="' + asset + 'js/chrome.js?v=2" defer></script>', s, 1)
+    wa_now = re.search(r'class="[^"]*top-wa[^"]*" href="([^"]+)"', s)
+    ft = footer(up, he, wa_now.group(1).replace('&amp;', '&') if wa_now else WA)
+    # הכותרת התחתונה ופס הפנייה שאחריה (אם כבר יש אחד) מתחלפים יחד
+    m3 = re.search(r'<footer class="ft">.*?\n</footer>(?:\n<nav class="dock"[^\n]*?</nav>)?', s, re.S)
     if m3:
         s = s[:m3.start()] + ft + s[m3.end():]
     else:

@@ -33,6 +33,10 @@ body { background: #000; }
 .top .menu-sheet .top-lang, .top .menu-sheet a[href^="tel:"], .top .menu-sheet button { font: 400 1rem/1.4 "Rubik", system-ui, sans-serif; color: var(--at-mute); padding: .6rem 0; }
 .top .menu-sheet .top-lang { margin-top: 1rem; }
 .top .menu-sheet a[aria-current] { color: var(--at-mute); }
+/* וואטסאפ בתפריט: אחרי הקישורים הראשיים, כגלולה מלאה. EN, טלפון ושיחה חוזרת אחריו */
+.top .menu-sheet > .top-lang, .top .menu-sheet > a[href^="tel:"], .top .menu-sheet > button { order: 2; }
+.top .menu-sheet .menu-wa { order: 1; justify-self: start; display: inline-flex; align-items: center; margin: 1.4rem 0 .6rem; padding: 0 1.8rem; min-height: 50px; border-radius: 99px;
+  background: var(--at-fg); color: #000; font: 500 1rem/1 "Rubik", system-ui, sans-serif; }
 .top :focus-visible, .ft :focus-visible { outline: 1px solid var(--at-fg); outline-offset: 4px; }
 @media (min-width: 900px) {
   .top .nav { display: flex; }
@@ -63,6 +67,27 @@ body .ht-btn svg { width: 17px; height: 17px; }
 body .a11y__btn:focus-visible, body .ht-btn:focus-visible { outline: 1px solid var(--at-fg) !important; outline-offset: 3px; }
 @media (max-width: 899px) { body .ht-btn { display: grid !important; } body .a11y { bottom: calc(14px + env(safe-area-inset-bottom)); inset-inline-end: 14px; } }
 .menu-open .a11y, .menu-open .ht-btn { visibility: hidden; }
+
+/* ---------- פס פנייה בטלפון (tools/header.py, js/chrome.js) ----------
+   וואטסאפ בצד של האגודל (ימין בעברית), חיוג לידו. כפתורי הנגישות והצ'אט והודעת העוגיות יושבים מעליו */
+.dock { display: none; }
+@media (max-width: 899px) {
+  .dock { position: fixed; z-index: 96; inset: auto 0 0 0; display: flex; gap: 8px; padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+    background: #000; border-top: 1px solid var(--at-line); transition: transform .45s cubic-bezier(.22, .61, .2, 1); }
+  html[dir="ltr"] .dock { flex-direction: row-reverse; }
+  .dock a { flex: 1 1 0; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 99px; text-decoration: none;
+    font: 500 1rem/1 "Rubik", system-ui, sans-serif; letter-spacing: .01em; }
+  .dock .dock-wa { flex-grow: 1.5; background: var(--at-fg); color: #000; }
+  .dock .dock-call { border: 1px solid rgba(237, 232, 223, .34); color: var(--at-fg); }
+  .dock a:focus-visible { outline: 1px solid var(--at-fg); outline-offset: 3px; }
+  .dock.is-wait:not(.is-on) { transform: translateY(105%); }
+  .dock.is-wait:not(.is-on) a { visibility: hidden; transition: visibility 0s .45s; }
+  .menu-open .dock { visibility: hidden; }
+  body:has(.dock) .a11y { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+  body:has(.dock) .ht-btn { bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important; }
+  body:has(.dock) .ft { padding-bottom: calc(clamp(2.4rem, 6vh, 4rem) + 136px + env(safe-area-inset-bottom, 0px)); }
+}
+@media (prefers-reduced-motion: reduce) { .dock { transition: none; } }
 
 /* ---------- ניגודיות גבוהה מתפריט הנגישות ---------- */
 html.a11y-contrast { --at-mute: #d6d1c8; --at-line: rgba(237, 232, 223, .5); }

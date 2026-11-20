@@ -45,8 +45,6 @@ CB_LINK = '<button class="sv-cb" type="button" data-callback hidden>או שאח�
 # שירותים של אתרים: רק בהם הגורמים למחיר (עמודים, מערכות, טקסטים, שפה) רלוונטיים
 WEB_SLUGS = {'website-building', 'web-design', 'landing-page', 'online-store', 'wix-migration',
              'website-design', 'web-design-studio', 'landing-page-design', 'ecommerce-store', 'wix-wordpress-migration'}
-# בטלפון הפס התחתון מופיע רק אחרי שהכפתור הראשון יצא מהמסך, כדי שלא יהיו שלושה כפתורי וואטסאפ במסך הראשון
-DOCK_JS = '<script>(function(){var d=document.getElementById("dock"),t=document.getElementById("quote-top");if(!d||!t||!("IntersectionObserver" in window))return;d.classList.add("sv-dock-wait");new IntersectionObserver(function(e){d.classList.toggle("sv-dock-on",!e[0].isIntersecting&&e[0].boundingClientRect.top<0)}).observe(t)})()</script>\n'
 CRM_SCRIPTS = ('<script src="../js/hgos.js" data-token="71beb2321649887aeab7e16baf3a853968173c6a20291cb1" data-consent="hg" defer></script>\n'
                '<script src="../js/callback.js" defer></script>\n')
 D = 'https://hgpro.io'
@@ -417,14 +415,6 @@ body { background: var(--ink, #0a0a0b); }
 }
 .sv-early { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 1.6rem 0 0; }
 .sv .sv-early a.sv-cb { color: var(--fg, #ede8de); }
-/* טלפון: פס פנייה קבוע בתחתית, וכפתור הנגישות עולה מעליו */
-.sv-dock { display: none; }
-@media (max-width: 700px) {
-  .sv-dock { display: flex; gap: 8px; position: fixed; z-index: 20; inset-inline: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); padding: 6px; border-radius: 99px; background: rgba(10,10,11,.86); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border: 1px solid rgba(237,232,222,.12); }
-  .sv-dock .sv-btn { flex: 1; justify-content: center; min-height: 44px; padding: 0 14px; }
-  body { padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
-  .a11y { bottom: calc(80px + env(safe-area-inset-bottom, 0px)); }
-}
 .sv { max-width: 860px; margin: 0 auto; padding: 56px var(--gutter) 40px; }
 .sv-crumbs { font-family: var(--f-mono); font-size: .8125rem; color: var(--fg-dim); display: flex; align-items: center; gap: 0 .5rem; flex-wrap: wrap; }
 .sv-crumbs a { display: inline-flex; align-items: center; min-height: 32px; color: var(--fg-dim); }
@@ -454,9 +444,6 @@ html[lang="en"] .sv h2 { letter-spacing: .005em; }
 .sv-facts { margin-top: .9rem; color: var(--fg-dim); font-size: .92rem; }
 .sv-cb { display: inline-flex; align-items: center; min-height: 48px; padding: 0 4px; border: 0; background: none; color: var(--fg, #ede8de); font: inherit; font-family: var(--f-body); font-size: .95rem; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 .sv-cb:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 6px; }
-.sv-dock.sv-dock-wait { opacity: 0; transform: translateY(14px); pointer-events: none; transition: opacity .25s ease, transform .25s ease; }
-.sv-dock.sv-dock-wait.sv-dock-on { opacity: 1; transform: none; pointer-events: auto; }
-@media (prefers-reduced-motion: reduce) { .sv-dock.sv-dock-wait { transition: none; } }
 .sv-faq details { border-bottom: 1px solid rgba(237,232,222,.1); padding: 6px 0; }
 .sv-faq summary { padding-block: 8px; cursor: pointer; font-family: var(--f-body); font-size: 1.08rem; color: var(--fg, #ede8de); }
 .sv-faq summary h3 { display: inline; font: inherit; }
@@ -587,7 +574,7 @@ def render(p):
 <link rel="stylesheet" href="{up}css/hanoch.css">
 <style>{CSS}</style>
 <link rel="stylesheet" href="{up}css/inner.css?v=5">
-<link rel="stylesheet" href="{up}css/head.css?v=3">
+<link rel="stylesheet" href="{up}css/head.css?v=4">
 <script type="application/ld+json">{ld}</script>
 <script src="{up}js/consent.js?v=5" defer></script>
 <script src="{up}js/adcode.js" defer></script>
@@ -602,7 +589,7 @@ def render(p):
   <nav class="sv-crumbs" aria-label="{T('מיקום באתר', 'Breadcrumb')}"><a href="{up}{'' if he else 'en.html'}">HG Studio</a><span aria-hidden="true">/</span><a href="./">{T('שירותים', 'Services')}</a><span aria-hidden="true">/</span><span aria-current="page">{esc(p['name'])}</span></nav>
   <h1>{esc(p['h1'])}</h1>
   <p class="sv-lead">{esc(p['lead'])}</p>
-  {pkg}<p class="sv-early" id="quote-top"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('ספרו לי על העסק בוואטסאפ', 'Tell me about your business on WhatsApp')}</a><a class="sv-cb" href="tel:+972545522053" dir="ltr">{T('054-5522053', '+972 54-552-2053')}</a>{CB_LINK if he else ''}</p>
+  {pkg}<p class="sv-early" id="quote-top" data-dock-wait><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('ספרו לי על העסק בוואטסאפ', 'Tell me about your business on WhatsApp')}</a><a class="sv-cb" href="tel:+972545522053" dir="ltr">{T('054-5522053', '+972 54-552-2053')}</a>{CB_LINK if he else ''}</p>
   <p class="sv-facts">{facts}</p>
   {secs}
   <h2 id="s-how">{T('איך זה עובד', 'How it works')}</h2>
@@ -616,15 +603,14 @@ def render(p):
   {end_card(he, wa, T('ספרו לי על העסק.', 'Tell me about your business.'), T('שיחה קצרה, ואחריה הצעה כתובה עם לוח זמנים ומחיר. אין התחייבות.', 'A short call, then a written proposal with a schedule and a price. No commitment.'))}
   {f'<h2>{T("שירותים קשורים", "Related services")}</h2><ul class="sv-rel">{rel}</ul>' if rel else ''}
 </main>
-{footer(up, he)}
-<div class="sv-dock" id="dock"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a><a class="sv-btn ghost" href="tel:+{WA}">{T('חיוג', 'Call')}</a></div>
+{footer(up, he, wa)}
 {f'<script src="{up}js/captions.js" defer></script>' if p.get('films') else ''}<script src="{up}js/fluid.js" defer></script>
 <script src="{up}js/vendor/lenis.min.js" defer></script>
 <script src="{up}js/smooth.js?v=2" defer></script>
 <script src="{up}js/a11y.js" defer></script>
-<script src="{up}js/chrome.js?v=1" defer></script>
+<script src="{up}js/chrome.js?v=2" defer></script>
 <script src="{up}js/assistant.js?v=3" defer></script>
-{CRM_SCRIPTS if he else ''}{DOCK_JS}</body>
+{CRM_SCRIPTS if he else ''}</body>
 </html>
 '''
 
@@ -677,7 +663,7 @@ def hub(lang):
 .sv-list span {{ display: block; color: rgba(237,232,222,.7); font-family: var(--f-body); font-size: .95rem; margin-top: 4px; line-height: 1.6; }}
 </style>
 <link rel="stylesheet" href="{up}css/inner.css?v=5">
-<link rel="stylesheet" href="{up}css/head.css?v=3">
+<link rel="stylesheet" href="{up}css/head.css?v=4">
 <script type="application/ld+json">{ld}</script>
 {SLASH}
 <script src="{up}js/consent.js?v=5" defer></script>
@@ -696,13 +682,12 @@ def hub(lang):
   <ul class="sv-list">{cards}</ul>
   {end_card(he, wa, T('לא בטוחים מה מתאים?', 'Not sure what fits?'), T('ספרו לי על העסק, ואמליץ מה כדאי לבנות קודם. אחרי שיחה קצרה מקבלים הצעה כתובה עם מחיר.', 'Tell me about your business and I will suggest what to build first. After a short call you get a written proposal with a price.'))}
 </main>
-{footer(up, he)}
-<div class="sv-dock" id="dock"><a class="sv-btn" href="{wa}" target="_blank" rel="noopener">{T('וואטסאפ', 'WhatsApp')}</a><a class="sv-btn ghost" href="tel:+{WA}">{T('חיוג', 'Call')}</a></div>
+{footer(up, he, wa)}
 <script src="{up}js/fluid.js" defer></script>
 <script src="{up}js/vendor/lenis.min.js" defer></script>
 <script src="{up}js/smooth.js?v=2" defer></script>
 <script src="{up}js/a11y.js" defer></script>
-<script src="{up}js/chrome.js?v=1" defer></script>
+<script src="{up}js/chrome.js?v=2" defer></script>
 <script src="{up}js/assistant.js?v=3" defer></script>
 {CRM_SCRIPTS if he else ''}</body>
 </html>
