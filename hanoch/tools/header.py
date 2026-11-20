@@ -1,8 +1,16 @@
-# הכותרת העליונה והתחתונה האחידות של האתר (אטלייה): סימן מסחרי, חמישה קישורים, EN וכפתור וואטסאפ דק.
+# הכותרת העליונה והתחתונה האחידות של האתר: סימן מסחרי, חמישה קישורים, EN וכפתור וואטסאפ.
 # משמש את tools/seo_pages.py, tools/blog.py ו-tools/legal.py, ואת העמודים שנכתבים ביד (tools/header_apply.py).
 # up: הקידומת לשורש האתר ('' בדף הבית, '../' או '/' בשאר). current: הקישור שמסומן aria-current.
-# העיצוב: css/head.css (בכל העמודים).
+# העיצוב: css/head.css (בכל העמודים). עמוד בעברית בשפת הסטודיו מקבל class="st" על body ואת studio_head().
 import html
+
+
+def studio_head(up, page_css=True):
+    # השפה של הסטודיו (css/head.css): שני הגופנים של המסך הראשון נטענים מראש, ואחריהם head.css ו-page.css (עמודי טקסט)
+    return (f'<link rel="preload" as="font" type="font/woff2" href="{up}fonts/b/noto-serif-hebrew-c.woff2" crossorigin>\n'
+            f'<link rel="preload" as="font" type="font/woff2" href="{up}fonts/b/plex-he-400.woff2" crossorigin>\n'
+            f'<link rel="stylesheet" href="{up}css/head.css?v=5">'
+            + (f'\n<link rel="stylesheet" href="{up}css/page.css?v=1">' if page_css else ''))
 
 
 def header(up, wa, current='', he=True):

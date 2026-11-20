@@ -3,7 +3,7 @@
 # שאלות נפוצות: כל ### בתוך הפרק "## שאלות נפוצות" הופך לשאלה עם סימון לגוגל.
 import os, re, json, html, glob, datetime, urllib.parse
 from seo_pages import CSS, FR, WA, D, BY, SLASH
-from header import header, footer
+from header import header, footer, studio_head
 # וואטסאפ בכותרת ובפס התחתון של הבלוג: הודעה שמתחילה, לא שדה ריק
 WA_BLOG = f'https://wa.me/{WA}?text=' + urllib.parse.quote('היי חנוך, הגעתי מהמאמרים באתר. השאלה שלי: ')
 
@@ -162,26 +162,17 @@ def head(title, desc, url, img, extra=''):
 <meta property="og:url" content="{url}">
 <meta property="og:image" content="{img}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0a0a0b">
+<meta name="theme-color" content="#e8ebe4">
 <link rel="icon" href="../images/icon-180.png" type="image/png">
 <link rel="apple-touch-icon" href="../images/icon-180.png">
-<link rel="preload" as="font" type="font/woff2" href="../fonts/g/rubik-hebrew-423ede.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="../fonts/g/rubik-punct.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="../fonts/handjet-ascii.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="../fonts/handjet-hebrew.woff2" crossorigin>
-<link rel="stylesheet" href="../css/fonts.css">
-<link rel="preload" as="font" type="font/woff2" href="../fonts/hg-mark.woff2" crossorigin>
-<link rel="stylesheet" href="../css/hanoch.css">
-<style>{CSS}{BLOG_CSS}</style>
-<link rel="stylesheet" href="../css/inner.css?v=5">
-<link rel="stylesheet" href="../css/head.css?v=4">
+{studio_head('../')}
 {extra}
 <script src="../js/consent.js?v=6" defer></script>
 <script src="../js/adcode.js" defer></script>
 <script src="../js/ga.js" defer></script>
 <script src="../js/meta.js" defer></script>
 </head>
-<body>
+<body class="st">
 <a class="skip" href="#main">דלגו לתוכן</a>
 ''' + header('../', WA_BLOG, 'blog/') + '''
 '''

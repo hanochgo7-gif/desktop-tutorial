@@ -5,51 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>הדף לא נמצא | HG Studio</title>
 <meta name="robots" content="noindex">
-<link rel="preload" as="font" type="font/woff2" href="/fonts/g/rubik-hebrew-423ede.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="/fonts/g/rubik-punct.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="/fonts/handjet-ascii.woff2" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="/fonts/handjet-hebrew.woff2" crossorigin>
-<link rel="stylesheet" href="/css/fonts.css">
 <link rel="icon" href="/images/icon-180.png">
 <link rel="apple-touch-icon" href="/images/icon-180.png">
 <link rel="manifest" href="/manifest.webmanifest">
-<link rel="stylesheet" href="/css/hanoch.css">
-<link rel="stylesheet" href="/css/head.css?v=4">
-<style>
-  /* ה-ח מזכוכית, מנופצת: סרט לולאה מהיגספילד מאחורי הטקסט */
-  .lost { min-height: 100svh; display: grid; place-items: end center; text-align: center; padding: 40px var(--gutter) clamp(48px, 9vh, 110px); position: relative; overflow: hidden; isolation: isolate; background: #050506 url("/work/broken.webp") center 35% / cover no-repeat; }
-  .lost-film { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 35%; z-index: -2; }
-  .lost::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(5, 5, 6, .15) 0%, rgba(5, 5, 6, .1) 40%, rgba(5, 5, 6, .88) 78%); }
-  @media (prefers-reduced-motion: reduce) { .lost-film { display: none; } }
-  .lost-home { background: #ede8de !important; color: #0a0a0b !important; }
-  .lost h1 { font-family: var(--f-display); font-weight: 400; font-size: clamp(2.2rem, 5vw, 4rem); margin: 2rem 0 .6rem; }
-  .lost p { color: var(--fg-dim); font-family: var(--f-body); max-width: 36ch; margin: 0 auto 2rem; }
-  .lost .mono { color: var(--signal); display: block; margin-bottom: 1rem; }
-  .lost .lost-en { margin: 1.4rem auto 0; font-size: var(--fs-s); }
-  .lost .lost-en a { color: var(--paper); display: inline-flex; align-items: center; min-height: 44px; }
-  .lost .lost-links { margin: 1.4rem auto 0; max-width: none; }
-  .lost .lost-links a { color: var(--paper); display: inline-flex; align-items: center; min-height: 44px; text-underline-offset: 4px; }
-</style>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/b/noto-serif-hebrew-c.woff2" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="/fonts/b/plex-he-400.woff2" crossorigin>
+<link rel="stylesheet" href="/css/head.css?v=5">
+<link rel="stylesheet" href="/css/page.css?v=1">
 <script src="/js/consent.js?v=6" defer></script>
 <script src="/js/adcode.js" defer></script>
 <script src="/js/ga.js" defer></script>
 <script src="/js/meta.js" defer></script>
 </head>
-<body data-root="/">
+<body data-root="/" class="st">
+<a class="skip" href="#main">דלגו לתוכן</a>
 <header class="top" id="top">
   <a class="logo" href="/" aria-label="HG Studio, לדף הבית">HG<b>·</b>STUDIO</a>
   <nav class="nav" aria-label="ראשי"><a href="/archive/">עבודות</a><a href="/#films">סרטים</a><a href="/gallery/">תמונות</a><a href="/services/">שירותים</a><a href="/#contact">צור קשר</a><a class="top-lang" href="/en.html" lang="en" hreflang="en">EN</a></nav>
   <a class="top-wa" href="https://wa.me/972545522053" target="_blank" rel="noopener">וואטסאפ</a>
   <details class="menu"><summary aria-label="תפריט"><span></span><span></span></summary><div class="menu-sheet"><a href="/archive/">עבודות</a><a href="/#films">סרטים</a><a href="/gallery/">תמונות</a><a href="/services/">שירותים</a><a href="/#contact">צור קשר</a><a class="top-lang" href="/en.html" lang="en" hreflang="en">EN</a><a class="menu-wa" href="https://wa.me/972545522053" target="_blank" rel="noopener">וואטסאפ</a><a href="tel:+972545522053">חיוג <span dir="ltr">054-5522053</span></a><button type="button" data-callback hidden>שאחזור אליכם בשעה נוחה</button></div></details>
 </header>
-<main class="lost">
-  <video class="lost-film" src="/work/broken.mp4" poster="/work/broken.webp" autoplay muted loop playsinline aria-hidden="true"></video>
+<main class="lost" id="main">
   <div>
     <span class="mono">שגיאה 404</span>
     <h1>הדף הזה עוד לא נבנה.</h1>
     <p>הכתובת שהגעתם אליה לא קיימת, או שעברה למקום אחר. כל השאר עדיין עומד במקום.</p>
     <a class="btn btn-signal lost-home" href="/"><span>חזרה לדף הבית</span></a>
-    <p class="lost-links"><a href="/services/">שירותים</a> · <a href="/work.html">עבודות</a> · <a href="/blog/">מאמרים</a> · <a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9C%D7%93%D7%A3%20%D7%A9%D7%9C%D7%90%20%D7%A7%D7%99%D7%99%D7%9D%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%97%D7%99%D7%A4%D7%A9%D7%AA%D7%99%3A%20" target="_blank" rel="noopener">לא מצאתם? כתבו לי בוואטסאפ</a> · <a href="#" data-consent-open>הגדרות עוגיות</a></p>
+    <p class="lost-links"><a href="/services/">שירותים</a> <a href="/work.html">עבודות</a> <a href="/blog/">מאמרים</a> <a href="https://wa.me/972545522053?text=%D7%94%D7%99%D7%99%20%D7%97%D7%A0%D7%95%D7%9A%2C%20%D7%94%D7%92%D7%A2%D7%AA%D7%99%20%D7%9C%D7%93%D7%A3%20%D7%A9%D7%9C%D7%90%20%D7%A7%D7%99%D7%99%D7%9D%20%D7%91%D7%90%D7%AA%D7%A8.%20%D7%97%D7%99%D7%A4%D7%A9%D7%AA%D7%99%3A%20" target="_blank" rel="noopener">לא מצאתם? כתבו לי בוואטסאפ</a> <a href="#" data-consent-open>הגדרות עוגיות</a></p>
     <p class="lost-en" lang="en" dir="ltr">This page doesn't exist. <a href="/en.html">Go to the English site</a></p>
   </div>
 </main>

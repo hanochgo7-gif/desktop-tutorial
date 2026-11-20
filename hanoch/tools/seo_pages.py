@@ -1,7 +1,7 @@
 # מחולל עמודי השירות (קידום אורגני). מריצים: python3 tools/seo_pages.py
 # כל עמוד: תוכן ייחודי, מחירים אמיתיים מהאתר, דוגמאות מהתיק, שאלות נפוצות עם סימון לגוגל, וקישורים פנימיים.
 import json, os, html, urllib.parse
-from header import header, footer
+from header import header, footer, studio_head
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # שיחה חוזרת בשעה נוחה (js/callback.js) ופניות ל-HG OS (js/hgos.js), רק בעמודים בעברית
 CALLBACK_BTN = '<button class="sv-btn ghost" type="button" data-callback hidden>שאחזור אליכם בשעה נוחה</button>'
@@ -470,6 +470,13 @@ def GF(up, he):
 # הלוגו נכתב ב-HG Mark: שש האותיות שלו מ-Fraunces, באחסון עצמי (fonts/hg-mark.woff2, מוגדר ב-hanoch.css), בלי גיליון חוסם מגוגל
 FR = ''
 
+# עמודים בעברית: שפת הסטודיו (tools/header.py studio_head, css/page.css). עמודים באנגלית נשארים בעיצוב הקודם, כמו שאר האתר באנגלית
+def OLD_HEAD(up, he, extra=''):
+    return (GF(up, he) + '\n' + f'<link rel="preload" as="font" type="font/woff2" href="{up}fonts/hg-mark.woff2" crossorigin>\n'
+            f'<link rel="stylesheet" href="{up}css/hanoch.css">\n<style>{CSS}{extra}</style>\n'
+            f'<link rel="stylesheet" href="{up}css/inner.css?v=5">\n<link rel="stylesheet" href="{up}css/head.css?v=4">')
+HUB_EXTRA = '\n.sv-list { list-style: none; padding: 0 !important; display: grid; gap: 12px !important; }\n.sv-list a { display: grid; grid-template-columns: 176px 1fr; gap: 20px; align-items: center; padding: 14px 20px 14px 14px; border-radius: 14px; border: 1px solid rgba(237,232,222,.1); text-decoration: none; background: rgba(237,232,222,.025); }\n[dir="rtl"] .sv-list a { padding: 14px 14px 14px 20px; }\n.sv-list img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; background: #111; }\n@media (max-width: 560px) { .sv-list a { grid-template-columns: 104px 1fr; gap: 14px; } .sv-list b { font-size: 1.25rem; } }\n.sv-list b { display: block; color: var(--fg, #ede8de); font-family: var(--f-display); font-weight: 400; font-size: 1.5rem; }\n.sv-list span { display: block; color: rgba(237,232,222,.7); font-family: var(--f-body); font-size: .95rem; margin-top: 4px; line-height: 1.6; }\n'
+
 def url_of(p): return f"{D}/services/{p['slug']}.html" if p['lang'] == 'he' else f"{D}/services/en/{p['slug']}.html"
 BY = {p['slug']: p for p in P}
 
@@ -566,22 +573,17 @@ def render(p):
 <meta property="og:url" content="{U}">
 <meta property="og:image" content="{D}/work/og-home.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0a0a0b">
+<meta name="theme-color" content="{'#e8ebe4' if he else '#0a0a0b'}">
 <link rel="icon" href="{up}images/icon-180.png" type="image/png">
 <link rel="apple-touch-icon" href="{up}images/icon-180.png">
-{GF(up, he)}
-<link rel="preload" as="font" type="font/woff2" href="{up}fonts/hg-mark.woff2" crossorigin>
-<link rel="stylesheet" href="{up}css/hanoch.css">
-<style>{CSS}</style>
-<link rel="stylesheet" href="{up}css/inner.css?v=5">
-<link rel="stylesheet" href="{up}css/head.css?v=4">
+{studio_head(up) if he else OLD_HEAD(up, he)}
 <script type="application/ld+json">{ld}</script>
 <script src="{up}js/consent.js?v=6" defer></script>
 <script src="{up}js/adcode.js" defer></script>
 <script src="{up}js/ga.js" defer></script>
 <script src="{up}js/meta.js" defer></script>
 </head>
-<body>
+<body{' class="st"' if he else ''}>
 <a class="skip" href="#main">{T("דלגו לתוכן", "Skip to content")}</a>
 {header(up, wa, 'services/' if he else 'services/en/', he)}
 <main class="sv sv-has-aside" id="main">
@@ -648,22 +650,9 @@ def hub(lang):
 <link rel="alternate" hreflang="he" href="{D}/services/"><link rel="alternate" hreflang="en" href="{D}/services/en/"><link rel="alternate" hreflang="x-default" href="{D}/services/">
 <meta property="og:type" content="website"><meta property="og:locale" content="{'he_IL' if he else 'en_US'}"><meta name="twitter:card" content="summary_large_image">
 <meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{U}"><meta property="og:image" content="{D}/work/og-home.jpg">
-<meta name="theme-color" content="#0a0a0b">
+<meta name="theme-color" content="{'#e8ebe4' if he else '#0a0a0b'}">
 <link rel="icon" href="{up}images/icon-180.png" type="image/png">
-{GF(up, he)}
-<link rel="preload" as="font" type="font/woff2" href="{up}fonts/hg-mark.woff2" crossorigin>
-<link rel="stylesheet" href="{up}css/hanoch.css">
-<style>{CSS}
-.sv-list {{ list-style: none; padding: 0 !important; display: grid; gap: 12px !important; }}
-.sv-list a {{ display: grid; grid-template-columns: 176px 1fr; gap: 20px; align-items: center; padding: 14px 20px 14px 14px; border-radius: 14px; border: 1px solid rgba(237,232,222,.1); text-decoration: none; background: rgba(237,232,222,.025); }}
-[dir="rtl"] .sv-list a {{ padding: 14px 14px 14px 20px; }}
-.sv-list img {{ width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 10px; background: #111; }}
-@media (max-width: 560px) {{ .sv-list a {{ grid-template-columns: 104px 1fr; gap: 14px; }} .sv-list b {{ font-size: 1.25rem; }} }}
-.sv-list b {{ display: block; color: var(--fg, #ede8de); font-family: var(--f-display); font-weight: 400; font-size: 1.5rem; }}
-.sv-list span {{ display: block; color: rgba(237,232,222,.7); font-family: var(--f-body); font-size: .95rem; margin-top: 4px; line-height: 1.6; }}
-</style>
-<link rel="stylesheet" href="{up}css/inner.css?v=5">
-<link rel="stylesheet" href="{up}css/head.css?v=4">
+{studio_head(up) if he else OLD_HEAD(up, he, HUB_EXTRA)}
 <script type="application/ld+json">{ld}</script>
 {SLASH}
 <script src="{up}js/consent.js?v=6" defer></script>
@@ -671,7 +660,7 @@ def hub(lang):
 <script src="{up}js/ga.js" defer></script>
 <script src="{up}js/meta.js" defer></script>
 </head>
-<body>
+<body{' class="st"' if he else ''}>
 <a class="skip" href="#main">{T('דלגו לתוכן', 'Skip to content')}</a>
 {header(up, wa, 'services/' if he else 'services/en/', he)}
 <main class="sv" id="main">

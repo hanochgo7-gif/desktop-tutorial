@@ -1,0 +1,518 @@
+/* דף הבית, "כל עסק. שפה משלו.": מסגרת הסטודיו (גיר, אורן, קו כתום) וחמישה פרקים, כל אחד בעולם של הלקוח שלו.
+   הפתיחה: קו כתום אחד בונה מחדש את האתר הקודם של ש. גוטובסקי וצובע את המשטח בעולם שלו, ואחר כך עובר ללקוח הבא (js/chapters.js).
+   העבודות: בדסקטופ הפרקים נערמים זה על זה, וכל עולם נכנס על תפר כתום. בטלפון (עד 899px) ובמסך נמוך הם פשוט נגללים.
+   הכותרת העליונה, התחתונה ופס הפנייה: css/head.css. גופני הלקוחות נטענים רק בעמוד הזה. */
+
+/* ---------- גופני הלקוחות (SIL OFL 1.1, fonts/b) ---------- */
+@font-face { font-family: "C Karantina"; src: url("../fonts/b/karantina-700.woff2") format("woff2"); font-weight: 700; font-display: swap; unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+@font-face { font-family: "C Karantina"; src: url("../fonts/b/karantina-700-punct.woff2") format("woff2"); font-weight: 700; font-display: swap; unicode-range: U+0020-003F, U+00A0, U+00B7; }
+@font-face { font-family: "C Bona"; src: url("../fonts/b/bona-nova-700.woff2") format("woff2"); font-weight: 700; font-display: swap; unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+@font-face { font-family: "C Bona"; src: url("../fonts/b/bona-nova-700-punct.woff2") format("woff2"); font-weight: 700; font-display: swap; unicode-range: U+0020-003F, U+00A0, U+00B7; }
+@font-face { font-family: "C Bellefair"; src: url("../fonts/b/bellefair-400.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+@font-face { font-family: "C Bellefair"; src: url("../fonts/b/bellefair-400-punct.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+0020-003F, U+00A0, U+00B7; }
+@font-face { font-family: "C Secular"; src: url("../fonts/b/secular-one-400.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+@font-face { font-family: "C Secular"; src: url("../fonts/b/secular-one-400-punct.woff2") format("woff2"); font-weight: 400; font-display: swap; unicode-range: U+0020-003F, U+00A0, U+00B7; }
+@font-face { font-family: "C Noto Sans"; src: url("../fonts/b/noto-sans-hebrew-c600.woff2") format("woff2"); font-weight: 600; font-display: swap; unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+@font-face { font-family: "C Noto Sans"; src: url("../fonts/b/noto-sans-hebrew-c600-punct.woff2") format("woff2"); font-weight: 600; font-display: swap; unicode-range: U+0020-003F, U+00A0, U+00B7; }
+
+:root {
+  --m: var(--at-m);
+  --ease: cubic-bezier(.22, .8, .18, 1);
+  --t-xxl: clamp(2.9rem, 8.6vw, 8rem);
+  --t-xl: clamp(3.2rem, 8vw, 7.4rem);
+  --t-l: clamp(1.75rem, 3vw, 2.8rem);
+  color-scheme: light;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 80px; }
+html.motion { scroll-behavior: smooth; }
+body { margin: 0; background: var(--chalk); color: var(--st-ink); font: 400 1.0625rem/1.65 var(--st-text); -webkit-font-smoothing: antialiased; overflow-x: clip; }
+img, video { display: block; max-width: 100%; }
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+h1, h2, h3, p, ul, ol, figure, dl, dd { margin: 0; }
+ul, ol { padding: 0; list-style: none; }
+::selection { background: var(--pine); color: var(--chalk); }
+:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.skip { position: absolute; top: 8px; inset-inline-start: 8px; z-index: 200; padding: .7rem 1.1rem; background: var(--pine); color: var(--chalk); text-decoration: none; transform: translateY(-160%); }
+.skip:focus { transform: none; }
+
+/* ---------- כפתורים וקישורים ---------- */
+.btn { display: inline-flex; align-items: center; gap: .7rem; min-height: 58px; padding: 0 1.7rem 0 1.8rem; border: 0; border-radius: 2px; font: 600 1.06rem/1 var(--st-text); text-decoration: none; cursor: pointer; transition: background-color .25s ease, color .25s ease; }
+.btn svg { width: 22px; height: 22px; fill: currentColor; flex: none; }
+.btn-orange { background: var(--hg-orange); color: var(--st-ink); }
+.btn-orange:hover { background: #ff7a45; }
+.btn-ink { background: var(--st-ink); color: var(--chalk); }
+.btn-ink:hover { background: var(--pine); }
+.btn:focus-visible { outline: 2px solid var(--st-ink); outline-offset: 4px; }
+.at-link, .ch-link { display: inline-flex; align-items: center; min-height: 44px; color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .4em; text-decoration-color: color-mix(in srgb, currentColor 40%, transparent); transition: text-decoration-color .25s ease; }
+.at-link:hover, .ch-link:hover { text-decoration-color: var(--hg-orange); text-decoration-thickness: 2px; }
+.at-note { color: var(--pine-soft); font-size: .92rem; line-height: 1.6; max-width: 52ch; }
+.at-line { color: var(--pine-soft); }
+
+/* ---------- הכותרת העליונה בדף הבית: שקופה, ומקבלת את הצבעים של מה שמתחתיה ---------- */
+body.b-home .top { position: fixed; inset: 0 0 auto; background: transparent; }
+body.b-home .top.is-scrolled { border-bottom-color: transparent; }
+@media (min-width: 900px) {
+  body.b-home .top > .nav { margin-inline-start: clamp(1.5rem, 3vw, 3rem); }
+  body.b-home .top .top-wa { margin-inline-start: .4rem; }
+}
+/* בין 900 ל-1279: הכותרת לא נכנסת למשטח הצבעוני של הפתיחה. הכפתור בכותרת יורד (הכפתור הכתום בפתיחה ו"צור קשר" נשארים) */
+@media (min-width: 900px) and (max-width: 1279.98px) {
+  body.b-home .top .top-wa { display: none; }
+  body.b-home .top .nav { gap: 1.15rem; }
+  .hx { grid-template-columns: minmax(0, 1fr) 37vw; }
+}
+body[data-theme="ams"]      { --hd-fg: #f2ece0; --hd-btn: #c9a45c; --hd-btn-ink: #140f0a; --hd-bg: #140f0a; }
+body[data-theme="chef"]     { --hd-fg: #f3f2ec; --hd-btn: #f3f2ec; --hd-btn-ink: #3b1a23; --hd-bg: #3b1a23; }
+body[data-theme="clinic"]   { --hd-fg: #3d3132; --hd-btn: #3d3132; --hd-btn-ink: #f2e8e3; --hd-bg: #f2e8e3; }
+body[data-theme="allenbis"] { --hd-fg: #e9eef8; --hd-btn: #ffd21f; --hd-btn-ink: #0a0e1d; --hd-bg: #0a0e1d; }
+body[data-theme="gotovski"] { --hd-fg: #edebe7; --hd-btn: #edebe7; --hd-btn-ink: #0d2f4a; --hd-bg: #0d2f4a; }
+body[data-theme="contact"]  { --hd-fg: var(--st-ink); --hd-btn: var(--st-ink); --hd-btn-ink: var(--chalk); --hd-bg: var(--hg-orange); }
+/* על הכתום הנקודה הכתומה של הסימן הייתה נעלמת: הסימן עובר ללוחית דיו */
+body[data-theme="contact"] .top .logo { background: var(--st-ink); color: var(--chalk); padding: 10px 12px; margin: -10px -12px; }
+@media (max-width: 899px) {
+  body.b-home .top { background: var(--hd-bg); transition: background-color .2s linear; }
+}
+
+/* =========================================================
+   הפתיחה
+   ========================================================= */
+.hx { position: relative; min-height: 100vh; min-height: 100svh; display: grid; grid-template-columns: minmax(0, 1fr) 40vw; background: var(--chalk); }
+.hx-copy { grid-column: 1; align-self: center; padding: 118px var(--m) 64px calc(var(--m) * .9); color: var(--pine); }
+.hx-h1 { font: 800 var(--t-xxl)/.98 var(--st-display); letter-spacing: -.006em; }
+.hx-h1 .ln { display: block; }
+.hx-h1 em { font-style: normal; position: relative; white-space: nowrap; }
+.hx-h1 em::after { content: ""; position: absolute; right: 0; left: .04em; bottom: .02em; height: .07em; background: var(--hg-orange); transform-origin: right; }
+.hx-sub { margin-top: clamp(1.4rem, 3.4vh, 2.2rem); font: 400 var(--t-l)/1.08 var(--st-display); }
+.hx-offer { margin-top: .6rem; font-size: clamp(1.06rem, 1.4vw, 1.3rem); line-height: 1.5; color: var(--pine-soft); }
+.hx-act { margin-top: clamp(1.8rem, 4.4vh, 2.6rem); }
+.ln { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
+.in { display: inline-block; }
+html.motion:not(.a11y-no-motion) .hx .in { animation: hx-rise 1.05s cubic-bezier(.16, 1, .3, 1) both; }
+html.motion:not(.a11y-no-motion) .hx-h1 .ln:nth-child(2) .in { animation-delay: .1s; }
+html.motion:not(.a11y-no-motion) .hx-sub .in { animation-delay: .22s; }
+html.motion:not(.a11y-no-motion) .hx-offer .in { animation-delay: .32s; }
+html.motion:not(.a11y-no-motion) .hx-act .in { animation-delay: .42s; }
+html.motion:not(.a11y-no-motion) .hx-h1 em::after { animation: hx-draw .7s cubic-bezier(.65, 0, .35, 1) .95s both; }
+.hx-act .ln { overflow: visible; }
+html.motion:not(.a11y-no-motion) .hx-act .in { animation-name: hx-fade; }
+@keyframes hx-rise { from { transform: translateY(108%); } to { transform: none; } }
+@keyframes hx-fade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes hx-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* המשטח: עולם אחד גלוי, והבא נצבע מעליו מלמעלה למטה עד הקו */
+.hx-field { grid-column: 2; position: relative; margin: 0; overflow: hidden; min-height: 100%; }
+.worlds, .world { position: absolute; inset: 0; }
+.world { visibility: hidden; }
+.world .tex { position: absolute; inset: 0; }
+.cap { position: absolute; inset-inline: 40px; bottom: 34px; display: grid; justify-items: start; gap: 2px; }
+.cap-name { font-size: 1.85rem; line-height: 1.1; }
+.cap-what { font-size: .9rem; opacity: .82; }
+.cap-tag { order: -1; margin-bottom: 8px; padding: 4px 9px 5px; font: 600 .78rem/1 var(--st-text); background: var(--hg-orange); color: var(--st-ink); }
+.cap .pal { margin-bottom: 12px; }
+.hx-phone { position: absolute; z-index: 3; left: 50%; top: max(100px, calc(50% - 330px)); width: clamp(210px, 19vw, 282px); aspect-ratio: 480 / 1039; transform: translateX(-50%);
+  border-radius: 40px; padding: 8px; background: #0d0f0e; box-shadow: 0 1px 0 rgba(255, 255, 255, .08) inset, 0 30px 60px -30px rgba(0, 0, 0, .55); }
+.hx-screen { position: relative; width: 100%; height: 100%; border-radius: 32px; overflow: hidden; background: #fff; }
+.hx-screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; visibility: hidden; }
+.sweep { position: absolute; z-index: 4; inset: 0 0 auto 0; height: 2px; background: var(--hg-orange); transform: translateY(calc(50% * 1)); top: 50%; }
+.sweep::before { content: ""; position: absolute; right: -1px; top: -5px; width: 12px; height: 12px; border-radius: 50%; background: var(--hg-orange); }
+/* בלי JS ובלי תנועה: חצי-חצי. למעלה האתר החדש בעולם שלו, למטה האתר הקודם, והקו ביניהם */
+.hx-field:not(.is-live) .w-old, .hx-field:not(.is-live) .w-gotovski, .hx-field:not(.is-live) img[data-w="old"], .hx-field:not(.is-live) img[data-w="gotovski"] { visibility: visible; }
+.hx-field:not(.is-live) .w-gotovski { clip-path: inset(0 0 50% 0); z-index: 1; }
+.hx-field:not(.is-live) .w-gotovski .cap { display: none; }
+.hx-field:not(.is-live) img[data-w="gotovski"] { clip-path: inset(0 0 50% 0); z-index: 1; }
+.hx-field:not(.is-live) .w-old .cap-tag::after { content: " ואחרי"; }
+.hx-field.is-live .sweep { top: 0; transform: none; opacity: 0; will-change: transform; }
+.hx-field.is-live .world.on, .hx-field.is-live .hx-screen img.on { visibility: visible; }
+.hx-pause { position: absolute; z-index: 5; top: 92px; left: 24px; display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; padding: 0 14px; border: 1px solid currentColor; border-radius: 2px;
+  background: transparent; font: 500 .86rem/1 var(--st-text); cursor: pointer; color: var(--fcap, #fff); opacity: .9; }
+.hx-pause:hover { opacity: 1; }
+.hx-pause svg { width: 14px; height: 14px; }
+.hx-pause .i-play, .hx-pause[aria-pressed="true"] .i-pause { display: none; }
+.hx-pause[aria-pressed="true"] .i-play { display: block; }
+.hx-pause[hidden] { display: none; }
+.hx-field[data-now="old"], .hx-field[data-now="clinic"] { --fcap: #2c2a2a; }
+
+/* =========================================================
+   העולמות: משותפים למשטח בפתיחה ולפרקים
+   ========================================================= */
+.pal { display: inline-flex; height: 8px; width: 76px; box-shadow: 0 0 0 1px rgba(127, 127, 127, .35); }
+.pal i { flex: 1; background: var(--c); }
+
+.w-old { background: #d9d9d6; color: #4f4f55; }
+.w-old .tex { background: repeating-linear-gradient(0deg, transparent 0 23px, rgba(0, 0, 0, .05) 23px 24px); }
+.w-old .cap-name { font: 700 1.5rem/1.1 Arial, sans-serif; }
+.w-old .cap-what { font-family: Arial, sans-serif; }
+
+.grain::after, .w-ams .tex::after, .ch-ams .tex::after, .ch-chef .tex::after, .ch-gotovski .tex::after {
+  content: ""; position: absolute; inset: 0; opacity: .14; mix-blend-mode: overlay; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+.w-ams, .ch-ams { background: #140f0a; color: #f2ece0; }
+.w-ams .cap-name, .ch-ams .who-name { font: 600 2.4rem/1 var(--st-text); letter-spacing: .06em; color: #c9a45c; }
+.w-ams .cap-name { font-size: 1.9rem; }
+.w-ams .tex, .ch-ams .tex { background: linear-gradient(#a6844966, #a6844966) 0 31% / 100% 1px no-repeat, linear-gradient(#a6844944, #a6844944) 0 47% / 100% 1px no-repeat, linear-gradient(#a6844926, #a6844926) 0 63% / 100% 1px no-repeat; }
+
+.w-chef, .ch-chef { background: #3b1a23; color: #f3f2ec; }
+.w-chef .cap-name, .ch-chef .who-name { font: 700 2.1rem/1.05 "C Bona", var(--st-display); }
+.w-chef .cap-name { font-size: 1.8rem; }
+.w-chef .tex, .ch-chef .tex { box-shadow: inset 0 0 0 20px #3b1a23, inset 0 0 0 21px #f3f2ec33, inset 0 0 0 26px #3b1a23, inset 0 0 0 27px #f3f2ec22; }
+
+.w-clinic, .ch-clinic { background: #f2e8e3; color: #3d3132; }
+.w-clinic .cap-name, .ch-clinic .who-name { font: 400 2.1rem/1.05 "C Bellefair", var(--st-display); }
+.w-clinic .cap-name { font-size: 1.85rem; }
+.w-clinic .tex { background: radial-gradient(circle at 18% 22%, #e6c1bb 0 9%, transparent 9.2%), radial-gradient(circle at 86% 64%, #e6c1bb99 0 6%, transparent 6.2%); }
+
+.w-allenbis, .ch-allenbis { background: #0a0e1d; color: #e9eef8; }
+.w-allenbis .cap-name, .ch-allenbis .who-name { font: 400 2.3rem/1 "C Secular", var(--st-display); color: #ff4f9a; }
+.w-allenbis .cap-name { font-size: 1.85rem; }
+.w-allenbis .tex, .ch-allenbis .tex { background: repeating-linear-gradient(0deg, transparent 0 179px, #1b439666 179px 181px), repeating-linear-gradient(90deg, transparent 0 239px, #1b439633 239px 240px); }
+
+.w-gotovski, .ch-gotovski { background: #0d2f4a; color: #edebe7; }
+.w-gotovski .cap-name, .ch-gotovski .who-name { font: 600 2.3rem/1 "C Noto Sans", var(--st-display); }
+.w-gotovski .cap-name { font-size: 1.95rem; }
+.w-gotovski .tex, .ch-gotovski .tex { background:
+  repeating-linear-gradient(0deg, transparent 0 79px, #2f6d9766 79px 80px), repeating-linear-gradient(90deg, transparent 0 79px, #2f6d9766 79px 80px),
+  repeating-linear-gradient(0deg, transparent 0 15px, #2f6d9724 15px 16px), repeating-linear-gradient(90deg, transparent 0 15px, #2f6d9724 15px 16px); }
+
+/* =========================================================
+   העבודות: פתיח ואז חמישה עולמות
+   ========================================================= */
+.stack { position: relative; }
+.intro { position: relative; display: flex; align-items: center; min-height: 100vh; background: var(--chalk); color: var(--pine); border-top: 1px solid var(--rule); }
+.intro-in { width: 100%; padding: 120px var(--m) 96px; display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: 48px; align-items: end; }
+.motto { font: 800 var(--t-xl)/.96 var(--st-display); letter-spacing: -.006em; }
+.intro-side { max-width: 26rem; padding-bottom: 14px; font-size: 1.18rem; line-height: 1.6; }
+.index { grid-column: 1 / -1; margin-top: clamp(3rem, 9vh, 5.5rem); display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 2px solid var(--pine); }
+.index a { display: flex; flex-direction: column; gap: 14px; height: 100%; padding: 22px 20px 6px 0; padding-inline: 20px 0; text-decoration: none; color: var(--pine); border-inline-start: 1px solid var(--rule); }
+.index li:first-child a { border-inline-start: 0; padding-inline-start: 0; }
+.ix-name { font-size: 1.9rem; line-height: 1.05; white-space: nowrap; }
+.ix-what { font-size: .84rem; color: var(--pine-soft); }
+.index a:hover .ix-name { text-decoration: underline; text-decoration-color: var(--hg-orange); text-decoration-thickness: 2px; text-underline-offset: .25em; }
+.index .pal { width: 96px; height: 10px; box-shadow: 0 0 0 1px rgba(15, 58, 45, .2); }
+.ix-ams .ix-name { font: 600 1.85rem/1.05 var(--st-text); letter-spacing: .06em; }
+.ix-chef .ix-name { font-family: "C Bona", var(--st-display); font-weight: 700; }
+.ix-clinic .ix-name { font-family: "C Bellefair", var(--st-display); font-size: 2rem; }
+.ix-allenbis .ix-name { font-family: "C Secular", var(--st-display); }
+.ix-gotovski .ix-name { font-family: "C Noto Sans", var(--st-display); font-weight: 600; font-size: 2.1rem; }
+
+/* ---------- פרק ---------- */
+.ch { position: relative; overflow: hidden; isolation: isolate; }
+.ch::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--hg-orange); z-index: 5; }
+.ch::after { content: attr(data-name); content: attr(data-name) / ""; position: absolute; top: 3px; left: var(--m); z-index: 5; background: var(--hg-orange); color: var(--st-ink); font: 500 .8rem/1 var(--st-text); padding: 7px 12px 8px; }
+.ch .tex { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+.ch .shade { position: absolute; inset: 0; background: var(--shade, #000); opacity: calc(var(--out, 0) * .45); pointer-events: none; z-index: 6; }
+.ch-in { position: relative; height: 100%; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 72px); padding: 112px var(--m) 64px; }
+.ch-text { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; min-width: 0; }
+.who { display: flex; flex-direction: column; gap: 8px; align-self: stretch; padding-bottom: 20px; margin-bottom: 28px; border-bottom: 1px solid color-mix(in srgb, currentColor 24%, transparent); font-weight: 400; }
+.who-what { font: 500 .95rem/1.4 var(--st-text); opacity: .8; letter-spacing: 0; }
+.voice { margin-bottom: 26px; }
+.ch-out { max-width: 30rem; font-size: 1.12rem; line-height: 1.6; }
+.ch-links { display: flex; flex-wrap: wrap; gap: 0 1.6rem; margin-top: 12px; font-weight: 500; }
+.ch-text > .pal { margin-top: 26px; width: 120px; height: 10px; }
+.ch-media { position: relative; min-width: 0; min-height: 0; }
+.dev { position: absolute; overflow: hidden; background: #fff; }
+.dev img, .dev video { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.dev picture { display: contents; }
+.wk-screen img, .wk-screen video { position: absolute; inset: 0; }
+.wk-screen video { opacity: 0; transition: opacity .6s ease; }
+.wk-screen video.is-on { opacity: 1; }
+.dev-phone { width: clamp(150px, 14vw, 220px); aspect-ratio: 480 / 1039; border-radius: 26px; border: 7px solid #0d0f0e; box-shadow: 0 30px 60px -28px rgba(0, 0, 0, .6); z-index: 2; }
+.dev-desk { box-shadow: 0 30px 70px -40px rgba(0, 0, 0, .65); }
+.wk-play { position: absolute; z-index: 2; top: 10px; inset-inline-start: 10px; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .6);
+  background: rgba(0, 0, 0, .62); color: #fff; cursor: pointer; }
+.wk-play:hover { background: #000; }
+.wk-play:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+.wk-play svg { width: 13px; height: 13px; }
+.wk-play .i-play, .wk-play[aria-pressed="true"] .i-pause { display: none; }
+.wk-play[aria-pressed="true"] .i-play { display: block; }
+.js [data-near]:not(.is-near) img { display: none; }
+
+/* AMS: כרזת קרב */
+.ch-ams .voice { font: 700 clamp(5.2rem, 10vw, 10.4rem)/.82 "C Karantina", var(--st-display); color: #f2ece0; letter-spacing: .005em; }
+.ch-ams .voice span { color: #c9a45c; }
+.ch-ams .who { border-color: #a6844966; }
+.ams-fighter { position: absolute; top: -112px; bottom: -64px; right: 0; left: calc(var(--m) * -1); width: calc(100% + var(--m)); height: calc(100% + 176px); max-width: none; object-fit: cover; object-position: 50% 30%;
+  -webkit-mask-image: linear-gradient(to left, transparent 0, #000 26%); mask-image: linear-gradient(to left, transparent 0, #000 26%); }
+.ch-ams .dev-phone { left: 6%; bottom: 2%; border-color: #1f1810; outline: 1px solid #a6844955; }
+.ch-ams .ch-link:hover { text-decoration-color: #c9a45c; }
+
+/* בר ליפשיץ: כרטיס תפריט */
+.ch-chef { --shade: #1a080d; }
+.ch-chef .voice { font: 700 clamp(2.5rem, 4.4vw, 4.2rem)/1.1 "C Bona", var(--st-display); }
+.ch-chef .who-what { color: #cccfc3; opacity: 1; }
+.ch-chef .dev-desk { right: 4%; left: 14%; top: 6%; aspect-ratio: 1200 / 750; height: auto; border-radius: 2px; background: #2b1219; outline: 1px solid #f3f2ec33; outline-offset: 10px; }
+.ch-chef .dev-phone { left: 0; bottom: 4%; border-color: #1a0a0f; }
+
+/* רותם גוטובסקי: אוויר וקשת */
+.ch-clinic { --shade: #3d3132; }
+.ch-clinic .tex .blossoms { position: absolute; left: -120px; top: -150px; width: min(720px, 52vw); color: #d9a39c; opacity: .32; }
+.ch-clinic .voice { font: 400 clamp(2.4rem, 4vw, 3.8rem)/1.2 "C Bellefair", var(--st-display); color: #3d3132; }
+.ch-clinic .voice u { text-decoration: none; color: #a8434a; background: linear-gradient(#b9545a, #b9545a) 0 92% / 100% 2px no-repeat; }
+.ch-clinic .who { border-color: #3d313233; }
+.ch-clinic .ch-out { color: #4d3f41; }
+.ch-clinic .arch { position: absolute; left: 12%; right: 16%; top: 2%; bottom: -64px; background: #e6c1bb; border-radius: 999px 999px 0 0; }
+.ch-clinic .dev-desk { left: 24%; right: 4%; top: 22%; aspect-ratio: 1200 / 750; height: auto; border-radius: 14px; box-shadow: 0 24px 50px -30px rgba(80, 40, 40, .45); }
+.ch-clinic .dev-phone { left: 6%; bottom: 3%; border-color: #3d3132; border-radius: 30px; }
+.ch-clinic .ch-link:hover { text-decoration-color: #b9545a; }
+
+/* אלנביס: חנות לילה */
+.ch-allenbis .voice { font: 400 clamp(3rem, 5.4vw, 5.2rem)/1.04 "C Secular", var(--st-display); color: #e9eef8; }
+.ch-allenbis .neon { color: #0a0e1d; -webkit-text-stroke: 2px #ff4f9a; text-shadow: 0 0 6px rgba(255, 79, 154, .35); }
+.ch-allenbis .who { border-color: #1b4396; }
+.ch-allenbis .dev-desk { left: 10%; right: 2%; top: 6%; aspect-ratio: 1200 / 750; height: auto; border: 3px solid #1b4396; border-radius: 14px; outline: 2px solid #ffffff22; outline-offset: 6px; background: #0a0e1d; }
+.ch-allenbis .tag { position: absolute; right: -1%; top: calc(6% + (88% * 750 / 1200) - 20px); z-index: 3; background: #ffd21f; color: #0a0e1d; font: 400 1.35rem/1 "C Secular", var(--st-display); padding: 12px 18px 12px 26px; clip-path: polygon(14px 0, 100% 0, 100% 100%, 14px 100%, 0 50%); }
+.ch-allenbis .dev-phone { left: 0; bottom: 2%; border-color: #1b4396; }
+.ch-allenbis .ch-link:hover { text-decoration-color: #ffd21f; }
+
+/* ש. גוטובסקי: שרטוט */
+.ch-gotovski { --shade: #061826; }
+.ch-gotovski .voice { font: 600 clamp(2.8rem, 5vw, 4.8rem)/1.04 "C Noto Sans", var(--st-display); color: #edebe7; }
+.ch-gotovski .who { border-color: #2f6d97; }
+.ch-gotovski .who-what { color: #b7c9d6; opacity: 1; }
+.ch-gotovski .dev-desk { left: 16%; right: 4%; top: 10%; aspect-ratio: 1200 / 750; height: auto; border-radius: 0; outline: 1px solid #9db4c6; outline-offset: 8px; }
+.ch-gotovski .dev-phone { left: 0; bottom: 4%; border-color: #08202f; border-radius: 26px; }
+
+/* ---------- גלריית הכדור: סוגרת את העבודות ---------- */
+.globe-wrap { position: relative; z-index: 2; background: var(--chalk); padding: clamp(4rem, 10vh, 7rem) var(--m) 0; border-top: 3px solid var(--hg-orange); }
+.globe-card { display: block; position: relative; color: #fff; text-decoration: none; overflow: hidden; background: #000; }
+.globe-card img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; transition: transform 1.2s cubic-bezier(.2, .7, .2, 1); }
+.globe-card:hover img { transform: scale(1.03); }
+.globe-txt { position: absolute; inset-inline-start: 0; bottom: 0; display: grid; gap: .35rem; width: 100%; padding: clamp(1rem, 3vw, 2.2rem); background: linear-gradient(to top, rgba(0, 0, 0, .78), rgba(0, 0, 0, 0)); }
+.globe-txt b { font: 800 clamp(1.8rem, 3.6vw, 3rem)/1.05 var(--st-display); }
+.globe-txt span { color: #e2e6de; font-size: 1rem; }
+.globe-card:focus-visible { outline: 2px solid var(--pine); outline-offset: 4px; }
+
+/* =========================================================
+   אחרי העבודות: מסגרת הסטודיו
+   ========================================================= */
+.at-sec { position: relative; padding: clamp(5rem, 14vh, 9rem) var(--m) 0; background: var(--chalk); color: var(--st-ink); }
+.at-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 1rem 3rem; margin-bottom: clamp(2.4rem, 7vh, 4.5rem); }
+.at-h2 { font: 800 clamp(2.6rem, 5.6vw, 5.2rem)/1 var(--st-display); letter-spacing: -.006em; color: var(--pine); }
+html.motion [data-rv] { opacity: 0; transform: translateY(24px); transition: opacity 1s var(--ease), transform 1.2s var(--ease); }
+html.motion [data-rv].is-in { opacity: 1; transform: none; }
+
+/* לפני ואחרי: התפר נגרר */
+.ba { display: grid; gap: clamp(2.4rem, 6vh, 4rem); align-items: center; }
+.ba-txt { display: grid; gap: 1rem; max-width: 36rem; }
+.ba .at-h2 span { display: block; color: var(--pine-soft); }
+.ba-lead { max-width: 30ch; font-size: clamp(1.15rem, 1.6vw, 1.4rem); line-height: 1.5; }
+.ba-num { display: grid; grid-template-columns: auto auto; justify-content: start; column-gap: clamp(2rem, 5vw, 4rem); row-gap: .3rem; margin-top: 1.2rem; padding-top: 1.4rem; border-top: 2px solid var(--pine); }
+.ba-num dt { grid-column: 1 / -1; color: var(--pine-soft); font-size: .92rem; margin-bottom: .4rem; }
+.ba-num dd { display: grid; gap: .1rem; }
+.ba-num dd span { color: var(--pine-soft); font-size: .86rem; }
+.ba-num b { font: 800 clamp(2.4rem, 4vw, 3.6rem)/1 var(--st-display); font-variant-numeric: tabular-nums; justify-self: start; color: var(--pine); }
+.ba-num dd:first-of-type b { color: var(--pine-soft); text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-color: var(--hg-orange); }
+.ba-fig { justify-self: center; display: grid; justify-items: center; gap: .9rem; --pw: clamp(220px, 62vw, 300px); }
+.rn-phone { position: relative; padding: 7px; border-radius: calc(var(--pw) * .15); background: #0d0f0e; box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .5); }
+.rn-screen { position: relative; width: var(--pw); aspect-ratio: 390 / 844; overflow: hidden; border-radius: calc(var(--pw) * .125); background: #0b0b0b; isolation: isolate; }
+.ba-screen { --cut: 50%; touch-action: pan-y; }
+.ba-screen > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.ba-screen > img.ba-before--top { height: auto; bottom: auto; }
+.ba-after { clip-path: inset(0 calc(100% - var(--cut)) 0 0); }
+.ba-seam { position: absolute; top: 0; bottom: 0; left: var(--cut); width: 0; pointer-events: none; }
+.ba-seam::before { content: ""; position: absolute; top: 0; bottom: 0; left: -1px; width: 2px; background: var(--hg-orange); }
+.ba-seam i { position: absolute; top: 50%; left: 0; width: 42px; height: 42px; margin: -21px 0 0 -21px; border-radius: 50%; background: var(--hg-orange); }
+.ba-seam i::before, .ba-seam i::after { content: ""; position: absolute; top: 50%; width: 0; height: 0; margin-top: -5px; border: 5px solid transparent; }
+.ba-seam i::before { left: 6px; border-right-color: var(--st-ink); }
+.ba-seam i::after { right: 6px; border-left-color: var(--st-ink); }
+.ba-range { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: ew-resize; -webkit-appearance: none; appearance: none; background: transparent; }
+.ba-range::-webkit-slider-thumb { -webkit-appearance: none; width: 48px; height: 100vh; }
+.ba-range::-moz-range-thumb { width: 48px; height: 100vh; border: 0; }
+.ba-range:focus-visible + .ba-seam i { outline: 2px solid var(--st-ink); outline-offset: 4px; }
+.ba-tag { position: absolute; z-index: 2; top: 12%; padding: .35rem .6rem; background: var(--st-ink); color: var(--chalk); font: 500 .78rem/1 var(--st-text); pointer-events: none; }
+.ba-tag-b { right: 8px; }
+.ba-tag-a { left: 8px; }
+.ba-hint { color: var(--pine-soft); font-size: .88rem; }
+@media (min-width: 900px) {
+  .ba { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(16px, 2.4vw, 40px); }
+  .ba > .ba-txt { grid-column: 1 / span 6; }
+  .ba > .ba-fig { grid-column: 8 / span 5; --pw: clamp(240px, calc((100svh - 220px) * .4621), 320px); }
+}
+
+/* פנייה */
+.cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.6rem 3rem; padding-bottom: 0; }
+.cta .at-h2 { max-width: 14ch; }
+
+/* איך זה עובד */
+.how-steps { display: grid; gap: 0 clamp(16px, 2.4vw, 40px); }
+.how-steps li { display: grid; grid-template-columns: auto 1fr; column-gap: 1rem; align-items: baseline; padding: 1.3rem 0; border-top: 2px solid var(--pine); }
+.how-n { font: 800 2.6rem/.9 var(--st-display); color: var(--hg-orange); }
+.how-steps h3 { font: 800 clamp(1.5rem, 2.2vw, 2rem)/1.15 var(--st-display); color: var(--pine); }
+.promise { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem clamp(16px, 2.4vw, 40px); margin-top: clamp(2.6rem, 7vh, 4.4rem); }
+.promise li { position: relative; padding-inline-start: 1.7rem; font-weight: 500; line-height: 1.45; color: var(--pine); }
+.promise li::before { content: ""; position: absolute; inset-inline-start: 0; top: .32em; width: 11px; height: 6px; border-bottom: 2px solid var(--hg-orange); border-left: 2px solid var(--hg-orange); transform: rotate(-45deg); }
+@media (min-width: 900px) { .how-steps { grid-template-columns: repeat(4, minmax(0, 1fr)); } .promise { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+/* סרטים ותמונות */
+.fs-row { display: grid; grid-template-columns: 2.2fr repeat(4, minmax(0, 1fr)); gap: clamp(10px, 1.2vw, 20px); align-items: start; }
+.fs-row button { display: block; width: 100%; padding: 0; border: 0; background: none; color: inherit; text-align: start; cursor: pointer; }
+.at-media { position: relative; display: block; overflow: hidden; background: #0d0f0e; }
+.fs-row .at-media { aspect-ratio: 4 / 5; }
+.fs-row .fs-lead .at-media { aspect-ratio: 16 / 10.4; }
+@media (min-width: 900px) { .fs-row .at-media, .fs-row .fs-lead .at-media { aspect-ratio: auto; height: clamp(200px, 19vw, 300px); } }
+.fs-row .at-media img, .fs-row .at-media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease); }
+.fs-row button:hover img { transform: scale(1.03); }
+.fs-row button:focus-visible { outline: 2px solid var(--pine); outline-offset: 4px; }
+.fs-t { display: block; margin-top: .7rem; font-weight: 500; color: var(--pine); }
+.fs-lead .fs-t { font: 800 1.6rem/1.15 var(--st-display); }
+.fs-k { display: block; margin-top: .1rem; font-size: .84rem; color: var(--pine-soft); }
+.fs .at-note { margin-top: clamp(1.4rem, 4vh, 2.2rem); }
+.at-play { position: absolute; z-index: 1; inset: 0; margin: auto; width: 72px; height: 72px; display: grid; place-items: center; border-radius: 50%; background: var(--hg-orange); color: var(--st-ink); transition: transform .4s var(--ease); }
+.at-play svg { width: 24%; height: 24%; margin-inline-start: 4%; }
+.at-feature:hover .at-play { transform: scale(1.06); }
+@media (max-width: 899px) {
+  .fs-row { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.4rem; }
+  .fs-row .fs-lead { grid-column: 1 / -1; }
+  .fs-row li:not(.fs-lead) .at-media { aspect-ratio: 1; }
+}
+/* חלון הסרט והתמונה (js/atelier.js, js/stills.js) */
+.pm-lightbox { width: 100vw; height: 100vh; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0; background: rgba(11, 35, 27, .97); color: var(--chalk); }
+.pm-lightbox::backdrop { background: var(--st-ink); }
+.pm-lb-in { position: relative; display: grid; place-items: center; width: 100%; height: 100%; padding: clamp(56px, 8vh, 88px) var(--m); }
+.pm-lightbox video, .pm-lightbox img { max-width: 100%; max-height: calc(100dvh - 180px); width: auto; height: auto; background: #000; }
+.pm-lightbox video { width: min(1280px, 100%); }
+.pm-lightbox.is-v video { width: auto; height: calc(100dvh - 180px); }
+.pm-lb-t { margin-top: 1rem; color: #cbd3cd; font-size: .92rem; text-align: center; }
+.pm-lb-x { position: absolute; top: 16px; inset-inline-end: 16px; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(232, 235, 228, .5); background: transparent; cursor: pointer; }
+.pm-lb-x span { position: absolute; top: 50%; left: 50%; width: 16px; height: 2px; background: var(--chalk); transform: translate(-50%, -50%) rotate(45deg); }
+.pm-lb-x span + span { transform: translate(-50%, -50%) rotate(-45deg); }
+.pm-lb-bar { display: flex; align-items: center; gap: 1rem; margin-top: 1rem; width: min(1100px, 100%); }
+.pm-lb-bar .pm-lb-t { margin: 0; flex: 1; text-align: start; }
+.pm-lb-n { color: #cbd3cd; font-size: .85rem; font-variant-numeric: tabular-nums; }
+.pm-lb-nav { width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(232, 235, 228, .5); background: transparent; color: var(--chalk); cursor: pointer; font-size: 1rem; }
+.pm-lb-nav:hover, .pm-lb-x:hover { border-color: var(--chalk); }
+.pm-lightbox :focus-visible { outline: 2px solid var(--chalk); }
+
+/* שירותים */
+.at-svc { border-top: 2px solid var(--pine); }
+.at-svc li { border-bottom: 1px solid var(--rule); }
+.at-svc a { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .2rem 1rem; padding: clamp(1rem, 2.4vh, 1.6rem) 0; text-decoration: none; color: var(--pine); transition: padding .5s var(--ease); }
+.svc-n { font: 800 clamp(1.9rem, 3.6vw, 3.2rem)/1.1 var(--st-display); }
+.svc-d { font-size: .95rem; color: var(--pine-soft); }
+.at-svc a::after { content: ""; flex: none; order: 4; width: 0; height: 2px; background: var(--hg-orange); transition: width .5s var(--ease); align-self: center; }
+.at-svc a:hover { padding-inline-start: .6rem; }
+.at-svc a:hover::after { width: clamp(48px, 5vw, 80px); }
+@media (min-width: 900px) { .at-svc { display: grid; grid-template-columns: 1fr 1fr; column-gap: clamp(32px, 5vw, 96px); } .at-svc li:nth-child(-n+2) { border-top: 0; } }
+
+/* ---------- יצירת קשר: הצבע של הסטודיו במלוא העוצמה ---------- */
+.at-contact { margin-top: clamp(5rem, 14vh, 9rem); padding-top: clamp(6rem, 16vh, 10rem); padding-bottom: clamp(3rem, 8vh, 5rem); background: var(--hg-orange); color: var(--st-ink);
+  display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 4fr); gap: 1.6rem 48px; align-items: end; }
+.at-contact .at-h2 { grid-column: 1; grid-row: 1 / span 3; align-self: center; color: var(--st-ink); font-size: clamp(3.2rem, 9vw, 8.4rem); line-height: .96; }
+.ct-me { grid-column: 2; font-size: 1.15rem; line-height: 1.6; }
+.at-contact .at-line { grid-column: 2; color: var(--st-ink); font-weight: 600; }
+.at-contact .btn { grid-column: 2; justify-self: start; }
+.at-reach { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: .2rem clamp(1.4rem, 3vw, 2.6rem); margin-top: 1.4rem; font-weight: 500; }
+.at-reach .at-link { color: var(--st-ink); }
+.at-reach button.at-link { border: 0; background: none; padding: 0; cursor: pointer; font: inherit; }
+.at-contact :focus-visible { outline-color: var(--st-ink); }
+.langs { grid-column: 1 / -1; margin-top: 1.4rem; display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); border-top: 1px solid rgba(11, 35, 27, .35); }
+.langs li { height: 104px; background: var(--c); color: var(--f); display: flex; align-items: flex-end; padding: 14px 16px; font-size: .9rem; line-height: 1.15; }
+.langs .lg-ams span { font: 600 1rem/1 var(--st-text); letter-spacing: .06em; }
+.langs .lg-chef span { font: 700 1.2rem/1 "C Bona", var(--st-display); }
+.langs .lg-clinic span { font: 400 1.4rem/1 "C Bellefair", var(--st-display); }
+.langs .lg-allenbis span { font: 400 1.2rem/1 "C Secular", var(--st-display); color: #ff4f9a; }
+.langs .lg-gotovski span { font: 600 1.3rem/1 "C Noto Sans", var(--st-display); }
+.langs .lg-yours { background: transparent; color: var(--st-ink); border: 1.5px dashed var(--st-ink); border-top: 0; }
+.langs .lg-yours span { font: 800 1.4rem/1 var(--st-display); }
+body.b-home .ft { margin-top: 0; }
+
+/* =========================================================
+   דסקטופ גבוה מספיק: הפרקים נערמים
+   ========================================================= */
+@media (min-width: 900px) and (min-height: 680px) {
+  .intro { position: sticky; top: 0; }
+  .ch { position: sticky; top: 0; height: 100vh; min-height: 680px; }
+  .ch-in { transform: translateY(calc(var(--out, 0) * -40px)) scale(calc(1 - var(--out, 0) * .035)); transform-origin: 50% 0; }
+}
+@media (min-width: 900px) and (max-height: 679.98px) {
+  .ch { min-height: 680px; }
+  .ch .shade { display: none; }
+}
+
+/* =========================================================
+   טלפון וטאבלט צר
+   ========================================================= */
+@media (max-width: 899px) {
+  .hx { display: block; min-height: 0; }
+  .hx-copy { padding: 96px var(--m) 40px; }
+  .hx-h1 { font-size: clamp(2.6rem, 14vw, 4.6rem); line-height: 1.02; }
+  .hx-sub { margin-top: 1.2rem; font-size: 1.85rem; }
+  .hx-offer { font-size: 1.05rem; }
+  .hx-act { margin-top: 1.6rem; }
+  .btn { min-height: 54px; font-size: 1rem; padding: 0 1.3rem 0 1.4rem; }
+  .hx-field { height: 640px; min-height: 0; }
+  .hx-phone { top: 40px; width: min(214px, 54vw); padding: 6px; border-radius: 32px; }
+  .hx-screen { border-radius: 26px; }
+  .cap { inset-inline: var(--m); bottom: 24px; }
+  .cap-name { font-size: 1.5rem !important; }
+  .hx-pause { top: 14px; left: 14px; }
+
+  .intro { min-height: 0; }
+  .intro-in { display: block; padding: 84px var(--m) 72px; }
+  .motto { font-size: clamp(3.2rem, 15vw, 5.2rem); }
+  .intro-side { margin-top: 1.4rem; font-size: 1.05rem; }
+  .index { grid-template-columns: 1fr; margin-top: 2.6rem; }
+  .index a { flex-direction: row; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0; border-inline-start: 0; padding-inline: 0; border-bottom: 1px solid var(--rule); }
+  .index .ix-what { display: none; }
+  .ix-name { font-size: 1.6rem !important; }
+
+  .ch-in { display: flex; flex-direction: column; gap: 36px; padding: 64px var(--m) 52px; }
+  .ch .shade { display: none; }
+  .who-name { font-size: 2rem !important; }
+  .ch-media { height: auto; min-height: 0; aspect-ratio: 4 / 4.2; }
+  .ch-ams .voice { font-size: clamp(4.4rem, 26vw, 7rem); }
+  .ch-ams .tex { background: none; }
+  .ch-ams .ch-media { margin: 0 calc(var(--m) * -1); }
+  .ams-fighter { inset: 0; width: 100%; height: 100%; left: 0; -webkit-mask-image: linear-gradient(to top, transparent 0, #000 20%); mask-image: linear-gradient(to top, transparent 0, #000 20%); }
+  .ch-ams .dev-phone { left: auto; right: var(--m); bottom: 0; }
+  .dev-phone { width: clamp(118px, 34vw, 170px); border-width: 5px; border-radius: 20px; }
+  .ch-chef .dev-desk, .ch-allenbis .dev-desk, .ch-gotovski .dev-desk { left: 14%; right: 0; top: 0; }
+  .ch-clinic .tex .blossoms { width: 340px; left: -80px; top: -60px; }
+  .ch-clinic .arch { left: 8%; right: 8%; bottom: -52px; }
+  .ch-clinic .dev-desk { left: 20%; right: 0; top: 16%; }
+  .ch-allenbis .tag { top: auto; bottom: 30%; right: 0; font-size: 1.05rem; }
+  .ch::after { left: var(--m); }
+
+  .globe-wrap { padding-top: 3.4rem; }
+  .ba .at-h2 { font-size: clamp(2.4rem, 11vw, 3.4rem); }
+  .cta { display: grid; justify-items: start; }
+  .at-contact { display: block; padding-top: 5rem; }
+  .at-contact > * + * { margin-top: 1.4rem; }
+  .at-contact .at-h2 { font-size: clamp(3rem, 15vw, 5rem); }
+  .ct-me { font-size: 1.05rem; }
+  .langs { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .langs li { height: 78px; padding: 10px 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  .ch-in { transform: none !important; }
+  .ch .shade { opacity: 0 !important; }
+  .globe-card img, .fs-row .at-media img { transition: none; }
+}
+
+/* ---------- תפריט נגישות (js/a11y.js) ---------- */
+html.a11y-font-lg { font-size: 118%; }
+html.a11y-font-xl { font-size: 136%; }
+html.a11y-links a { text-decoration: underline !important; text-underline-offset: 3px; }
+html.a11y-readable body, html.a11y-readable button, html.a11y-readable input, html.a11y-readable h1, html.a11y-readable h2, html.a11y-readable h3, html.a11y-readable p, html.a11y-readable a { font-family: Arial, sans-serif !important; letter-spacing: .01em; }
+html.a11y-no-motion *, html.a11y-no-motion *::before, html.a11y-no-motion *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
+html.a11y-focus *:focus { outline: 3px solid var(--pine) !important; outline-offset: 2px !important; }
+.a11y { position: fixed; bottom: 16px; inset-inline-end: 16px; z-index: 95; }
+.a11y__btn { display: grid; place-items: center; cursor: pointer; }
+.a11y__panel { display: none; position: absolute; bottom: 54px; inset-inline-end: 0; width: min(320px, calc(100vw - 32px)); max-height: 70vh; overflow: auto; padding: 16px; border-radius: 2px; background: var(--chalk); color: var(--st-ink); border: 1px solid rgba(15, 58, 45, .3); font-family: var(--st-text); }
+.a11y__panel[data-open="true"], .a11y__panel.is-shown { display: block; }
+.a11y__head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.a11y__head h2 { font-size: 1rem; font-weight: 600; }
+.a11y__close { width: 36px; height: 36px; border-radius: 50%; border: 1px solid rgba(0, 0, 0, .2); background: transparent; color: var(--st-ink); font-size: 1.15rem; cursor: pointer; }
+.a11y__list { display: grid; gap: 6px; }
+.a11y__list button { width: 100%; text-align: start; padding: 10px 12px; border-radius: 2px; border: 1px solid rgba(15, 58, 45, .25); background: transparent; color: var(--st-ink); display: flex; justify-content: space-between; font-family: inherit; font-size: 1rem; cursor: pointer; }
+.a11y__list button[aria-pressed="true"] { background: var(--pine); color: var(--chalk); }
+.a11y__list button[aria-pressed="true"]::after { content: "✓"; }
+.a11y__foot { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; font-size: .9rem; }
+.a11y__foot a, .a11y__reset { color: var(--st-ink); }
+.a11y__reset { background: none; border: 0; text-decoration: underline; font-family: inherit; cursor: pointer; }
+.a11y__panel :focus-visible { outline: 2px solid var(--st-ink); outline-offset: 2px; }

@@ -1,96 +1,131 @@
-/* אטלייה: הכותרת העליונה והתחתונה (tools/header.py) והכפתורים הצפים, אותו דבר בכל העמודים.
-   משטח אחד שחור, טקסט שנהב, צבע משני אחד. הכתום נשאר רק בנקודה של הסימן. */
-@font-face { font-family: "HG Mark"; src: url("../fonts/hg-mark.woff2") format("woff2"); font-weight: 800; font-display: swap; unicode-range: U+20, U+2E, U+44, U+47-49, U+4F-50, U+52-55, U+64, U+67-69, U+6F-70, U+72-75, U+B7; }
-:root { --signal: #ede8df; --signal-ink: #000; --at-bg: #000; --at-fg: #ede8df; --at-mute: #8c877f; --at-line: rgba(237, 232, 223, .14); --at-m: clamp(20px, 4.6vw, 72px); }
-html { scrollbar-gutter: stable; scrollbar-color: rgba(237, 232, 223, .22) #000; }
-body { background: #000; }
+/* הסטודיו: הכותרת העליונה והתחתונה (tools/header.py), פס הפנייה בטלפון, הכפתורים הצפים וכרטיס העוגיות. אותו דבר בכל העמודים.
+   שפת הסטודיו: דיו ירוק-אורן על גיר קריר, וקו כתום אחד (הנקודה של הסימן, הקו והכפתור הראשי).
+   גופנים (SIL OFL 1.1, בתיקייה fonts/b עם קובצי הרישיון): Noto Serif Hebrew צר לכותרות, IBM Plex Sans Hebrew לטקסט.
+   עמוד באנגלית שלא עבר לשפה החדשה (בלי class="st" על body) נשאר עם כותרת כהה, בסוף הקובץ. */
+
+/* ---------- גופנים ---------- */
+@font-face { font-family: "HG Display"; src: url("../fonts/b/noto-serif-hebrew-c.woff2") format("woff2"); font-weight: 400 800; font-display: swap; unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "HG Display"; src: url("../fonts/b/noto-serif-hebrew-c-punct.woff2") format("woff2"); font-weight: 400 800; font-display: swap; unicode-range: U+0020-003F, U+00A0, U+00B7, U+2019, U+201C-201D; }
+@font-face { font-family: "HG Text"; src: url("../fonts/b/plex-he-400.woff2") format("woff2"); font-weight: 300 400; font-display: swap; unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "HG Text"; src: url("../fonts/b/plex-he-500.woff2") format("woff2"); font-weight: 500; font-display: swap; unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "HG Text"; src: url("../fonts/b/plex-he-600.woff2") format("woff2"); font-weight: 600 800; font-display: swap; unicode-range: U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "HG Text"; src: url("../fonts/b/plex-latin-400.woff2") format("woff2"); font-weight: 300 400; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2122, U+2190-2193, U+2212, U+FEFF, U+FFFD; }
+@font-face { font-family: "HG Text"; src: url("../fonts/b/plex-latin-500.woff2") format("woff2"); font-weight: 500; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2122, U+2190-2193, U+2212, U+FEFF, U+FFFD; }
+@font-face { font-family: "HG Text"; src: url("../fonts/b/plex-latin-600.woff2") format("woff2"); font-weight: 600 800; font-display: swap; unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2122, U+2190-2193, U+2212, U+FEFF, U+FFFD; }
+
+/* ---------- צבעים ---------- */
+:root {
+  --chalk: #e8ebe4; --chalk-2: #dfe4dc; --pine: #0f3a2d; --st-ink: #0b231b; --pine-soft: #4c6b5f; --rule: #c3ccc1; --hg-orange: #ff5b1f;
+  --st-display: "HG Display", "HG Text", "Times New Roman", serif;
+  --st-text: "HG Text", system-ui, -apple-system, "Segoe UI", Arial, sans-serif;
+  --at-m: clamp(20px, 4.6vw, 72px);
+  /* הכותרת העליונה: עמוד יכול להחליף את הצבעים (בדף הבית: לפי העולם של הלקוח שמתחת) */
+  --hd-bg: var(--chalk); --hd-fg: var(--pine); --hd-mute: var(--pine-soft); --hd-line: rgba(15, 58, 45, .16); --hd-btn: var(--pine); --hd-btn-ink: var(--chalk);
+}
+html { scrollbar-gutter: stable; scrollbar-color: rgba(15, 58, 45, .35) var(--chalk); }
+body { background: var(--chalk); }
+
+/* ---------- סימן ---------- */
+.top .logo, .ft-mark { display: inline-flex; align-items: center; direction: ltr; font: 600 1.06rem/1 var(--st-text) !important; letter-spacing: .05em; text-decoration: none; white-space: nowrap; }
+.top .logo b, .ft-mark b { display: inline-block; width: .34em; height: .34em; margin: 0 .24em; border-radius: 50%; background: var(--hg-orange); color: transparent; font-size: inherit; overflow: hidden; line-height: 0; transform: translateY(.02em); }
 
 /* ---------- כותרת עליונה ---------- */
-.top { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; gap: clamp(1rem, 2.2vw, 2.4rem); min-height: 76px; padding: 0 var(--at-m); box-sizing: border-box;
-  background: #000; border-bottom: 1px solid transparent; color: var(--at-fg); font-family: "Rubik", system-ui, sans-serif; transition: background-color .5s ease, border-color .5s ease; }
-.top.is-scrolled { border-bottom-color: var(--at-line); }
-.top .logo { font: 800 1.08rem/1 "HG Mark", "Fraunces", Georgia, serif; letter-spacing: .06em; text-decoration: none; direction: ltr; color: var(--at-fg); }
-.top .logo b { color: #ff4f1a; font-weight: inherit; }
+.top { position: sticky; top: 0; z-index: 100; display: flex; align-items: center; gap: clamp(1rem, 2.2vw, 2.4rem); min-height: 72px; padding: 0 var(--at-m); box-sizing: border-box;
+  background: var(--hd-bg); border-bottom: 1px solid transparent; color: var(--hd-fg); font-family: var(--st-text); transition: border-color .4s ease; }
+.top.is-scrolled { border-bottom-color: var(--hd-line); }
+.top .logo { color: var(--hd-fg); }
 .top > .nav, .top > .menu { margin-inline-start: auto; }
-.top .nav { display: none; align-items: center; gap: clamp(1.4rem, 2.4vw, 2.6rem); }
-.top .nav a { position: relative; padding: .5rem 0; font: 400 .92rem/1 "Rubik", system-ui, sans-serif; letter-spacing: .01em; color: rgba(237, 232, 223, .74); text-decoration: none; transition: color .3s ease; }
-.top .nav a:hover, .top .nav a[aria-current] { color: var(--at-fg); }
-.top .nav a[aria-current]::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 1px; background: currentColor; }
-.top .nav .top-lang { font-size: .74rem; letter-spacing: .08em; color: var(--at-mute); }
-.top .top-wa { display: none; align-items: center; min-height: 40px; padding: 0 1.25rem; border-radius: 99px; border: 1px solid rgba(237, 232, 223, .34); background: transparent; color: var(--at-fg);
-  font: 400 .9rem/1 "Rubik", system-ui, sans-serif; text-decoration: none; box-shadow: none; transition: border-color .3s ease, background-color .3s ease; }
-.top .top-wa:hover { border-color: var(--at-fg); background: transparent; box-shadow: none; }
+.top .nav { display: none; align-items: center; gap: clamp(1.3rem, 2.2vw, 2.4rem); }
+.top .nav a { position: relative; padding: .55rem 0; font: 500 .94rem/1 var(--st-text); color: var(--hd-fg); text-decoration: none; opacity: .78; transition: opacity .25s ease; }
+.top .nav a:hover, .top .nav a[aria-current] { opacity: 1; }
+.top .nav a[aria-current]::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 2px; background: var(--hg-orange); }
+.top .nav .top-lang { font-size: .78rem; letter-spacing: .06em; }
+.top .top-wa { display: none; align-items: center; min-height: 42px; padding: 0 1.2rem; border-radius: 2px; border: 0; background: var(--hd-btn); color: var(--hd-btn-ink);
+  font: 600 .9rem/1 var(--st-text); text-decoration: none; transition: background-color .25s ease, color .25s ease; }
+.top .top-wa:hover { background: var(--hg-orange); color: var(--st-ink); }
 .top .menu { position: relative; inset: auto; z-index: auto; display: block; padding: 0; background: none; overflow: visible; color: inherit; }   /* hanoch.css משתמש ב-.menu לתפריט מסך מלא */
 .top .menu::before { content: none; }
 .top .menu > * { filter: none; transform: none; }
 .top .menu summary { list-style: none; width: 44px; height: 44px; box-sizing: border-box; display: grid; place-content: center; gap: 7px; cursor: pointer; margin-inline-end: -10px; }
 .top .menu summary::-webkit-details-marker { display: none; }
-.top .menu summary span { display: block; width: 22px; height: 1px; background: var(--at-fg); transition: transform .3s ease; }
-.top .menu[open] summary span:first-child { transform: translateY(4px) rotate(45deg); }
-.top .menu[open] summary span:last-child { transform: translateY(-4px) rotate(-45deg); }
-.top .menu-sheet { position: fixed; inset: 76px 0 auto 0; display: grid; align-content: start; padding: 1.4rem var(--at-m) 2rem; background: #000; border-bottom: 1px solid var(--at-line); max-height: calc(100dvh - 76px); overflow-y: auto; }
-.top .menu-sheet a, .top .menu-sheet button { padding: .9rem 0; min-height: 44px; box-sizing: border-box; border: 0; background: none; color: var(--at-fg); font: 300 1.7rem/1.2 "Frank Ruhl Libre", serif; text-align: start; text-decoration: none; cursor: pointer; }
-.top .menu-sheet .top-lang, .top .menu-sheet a[href^="tel:"], .top .menu-sheet button { font: 400 1rem/1.4 "Rubik", system-ui, sans-serif; color: var(--at-mute); padding: .6rem 0; }
-.top .menu-sheet .top-lang { margin-top: 1rem; }
-.top .menu-sheet a[aria-current] { color: var(--at-mute); }
-/* וואטסאפ בתפריט: אחרי הקישורים הראשיים, כגלולה מלאה. EN, טלפון ושיחה חוזרת אחריו */
+.top .menu summary span { display: block; width: 24px; height: 2px; background: var(--hd-fg); transition: transform .3s ease; }
+.top .menu[open] summary span:first-child { transform: translateY(4.5px) rotate(45deg); }
+.top .menu[open] summary span:last-child { transform: translateY(-4.5px) rotate(-45deg); }
+.top .menu-sheet { position: fixed; inset: 72px 0 auto 0; display: grid; align-content: start; padding: 1.2rem var(--at-m) 2rem; background: var(--chalk); color: var(--pine); border-top: 3px solid var(--hg-orange);
+  max-height: calc(100dvh - 72px); overflow-y: auto; box-shadow: 0 30px 60px -40px rgba(11, 35, 27, .5); }
+.top .menu-sheet a, .top .menu-sheet button { padding: .7rem 0; min-height: 44px; box-sizing: border-box; border: 0; background: none; color: var(--pine); font: 800 2rem/1.1 var(--st-display); text-align: start; text-decoration: none; cursor: pointer; }
+.top .menu-sheet .top-lang, .top .menu-sheet a[href^="tel:"], .top .menu-sheet button { font: 500 1rem/1.4 var(--st-text); color: var(--pine-soft); padding: .6rem 0; }
+.top .menu-sheet .top-lang { margin-top: .8rem; }
+.top .menu-sheet a[aria-current] { color: var(--pine-soft); }
 .top .menu-sheet > .top-lang, .top .menu-sheet > a[href^="tel:"], .top .menu-sheet > button { order: 2; }
-.top .menu-sheet .menu-wa { order: 1; justify-self: start; display: inline-flex; align-items: center; margin: 1.4rem 0 .6rem; padding: 0 1.8rem; min-height: 50px; border-radius: 99px;
-  background: var(--at-fg); color: #000; font: 500 1rem/1 "Rubik", system-ui, sans-serif; }
-.top :focus-visible, .ft :focus-visible { outline: 2px solid var(--at-fg); outline-offset: 4px; }
+.top .menu-sheet .menu-wa { order: 1; justify-self: start; display: inline-flex; align-items: center; margin: 1.2rem 0 .6rem; padding: 0 1.8rem; min-height: 54px; border-radius: 2px;
+  background: var(--hg-orange); color: var(--st-ink); font: 600 1.05rem/1 var(--st-text); }
+.top :focus-visible, .ft :focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.top .menu-sheet :focus-visible { outline-color: var(--pine); }
 @media (min-width: 900px) {
   .top .nav { display: flex; }
   .top .top-wa { display: inline-flex; }
   .top .menu { display: none; }
 }
 
-/* ---------- כותרת תחתונה: שורה אחת ---------- */
-.ft { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem clamp(1.4rem, 3vw, 3rem); margin: 0; padding: clamp(2.4rem, 6vh, 4rem) var(--at-m) calc(clamp(2.4rem, 6vh, 4rem) + 56px); border-top: 1px solid var(--at-line);
-  background: #000; color: var(--at-mute); font: 400 .86rem/1.4 "Rubik", system-ui, sans-serif; max-width: none; width: auto; box-sizing: border-box; }
+/* ---------- כותרת תחתונה: שורה אחת על דיו ---------- */
+.ft { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem clamp(1.4rem, 3vw, 3rem); margin: 0; padding: clamp(2.2rem, 5vh, 3.4rem) var(--at-m); border-top: 0;
+  background: var(--st-ink); color: rgba(232, 235, 228, .78); font: 400 .9rem/1.4 var(--st-text); max-width: none; width: auto; box-sizing: border-box; }
 .ft::before { content: none; }
-.ft a { color: inherit; text-decoration: none; display: inline-flex; align-items: center; min-height: 32px; transition: color .3s ease; }
-.ft a:hover { color: var(--at-fg); }
-.ft-mark { font: 800 .95rem/1 "HG Mark", "Fraunces", Georgia, serif !important; letter-spacing: .06em; color: var(--at-fg) !important; direction: ltr; }
-.ft-mark b { color: #ff4f1a; font-weight: inherit; }
+.ft a { color: inherit; text-decoration: none; display: inline-flex; align-items: center; min-height: 36px; transition: color .25s ease; }
+.ft a:hover { color: var(--chalk); }
+.ft-mark { color: var(--chalk) !important; font-size: .98rem !important; }
 .ft-reach, .ft-nav { display: flex; flex-wrap: wrap; gap: .2rem clamp(1rem, 2vw, 1.8rem); margin: 0; }
 .ft-nav { margin-inline-start: auto; }
 @media (max-width: 720px) { .ft { flex-direction: column; align-items: flex-start; } .ft-nav { margin-inline-start: 0; } }
 
-/* ---------- כפתורי הנגישות והצ'אט: קטנים ושקטים ---------- */
+/* ---------- כפתורי הנגישות והצ'אט ---------- */
 body .a11y { bottom: 16px; inset-inline-end: 16px; }
-body .a11y__btn, body .ht-btn { width: 40px !important; height: 40px !important; border-radius: 50% !important; background: #000 !important; color: rgba(237, 232, 223, .86) !important;
-  border: 1px solid rgba(237, 232, 223, .26) !important; box-shadow: none !important; transition: border-color .3s ease, color .3s ease; }
-body .a11y__btn:hover, body .ht-btn:hover { border-color: rgba(237, 232, 223, .7) !important; color: var(--at-fg) !important; box-shadow: none !important; }
+body .a11y__btn, body .ht-btn { width: 42px !important; height: 42px !important; border-radius: 50% !important; background: var(--chalk) !important; color: var(--pine) !important;
+  border: 1px solid rgba(15, 58, 45, .35) !important; box-shadow: 0 6px 18px -10px rgba(11, 35, 27, .45) !important; transition: border-color .25s ease; }
+body .a11y__btn:hover, body .ht-btn:hover { border-color: var(--pine) !important; }
 body .a11y__btn svg { width: 19px; height: 19px; }
 body .ht-btn { bottom: 16px; inset-inline-start: 16px; }
 body .ht-btn svg { width: 17px; height: 17px; }
-body .a11y__btn:focus-visible, body .ht-btn:focus-visible { outline: 2px solid var(--at-fg) !important; outline-offset: 3px; }
+body .a11y__btn:focus-visible, body .ht-btn:focus-visible { outline: 2px solid var(--pine) !important; outline-offset: 3px; }
 @media (max-width: 899px) { body .ht-btn { display: grid !important; } body .a11y { bottom: calc(14px + env(safe-area-inset-bottom)); inset-inline-end: 14px; } }
 .menu-open .a11y, .menu-open .ht-btn { visibility: hidden; }
 
+/* ---------- כרטיס העוגיות (js/consent.js מזריק את המבנה; כאן רק המראה) ---------- */
+body .consent { background: var(--chalk); color: var(--st-ink); border: 1px solid rgba(15, 58, 45, .28); border-top: 3px solid var(--hg-orange); box-shadow: 0 18px 40px -24px rgba(11, 35, 27, .55); font-family: var(--st-text); }
+body .consent__text { color: #34493f; }
+body .consent__text a { color: var(--pine); }
+body .consent__btn { border-radius: 2px; border-color: rgba(15, 58, 45, .45); color: var(--pine); font-weight: 500; }
+body .consent__btn:hover { border-color: var(--pine); }
+body .consent__btn[data-choice="yes"] { background: var(--pine); border-color: var(--pine); color: var(--chalk); }
+body .consent__btn:focus-visible, body .consent__text a:focus-visible { outline: 2px solid var(--pine); }
+
 /* ---------- פס פנייה בטלפון (tools/header.py, js/chrome.js) ----------
-   וואטסאפ בצד של האגודל (ימין בעברית), חיוג לידו. כפתורי הנגישות והצ'אט והודעת העוגיות יושבים מעליו */
+   וואטסאפ בכתום בצד של האגודל (ימין בעברית), חיוג לידו */
 .dock { display: none; }
 @media (max-width: 899px) {
   .dock { position: fixed; z-index: 96; inset: auto 0 0 0; display: flex; gap: 8px; padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
-    background: #000; border-top: 1px solid var(--at-line); transition: transform .45s cubic-bezier(.22, .61, .2, 1); }
+    background: var(--chalk); border-top: 1px solid rgba(15, 58, 45, .18); transition: transform .45s cubic-bezier(.22, .61, .2, 1); }
   html[dir="ltr"] .dock { flex-direction: row-reverse; }
-  .dock a { flex: 1 1 0; display: inline-flex; align-items: center; justify-content: center; min-height: 48px; border-radius: 99px; text-decoration: none;
-    font: 500 1rem/1 "Rubik", system-ui, sans-serif; letter-spacing: .01em; }
-  .dock .dock-wa { flex-grow: 1.5; background: var(--at-fg); color: #000; }
-  .dock .dock-call { border: 1px solid rgba(237, 232, 223, .34); color: var(--at-fg); }
-  .dock a:focus-visible { outline: 2px solid var(--at-fg); outline-offset: 3px; }
+  .dock a { flex: 1 1 0; display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 48px; border-radius: 2px; text-decoration: none; font: 600 1rem/1 var(--st-text); }
+  .dock .dock-wa { flex-grow: 1.5; background: var(--hg-orange); color: var(--st-ink); }
+  .dock .dock-call { border: 1px solid rgba(15, 58, 45, .45); color: var(--pine); }
+  .dock a:focus-visible { outline: 2px solid var(--pine); outline-offset: 3px; }
   .dock.is-wait:not(.is-on) { transform: translateY(105%); }
   .dock.is-wait:not(.is-on) a { visibility: hidden; transition: visibility 0s .45s; }
   .menu-open .dock { visibility: hidden; }
   body:has(.dock) .a11y { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
   body:has(.dock) .ht-btn { bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important; }
-  /* הודעת העוגיות (js/consent.js) יושבת צמוד מעל הפס, וכפתורי הנגישות והצ'אט עולים מעליה בזמן שהיא פתוחה */
   body:has(.dock) .consent { bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important; }
   body:has(.dock):has(.consent:not([hidden])) .a11y, body:has(.dock):has(.consent:not([hidden])) .ht-btn { bottom: calc(148px + env(safe-area-inset-bottom, 0px)) !important; }
-  body:has(.dock) .ft { padding-bottom: calc(clamp(2.4rem, 6vh, 4rem) + 136px + env(safe-area-inset-bottom, 0px)); }
+  body:has(.dock) .ft { padding-bottom: calc(clamp(2.2rem, 5vh, 3.4rem) + 72px + env(safe-area-inset-bottom, 0px)); }
 }
-@media (prefers-reduced-motion: reduce) { .dock { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .dock, .top, .top .menu summary span { transition: none; } }
 
 /* ---------- ניגודיות גבוהה מתפריט הנגישות ---------- */
-html.a11y-contrast { --at-mute: #d6d1c8; --at-line: rgba(237, 232, 223, .5); }
+html.a11y-contrast { --pine-soft: #23392f; --hd-mute: var(--pine); --rule: #6d7d72; }
+
+/* ---------- עמודים באנגלית שעוד לא עברו לשפה החדשה: כותרת ופס כהים, כמו לפני ---------- */
+html[lang="en"] body:not(.st) { --hd-bg: #000; --hd-fg: #ede8df; --hd-mute: #8c877f; --hd-line: rgba(237, 232, 223, .14); --hd-btn: #ede8df; --hd-btn-ink: #000; background: #000; }
+html[lang="en"] body:not(.st) .top .menu-sheet { background: #000; color: #ede8df; }
+html[lang="en"] body:not(.st) .top .menu-sheet a { color: #ede8df; font-family: var(--st-text); font-weight: 400; }

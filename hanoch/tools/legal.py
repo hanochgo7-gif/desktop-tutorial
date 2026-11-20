@@ -2,7 +2,7 @@
 # מריצים: python3 tools/legal.py  (כותב לשורש האתר את privacy/terms/refunds + en-*)
 # לא ייעוץ משפטי. טיוטה לבדיקה של עורך דין ישראלי, לא נוסח מאושר.
 import os
-from header import header, footer
+from header import header, footer, studio_head
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 UPDATED = {'he': '18 בנובמבר 2026', 'en': 'November 18, 2026'}
@@ -50,6 +50,11 @@ def foot(he, cur):
     return f'<nav class="doc-foot" aria-label="{T("מידע משפטי", "Legal")}">' + ''.join(out) + '</nav>'
 
 
+# עמודים בעברית: שפת הסטודיו (css/head.css, css/page.css). באנגלית: העיצוב הקודם, כמו שאר האתר באנגלית
+def OLD_FONTS(preload): return preload + '<link rel="stylesheet" href="css/fonts.css">\n'
+OLD_CSS = '<link rel="stylesheet" href="css/hanoch.css">\n' + STYLE + '\n<link rel="stylesheet" href="css/head.css?v=4">'
+
+
 def page(lang, file, other, title, desc, h1, body):
     he = lang == 'he'
     T = (lambda a, b: a) if he else (lambda a, b: b)
@@ -67,19 +72,16 @@ def page(lang, file, other, title, desc, h1, body):
 <link rel="alternate" hreflang="he" href="https://hgpro.io/{hrefs['he']}">
 <link rel="alternate" hreflang="en" href="https://hgpro.io/{hrefs['en']}">
 <link rel="alternate" hreflang="x-default" href="https://hgpro.io/{hrefs['he']}">
-{preload}<link rel="stylesheet" href="css/fonts.css">
-<link rel="icon" href="images/icon-180.png">
+{OLD_FONTS(preload) if not he else ''}<link rel="icon" href="images/icon-180.png">
 <link rel="apple-touch-icon" href="images/icon-180.png">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="stylesheet" href="css/hanoch.css">
-{STYLE}
-<link rel="stylesheet" href="css/head.css?v=4">
+{studio_head('') if he else OLD_CSS}
 <script src="js/consent.js?v=6" defer></script>
 <script src="js/adcode.js" defer></script>
 <script src="js/ga.js" defer></script>
 <script src="js/meta.js" defer></script>
 </head>
-<body>
+<body{' class="st"' if he else ''}>
 <a class="skip" href="#main">{T('דלגו לתוכן', 'Skip to content')}</a>
 {header('', 'https://wa.me/972545522053', '', he)}
 <main class="doc" id="main">
