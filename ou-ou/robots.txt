@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+# TODO: להוסיף Sitemap: https://<domain>/sitemap.xml אחרי חיבור הדומיין
