@@ -37,7 +37,7 @@ body { background: #000; }
 .top .menu-sheet > .top-lang, .top .menu-sheet > a[href^="tel:"], .top .menu-sheet > button { order: 2; }
 .top .menu-sheet .menu-wa { order: 1; justify-self: start; display: inline-flex; align-items: center; margin: 1.4rem 0 .6rem; padding: 0 1.8rem; min-height: 50px; border-radius: 99px;
   background: var(--at-fg); color: #000; font: 500 1rem/1 "Rubik", system-ui, sans-serif; }
-.top :focus-visible, .ft :focus-visible { outline: 1px solid var(--at-fg); outline-offset: 4px; }
+.top :focus-visible, .ft :focus-visible { outline: 2px solid var(--at-fg); outline-offset: 4px; }
 @media (min-width: 900px) {
   .top .nav { display: flex; }
   .top .top-wa { display: inline-flex; }
@@ -64,7 +64,7 @@ body .a11y__btn:hover, body .ht-btn:hover { border-color: rgba(237, 232, 223, .7
 body .a11y__btn svg { width: 19px; height: 19px; }
 body .ht-btn { bottom: 16px; inset-inline-start: 16px; }
 body .ht-btn svg { width: 17px; height: 17px; }
-body .a11y__btn:focus-visible, body .ht-btn:focus-visible { outline: 1px solid var(--at-fg) !important; outline-offset: 3px; }
+body .a11y__btn:focus-visible, body .ht-btn:focus-visible { outline: 2px solid var(--at-fg) !important; outline-offset: 3px; }
 @media (max-width: 899px) { body .ht-btn { display: grid !important; } body .a11y { bottom: calc(14px + env(safe-area-inset-bottom)); inset-inline-end: 14px; } }
 .menu-open .a11y, .menu-open .ht-btn { visibility: hidden; }
 
@@ -79,12 +79,15 @@ body .a11y__btn:focus-visible, body .ht-btn:focus-visible { outline: 1px solid v
     font: 500 1rem/1 "Rubik", system-ui, sans-serif; letter-spacing: .01em; }
   .dock .dock-wa { flex-grow: 1.5; background: var(--at-fg); color: #000; }
   .dock .dock-call { border: 1px solid rgba(237, 232, 223, .34); color: var(--at-fg); }
-  .dock a:focus-visible { outline: 1px solid var(--at-fg); outline-offset: 3px; }
+  .dock a:focus-visible { outline: 2px solid var(--at-fg); outline-offset: 3px; }
   .dock.is-wait:not(.is-on) { transform: translateY(105%); }
   .dock.is-wait:not(.is-on) a { visibility: hidden; transition: visibility 0s .45s; }
   .menu-open .dock { visibility: hidden; }
   body:has(.dock) .a11y { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
   body:has(.dock) .ht-btn { bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important; }
+  /* הודעת העוגיות (js/consent.js) יושבת צמוד מעל הפס, וכפתורי הנגישות והצ'אט עולים מעליה בזמן שהיא פתוחה */
+  body:has(.dock) .consent { bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important; }
+  body:has(.dock):has(.consent:not([hidden])) .a11y, body:has(.dock):has(.consent:not([hidden])) .ht-btn { bottom: calc(148px + env(safe-area-inset-bottom, 0px)) !important; }
   body:has(.dock) .ft { padding-bottom: calc(clamp(2.4rem, 6vh, 4rem) + 136px + env(safe-area-inset-bottom, 0px)); }
 }
 @media (prefers-reduced-motion: reduce) { .dock { transition: none; } }

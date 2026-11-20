@@ -1,6 +1,6 @@
 /* דף הבית, הפתיחה "לפני. אחרי.": האתר הקודם של ש. גוטובסקי נבנה מחדש על מסך הטלפון (CSS, css/atelier.css),
    ואחר כך האתר החדש נגלל לבד כמו אגודל: ארבע עצירות, מהפתיחה ועד יצירת הקשר, ונעצר.
-   כאן: הגלילה בטלפון, כפתור השהיה (WCAG 2.2.2), "לראות שוב", והרצה אחת נוספת כשחוזרים לפתיחה.
+   כאן: הגלילה בטלפון, כפתור השהיה (WCAG 2.2.2) ו"לראות שוב".
    התמונות של הגלילה נטענות רק אחרי שהעמוד נטען. מי שביקש פחות תנועה מקבל לפני ואחרי סטטיים, בלי כל זה.
    בנוסף: היועץ (assistant.js) נטען רק אחרי מגע ראשון או כמה שניות, כדי שהמסך הראשון יהיה קל. */
 (function () {
@@ -24,7 +24,7 @@
   var saver = !!(navigator.connection && navigator.connection.saveData);
   var H = +strip.dataset.h, STOPS = strip.dataset.stops.split(' ').map(Number);
   var MOVE = 1100, HOLD = 1400;
-  var scroll = null, timer = 0, waitScroll = false, running = false, paused = false, ready = false, loading = false, again = 0, away = false;
+  var scroll = null, timer = 0, waitScroll = false, running = false, paused = false, ready = false, loading = false;
 
   /* ---------- התמונות של האתר החדש לכל האורך ---------- */
   function load(cb) {
@@ -106,14 +106,7 @@
   }
 
   pauseB.addEventListener('click', function () { setPaused(!paused); });
-  replayB.addEventListener('click', function () { away = false; replay(); });
-
-  // חוזרים לפתיחה אחרי שיצאה מהמסך: היא רצה עוד פעם אחת בלבד בביקור
-  if ('IntersectionObserver' in window) new IntersectionObserver(function (es) {
-    var e = es[es.length - 1];
-    if (!e.isIntersecting) { if (!running) away = true; return; }
-    if (away && !running && again < 1 && !still()) { again++; away = false; replay(); }
-  }, { threshold: 0 }).observe(stage);
+  replayB.addEventListener('click', replay);
 
   // מתפריט הנגישות אפשר לעצור את כל התנועה באמצע: הגלילה נעצרת והמסך עובר ללפני ואחרי הסטטיים
   new MutationObserver(function () {

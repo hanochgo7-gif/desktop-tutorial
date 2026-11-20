@@ -576,7 +576,7 @@ def render(p):
 <link rel="stylesheet" href="{up}css/inner.css?v=5">
 <link rel="stylesheet" href="{up}css/head.css?v=4">
 <script type="application/ld+json">{ld}</script>
-<script src="{up}js/consent.js?v=5" defer></script>
+<script src="{up}js/consent.js?v=6" defer></script>
 <script src="{up}js/adcode.js" defer></script>
 <script src="{up}js/ga.js" defer></script>
 <script src="{up}js/meta.js" defer></script>
@@ -666,7 +666,7 @@ def hub(lang):
 <link rel="stylesheet" href="{up}css/head.css?v=4">
 <script type="application/ld+json">{ld}</script>
 {SLASH}
-<script src="{up}js/consent.js?v=5" defer></script>
+<script src="{up}js/consent.js?v=6" defer></script>
 <script src="{up}js/adcode.js" defer></script>
 <script src="{up}js/ga.js" defer></script>
 <script src="{up}js/meta.js" defer></script>

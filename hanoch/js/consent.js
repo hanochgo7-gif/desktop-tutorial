@@ -51,7 +51,12 @@
     'background:transparent;color:#ede8df;font:inherit;font-weight:400;font-size:.86rem;cursor:pointer;white-space:nowrap;transition:border-color .3s ease}' +
     '.consent__btn:hover{border-color:#ede8df}' +
     '.consent__btn:focus-visible,.consent__text a:focus-visible{outline:1px solid #ede8df;outline-offset:3px}' +
-    '.menu-open .consent,.case-open .consent{visibility:hidden}';
+    '.menu-open .consent,.case-open .consent{visibility:hidden}' +
+    '.consent__short{display:none}' +
+    // טלפון: שורה אחת קומפקטית מעל הפס התחתון (כ-64px), עם נוסח קצר ונכון וקישור לפרטיות
+    '@media (max-width:699px){.consent{display:flex;align-items:center;gap:.6rem;width:auto;inset-inline:10px;padding:.5rem .55rem .5rem .8rem;font-size:.8rem;line-height:1.35}' +
+    '.consent[hidden]{display:none}.consent__long{display:none}.consent__short{display:inline}.consent__text{flex:1 1 auto;min-width:0}' +
+    '.consent__actions{flex:none;gap:.4rem}.consent__btn{flex:none;min-height:40px;padding:0 .75rem;font-size:.8rem}}';
 
   var box = null;
   function build() {
@@ -60,10 +65,11 @@
     box.className = 'consent';
     box.setAttribute('aria-label', T('הסכמה לעוגיות', 'Cookie consent'));
     box.innerHTML =
-      '<p class="consent__text">' + T(
+      '<p class="consent__text"><span class="consent__long">' + T(
         'Google Analytics ו-Google Ads נטענים רק אם תאשרו. בלי אישור לא נשלח להם כלום.',
-        'Google Analytics and Google Ads load only if you agree. Without it, nothing is sent to them.') +
-      ' <a href="' + ROOT + T('privacy.html', 'en-privacy.html') + '#cookies">' + T('מדיניות הפרטיות', 'Privacy policy') + '</a></p>' +
+        'Google Analytics and Google Ads load only if you agree. Without it, nothing is sent to them.') + '</span>' +
+      '<span class="consent__short">' + T('כלי המדידה של Google נטענים רק אם תאשרו.', 'Google measurement loads only if you agree.') + '</span>' +
+      ' <a href="' + ROOT + T('privacy.html', 'en-privacy.html') + '#cookies"><span class="consent__long">' + T('מדיניות הפרטיות', 'Privacy policy') + '</span><span class="consent__short">' + T('פרטיות', 'Privacy') + '</span></a></p>' +
       '<div class="consent__actions">' +
         '<button type="button" class="consent__btn" data-choice="yes">' + T('לאשר', 'Allow') + '</button>' +
         '<button type="button" class="consent__btn" data-choice="no">' + T('בלי עוגיות', 'No cookies') + '</button>' +

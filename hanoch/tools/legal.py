@@ -74,7 +74,7 @@ def page(lang, file, other, title, desc, h1, body):
 <link rel="stylesheet" href="css/hanoch.css">
 {STYLE}
 <link rel="stylesheet" href="css/head.css?v=4">
-<script src="js/consent.js?v=5" defer></script>
+<script src="js/consent.js?v=6" defer></script>
 <script src="js/adcode.js" defer></script>
 <script src="js/ga.js" defer></script>
 <script src="js/meta.js" defer></script>

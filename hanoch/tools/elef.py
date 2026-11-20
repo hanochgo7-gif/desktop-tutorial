@@ -167,7 +167,7 @@ def page(lang):
 <link rel="stylesheet" href="../css/fonts.css">
 <link rel="preload" as="image" href="media/s8-poster.webp" fetchpriority="high">
 <style>{CSS}</style>
-{SLASH if lang == 'he' else ''}<script src="../js/consent.js?v=5" defer></script>
+{SLASH if lang == 'he' else ''}<script src="../js/consent.js?v=6" defer></script>
 <script src="../js/adcode.js" defer></script>
 <script src="../js/ga.js" defer></script>
 <script src="../js/meta.js" defer></script>

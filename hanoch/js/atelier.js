@@ -63,6 +63,16 @@
     loops.forEach(function (v) { lio.observe(v); });
   }
 
+  /* ---------- תמונות מתחת למסך הראשון: נטענות רק כשהן מתקרבות ----------
+     (הדפדפן טוען תמונות "עצלות" כבר כמה מסכים מראש. כאן הן מוסתרות עד שהן במרחק מסך אחד) */
+  var near = [].slice.call(d.querySelectorAll('[data-near]'));
+  if ('IntersectionObserver' in window) {
+    var nio = new IntersectionObserver(function (es) {
+      es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('is-near'); nio.unobserve(e.target); } });
+    }, { rootMargin: '100% 0px 100% 0px' });
+    near.forEach(function (el) { nio.observe(el); });
+  } else near.forEach(function (el) { el.classList.add('is-near'); });
+
   /* ---------- עבודות: הקלטת הגלילה של כל אתר מתנגנת רק כשרוב המסך שלה נראה ----------
      הסרטון נטען רק בפעם הראשונה שהוא מגיע למסך. כפתור קטן בפינה עוצר אותו (WCAG 2.2.2) */
   var screens = [].slice.call(d.querySelectorAll('.wk-screen video[data-src]'));
@@ -98,7 +108,9 @@
   [].forEach.call(d.querySelectorAll('.ba-range'), function (r) {
     var scr = r.closest('.ba-screen'), touched = false;
     var set = function (v) { scr.style.setProperty('--cut', v + '%'); };
-    r.addEventListener('input', function () { touched = true; set(r.value); });
+    var say = function () { r.setAttribute('aria-valuetext', r.value + '% מהאתר החדש'); };
+    r.addEventListener('input', function () { touched = true; set(r.value); say(); });
+    say();
     set(r.value);
     if (still() || !('IntersectionObserver' in window)) return;
     var hint = new IntersectionObserver(function (es) {

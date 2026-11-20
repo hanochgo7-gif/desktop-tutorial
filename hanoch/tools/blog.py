@@ -176,7 +176,7 @@ def head(title, desc, url, img, extra=''):
 <link rel="stylesheet" href="../css/inner.css?v=5">
 <link rel="stylesheet" href="../css/head.css?v=4">
 {extra}
-<script src="../js/consent.js?v=5" defer></script>
+<script src="../js/consent.js?v=6" defer></script>
 <script src="../js/adcode.js" defer></script>
 <script src="../js/ga.js" defer></script>
 <script src="../js/meta.js" defer></script>
