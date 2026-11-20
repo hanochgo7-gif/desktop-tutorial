@@ -456,7 +456,7 @@
       });
     });
     on(shareBtn, 'click', function () {
-      var c = CARDS[cur], text = 'בחרתי בשקט: ' + c[0] + ' או ' + c[1] + '? תנחשו מה אני יותר?', url = location.href.split('#')[0] + '#draw';
+      var c = CARDS[cur], text = 'בחרתי בשקט: ' + c[0] + ' או ' + c[1] + '? מכירים אותי? תנחשו מה בחרתי', url = location.href.split('#')[0] + '#draw';
       if (navigator.share) navigator.share({ text: text, url: url }).catch(function () {});
       else window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text + '\n' + url), '_blank', 'noopener');
     });

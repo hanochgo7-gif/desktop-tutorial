@@ -5,7 +5,7 @@
 window.OUOU_CONFIG = {
   product: {
     id: 'ou-ou-classic',
-    name: 'או או | מה אתה יותר?',
+    name: 'או או | מכירים אותי?',
     price: 140, // ₪, סופי (עוסק פטור — ללא מע"מ)
     maxPerOrder: 50
   },

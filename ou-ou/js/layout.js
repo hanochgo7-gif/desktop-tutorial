@@ -47,7 +47,7 @@
       '<div><h2 class="foot__h">מידע</h2>' +
         '<p><a href="terms.html">תקנון, משלוחים וביטולים</a></p><p><a href="privacy.html">מדיניות פרטיות</a></p>' +
         '<p><a href="accessibility.html">הצהרת נגישות</a></p><p><button type="button" class="linkbtn" data-consent-open hidden>הגדרות עוגיות</button></p></div>' +
-    '</div><p class="wrap foot__c">© <span data-year></span> או או | מה אתה יותר?</p></footer>' +
+    '</div><p class="wrap foot__c">© <span data-year></span> או או | מכירים אותי?</p></footer>' +
     '<a class="wa" data-wa-link href="#" aria-label="שאלה בוואטסאפ"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.7.3a2.8 2.8 0 0 0-.9 2.1 4.9 4.9 0 0 0 1 2.6 11.2 11.2 0 0 0 4.3 3.8c1.6.7 2.2.7 3 .6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></svg></a>';
 
   var steps = function (n) {
@@ -64,7 +64,7 @@
     '</ul>';
   var qtyRow =
     '<div class="line"><div class="line__thumb" aria-hidden="true">' + '<img src="brand/symbol.svg" alt="" width="44" height="40">' + '</div>' +
-    '<div class="line__info"><b>או או | מה אתה יותר?</b><span><span data-price>140</span> ₪ ליחידה · קופסה לקבוצה של עד <span dir="ltr">35</span></span></div>' +
+    '<div class="line__info"><b>או או | מכירים אותי?</b><span><span data-price>140</span> ₪ ליחידה · קופסה לקבוצה של עד <span dir="ltr">35</span></span></div>' +
     '<div class="qty qty--sm" role="group" aria-label="כמות"><button type="button" data-cart-qty="+1" aria-label="הוספת יחידה">+</button><output data-cart-qty-out aria-live="polite">1</output><button type="button" data-cart-qty="-1" aria-label="הורדת יחידה">−</button></div></div>';
   var field = function (id, name, label, attrs, hint) {
     return '<div class="field field--full" data-field="' + name + '"><label for="' + id + '">' + label + '</label>' +
