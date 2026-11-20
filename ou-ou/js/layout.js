@@ -16,7 +16,8 @@
       return '<a href="' + n[0] + '"' + (n[2] === page ? ' aria-current="page"' : '') + '>' + n[1] + '</a>';
     }).join('');
   }
-  var mark = '<span class="mark__a">או</span> <span class="mark__b">או</span>';
+  var sym = '<svg class="mark__sym" viewBox="0 0 40 40" aria-hidden="true"><g transform="rotate(-12 14 22)"><rect x="5" y="6" width="17" height="26" rx="3.5" fill="#fff" stroke="#dcf1f5" stroke-width="1.5"/><rect x="7.5" y="8.5" width="12" height="10" rx="1.5" fill="#5cc6da"/><rect x="7.5" y="20" width="12" height="9.5" rx="1.5" fill="#c3db5b"/></g><g transform="rotate(10 26 20)"><rect x="17" y="5" width="17" height="26" rx="3.5" fill="#fff" stroke="#dcf1f5" stroke-width="1.5"/><rect x="19.5" y="7.5" width="12" height="10" rx="1.5" fill="#5cc6da"/><rect x="19.5" y="19" width="12" height="9.5" rx="1.5" fill="#c3db5b"/></g></svg>';
+  var mark = sym + '<span class="mark__a">או</span> <span class="mark__b">או</span>';
 
   var header =
     '<header class="top" id="top"><div class="wrap top__in">' +

@@ -107,8 +107,8 @@ section { padding-block: clamp(64px, 9vw, 120px); }
 .card--tilt-a { transform: translate(-50%, -50%) translateX(-150px) translateY(18px) rotate(-13deg); }
 .card--tilt-b { transform: translate(-50%, -50%) translateY(-14px) rotate(1deg); z-index: 2; }
 .card--tilt-c { transform: translate(-50%, -50%) translateX(150px) translateY(18px) rotate(12deg); }
-.hero__art:hover .card--tilt-a { transform: translate(-50%, -50%) translateX(-166px) translateY(22px) rotate(-16deg); }
-.hero__art:hover .card--tilt-c { transform: translate(-50%, -50%) translateX(166px) translateY(22px) rotate(15deg); }
+.hero__art.is-spread .card--tilt-a { transform: translate(-50%, -50%) translateX(-166px) translateY(22px) rotate(-16deg); }
+.hero__art.is-spread .card--tilt-c { transform: translate(-50%, -50%) translateX(166px) translateY(22px) rotate(15deg); }
 .votes { position: absolute; bottom: 4%; inset-inline-start: 8%; display: flex; gap: 10px; transform: rotate(-8deg); }
 .vote { width: 54px; height: 76px; border-radius: 8px; box-shadow: var(--shadow); }
 .vote--blue { background: var(--blue); transform: rotate(-6deg); }
@@ -307,9 +307,7 @@ input:focus, select:focus, textarea:focus { outline: none; border-color: var(--b
   .wa { width: 50px; height: 50px; bottom: 14px; inset-inline-end: 14px; }
   .last__in .btn { width: 100%; }
 }
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; }
-}
+/* reduced motion: see the Motion system section at the end */
 
 /* =========================================================
    Platform additions: menu, page heroes, video, business, consent, print
@@ -418,3 +416,144 @@ body.menu-open { overflow: hidden; }
   .steps li::before { display: inline; font-size: 1.2rem; margin-inline-end: 8px; }
   section { padding: 0; }
 }
+
+/* =========================================================
+   Motion system
+   Calm brand: elegant, unhurried on rare moments, crisp on UI feedback.
+   Only transform / opacity / clip-path / filter animate.
+   ========================================================= */
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --t-press: 140ms;
+  --t-ui: 220ms;
+}
+
+/* ---- press feedback on everything pressable ---- */
+.btn, .cartbtn, .menubtn, .x, .qty button, .pick, .tabs [role="tab"], .cues li, .radio, .linkbtn {
+  transition: transform var(--t-press) var(--ease-out), background-color var(--t-ui) ease, color var(--t-ui) ease, box-shadow var(--t-ui) ease, border-color var(--t-ui) ease, opacity var(--t-ui) ease;
+}
+.btn:active, .cartbtn:active, .menubtn:active, .x:active, .qty button:active, .tabs [role="tab"]:active, .cues li:active, .radio:active { transform: scale(0.97); }
+.pick:active { transform: scale(0.98); }
+@media (hover: hover) and (pointer: fine) {
+  .btn--main:hover { box-shadow: 0 12px 26px -12px rgba(18, 52, 74, .75); }
+  .pick:hover { transform: translateY(-2px); }
+  .who__item, .opt, .why__item { transition: transform 320ms var(--ease-out), box-shadow 320ms var(--ease-out); }
+  .who__item:hover, .opt:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+}
+
+/* ---- hero: cards are dealt into the fan, copy rises in ---- */
+.fan { transition: transform 600ms var(--ease-out); transform-style: preserve-3d; }
+.fan .card { transition: transform 900ms var(--ease-out), opacity 500ms ease; }
+.js .hero:not(.is-in) .fan .card { transform: translate(-50%, -50%) translateY(40px) rotate(0deg) scale(0.94); opacity: 0; }
+.js .hero:not(.is-in) .card--tilt-b { transform: translate(-50%, -50%) translateY(40px) rotate(0deg) scale(0.94); }
+.hero.is-in .card--tilt-b { transition-delay: 120ms; }
+.hero.is-in .card--tilt-a { transition-delay: 260ms; }
+.hero.is-in .card--tilt-c { transition-delay: 340ms; }
+.votes .vote { transition: transform 700ms var(--ease-out), opacity 400ms ease; }
+.js .hero:not(.is-in) .vote { transform: translateY(24px) rotate(0); opacity: 0; }
+.hero.is-in .vote--blue { transition-delay: 560ms; }
+.hero.is-in .vote--green { transition-delay: 640ms; }
+.hero.is-settled .fan .card, .hero.is-settled .vote { transition-delay: 0ms; }
+.js .hero:not(.is-in) .hero__copy > * { opacity: 0; transform: translateY(14px); }
+.hero__copy > * { transition: opacity 700ms ease, transform 800ms var(--ease-out); }
+.hero.is-in .hero__copy > :nth-child(2) { transition-delay: 70ms; }
+.hero.is-in .hero__copy > :nth-child(3) { transition-delay: 140ms; }
+.hero.is-in .hero__copy > :nth-child(4) { transition-delay: 210ms; }
+.hero.is-in .hero__copy > :nth-child(5) { transition-delay: 280ms; }
+/* the two voting cards take turns "raising", like a vote — slow, quiet, decorative */
+@keyframes raise-blue { 0%, 70%, 100% { translate: 0 0; } 80%, 88% { translate: 0 -18px; } }
+@keyframes raise-green { 0%, 30%, 60%, 100% { translate: 0 0; } 40%, 48% { translate: 0 -18px; } }
+.hero.is-settled .vote--blue { animation: raise-blue 6s var(--ease-in-out) infinite; }
+.hero.is-settled .vote--green { animation: raise-green 6s var(--ease-in-out) infinite; }
+
+/* ---- scroll reveals (JS adds data-reveal; content is visible without JS) ---- */
+.js [data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity 650ms ease, transform 750ms var(--ease-out); transition-delay: var(--d, 0ms); }
+.js [data-reveal].is-in { opacity: 1; transform: none; }
+.js .vid__frame[data-reveal], .js .box[data-reveal] { transform: none; clip-path: inset(12% 0 12% 0 round 28px); transition: opacity 650ms ease, clip-path 900ms var(--ease-out); }
+.js .vid__frame[data-reveal].is-in, .js .box[data-reveal].is-in { clip-path: inset(0 0 0 0 round 28px); }
+
+/* ---- pull-a-card: a real flip with weight ---- */
+.bigcard { transition: transform 760ms var(--ease-in-out); }
+.bigcard.is-shuffle { animation: none; }
+.bigcard__front .pick, .bigcard__front .card__or { transition: opacity 260ms ease, transform var(--t-press) var(--ease-out), box-shadow var(--t-ui) ease; }
+.bigcard.is-swap .bigcard__front .pick, .bigcard.is-swap .bigcard__front .card__or { opacity: 0; filter: blur(2px); }
+.pick[aria-pressed="true"] { transform: translateY(-3px); }
+.draw__status { transition: opacity 260ms ease, transform 320ms var(--ease-out); }
+.draw__status.is-swap { opacity: 0; transform: translateY(6px); }
+.stack-hint { position: absolute; inset: 0; border-radius: 20px; background: var(--white); box-shadow: inset 0 0 0 10px var(--blue-soft), inset 0 0 0 12px var(--blue); transform: translate(10px, 10px) rotate(3deg); z-index: -1; opacity: .7; }
+.bigcard__shadow { position: absolute; inset: 0; border-radius: 20px; z-index: -2; background: var(--white); box-shadow: inset 0 0 0 10px var(--blue-soft); transform: translate(18px, 18px) rotate(6deg); opacity: .45; }
+
+/* ---- tabs: one pill that slides between options ---- */
+.tabs { position: relative; isolation: isolate; }
+.tabs__pill { position: absolute; top: 5px; bottom: 5px; left: 0; width: 0; border-radius: 999px; background: var(--ink); z-index: -1; transition: transform 380ms var(--ease-out), width 380ms var(--ease-out); }
+.tabs.has-pill [aria-selected="true"] { background: transparent; }
+.panel:not([hidden]) { animation: panel-in 380ms var(--ease-out); }
+@keyframes panel-in { from { opacity: 0; transform: translateY(8px); filter: blur(2px); } }
+.panel .steps li { animation: step-in 520ms var(--ease-out) backwards; }
+.panel .steps li:nth-child(2) { animation-delay: 50ms; } .panel .steps li:nth-child(3) { animation-delay: 100ms; }
+.panel .steps li:nth-child(4) { animation-delay: 150ms; } .panel .steps li:nth-child(5) { animation-delay: 200ms; }
+@keyframes step-in { from { opacity: 0; transform: translateY(10px); } }
+
+/* ---- FAQ: answers open smoothly where supported ---- */
+.faq details { interpolate-size: allow-keywords; }
+.faq details::details-content { block-size: 0; overflow: hidden; opacity: 0; transition: block-size 340ms var(--ease-out), opacity 260ms ease, content-visibility 340ms allow-discrete; }
+.faq details[open]::details-content { block-size: auto; opacity: 1; }
+.faq summary::after { transition: transform 300ms var(--ease-out); }
+
+/* ---- cart drawer: enters with an iOS-like curve, leaves faster ---- */
+.drawer { animation: none; transition: transform 420ms var(--ease-drawer); }
+@starting-style { .drawer { transform: translateX(-100%); } }
+.drawer.is-closing { transform: translateX(-100%); transition-duration: 220ms; transition-timing-function: var(--ease-out); }
+.scrim { animation: none; transition: opacity 320ms ease; }
+@starting-style { .scrim { opacity: 0; } }
+.scrim.is-closing { opacity: 0; transition-duration: 200ms; }
+.drawer [data-view]:not([hidden]) { animation: view-in 300ms var(--ease-out); }
+@keyframes view-in { from { opacity: 0; transform: translateX(-10px); } }
+.cartbtn__n.is-bump { animation: bump 420ms var(--ease-out); }
+@keyframes bump { 30% { transform: scale(1.35); } }
+.done__h { animation: done-in 600ms var(--ease-out) 80ms backwards; }
+@keyframes done-in { from { opacity: 0; transform: translateY(10px) scale(.98); } }
+
+/* ---- mobile menu ---- */
+.mnav { transition: opacity 260ms ease, transform 320ms var(--ease-out); }
+@starting-style { .mnav { opacity: 0; transform: translateY(-8px); } }
+.mnav a { animation: step-in 420ms var(--ease-out) backwards; }
+.mnav a:nth-child(2) { animation-delay: 40ms; } .mnav a:nth-child(3) { animation-delay: 80ms; }
+.mnav a:nth-child(4) { animation-delay: 120ms; } .mnav a:nth-child(5) { animation-delay: 160ms; }
+
+/* ---- toast + consent ---- */
+.toast { animation: none; transition: opacity 240ms ease, transform 320ms var(--ease-out); }
+@starting-style { .toast { opacity: 0; transform: translate(-50%, 12px); } }
+.consent { transition: opacity 300ms ease, transform 400ms var(--ease-out); }
+@starting-style { .consent { opacity: 0; transform: translateY(16px); } }
+
+/* ---- how-to-play: caption timing bars follow the video ---- */
+.cues li { position: relative; overflow: hidden; }
+.cues li::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 3px; background: var(--blue-deep); transform: scaleX(var(--p, 0)); transform-origin: right; opacity: 0; transition: opacity 200ms ease; }
+.cues li:nth-child(even)::after { background: var(--green-deep); }
+.cues li.is-on::after { opacity: 1; }
+
+/* ---- whatsapp bubble arrives late and quietly ---- */
+.wa { transition: transform 500ms var(--ease-out), opacity 400ms ease; }
+.js .wa:not(.is-in) { opacity: 0; transform: translateY(16px) scale(.94); }
+
+/* ---- reduced motion: keep fades that aid comprehension, drop movement ---- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
+  .js [data-reveal], .js .hero:not(.is-in) .hero__copy > *, .js .hero:not(.is-in) .fan .card, .js .hero:not(.is-in) .vote, .js .wa:not(.is-in) { opacity: 1 !important; transform: none !important; clip-path: none !important; }
+  .js .hero .fan .card { opacity: 1; }
+  .bigcard { transition: none; }
+  .bigcard__front { transform: none; backface-visibility: visible; }
+  .bigcard:not(.is-open) .bigcard__front { display: none; }
+  .bigcard.is-open .bigcard__back { display: none; }
+  .bigcard.is-open { transform: none; }
+}
+
+/* brand symbol (from the Canva logo): two fanned cards beside the wordmark */
+.mark { display: inline-flex; align-items: center; gap: 6px; }
+.mark__sym { width: 34px; height: 34px; flex: none; transition: transform 500ms var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .mark:hover .mark__sym { transform: rotate(-6deg) scale(1.06); } }
+.mark--card .mark__sym { display: none; }

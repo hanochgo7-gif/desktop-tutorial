@@ -128,13 +128,23 @@
     $('[data-drawer-title]').textContent = titles[name];
   }
   function openDrawer(name) {
+    clearTimeout(closeT); drawer.classList.remove('is-closing'); scrim.classList.remove('is-closing');
     lastFocus = document.activeElement;
     view(name || 'cart');
     drawer.hidden = false; scrim.hidden = false; document.body.style.overflow = 'hidden';
     setTimeout(function () { ($('[data-view]:not([hidden]) input, [data-view]:not([hidden]) button', drawer) || $('.x', drawer)).focus(); }, 30);
   }
+  var closeT;
   function closeDrawer() {
-    drawer.hidden = true; scrim.hidden = true; document.body.style.overflow = '';
+    if (drawer.hidden || drawer.classList.contains('is-closing')) return;
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    drawer.classList.add('is-closing'); scrim.classList.add('is-closing');
+    document.body.style.overflow = '';
+    clearTimeout(closeT);
+    closeT = setTimeout(function () {
+      drawer.hidden = true; scrim.hidden = true;
+      drawer.classList.remove('is-closing'); scrim.classList.remove('is-closing');
+    }, reduce ? 0 : 220);
     if (lastFocus && lastFocus.focus) lastFocus.focus();
   }
   $$('[data-open-cart]').forEach(function (b) { on(b, 'click', function () { openDrawer('cart'); }); });
