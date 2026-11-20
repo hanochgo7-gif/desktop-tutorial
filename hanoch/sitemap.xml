@@ -5,7 +5,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/"/>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>1.0</priority>
     <image:image><image:loc>https://hgpro.io/work/og-home.jpg</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/creation/poster.webp</image:loc></image:image>
@@ -25,7 +25,7 @@
     <xhtml:link rel="alternate" hreflang="he" href="https://hgpro.io/work.html"/>
     <xhtml:link rel="alternate" hreflang="en" href="https://hgpro.io/en-work.html"/>
     <xhtml:link rel="alternate" hreflang="x-default" href="https://hgpro.io/work.html"/>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
     <image:image><image:loc>https://hgpro.io/work/og-work.jpg</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/cinema/gotovski.webp</image:loc></image:image>
@@ -36,6 +36,16 @@
     <image:image><image:loc>https://hgpro.io/work/cinema/elef.webp</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/cinema/fragrance.webp</image:loc></image:image>
     <image:image><image:loc>https://hgpro.io/work/cinema/mashkanta.webp</image:loc></image:image>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/elef.webp</video:thumbnail_loc><video:title>אֶלֶף · שמן זית מהגליל</video:title><video:description>פרסומת קולנועית של דקה למותג בדיוני של שמן זית, שנוצרה בבינה מלאכותית על ידי HG Studio.</video:description><video:content_loc>https://hgpro.io/work/film/elef.mp4</video:content_loc><video:duration>60</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>פרסומת בושם של 20 שניות למותג קונספט של הסטודיו, שנוצרה בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>20</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/studio-night.webp</video:thumbnail_loc><video:title>אתר שלא נסגר בשבע</video:title><video:description>פרסומת אנכית ל-HG Studio שנוצרה בבינה מלאכותית, עם מסכים אמיתיים מאתרי לקוחות.</video:description><video:content_loc>https://hgpro.io/work/film/studio-night.mp4</video:content_loc><video:duration>32</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hgtravels.webp</video:thumbnail_loc><video:title>HG TRAVELS · פרסומת למותג קונספט של חופשות סקי</video:title><video:description>פרסומת אנכית שנוצרה בבינה מלאכותית למותג קונספט של הסטודיו.</video:description><video:content_loc>https://hgpro.io/work/film/hgtravels.mp4</video:content_loc><video:duration>38</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hgr-the-fall.webp</video:thumbnail_loc><video:title>HG Fragrance · הנפילה</video:title><video:description>מותג קונספט של הסטודיו. גבר בחליפה שחורה נופל מהשמיים מעל העיר, נוחת בענן אבק ליד מכונית עם הבקבוק על הגג, והולך.</video:description><video:content_loc>https://hgpro.io/work/film/hgr-the-fall.mp4</video:content_loc><video:duration>19</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hgr-the-edit.webp</video:thumbnail_loc><video:title>HG Fragrance · העריכה</video:title><video:description>מותג קונספט של הסטודיו. עריכה מהירה: גברים בפשתן בשחור־לבן, הבקבוק באור כחול, רחוב אדום וזוג.</video:description><video:content_loc>https://hgpro.io/work/film/hgr-the-edit.mp4</video:content_loc><video:duration>13</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hgr-four-seasons.webp</video:thumbnail_loc><video:title>HG Fragrance · ארבע עונות</video:title><video:description>מותג קונספט של הסטודיו. קמפיין אופנה: גברים בפשתן על רקע בטון, בקבוק אחד בארבעה אורות.</video:description><video:content_loc>https://hgpro.io/work/film/hgr-four-seasons.mp4</video:content_loc><video:duration>13</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hgr-after-dark.webp</video:thumbnail_loc><video:title>HG Fragrance · אחרי החשכה</video:title><video:description>מותג קונספט של הסטודיו. רחוב אדום אחרי הגשם, הבקבוק בידיים וזוג באור חם. הלילה רק מתחיל.</video:description><video:content_loc>https://hgpro.io/work/film/hgr-after-dark.mp4</video:content_loc><video:duration>8</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hgr-by-the-fire.webp</video:thumbnail_loc><video:title>HG Fragrance · ליד האח</video:title><video:description>מותג קונספט של הסטודיו. גבר במעיל שחור מחזיק את Nocturne ליד אח בהרים, ואז עומד מול חלון מעל השלג.</video:description><video:content_loc>https://hgpro.io/work/film/hgr-by-the-fire.mp4</video:content_loc><video:duration>5</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
+    <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hgr-the-tower.webp</video:thumbnail_loc><video:title>HG Fragrance · המגדל</video:title><video:description>מותג קונספט של הסטודיו. מתחת למגדל זכוכית ושמיים כחולים, גבר במעיל ארוך נוגע בצווארון והולך.</video:description><video:content_loc>https://hgpro.io/work/film/hgr-the-tower.mp4</video:content_loc><video:duration>4</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/anigibor/trailer.webp</video:thumbnail_loc><video:title>אני גיבור · המשימה לירח העוגה</video:title><video:description>טריילר עם קריינות לסרט אנימציה אישי מתוך אני גיבור, מוצר שתכננתי ובניתי. הילדים בדוגמאות נוצרו בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/anigibor/trailer.mp4</video:content_loc><video:duration>30</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/tours/ext.webp</video:thumbnail_loc><video:title>סיור מבחוץ</video:title><video:description>סיור וידאו שנוצר בבינה מלאכותית לפרויקט מגורים בשלבי שיווק: הבניין, המעגנה, הבריכה והגג.</video:description><video:content_loc>https://hgpro.io/work/tours/ext.mp4</video:content_loc><video:duration>51</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/tours/int.webp</video:thumbnail_loc><video:title>סיור מבפנים</video:title><video:description>סיור וידאו שנוצר בבינה מלאכותית בכל חדרי הדירה ברצף. הרהיטים והחומרים רעיוניים.</video:description><video:content_loc>https://hgpro.io/work/tours/int.mp4</video:content_loc><video:duration>107</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
@@ -85,106 +95,106 @@
   </url>
   <url>
     <loc>https://hgpro.io/services/website-building.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/web-design.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/landing-page.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/online-store.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/seo.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/ai-commercial.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/elef.webp</video:thumbnail_loc><video:title>אֶלֶף · שמן זית מהגליל</video:title><video:description>פרסומת קולנועית של דקה למותג בדיוני של שמן זית, שנוצרה בבינה מלאכותית על ידי HG Studio.</video:description><video:content_loc>https://hgpro.io/work/film/elef.mp4</video:content_loc><video:duration>60</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>פרסומת בושם של 20 שניות למותג קונספט של הסטודיו, שנוצרה בבינה מלאכותית.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>20</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>
     <loc>https://hgpro.io/services/social-media.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/ai-chatbot.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/wix-migration.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/brand-identity.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/web-design-studio.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/ai-commercial-production.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/elef.webp</video:thumbnail_loc><video:title>Elef · Galilee olive oil</video:title><video:description>A one minute cinematic commercial for a fictional olive oil brand, made with AI.</video:description><video:content_loc>https://hgpro.io/work/film/elef-en.mp4</video:content_loc><video:duration>60</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
     <video:video><video:thumbnail_loc>https://hgpro.io/work/film/hg.webp</video:thumbnail_loc><video:title>HG · Unforgettable</video:title><video:description>A 20 second fragrance commercial for a studio concept brand, made with AI.</video:description><video:content_loc>https://hgpro.io/work/film/hg.mp4</video:content_loc><video:duration>20</video:duration><video:family_friendly>yes</video:family_friendly></video:video>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/social-media-for-business.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/website-design.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/landing-page-design.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/ecommerce-store.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/seo-services.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/ai-customer-agent.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/wix-wordpress-migration.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://hgpro.io/services/en/brand-identity-design.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
@@ -194,49 +204,49 @@
   </url>
   <url>
     <loc>https://hgpro.io/blog/ai-video-ad-for-business.html</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/ai-video-ad-for-business.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/blog/google-business-profile.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/google-business-profile.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/blog/website-speed.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/website-speed.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/blog/seo-for-small-business.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/seo-for-small-business.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/blog/how-to-choose-web-designer.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/how-to-choose-web-designer.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/blog/landing-page-that-converts.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/landing-page-that-converts.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/blog/how-much-does-a-website-cost.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/how-much-does-a-website-cost.webp</image:loc></image:image>
   </url>
   <url>
     <loc>https://hgpro.io/blog/wix-vs-custom-website.html</loc>
-    <lastmod>2026-11-09</lastmod>
+    <lastmod>2026-11-20</lastmod>
     <priority>0.6</priority>
     <image:image><image:loc>https://hgpro.io/blog/img/wix-vs-custom-website.webp</image:loc></image:image>
   </url>
