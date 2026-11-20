@@ -130,6 +130,8 @@ body .consent__btn:focus-visible, body .consent__text a:focus-visible { outline:
   /* כפתורי הנגישות והצ'אט יושבים בתוך שורת הפס, בקצה, ולא מעל הטקסט */
   body:has(.dock) .a11y { z-index: 97; bottom: calc(11px + env(safe-area-inset-bottom, 0px)); inset-inline-end: 12px; }
   body:has(.dock) .ht-btn { z-index: 97; bottom: calc(11px + env(safe-area-inset-bottom, 0px)) !important; inset-inline-start: auto !important; inset-inline-end: 64px !important; }
+  /* בטלפון בועת ההזמנה של הצ'אט לא קופצת מעל הטקסט; הכפתור עצמו נשאר בפס */
+  body:has(.dock) .ht-hint { display: none !important; }
   /* העוגיות: שורה אחת לכל הרוחב, צמודה מעל הפס (או בתחתית, כשהפס עוד מחכה) */
   body:has(.dock) .consent { inset-inline: 0 !important; bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important; border-radius: 0; padding: .45rem 12px .45rem 12px; }
   body:has(.dock.is-wait:not(.is-on)) .consent { bottom: 0 !important; }

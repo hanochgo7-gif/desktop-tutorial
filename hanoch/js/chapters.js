@@ -154,11 +154,43 @@
   var stackEls = stack ? [].slice.call(stack.children) : [];
     var stacked = matchMedia('(min-width: 900px) and (min-height: 680px)');
   var HDR = 36, ticking = false;
+  var chs = [].slice.call(d.querySelectorAll('.ch'));
+
+  /* AMS: רצף הפריימים של המתאמן (13 תמונות קטנות) נטען רק כשהפרק מתקרב, ואז הגלילה בוחרת פריים */
+  var amsImg = d.querySelector('.ams-frame'), amsTicks = amsImg ? [].slice.call(d.querySelectorAll('.ams-ticks i')) : [], frames = [], amsAt = -1;
+  if (amsImg && 'IntersectionObserver' in window) {
+    var fio = new IntersectionObserver(function (es) {
+      if (!es[0].isIntersecting) return; fio.disconnect();
+      if (still()) return;
+      frames = amsImg.dataset.frames.split(' ').map(function (src) { var i = new Image(); i.decoding = 'async'; i.src = src; return i; });
+    }, { rootMargin: '100% 0px' });
+    fio.observe(amsImg);
+  }
+  function amsFrame(p) {
+    if (!frames.length) return;
+    var k = Math.round(clamp(p, 0, 1) * (frames.length - 1));
+    if (k === amsAt || !frames[k].complete || !frames[k].naturalWidth) return;
+    amsAt = k; amsImg.src = frames[k].src;
+    amsTicks.forEach(function (t, i) { t.classList.toggle('on', i === k); });
+  }
+  /* --p לכל פרק: 0 כשהוא נכנס, .5 כשהוא מלא על המסך, 1 כשהוא יוצא (או כשהבא כיסה אותו) */
+  function progress(vh) {
+    chs.forEach(function (c) {
+      var p = .5;
+      if (!still()) {
+        if (stacked.matches) p = clamp((vh - (flowTop(c) - scrollY)) / (2 * vh), 0, 1);
+        else { var r = c.getBoundingClientRect(); p = clamp((vh - r.top) / (vh + r.height), 0, 1); }
+      }
+      c.style.setProperty('--p', p.toFixed(4));
+      if (c.classList.contains('ch-ams')) amsFrame(p);
+    });
+  }
   function onScroll() {
     if (ticking) return; ticking = true;
     requestAnimationFrame(function () {
       ticking = false;
       var vh = innerHeight;
+      progress(vh);
       if (stacked.matches && !still()) {
         stackEls.forEach(function (el, i) {
           var nx = stackEls[i + 1]; if (!nx) return;

@@ -206,84 +206,130 @@ html.motion:not(.a11y-no-motion) .hx-field:not(.is-live) .w-old .cap-what { disp
 .ix-allenbis .ix-name { font-family: "C Secular", var(--st-display); }
 .ix-gotovski .ix-name { font-family: "C Noto Sans", var(--st-display); font-weight: 600; font-size: 2.1rem; }
 
-/* ---------- פרק ---------- */
-.ch { position: relative; overflow: hidden; isolation: isolate; }
+/* בדף הבית בועת ההזמנה של הצ'אט לא קופצת מעל העבודות (הכפתור עצמו נשאר) */
+body.b-home .ht-hint { display: none !important; }
+
+/* ---------- פרק: מסגרת משותפת. כל לקוח מקבל רשת, טיפול בתמונה ותנועה משלו (למטה) ----------
+   --p: כמה מהפרק עבר (0 כשהוא נכנס מלמטה, .5 כשהוא מלא על המסך, 1 כשהבא כיסה אותו). js/chapters.js */
+.ch { position: relative; overflow: hidden; isolation: isolate; --p: .5; }
 .ch::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--hg-orange); z-index: 5; }
 .ch .tex { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
 .ch .shade { position: absolute; inset: 0; background: var(--shade, #000); opacity: calc(var(--out, 0) * .45); pointer-events: none; z-index: 6; }
-.ch-in { position: relative; height: 100%; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 72px); padding: 112px var(--m) 64px; }
-.ch-text { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; min-width: 0; }
-.who { display: flex; flex-direction: column; gap: 8px; align-self: stretch; padding-bottom: 20px; margin-bottom: 28px; border-bottom: 1px solid color-mix(in srgb, currentColor 24%, transparent); font-weight: 400; }
+.ch-in { position: relative; height: 100%; display: grid; gap: clamp(24px, 4vw, 64px); padding: 104px var(--m) 48px; }
+.ch-in > div[class$="-text"], .cl-right, .cl-left { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; min-width: 0; position: relative; z-index: 2; }
+.who { display: flex; flex-direction: column; gap: 8px; align-self: stretch; padding-bottom: 18px; margin-bottom: 24px; border-bottom: 1px solid color-mix(in srgb, currentColor 24%, transparent); font-weight: 400; }
 .who-what { font: 500 .95rem/1.4 var(--st-text); opacity: .8; letter-spacing: 0; }
-.quote { margin: 0 0 26px; }
-.quote blockquote { margin: 0; }
-.quote blockquote p { margin: 0; }
-.voice-src { margin-bottom: .7rem; font: 500 .86rem/1.3 var(--st-text); opacity: .78; }
-.ch-out { max-width: 30rem; font-size: 1.12rem; line-height: 1.6; }
-.ch-links { display: flex; flex-wrap: wrap; gap: 0 1.6rem; margin-top: 12px; font-weight: 500; }
-.ch-text > .pal { margin-top: 26px; width: 120px; height: 10px; }
-.ch-media { position: relative; min-width: 0; min-height: 0; }
-.dev { position: absolute; overflow: hidden; background: #fff; }
-.dev img, .dev video { width: 100%; height: 100%; object-fit: cover; object-position: top center; }
-.dev picture { display: contents; }
-.wk-screen img, .wk-screen video { position: absolute; inset: 0; }
-.wk-screen video { opacity: 0; transition: opacity .6s ease; }
-.wk-screen video.is-on { opacity: 1; }
-.dev-phone { width: clamp(150px, 14vw, 220px); aspect-ratio: 480 / 1039; border-radius: 26px; border: 7px solid #0d0f0e; box-shadow: 0 30px 60px -28px rgba(0, 0, 0, .6); z-index: 2; }
-.dev-desk { box-shadow: 0 30px 70px -40px rgba(0, 0, 0, .65); }
-.wk-play { position: absolute; z-index: 2; top: 10px; inset-inline-start: 10px; width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .6);
-  background: rgba(0, 0, 0, .62); color: #fff; cursor: pointer; }
-.wk-play:hover { background: #000; }
-.wk-play:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
-.wk-play svg { width: 13px; height: 13px; }
-.wk-play .i-play, .wk-play[aria-pressed="true"] .i-pause { display: none; }
-.wk-play[aria-pressed="true"] .i-play { display: block; }
-.js [data-near]:not(.is-near) img { display: none; }
+.ch-out { max-width: 30rem; font-size: 1.1rem; line-height: 1.6; }
+.ch-links { display: flex; flex-wrap: wrap; gap: 0 1.6rem; margin-top: 10px; font-weight: 500; }
+.ch .pal { margin-top: 22px; width: 120px; height: 10px; }
+.ch figure { margin: 0; }
+.ch img { max-width: none; }
+.js [data-near]:not(.is-near) img { visibility: hidden; }
+.wk-play { display: none; }
 
-/* AMS: כרזת קרב */
-.ch-ams .voice { font: 700 clamp(5.2rem, 10vw, 10.4rem)/.82 "C Karantina", var(--st-display); color: #f2ece0; letter-spacing: .005em; }
+/* ---------- AMS: כרזת קרב. רצף הפריימים של המתאמן זז עם הגלילה, ו-AMS ענק בורח מהמסגרת ---------- */
+.ch-ams .ch-in { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-areas: "text plate"; }
+.ams-text { grid-area: text; }
+.ch-ams .voice { font: 700 clamp(4.4rem, min(7.6vw, 13vh), 8.4rem)/.84 "C Karantina", var(--st-display); color: #f2ece0; letter-spacing: .005em; }
 .ch-ams .voice span { color: #c9a45c; }
 .ch-ams .who { border-color: #a6844966; }
-.ams-fighter { position: absolute; top: -112px; bottom: -64px; right: 0; left: calc(var(--m) * -1); width: calc(100% + var(--m)); height: calc(100% + 176px); max-width: none; object-fit: cover; object-position: 50% 30%;
-  -webkit-mask-image: linear-gradient(to left, transparent 0, #000 26%); mask-image: linear-gradient(to left, transparent 0, #000 26%); }
-.ch-ams .dev-phone { left: 6%; bottom: 2%; border-color: #1f1810; outline: 1px solid #a6844955; }
 .ch-ams .ch-link:hover { text-decoration-color: #c9a45c; }
+.ams-giant { position: absolute; z-index: 0; left: -3vw; bottom: -9vh; direction: ltr; font: 600 min(52vh, 34vw)/.8 var(--st-text); letter-spacing: .02em; color: transparent; -webkit-text-stroke: 1px rgba(201, 164, 92, .38);
+  transform: translateX(calc((var(--p) - .5) * -12vw)); pointer-events: none; white-space: nowrap; }
+.ams-plate { grid-area: plate; position: relative; z-index: 1; align-self: center; justify-self: center; width: min(64vh, 40vw, 600px); padding: 12px; border: 1px solid rgba(201, 164, 92, .5); background: #0c0906;
+  transform: translateY(calc((.5 - var(--p)) * 40px)); }
+.ams-plate::before { content: ""; position: absolute; inset: 5px; border: 1px solid rgba(201, 164, 92, .22); pointer-events: none; }
+.ams-frame { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+.ams-ticks { display: flex; gap: 6px; margin-top: 12px; }
+.ams-ticks i { flex: 1; height: 3px; background: rgba(201, 164, 92, .25); }
+.ams-ticks i.on { background: #c9a45c; }
+.ams-card { position: absolute; z-index: 2; left: calc(var(--m) + 1vw); bottom: 7vh; width: clamp(130px, 12vw, 190px); transform: rotate(-5deg) translateY(calc((.5 - var(--p)) * 90px)); box-shadow: 0 0 0 1px rgba(201, 164, 92, .6), 0 30px 50px -20px #000; }
+.ams-card img { display: block; width: 100%; height: auto; }
 
-/* בר ליפשיץ: כרטיס תפריט */
+/* ---------- בר ליפשיץ: כרטיס תפריט, וצלחות שמסתובבות למקום ---------- */
 .ch-chef { --shade: #1a080d; }
-.ch-chef .voice { font: 700 clamp(2.5rem, 4.4vw, 4.2rem)/1.1 "C Bona", var(--st-display); }
+.ch-chef .ch-in { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+.ch-chef .voice { font: 700 clamp(2.4rem, 4.2vw, 4rem)/1.12 "C Bona", var(--st-display); }
 .ch-chef .who-what { color: #cccfc3; opacity: 1; }
-.ch-chef .dev-desk { right: 4%; left: 14%; top: 6%; aspect-ratio: 1200 / 750; height: auto; border-radius: 2px; background: #2b1219; outline: 1px solid #f3f2ec33; outline-offset: 10px; }
-.ch-chef .dev-phone { left: 0; bottom: 4%; border-color: #1a0a0f; }
+.chef-table { position: relative; min-height: 0; }
+.menu-card { position: absolute; z-index: 2; top: 50%; left: 50%; width: clamp(230px, 21vw, 320px); padding: 38px 30px 28px; transform: translate(-50%, -50%) rotate(calc((var(--p) - .5) * 6deg));
+  background: #f3f2ec; color: #3b1a23; text-align: center; box-shadow: inset 0 0 0 8px #f3f2ec, inset 0 0 0 9px #3b1a2344, inset 0 0 0 12px #f3f2ec, inset 0 0 0 13px #3b1a2322, 0 40px 60px -30px #000; }
+.menu-h { font: 700 clamp(2rem, 2.6vw, 2.6rem)/1 "C Bona", var(--st-display); }
+.menu-list { margin: 18px 0 16px; display: grid; }
+.menu-list li { padding: 12px 0; border-top: 1px solid #3b1a2333; font: 700 1.35rem/1.1 "C Bona", var(--st-display); }
+.menu-list li:last-child { border-bottom: 1px solid #3b1a2333; }
+.menu-f { font: 500 .78rem/1.3 var(--st-text); color: #6b4a52; }
+.plate { position: absolute; z-index: 1; width: clamp(140px, 15vw, 240px); height: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 7px #f3f2ec, 0 0 0 8px #d8d3c8, 0 30px 40px -20px rgba(0, 0, 0, .8);
+  transform: rotate(calc((var(--p) - .5) * var(--spin, 40deg))); }
+.plate-open { top: 7%; left: 13%; --spin: -50deg; }
+.plate-cold { top: 12%; right: 13%; --spin: 36deg; }
+.plate-hot { bottom: 8%; left: 9%; --spin: 44deg; }
+.plate-sweet { bottom: 12%; right: 17%; --spin: -30deg; width: clamp(120px, 11.5vw, 190px); }
 
-/* רותם גוטובסקי: אוויר וקשת */
+/* ---------- רותם גוטובסקי: שכבות רכות. קשת אחת עם האתר, ומאחוריה הפריחה והמדף שזזים לאט ---------- */
 .ch-clinic { --shade: #3d3132; }
-.ch-clinic .tex .blossoms { position: absolute; left: -120px; top: -150px; width: min(720px, 52vw); color: #d9a39c; opacity: .32; }
-.ch-clinic .voice { font: 400 clamp(2.4rem, 4vw, 3.8rem)/1.2 "C Bellefair", var(--st-display); color: #3d3132; }
-.ch-clinic .voice u { text-decoration: none; color: #a8434a; background: linear-gradient(#b9545a, #b9545a) 0 92% / 100% 2px no-repeat; }
+.ch-clinic .ch-in { grid-template-columns: minmax(0, 4.6fr) minmax(0, 4.2fr) minmax(0, 3fr); }
+.ch-clinic .tex .blossoms { position: absolute; left: -120px; top: -150px; width: min(720px, 52vw); color: #d9a39c; opacity: .3; }
+.ch-clinic .voice { font: 400 clamp(2.1rem, 3.1vw, 3.1rem)/1.22 "C Bellefair", var(--st-display); color: #3d3132; }
+.ch-clinic .voice u { white-space: nowrap; text-decoration: none; color: #a8434a; background: linear-gradient(#b9545a, #b9545a) 0 92% / 100% 2px no-repeat; }
 .ch-clinic .who { border-color: #3d313233; }
 .ch-clinic .ch-out { color: #4d3f41; }
-.ch-clinic .arch { position: absolute; left: 12%; right: 16%; top: 2%; bottom: -64px; background: #e6c1bb; border-radius: 999px 999px 0 0; }
-.ch-clinic .dev-desk { left: 24%; right: 4%; top: 22%; aspect-ratio: 1200 / 750; height: auto; border-radius: 14px; box-shadow: 0 24px 50px -30px rgba(80, 40, 40, .45); }
-.ch-clinic .dev-phone { left: 6%; bottom: 3%; border-color: #3d3132; border-radius: 30px; }
 .ch-clinic .ch-link:hover { text-decoration-color: #b9545a; }
+.cl-stage { position: relative; min-height: 0; }
+.cl-layer { position: absolute; display: block; overflow: hidden; }
+.cl-layer img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top center; }
+.cl-arch { z-index: 3; left: 50%; top: 50%; width: min(290px, 21vw); aspect-ratio: 300 / 520; border-radius: 999px 999px 26px 26px; transform: translate(-50%, calc(-50% + (.5 - var(--p)) * 30px));
+  box-shadow: 0 0 0 10px #f2e8e3, 0 0 0 11px #e6c1bb, 0 40px 60px -34px rgba(80, 40, 40, .5); background: #fff; }
+.cl-bloom { z-index: 1; left: -8%; top: 2%; width: 64%; aspect-ratio: 380 / 470; border-radius: 999px 999px 0 0; opacity: .92; transform: translateY(calc((var(--p) - .5) * -90px)); }
+.cl-shelf { z-index: 2; right: -6%; bottom: 5%; width: 78%; aspect-ratio: 800 / 170; border-radius: 18px; transform: translateY(calc((var(--p) - .5) * 70px)); box-shadow: 0 24px 40px -26px rgba(80, 40, 40, .45); }
 
-/* אלנביס: חנות לילה */
-.ch-allenbis .voice { font: 400 clamp(3rem, 5.4vw, 5.2rem)/1.04 "C Secular", var(--st-display); color: #e9eef8; }
+/* ---------- אלנביס: שלט ניאון ומדפים שזזים לצדדים כמו במקרר ---------- */
+.ch-allenbis .ch-in { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: auto 1fr; grid-template-areas: "text sign" "text shelves"; row-gap: 22px; }
+.al-text { grid-area: text; }
+.ch-allenbis .voice { font: 400 clamp(3rem, 5.2vw, 5rem)/1.04 "C Secular", var(--st-display); color: #e9eef8; }
 .ch-allenbis .neon { color: #0a0e1d; -webkit-text-stroke: 2px #ff4f9a; text-shadow: 0 0 6px rgba(255, 79, 154, .35); }
 .ch-allenbis .who { border-color: #1b4396; }
-.ch-allenbis .dev-desk { left: 10%; right: 2%; top: 6%; aspect-ratio: 1200 / 750; height: auto; border: 3px solid #1b4396; border-radius: 14px; outline: 2px solid #ffffff22; outline-offset: 6px; background: #0a0e1d; }
-.ch-allenbis .tag { position: absolute; right: -1%; top: calc(6% + (88% * 750 / 1200) - 20px); z-index: 3; background: #ffd21f; color: #0a0e1d; font: 400 1.35rem/1 "C Secular", var(--st-display); padding: 12px 18px 12px 26px; clip-path: polygon(14px 0, 100% 0, 100% 100%, 14px 100%, 0 50%); }
-.ch-allenbis .dev-phone { left: 0; bottom: 2%; border-color: #1b4396; }
 .ch-allenbis .ch-link:hover { text-decoration-color: #ffd21f; }
+.al-sign { grid-area: sign; position: relative; justify-self: center; align-self: end; width: min(460px, 32vw); border: 3px solid #1b4396; border-radius: 14px; overflow: hidden; background: #050814; }
+.al-sign img { display: block; width: 100%; height: auto; }
+.al-sign .tag { position: absolute; left: -2px; bottom: 14px; background: #ffd21f; color: #0a0e1d; font: 400 1.1rem/1 "C Secular", var(--st-display); padding: 9px 14px 9px 20px; clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 50%, calc(100% - 12px) 100%, 0 100%); }
+.al-shelves { grid-area: shelves; align-self: start; display: grid; gap: 10px; padding: 12px; border: 3px solid #1b4396; border-radius: 14px; background: #070b18; overflow: hidden; }
+.shelf { overflow: hidden; border-bottom: 3px solid #1b4396; padding-bottom: 8px; direction: ltr; }
+.shelf:last-child { border-bottom: 0; padding-bottom: 0; }
+.shelf-run { display: flex; width: max-content; }
+.shelf-run img { display: block; height: clamp(80px, 13.5vh, 136px); width: auto; }
+.shelf-1 .shelf-run, .shelf-3 .shelf-run { transform: translateX(calc(-8% - var(--p) * 22%)); }
+.shelf-2 .shelf-run { transform: translateX(calc(-30% + var(--p) * 22%)); }
 
-/* ש. גוטובסקי: שרטוט */
+/* ---------- ש. גוטובסקי: גיליון שרטוט. האתר האמיתי נגלל בחלון, פרט של הטלפון, ובלוק כותרת ---------- */
 .ch-gotovski { --shade: #061826; }
-.ch-gotovski .voice { font: 600 clamp(2.8rem, 5vw, 4.8rem)/1.04 "C Noto Sans", var(--st-display); color: #edebe7; }
+.ch-gotovski .ch-in { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+.ch-gotovski .voice { font: 600 clamp(2.7rem, 4.6vw, 4.6rem)/1.04 "C Noto Sans", var(--st-display); color: #edebe7; }
 .ch-gotovski .who { border-color: #2f6d97; }
 .ch-gotovski .who-what { color: #b7c9d6; opacity: 1; }
-.ch-gotovski .dev-desk { left: 16%; right: 4%; top: 10%; aspect-ratio: 1200 / 750; height: auto; border-radius: 0; outline: 1px solid #9db4c6; outline-offset: 8px; }
-.ch-gotovski .dev-phone { left: 0; bottom: 4%; border-color: #08202f; border-radius: 26px; }
+.gt-sheet { position: relative; min-height: 0; border: 1px solid #9db4c6; color: #b7c9d6; }
+.gt-sheet::before { content: ""; position: absolute; inset: 8px; border: 1px solid rgba(157, 180, 198, .35); pointer-events: none; }
+.gt-sheet figcaption { position: absolute; top: -26px; inset-inline-start: 0; font: 500 .78rem/1 var(--st-text); color: #b7c9d6; white-space: nowrap; }
+.gt-view { position: absolute; top: 9%; bottom: 9%; right: 8%; width: 46%; }
+.gt-scroll { position: absolute; inset: 0; display: block; overflow: hidden; outline: 1px solid #edebe7; background: #fff; }
+.gt-scroll img { display: block; width: 100%; height: auto; transform: translateY(calc(var(--p) * -76%)); }
+.gt-detail { position: absolute; top: 9%; left: 8%; width: 22%; }
+.gt-detail > span { display: block; aspect-ratio: 480 / 1039; overflow: hidden; outline: 1px solid #edebe7; }
+.gt-detail img { display: block; width: 100%; height: auto; }
+.gt-detail::after { content: ""; position: absolute; top: 30%; left: 100%; width: calc(100% * 0.95); border-top: 1px dashed rgba(237, 235, 231, .55); }
+.gt-block { position: absolute; left: 8%; bottom: 9%; width: 30%; display: grid; margin: 0; border: 1px solid #9db4c6; font-size: .82rem; }
+.gt-block dl { margin: 0; }
+.gt-block dl > div { display: grid; grid-template-columns: 4.2rem 1fr; border-bottom: 1px solid rgba(157, 180, 198, .5); }
+.gt-block dt { padding: 7px 8px; border-inline-end: 1px solid rgba(157, 180, 198, .5); color: #9db4c6; }
+.gt-block dd { margin: 0; padding: 7px 10px; color: #edebe7; font-weight: 500; }
+.gt-block .gt-logo { display: block; padding: 10px; border-bottom: 0; background: #edebe7; }
+.gt-logo img { display: block; width: 110px; height: auto; margin-inline-start: auto; }
+.gt-dim { position: absolute; border-color: #9db4c6; }
+.gt-dim-v { top: 9%; bottom: 9%; right: calc(8% - 22px); width: 9px; border-top: 1px solid; border-bottom: 1px solid; }
+.gt-dim-v::before { content: ""; position: absolute; top: 0; bottom: 0; left: 4px; border-left: 1px solid; }
+.gt-dim-h { top: calc(9% - 40px); right: 8%; width: 46%; height: 9px; border-left: 1px solid; border-right: 1px solid; }
+.gt-dim-h::before { content: ""; position: absolute; left: 0; right: 0; top: 4px; border-top: 1px solid; }
+.gt-view figcaption { top: auto; bottom: -24px; }
 
 /* ---------- גלריית הכדור: סוגרת את העבודות ---------- */
 .globe-wrap { position: relative; z-index: 2; background: var(--chalk); padding: clamp(4rem, 10vh, 7rem) var(--m) 0; border-top: 3px solid var(--hg-orange); }
@@ -474,21 +520,35 @@ body.b-home .ft { margin-top: 0; }
   .index .ix-what { display: none; }
   .ix-name { font-size: 1.6rem !important; }
 
-  .ch-in { display: flex; flex-direction: column; gap: 36px; padding: 64px var(--m) 52px; }
+  .ch-in { display: flex; flex-direction: column; gap: 34px; padding: 60px var(--m) 48px; }
   .ch .shade { display: none; }
   .who-name { font-size: 2rem !important; }
-  .ch-media { height: auto; min-height: 0; aspect-ratio: 4 / 4.2; }
-  .ch-ams .voice { font-size: clamp(4.4rem, 26vw, 7rem); }
   .ch-ams .tex { background: none; }
-  .ch-ams .ch-media { margin: 0 calc(var(--m) * -1); }
-  .ams-fighter { inset: 0; width: 100%; height: 100%; left: 0; -webkit-mask-image: linear-gradient(to top, transparent 0, #000 20%); mask-image: linear-gradient(to top, transparent 0, #000 20%); }
-  .ch-ams .dev-phone { left: auto; right: var(--m); bottom: 0; }
-  .dev-phone { width: clamp(118px, 34vw, 170px); border-width: 5px; border-radius: 20px; }
-  .ch-chef .dev-desk, .ch-allenbis .dev-desk, .ch-gotovski .dev-desk { left: 14%; right: 0; top: 0; }
+  .ch-ams .voice { font-size: clamp(4.4rem, 26vw, 7rem); }
+  .ams-giant { font-size: 46vw; left: -6vw; bottom: auto; top: 46%; }
+  .ams-plate { width: 100%; }
+  .ams-card { left: auto; right: 6px; bottom: 30px; width: 30vw; }
+  .chef-table { height: 470px; margin-inline: calc(var(--m) * -.4); }
+  .menu-card { width: 210px; padding: 24px 18px 18px; }
+  .menu-list li { font-size: 1.15rem; padding: 9px 0; }
+  .plate { width: 112px; } .plate-sweet { width: 96px; }
+  .plate-open { top: 0; left: 0; } .plate-cold { top: 3%; right: 0; } .plate-hot { bottom: 2%; left: 2%; } .plate-sweet { bottom: 0; right: 6%; }
   .ch-clinic .tex .blossoms { width: 340px; left: -80px; top: -60px; }
-  .ch-clinic .arch { left: 8%; right: 8%; bottom: -52px; }
-  .ch-clinic .dev-desk { left: 20%; right: 0; top: 16%; }
-  .ch-allenbis .tag { top: auto; bottom: 30%; right: 0; font-size: 1.05rem; }
+  .cl-stage { height: 480px; order: 2; }
+  .cl-left { order: 3; }
+  .cl-arch { width: 52vw; max-width: 230px; }
+  .cl-bloom { left: 0; width: 56%; }
+  .cl-shelf { right: -4%; width: 92%; }
+  .al-sign { width: 78%; justify-self: center; align-self: center; }
+  .al-shelves { margin-inline: calc(var(--m) * -.5); }
+  .shelf-run img { height: 78px; }
+  .gt-sheet { height: 560px; }
+  .gt-view { right: 6%; width: 54%; top: 8%; bottom: 26%; }
+  .gt-detail { left: 6%; width: 28%; top: 8%; }
+  .gt-detail::after { display: none; }
+  .gt-block { left: 6%; right: 6%; width: auto; bottom: 4%; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .gt-block .gt-logo { display: none; }
+  .gt-dim { display: none; }
 
   .globe-wrap { padding-top: 3.4rem; }
   .globe-card { grid-template-columns: 1fr; justify-items: start; }
