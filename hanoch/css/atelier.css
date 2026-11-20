@@ -558,3 +558,13 @@ html.a11y-focus *:focus { outline: 3px solid var(--fg) !important; outline-offse
   html { scroll-behavior: auto !important; }
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+/* globe gallery card */
+.globe-card { display: block; position: relative; margin: clamp(3rem, 8vh, 6rem) 0 0; color: var(--fg); text-decoration: none; overflow: hidden; border: 1px solid var(--line-2, rgba(237,232,223,.2)); }
+.globe-card img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+.globe-card:hover img { transform: scale(1.03); }
+.globe-txt { position: absolute; inset-inline-start: 0; bottom: 0; display: grid; gap: .35rem; padding: clamp(1rem, 3vw, 2.2rem); background: linear-gradient(to top, rgba(0,0,0,.78), rgba(0,0,0,0)); width: 100%; box-sizing: border-box; }
+.globe-txt b { font-family: var(--display, inherit); font-weight: 300; font-size: clamp(1.6rem, 3.4vw, 2.8rem); line-height: 1.1; }
+.globe-txt span { color: var(--muted, #c9c4bb); font-size: 1rem; }
+.globe-card:focus-visible { outline: 2px solid var(--fg); outline-offset: 4px; }
+@media (prefers-reduced-motion: reduce) { .globe-card img { transition: none; } }
