@@ -797,3 +797,11 @@ input, select, textarea { background: rgba(250, 253, 249, .78); }
 @media (max-width: 760px) { .how__media { grid-template-columns: 1fr; } .how__media .vid__frame { max-width: 300px; width: 100%; margin-inline: auto; } }
 
 @media print { body, html { background: #fff !important; } }
+
+/* logo lockup: wordmark + the question, as on the printed logo */
+.mark { display: inline-grid; grid-template-columns: auto; justify-items: end; row-gap: 0; text-decoration: none; }
+.mark__q { font-family: var(--display); font-weight: 600; font-size: .92rem; line-height: 1; color: var(--blue-deep); margin-top: -2px; padding-inline-start: 36px; letter-spacing: .01em; white-space: nowrap; }
+.mark .logo { height: 36px; }
+.foot .mark .logo { height: 44px; }
+.foot .mark__q { font-size: 1.05rem; padding-inline-start: 44px; }
+@media (max-width: 560px) { .mark .logo { height: 30px; } .mark__q { font-size: .8rem; padding-inline-start: 30px; } }

@@ -21,7 +21,7 @@
   var header =
     '<header class="top" id="top"><div class="wrap top__in">' +
       '<button class="menubtn" type="button" data-menu aria-expanded="false" aria-controls="mnav" aria-label="תפריט"><span></span><span></span><span></span></button>' +
-      '<a href="' + (home || '#top') + '" class="mark" aria-label="או או – דף הבית">' + mark + '</a>' +
+      '<a href="' + (home || '#top') + '" class="mark" aria-label="או או | מכירים אותי? – דף הבית">' + mark + '<span class="mark__q" aria-hidden="true">מכירים אותי?</span></a>' +
       '<nav class="nav" aria-label="ניווט ראשי">' + links() + '</nav>' +
       '<button class="btn btn--main top__cta" type="button" data-order>להזמנה · <span data-price>140</span> ₪</button>' +
       '<button class="cartbtn" type="button" data-open-cart aria-label="סל הקניות">' +
@@ -35,7 +35,7 @@
 
   var footer =
     '<footer class="foot"><div class="wrap foot__in">' +
-      '<div><a href="' + (home || '#top') + '" class="mark" aria-label="או או – דף הבית">' + mark + '</a>' +
+      '<div><a href="' + (home || '#top') + '" class="mark" aria-label="או או | מכירים אותי? – דף הבית">' + mark + '<span class="mark__q" aria-hidden="true">מכירים אותי?</span></a>' +
       '<p>משחק קלפים להיכרות, לגילוי ולצחוק. נוצר על ידי רויטל, מנחת קבוצות.</p></div>' +
       '<div><h2 class="foot__h">המשחק</h2>' +
         '<p><a href="how-to-play.html">איך משחקים</a></p><p><a href="business.html">לעסקים, מנחים וסדנאות</a></p>' +
