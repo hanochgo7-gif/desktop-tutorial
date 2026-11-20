@@ -91,20 +91,31 @@ body .a11y__btn:focus-visible, body .ht-btn:focus-visible { outline: 2px solid v
 @media (max-width: 899px) { body .ht-btn { display: grid !important; } body .a11y { bottom: calc(14px + env(safe-area-inset-bottom)); inset-inline-end: 14px; } }
 .menu-open .a11y, .menu-open .ht-btn { visibility: hidden; }
 
-/* ---------- כרטיס העוגיות (js/consent.js מזריק את המבנה; כאן רק המראה) ---------- */
-body .consent { background: var(--chalk); color: var(--st-ink); border: 1px solid rgba(15, 58, 45, .28); border-top: 3px solid var(--hg-orange); box-shadow: 0 18px 40px -24px rgba(11, 35, 27, .55); font-family: var(--st-text); }
+/* ---------- העוגיות (js/consent.js מזריק את המבנה ואת ההיגיון; כאן רק המראה) ----------
+   דסקטופ: פס דק לכל הרוחב בתחתית המסך, ולא כרטיס מעל התוכן. טלפון: שורה אחת שצמודה מעל פס הפנייה */
+body .consent { background: var(--chalk); color: var(--st-ink); border: 0; border-top: 1px solid rgba(15, 58, 45, .25); box-shadow: 0 -12px 30px -24px rgba(11, 35, 27, .5); font-family: var(--st-text); border-radius: 0; }
+body .consent::before { content: ""; position: absolute; inset: -1px 0 auto 0; height: 2px; background: var(--hg-orange); }
 body .consent__text { color: #34493f; }
 body .consent__text a { color: var(--pine); }
 body .consent__btn { border-radius: 2px; border-color: rgba(15, 58, 45, .45); color: var(--pine); font-weight: 500; }
 body .consent__btn:hover { border-color: var(--pine); }
 body .consent__btn[data-choice="yes"] { background: var(--pine); border-color: var(--pine); color: var(--chalk); }
 body .consent__btn:focus-visible, body .consent__text a:focus-visible { outline: 2px solid var(--pine); }
+@media (min-width: 900px) {
+  body .consent { inset: auto 0 0 0 !important; width: auto; display: flex; align-items: center; justify-content: space-between; gap: 1.6rem; padding: .55rem var(--at-m); font-size: .88rem; line-height: 1.4; }
+  body .consent__text { flex: 0 1 auto; }
+  body .consent__actions { flex: none; }
+  body .consent__btn { flex: none; min-height: 38px; padding: 0 1rem; }
+  /* הפס לא מכסה את סוף העמוד, והכפתורים הצפים עולים מעליו */
+  body:has(.consent:not([hidden])) { padding-bottom: 54px; }
+  body:has(.consent:not([hidden])) .a11y, body:has(.consent:not([hidden])) .ht-btn { bottom: 70px !important; }
+}
 
 /* ---------- פס פנייה בטלפון (tools/header.py, js/chrome.js) ----------
    וואטסאפ בכתום בצד של האגודל (ימין בעברית), חיוג לידו */
 .dock { display: none; }
 @media (max-width: 899px) {
-  .dock { position: fixed; z-index: 96; inset: auto 0 0 0; display: flex; gap: 8px; padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
+  .dock { position: fixed; z-index: 96; inset: auto 0 0 0; display: flex; gap: 8px; padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px)); padding-inline-end: 116px;
     background: var(--chalk); border-top: 1px solid rgba(15, 58, 45, .18); transition: transform .45s cubic-bezier(.22, .61, .2, 1); }
   html[dir="ltr"] .dock { flex-direction: row-reverse; }
   .dock a { flex: 1 1 0; display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 48px; border-radius: 2px; text-decoration: none; font: 600 1rem/1 var(--st-text); }
@@ -114,10 +125,17 @@ body .consent__btn:focus-visible, body .consent__text a:focus-visible { outline:
   .dock.is-wait:not(.is-on) { transform: translateY(105%); }
   .dock.is-wait:not(.is-on) a { visibility: hidden; transition: visibility 0s .45s; }
   .menu-open .dock { visibility: hidden; }
-  body:has(.dock) .a11y { bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
-  body:has(.dock) .ht-btn { bottom: calc(76px + env(safe-area-inset-bottom, 0px)) !important; }
-  body:has(.dock) .consent { bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important; }
-  body:has(.dock):has(.consent:not([hidden])) .a11y, body:has(.dock):has(.consent:not([hidden])) .ht-btn { bottom: calc(148px + env(safe-area-inset-bottom, 0px)) !important; }
+  /* מה שמקבל מיקוד מקלדת נגלל מעל הפס ולא מתחתיו */
+  html:has(.dock) { scroll-padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+  /* כפתורי הנגישות והצ'אט יושבים בתוך שורת הפס, בקצה, ולא מעל הטקסט */
+  body:has(.dock) .a11y { z-index: 97; bottom: calc(11px + env(safe-area-inset-bottom, 0px)); inset-inline-end: 12px; }
+  body:has(.dock) .ht-btn { z-index: 97; bottom: calc(11px + env(safe-area-inset-bottom, 0px)) !important; inset-inline-start: auto !important; inset-inline-end: 64px !important; }
+  /* העוגיות: שורה אחת לכל הרוחב, צמודה מעל הפס (או בתחתית, כשהפס עוד מחכה) */
+  body:has(.dock) .consent { inset-inline: 0 !important; bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important; border-radius: 0; padding: .45rem 12px .45rem 12px; }
+  body:has(.dock.is-wait:not(.is-on)) .consent { bottom: 0 !important; }
+  /* בדף הבית הפס מתחיל מוסתר, עד שהכפתור בפתיחה יוצא מהמסך (בלי הבהוב) */
+  html.js body:has([data-dock-wait]) .dock:not(.is-on) { transform: translateY(105%); }
+  html.js body:has([data-dock-wait]) .dock:not(.is-on) a { visibility: hidden; }
   body:has(.dock) .ft { padding-bottom: calc(clamp(2.2rem, 5vh, 3.4rem) + 72px + env(safe-area-inset-bottom, 0px)); }
 }
 @media (prefers-reduced-motion: reduce) { .dock, .top, .top .menu summary span { transition: none; } }

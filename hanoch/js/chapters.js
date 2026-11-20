@@ -32,7 +32,7 @@
     [].forEach.call(field.querySelectorAll('.world'), function (el) { layers[el.dataset.w] = el; });
     [].forEach.call(screen.querySelectorAll('img'), function (el) { shots[el.dataset.w] = el; });
     var CYCLE = ['gotovski', 'ams', 'chef', 'clinic', 'allenbis'];
-    var SW = 1600, HOLD0 = 1500, HOLD = 2800;
+    var SW = 1600, HOLD0 = 1000, HOLD = 2800;
     var saver = !!(navigator.connection && navigator.connection.saveData);
     var geo = { H: 1, sTop: 0, sH: 1 };
 
@@ -141,11 +141,10 @@
     // מתפריט הנגישות אפשר לעצור את כל התנועה באמצע: חוזרים לחצי-חצי הסטטי
     new MutationObserver(function () { if (still()) stop(); else start(); }).observe(root, { attributes: true, attributeFilter: ['class'] });
 
-    var go = function () {
-      if (!saver) { if ('requestIdleCallback' in window) requestIdleCallback(loadRest, { timeout: 1500 }); else setTimeout(loadRest, 300); }
-      start();
-    };
-    if (d.readyState === 'complete') go(); else addEventListener('load', go);
+    // הבנייה מתחילה מיד (הקו יורד כשנייה אחרי הציור הראשון). שאר הלקוחות נטענים רק אחרי שהעמוד נטען
+    start();
+    var rest = function () { if (!saver) { if ('requestIdleCallback' in window) requestIdleCallback(loadRest, { timeout: 1500 }); else setTimeout(loadRest, 300); } };
+    if (d.readyState === 'complete') rest(); else addEventListener('load', rest);
   })();
 
   /* =========================================================
@@ -153,8 +152,7 @@
      ========================================================= */
   var stack = d.getElementById('work');
   var stackEls = stack ? [].slice.call(stack.children) : [];
-  var themed = [].slice.call(d.querySelectorAll('[data-theme]'));
-  var stacked = matchMedia('(min-width: 900px) and (min-height: 680px)');
+    var stacked = matchMedia('(min-width: 900px) and (min-height: 680px)');
   var HDR = 36, ticking = false;
   function onScroll() {
     if (ticking) return; ticking = true;
@@ -168,12 +166,42 @@
           el.style.setProperty('--out', out.toFixed(4));
         });
       }
-      var theme = '';
-      themed.forEach(function (el) { var r = el.getBoundingClientRect(); if (r.top <= HDR && r.bottom > HDR) theme = el.dataset.theme; });
+      // הצבעים של הכותרת: לפי מה שבאמת נראה מתחת לקו שלה (לא לפי מלבנים, כי פרק דביק נשאר "במקום" גם אחרי שכוסה)
+      var theme = '', under = d.elementsFromPoint(innerWidth / 2, HDR);
+      for (var i = 0; i < under.length; i++) {
+        if (under[i].closest('.top, .a11y, .ht-btn, .consent, #dock')) continue;
+        var t = under[i].closest('[data-theme]'); if (t) { theme = t.dataset.theme; break; }
+      }
+      if (theme === 'studio') theme = '';
       if ((body.dataset.theme || '') !== theme) { if (theme) body.dataset.theme = theme; else delete body.dataset.theme; }
     });
   }
   addEventListener('scroll', onScroll, { passive: true });
+
+  /* מקלדת: פרק דביק מסתיר את מה שבתוכו (WCAG 2.4.11). כשמשהו בתוך הערימה מקבל מיקוד,
+     גוללים למקום הטבעי של הפרק שלו, ואז הוא כולו על המסך */
+  function flowTop(el) {
+    var y = stack.getBoundingClientRect().top + scrollY;
+    for (var i = 0; i < stackEls.length && stackEls[i] !== el; i++) y += stackEls[i].offsetHeight;
+    return y;
+  }
+  var calm = function () { return still() ? 'auto' : 'smooth'; };
+  if (stack) stack.addEventListener('focusin', function (e) {
+    var sec = e.target.closest('.stack > *'); if (!sec) return;
+    var r = e.target.getBoundingClientRect();
+    var hidden = r.top < 72 || r.bottom > innerHeight - 60;
+    if (!hidden) return;
+    if (stacked.matches) {
+      var off = r.top - sec.getBoundingClientRect().top;
+      scrollTo({ top: flowTop(sec) + Math.max(0, off + r.height - innerHeight + 90), behavior: 'instant' });
+    } else e.target.scrollIntoView({ block: 'center', behavior: calm() });
+  });
+  [].forEach.call(d.querySelectorAll('.ba-range'), function (r) {
+    r.addEventListener('focus', function () {
+      var b = r.closest('.ba-screen').getBoundingClientRect();
+      if (b.top < 72 || b.bottom > innerHeight) r.closest('.ba-fig').scrollIntoView({ block: 'center', behavior: calm() });
+    });
+  });
   addEventListener('resize', onScroll);
   onScroll();
 })();

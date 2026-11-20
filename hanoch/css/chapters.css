@@ -53,7 +53,8 @@ ul, ol { padding: 0; list-style: none; }
 
 /* ---------- הכותרת העליונה בדף הבית: שקופה, ומקבלת את הצבעים של מה שמתחתיה ---------- */
 body.b-home .top { position: fixed; inset: 0 0 auto; background: transparent; }
-body.b-home .top.is-scrolled { border-bottom-color: transparent; }
+body.b-home .top { transition: background-color .2s linear, border-color .2s linear; }
+body.b-home .top.is-scrolled { background: var(--hd-bg); border-bottom-color: var(--hd-line); }
 @media (min-width: 900px) {
   body.b-home .top > .nav { margin-inline-start: clamp(1.5rem, 3vw, 3rem); }
   body.b-home .top .top-wa { margin-inline-start: .4rem; }
@@ -64,12 +65,12 @@ body.b-home .top.is-scrolled { border-bottom-color: transparent; }
   body.b-home .top .nav { gap: 1.15rem; }
   .hx { grid-template-columns: minmax(0, 1fr) 37vw; }
 }
-body[data-theme="ams"]      { --hd-fg: #f2ece0; --hd-btn: #c9a45c; --hd-btn-ink: #140f0a; --hd-bg: #140f0a; }
-body[data-theme="chef"]     { --hd-fg: #f3f2ec; --hd-btn: #f3f2ec; --hd-btn-ink: #3b1a23; --hd-bg: #3b1a23; }
+body[data-theme="ams"]      { --hd-line: rgba(242, 236, 224, .14); --hd-fg: #f2ece0; --hd-btn: #c9a45c; --hd-btn-ink: #140f0a; --hd-bg: #140f0a; }
+body[data-theme="chef"]     { --hd-line: rgba(243, 242, 236, .16); --hd-fg: #f3f2ec; --hd-btn: #f3f2ec; --hd-btn-ink: #3b1a23; --hd-bg: #3b1a23; }
 body[data-theme="clinic"]   { --hd-fg: #3d3132; --hd-btn: #3d3132; --hd-btn-ink: #f2e8e3; --hd-bg: #f2e8e3; }
-body[data-theme="allenbis"] { --hd-fg: #e9eef8; --hd-btn: #ffd21f; --hd-btn-ink: #0a0e1d; --hd-bg: #0a0e1d; }
-body[data-theme="gotovski"] { --hd-fg: #edebe7; --hd-btn: #edebe7; --hd-btn-ink: #0d2f4a; --hd-bg: #0d2f4a; }
-body[data-theme="contact"]  { --hd-fg: var(--st-ink); --hd-btn: var(--st-ink); --hd-btn-ink: var(--chalk); --hd-bg: var(--hg-orange); }
+body[data-theme="allenbis"] { --hd-line: rgba(233, 238, 248, .14); --hd-fg: #e9eef8; --hd-btn: #ffd21f; --hd-btn-ink: #0a0e1d; --hd-bg: #0a0e1d; }
+body[data-theme="gotovski"] { --hd-line: rgba(237, 235, 231, .16); --hd-fg: #edebe7; --hd-btn: #edebe7; --hd-btn-ink: #0d2f4a; --hd-bg: #0d2f4a; }
+body[data-theme="contact"]  { --hd-line: rgba(11, 35, 27, .2); --hd-fg: var(--st-ink); --hd-btn: var(--st-ink); --hd-btn-ink: var(--chalk); --hd-bg: var(--hg-orange); }
 /* על הכתום הנקודה הכתומה של הסימן הייתה נעלמת: הסימן עובר ללוחית דיו */
 body[data-theme="contact"] .top .logo { background: var(--st-ink); color: var(--chalk); padding: 10px 12px; margin: -10px -12px; }
 @media (max-width: 899px) {
@@ -86,6 +87,7 @@ body[data-theme="contact"] .top .logo { background: var(--st-ink); color: var(--
 .hx-h1 em { font-style: normal; position: relative; white-space: nowrap; }
 .hx-h1 em::after { content: ""; position: absolute; right: 0; left: .04em; bottom: .02em; height: .07em; background: var(--hg-orange); transform-origin: right; }
 .hx-sub { margin-top: clamp(1.4rem, 3.4vh, 2.2rem); font: 400 var(--t-l)/1.08 var(--st-display); }
+.hx-offer .in { text-wrap: balance; }
 .hx-offer { margin-top: .6rem; font-size: clamp(1.06rem, 1.4vw, 1.3rem); line-height: 1.5; color: var(--pine-soft); }
 .hx-act { margin-top: clamp(1.8rem, 4.4vh, 2.6rem); }
 .ln { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
@@ -110,10 +112,10 @@ html.motion:not(.a11y-no-motion) .hx-act .in { animation-name: hx-fade; }
 .cap { position: absolute; inset-inline: 40px; bottom: 34px; display: grid; justify-items: start; gap: 2px; }
 .cap-name { font-size: 1.85rem; line-height: 1.1; }
 .cap-what { font-size: .9rem; opacity: .82; }
-.cap-tag { order: -1; margin-bottom: 8px; padding: 4px 9px 5px; font: 600 .78rem/1 var(--st-text); background: var(--hg-orange); color: var(--st-ink); }
+.cap-both { display: none; font-size: .9rem; opacity: .82; }
 .cap .pal { margin-bottom: 12px; }
 .hx-phone { position: absolute; z-index: 3; left: 50%; top: max(100px, calc(50% - 330px)); width: clamp(210px, 19vw, 282px); aspect-ratio: 480 / 1039; transform: translateX(-50%);
-  border-radius: 40px; padding: 8px; background: #0d0f0e; box-shadow: 0 1px 0 rgba(255, 255, 255, .08) inset, 0 30px 60px -30px rgba(0, 0, 0, .55); }
+  border-radius: 40px; padding: 8px; background: #0d0f0e; box-shadow: 0 0 0 1px rgba(255, 255, 255, .16), 0 30px 60px -30px rgba(0, 0, 0, .55); }
 .hx-screen { position: relative; width: 100%; height: 100%; border-radius: 32px; overflow: hidden; background: #fff; }
 .hx-screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; visibility: hidden; }
 .sweep { position: absolute; z-index: 4; inset: 0 0 auto 0; height: 2px; background: var(--hg-orange); transform: translateY(calc(50% * 1)); top: 50%; }
@@ -123,10 +125,16 @@ html.motion:not(.a11y-no-motion) .hx-act .in { animation-name: hx-fade; }
 .hx-field:not(.is-live) .w-gotovski { clip-path: inset(0 0 50% 0); z-index: 1; }
 .hx-field:not(.is-live) .w-gotovski .cap { display: none; }
 .hx-field:not(.is-live) img[data-w="gotovski"] { clip-path: inset(0 0 50% 0); z-index: 1; }
-.hx-field:not(.is-live) .w-old .cap-tag::after { content: " ואחרי"; }
+.hx-field:not(.is-live) .w-old .cap-both { display: block; }
+.hx-field:not(.is-live) .w-old .cap-what { display: none; }
+/* עם תנועה: הצבע הראשון הוא "לפני" בלבד, עד שהסקריפט מתחיל (בלי הבזק של החצי-חצי) */
+html.motion:not(.a11y-no-motion) .hx-field:not(.is-live) .w-gotovski, html.motion:not(.a11y-no-motion) .hx-field:not(.is-live) img[data-w="gotovski"] { visibility: hidden; }
+html.motion:not(.a11y-no-motion) .hx-field:not(.is-live) .sweep { opacity: 0; }
+html.motion:not(.a11y-no-motion) .hx-field:not(.is-live) .w-old .cap-both { display: none; }
+html.motion:not(.a11y-no-motion) .hx-field:not(.is-live) .w-old .cap-what { display: block; }
 .hx-field.is-live .sweep { top: 0; transform: none; opacity: 0; will-change: transform; }
 .hx-field.is-live .world.on, .hx-field.is-live .hx-screen img.on { visibility: visible; }
-.hx-pause { position: absolute; z-index: 5; top: 92px; left: 24px; display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; padding: 0 14px; border: 1px solid currentColor; border-radius: 2px;
+.hx-pause { position: absolute; z-index: 5; bottom: 76px; left: 24px; display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; padding: 0 14px; border: 1px solid currentColor; border-radius: 2px;
   background: transparent; font: 500 .86rem/1 var(--st-text); cursor: pointer; color: var(--fcap, #fff); opacity: .9; }
 .hx-pause:hover { opacity: 1; }
 .hx-pause svg { width: 14px; height: 14px; }
@@ -201,14 +209,16 @@ html.motion:not(.a11y-no-motion) .hx-act .in { animation-name: hx-fade; }
 /* ---------- פרק ---------- */
 .ch { position: relative; overflow: hidden; isolation: isolate; }
 .ch::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 3px; background: var(--hg-orange); z-index: 5; }
-.ch::after { content: attr(data-name); content: attr(data-name) / ""; position: absolute; top: 3px; left: var(--m); z-index: 5; background: var(--hg-orange); color: var(--st-ink); font: 500 .8rem/1 var(--st-text); padding: 7px 12px 8px; }
 .ch .tex { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
 .ch .shade { position: absolute; inset: 0; background: var(--shade, #000); opacity: calc(var(--out, 0) * .45); pointer-events: none; z-index: 6; }
 .ch-in { position: relative; height: 100%; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(24px, 4vw, 72px); padding: 112px var(--m) 64px; }
 .ch-text { display: flex; flex-direction: column; justify-content: center; align-items: flex-start; min-width: 0; }
 .who { display: flex; flex-direction: column; gap: 8px; align-self: stretch; padding-bottom: 20px; margin-bottom: 28px; border-bottom: 1px solid color-mix(in srgb, currentColor 24%, transparent); font-weight: 400; }
 .who-what { font: 500 .95rem/1.4 var(--st-text); opacity: .8; letter-spacing: 0; }
-.voice { margin-bottom: 26px; }
+.quote { margin: 0 0 26px; }
+.quote blockquote { margin: 0; }
+.quote blockquote p { margin: 0; }
+.voice-src { margin-bottom: .7rem; font: 500 .86rem/1.3 var(--st-text); opacity: .78; }
 .ch-out { max-width: 30rem; font-size: 1.12rem; line-height: 1.6; }
 .ch-links { display: flex; flex-wrap: wrap; gap: 0 1.6rem; margin-top: 12px; font-weight: 500; }
 .ch-text > .pal { margin-top: 26px; width: 120px; height: 10px; }
@@ -277,13 +287,16 @@ html.motion:not(.a11y-no-motion) .hx-act .in { animation-name: hx-fade; }
 
 /* ---------- גלריית הכדור: סוגרת את העבודות ---------- */
 .globe-wrap { position: relative; z-index: 2; background: var(--chalk); padding: clamp(4rem, 10vh, 7rem) var(--m) 0; border-top: 3px solid var(--hg-orange); }
-.globe-card { display: block; position: relative; color: #fff; text-decoration: none; overflow: hidden; background: #000; }
-.globe-card img { width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; transition: transform 1.2s cubic-bezier(.2, .7, .2, 1); }
-.globe-card:hover img { transform: scale(1.03); }
-.globe-txt { position: absolute; inset-inline-start: 0; bottom: 0; display: grid; gap: .35rem; width: 100%; padding: clamp(1rem, 3vw, 2.2rem); background: linear-gradient(to top, rgba(0, 0, 0, .78), rgba(0, 0, 0, 0)); }
-.globe-txt b { font: 800 clamp(1.8rem, 3.6vw, 3rem)/1.05 var(--st-display); }
-.globe-txt span { color: #e2e6de; font-size: 1rem; }
-.globe-card:focus-visible { outline: 2px solid var(--pine); outline-offset: 4px; }
+.globe-card { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: clamp(2rem, 6vw, 6rem); padding: clamp(1.6rem, 3vw, 2.6rem) 0; border-top: 2px solid var(--pine); border-bottom: 1px solid var(--rule); color: var(--pine); text-decoration: none; }
+.globe-img { display: block; width: clamp(200px, 26vw, 380px); aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: #050605; box-shadow: 0 0 0 10px var(--chalk), 0 0 0 11px var(--rule); }
+.globe-img img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.12); transition: transform 1.2s var(--ease); }
+.globe-card:hover .globe-img img { transform: scale(1.18) rotate(-4deg); }
+.globe-txt { display: grid; gap: .6rem; justify-items: start; }
+.globe-txt b { font: 800 clamp(2.4rem, 5vw, 4.6rem)/1 var(--st-display); }
+.globe-txt > span:not(.globe-go) { max-width: 30ch; color: var(--pine-soft); font-size: 1.1rem; }
+.globe-go { margin-top: .8rem; display: inline-flex; align-items: center; min-height: 48px; padding: 0 1.3rem; background: var(--pine); color: var(--chalk); font-weight: 600; }
+.globe-card:hover .globe-go { background: var(--hg-orange); color: var(--st-ink); }
+.globe-card:focus-visible { outline: 2px solid var(--pine); outline-offset: 6px; }
 
 /* =========================================================
    אחרי העבודות: מסגרת הסטודיו
@@ -310,7 +323,6 @@ html.motion [data-rv].is-in { opacity: 1; transform: none; }
 .rn-screen { position: relative; width: var(--pw); aspect-ratio: 390 / 844; overflow: hidden; border-radius: calc(var(--pw) * .125); background: #0b0b0b; isolation: isolate; }
 .ba-screen { --cut: 50%; touch-action: pan-y; }
 .ba-screen > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; }
-.ba-screen > img.ba-before--top { height: auto; bottom: auto; }
 .ba-after { clip-path: inset(0 calc(100% - var(--cut)) 0 0); }
 .ba-seam { position: absolute; top: 0; bottom: 0; left: var(--cut); width: 0; pointer-events: none; }
 .ba-seam::before { content: ""; position: absolute; top: 0; bottom: 0; left: -1px; width: 2px; background: var(--hg-orange); }
@@ -360,6 +372,7 @@ html.motion [data-rv].is-in { opacity: 1; transform: none; }
 .fs-lead .fs-t { font: 800 1.6rem/1.15 var(--st-display); }
 .fs-k { display: block; margin-top: .1rem; font-size: .84rem; color: var(--pine-soft); }
 .fs .at-note { margin-top: clamp(1.4rem, 4vh, 2.2rem); }
+@media (min-width: 900px) { .fs .fs-ai { margin-inline-start: calc((100% - 4 * clamp(10px, 1.2vw, 20px)) * 2.2 / 6.2 + clamp(10px, 1.2vw, 20px)); } }
 .at-play { position: absolute; z-index: 1; inset: 0; margin: auto; width: 72px; height: 72px; display: grid; place-items: center; border-radius: 50%; background: var(--hg-orange); color: var(--st-ink); transition: transform .4s var(--ease); }
 .at-play svg { width: 24%; height: 24%; margin-inline-start: 4%; }
 .at-feature:hover .at-play { transform: scale(1.06); }
@@ -437,18 +450,20 @@ body.b-home .ft { margin-top: 0; }
    ========================================================= */
 @media (max-width: 899px) {
   .hx { display: block; min-height: 0; }
-  .hx-copy { padding: 96px var(--m) 40px; }
+  .hx-copy { padding: 84px var(--m) 26px; }
   .hx-h1 { font-size: clamp(2.6rem, 14vw, 4.6rem); line-height: 1.02; }
   .hx-sub { margin-top: 1.2rem; font-size: 1.85rem; }
   .hx-offer { font-size: 1.05rem; }
-  .hx-act { margin-top: 1.6rem; }
+  .hx-act { margin-top: 1.2rem; }
+  .hx-sub { margin-top: .8rem !important; }
   .btn { min-height: 54px; font-size: 1rem; padding: 0 1.3rem 0 1.4rem; }
-  .hx-field { height: 640px; min-height: 0; }
-  .hx-phone { top: 40px; width: min(214px, 54vw); padding: 6px; border-radius: 32px; }
-  .hx-screen { border-radius: 26px; }
-  .cap { inset-inline: var(--m); bottom: 24px; }
+  .hx-field { height: 420px; min-height: 0; }
+  .hx-phone { top: 22px; left: var(--m); transform: none; width: min(172px, 44vw); padding: 6px; border-radius: 28px; }
+  .hx-screen { border-radius: 22px; }
+  .cap { inset-inline-start: var(--m); inset-inline-end: auto; width: calc(100% - min(172px, 44vw) - var(--m) * 3); }
+  .hx-pause { top: 18px !important; bottom: auto !important; left: auto !important; right: var(--m); }
+  .cap { bottom: 22px; }
   .cap-name { font-size: 1.5rem !important; }
-  .hx-pause { top: 14px; left: 14px; }
 
   .intro { min-height: 0; }
   .intro-in { display: block; padding: 84px var(--m) 72px; }
@@ -474,9 +489,10 @@ body.b-home .ft { margin-top: 0; }
   .ch-clinic .arch { left: 8%; right: 8%; bottom: -52px; }
   .ch-clinic .dev-desk { left: 20%; right: 0; top: 16%; }
   .ch-allenbis .tag { top: auto; bottom: 30%; right: 0; font-size: 1.05rem; }
-  .ch::after { left: var(--m); }
 
   .globe-wrap { padding-top: 3.4rem; }
+  .globe-card { grid-template-columns: 1fr; justify-items: start; }
+  .globe-img { width: min(240px, 64vw); order: -1; }
   .ba .at-h2 { font-size: clamp(2.4rem, 11vw, 3.4rem); }
   .cta { display: grid; justify-items: start; }
   .at-contact { display: block; padding-top: 5rem; }

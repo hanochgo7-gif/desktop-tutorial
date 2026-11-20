@@ -29,7 +29,7 @@ for path, up, current, he, asset in PAGES:
         s = s[:m2.end()] + h + '\n' + s[m2.end():]
         s = re.sub(r'\n\s*<a class="back" href="[^"]*">[^<]*</a>', '', s)
         if 'head.css' not in s:
-            s = re.sub(r'(<link rel="stylesheet" href="[^"]*hanoch\.css[^"]*">)', r'\1\n<link rel="stylesheet" href="' + asset + 'css/head.css?v=5">', s, 1)
+            s = re.sub(r'(<link rel="stylesheet" href="[^"]*hanoch\.css[^"]*">)', r'\1\n<link rel="stylesheet" href="' + asset + 'css/head.css?v=6">', s, 1)
         if 'chrome.js' not in s:
             s = re.sub(r'(<script src="[^"]*a11y\.js"[^>]*></script>)', r'\1\n<script src="' + asset + 'js/chrome.js?v=2" defer></script>', s, 1)
     wa_now = re.search(r'class="[^"]*top-wa[^"]*" href="([^"]+)"', s)

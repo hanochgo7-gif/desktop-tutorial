@@ -92,7 +92,7 @@ button { font: inherit; color: inherit; }
 .sv-rel a:hover { border-color: var(--pine); }
 
 /* ---------- כרטיס הסיום: הכתום של הסטודיו, כמו "ספרו לי" בדף הבית ---------- */
-.sv-cta { margin: clamp(3.6rem, 8vw, 6rem) calc(var(--m) * -1) clamp(2.4rem, 5vw, 3.6rem); padding: clamp(2.6rem, 6vw, 4.6rem) var(--m); background: var(--hg-orange); color: var(--st-ink); }
+.sv-cta { position: relative; z-index: 2; margin: clamp(3.6rem, 8vw, 6rem) calc(var(--m) * -1) clamp(2.4rem, 5vw, 3.6rem); padding: clamp(2.6rem, 6vw, 4.6rem) var(--m); background: var(--hg-orange); color: var(--st-ink); }
 .sv-cta h2 { margin: 0 0 1rem; color: var(--st-ink); font-size: clamp(2.4rem, 6vw, 5rem); line-height: .98; max-width: 16ch; }
 .sv-cta p { color: var(--st-ink); max-width: 36rem; font-size: 1.08rem; }
 .sv-cta .sv-btn, .sv-cta .sv-btn:hover { background: var(--st-ink); color: var(--chalk) !important; }
@@ -102,7 +102,7 @@ button { font: inherit; color: inherit; }
 .sv-cta :focus-visible { outline-color: var(--st-ink); }
 .sv .sv-end-alt { display: flex; flex-wrap: wrap; gap: 0 1.6rem; margin: 1rem 0 0; padding: 0; list-style: none; }
 .sv-end-alt li::marker { content: none; }
-.sv-end-alt a, .sv-end-alt button { display: inline-flex; align-items: center; min-height: 44px; padding: 0; border: 0; background: none; color: var(--st-ink); font: 500 1rem/1.2 var(--st-text); text-decoration: underline; text-underline-offset: .3em; cursor: pointer; }
+.sv-end-alt a, .sv-end-alt button { display: inline-flex; align-items: center; gap: .35em; min-height: 44px; padding: 0; border: 0; background: none; color: var(--st-ink); font: 500 1rem/1.2 var(--st-text); text-decoration: underline; text-underline-offset: .3em; cursor: pointer; }
 .sv-end-alt li:has(> [hidden]) { display: none; }
 
 /* ---------- רשימת הסצנות בעמוד, בצד במסך רחב ---------- */
