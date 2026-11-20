@@ -720,3 +720,80 @@ input, select, textarea { border-color: var(--field-line); }
   .draw--bg { background-image: url("../img/bg-draw-m.webp"); background-position: center; }
   .draw--bg::before { background: rgba(246, 248, 243, .78); }
 }
+
+/* =========================================================
+   Continuous page background (Higgsfield) — no white anywhere
+   One seamless tile flows down every page; sections are see-through,
+   surfaces are tinted frosted glass. Game cards stay white: that is
+   what the real cards look like.
+   ========================================================= */
+:root {
+  --glass: rgba(246, 250, 244, .62);
+  --glass-strong: rgba(244, 249, 242, .84);
+  --glass-line: rgba(18, 52, 74, .14);
+  --wash: rgba(244, 248, 240, .5);
+}
+html { background: #E9F3EC; }
+body {
+  background-color: #E9F3EC;
+  background-image: linear-gradient(var(--wash), var(--wash)), url("../img/bg-page.webp");
+  background-size: 100% auto, 100% auto;
+  background-repeat: repeat-y;
+}
+@media (max-width: 860px) { body { background-image: linear-gradient(var(--wash), var(--wash)), url("../img/bg-page-m.webp"); } }
+
+/* sections: no solid fills, the page background shows through */
+.why, .biz, .last, .box-strip, .phero--biz, .draw, .samples, .faq, .who, .buy, .how, .vid, .phero { background: transparent; border-color: transparent; }
+.why, .biz--teaser, .last, .box-strip { position: relative; }
+.why::before, .last::before, .box-strip::before, .biz--teaser::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(180deg, rgba(220, 241, 245, .35), rgba(238, 244, 212, .35)); }
+.why, .last, .box-strip, .biz--teaser { isolation: isolate; }
+
+/* the hero and demo images melt into the page background instead of ending on a band */
+.hero__bg { background-color: transparent; -webkit-mask-image: linear-gradient(to bottom, #000 70%, transparent); mask-image: linear-gradient(to bottom, #000 70%, transparent); }
+.hero__bg::after { background: linear-gradient(to left, rgba(244, 248, 240, .78) 0%, rgba(244, 248, 240, .6) 34%, rgba(244, 248, 240, .2) 62%, rgba(244, 248, 240, 0) 85%); }
+@media (max-width: 860px) { .hero__bg::after { background: linear-gradient(to bottom, rgba(244, 248, 240, .82) 0%, rgba(244, 248, 240, .7) 48%, rgba(244, 248, 240, .15) 85%); } }
+.draw--bg { background-color: transparent; }
+.draw--bg::before { background: linear-gradient(to left, rgba(244, 248, 240, .7) 0%, rgba(244, 248, 240, .45) 50%, rgba(244, 248, 240, .1) 100%); -webkit-mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent); mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent); }
+.draw--bg { -webkit-mask-image: none; }
+
+/* frosted-glass surfaces */
+.why__item, .who__item, .steps li, .flowline li, .opt:not(.opt--accent), .note, .cues li, .bigfacts li, .tabs, .box, .flow li, .uses li, .lead-done, .faq details, .single,
+.cartbtn, .menubtn, .x, .qty, .radio, .consent, .line__thumb, .vid__frame + * .note {
+  background: var(--glass);
+  -webkit-backdrop-filter: blur(14px) saturate(1.15); backdrop-filter: blur(14px) saturate(1.15);
+  border-color: var(--glass-line);
+}
+.why__item { padding: 26px 24px; border-radius: var(--radius); border: 1px solid var(--glass-line); }
+.faq details { border: 1px solid var(--glass-line); border-radius: 16px; padding: 0 18px; margin-bottom: 10px; }
+.faq summary { padding: 18px 0; }
+.box { border-color: var(--glass-line); }
+.btn--ghost:hover { background: var(--glass-strong); }
+input, select, textarea { background: rgba(250, 253, 249, .78); }
+.radio:has(input:checked) { background: rgba(220, 241, 245, .85); }
+.cues li.is-on { background: rgba(220, 241, 245, .85); }
+.cues li:nth-child(even).is-on { background: rgba(238, 244, 212, .9); }
+
+/* header, menu, footer, buy bar, drawer: glass over the same background */
+.top { background: rgba(240, 247, 242, .72); -webkit-backdrop-filter: saturate(1.3) blur(14px); backdrop-filter: saturate(1.3) blur(14px); }
+.mnav { background: transparent; }
+.foot { background: rgba(240, 247, 242, .55); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); border-top: 1px solid var(--glass-line); }
+.buybar { background: rgba(240, 247, 242, .86); }
+.drawer {
+  background-color: #E9F3EC;
+  background-image: linear-gradient(rgba(244, 248, 240, .78), rgba(244, 248, 240, .78)), url("../img/bg-page-m.webp");
+  background-size: 100% auto; background-repeat: repeat-y;
+}
+.drawer__head { background: rgba(240, 247, 242, .6); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+.consent { background: var(--glass-strong); }
+.toast { background: var(--ink); }
+
+/* legal pages */
+.legal { background: var(--glass); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-radius: var(--radius); padding: 40px clamp(20px, 4vw, 48px) 64px; margin-block: 32px 64px; border: 1px solid var(--glass-line); }
+
+/* home: the how-to-play video next to the four steps */
+.how__media { display: grid; grid-template-columns: minmax(220px, 300px) 1fr; gap: clamp(24px, 5vw, 56px); align-items: center; margin-top: 24px; }
+.how__media .vid__frame { aspect-ratio: 9 / 16; }
+.how__media .flowline { margin-top: 0; grid-template-columns: 1fr 1fr; }
+@media (max-width: 760px) { .how__media { grid-template-columns: 1fr; } .how__media .vid__frame { max-width: 300px; width: 100%; margin-inline: auto; } }
+
+@media print { body, html { background: #fff !important; } }

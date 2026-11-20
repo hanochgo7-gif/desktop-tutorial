@@ -49,6 +49,18 @@
     }
   }
 
+  /* ---------- home how-to video: plays when visible (not on reduced motion), with a pause button ---------- */
+  var hvid = $('.how__vid'), hbtn = $('[data-home-vid]');
+  if (hvid && hbtn) {
+    var userPaused = false;
+    var label = function () { hbtn.classList.toggle('is-paused', hvid.paused); hbtn.querySelector('span').textContent = hvid.paused ? 'הפעלת הסרטון' : 'השהיית הסרטון'; };
+    hvid.addEventListener('play', label); hvid.addEventListener('pause', label);
+    hbtn.addEventListener('click', function () { if (hvid.paused) { userPaused = false; hvid.play(); } else { userPaused = true; hvid.pause(); } });
+    if (!reduce && 'IntersectionObserver' in window) new IntersectionObserver(function (es) {
+      if (es[0].isIntersecting) { if (!userPaused) { hvid.preload = 'auto'; var p = hvid.play(); if (p && p.catch) p.catch(function () {}); } } else hvid.pause();
+    }, { threshold: 0.4 }).observe(hvid);
+  }
+
   /* ---------- gentle parallax on the hero background ---------- */
   var hbg = $('.hero__bg');
   if (hbg && !reduce) {
