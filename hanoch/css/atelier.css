@@ -516,6 +516,9 @@ a.at-feature { text-decoration: none; color: inherit; }
 .at-sys .sr-url { margin-inline-start: 0; }
 .at-sys .sr-live::before { animation: none; }
 .at-sys .sr-cap-hint, .at-sys .sr-proof { color: var(--mute); }
+/* בתוך מסך הדוגמה: דיו כהה על הרקע הבהיר של העסק הבדיוני, וכתום כצבע הפעולה שלו (ניגודיות) */
+.at-sys .sr-screen { --ink-soft: #0b231b; --signal: #ff5b1f; --signal-ink: #8a2c08; }
+.at-sys .sr-live { color: var(--mute); }
 @media (max-width: 900px) {
   .at-sys .sr-cats { display: flex; flex-wrap: nowrap; height: auto; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: calc(-1 * var(--m)); padding-inline: var(--m); }
   .at-sys .sr-cats::-webkit-scrollbar { display: none; }

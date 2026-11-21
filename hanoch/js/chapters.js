@@ -148,6 +148,29 @@
   })();
 
   /* =========================================================
+     אולם המערכות: systems.css, sys-b.css ו-systems.js נטענים רק כשהאזור במרחק מסך וחצי
+     ========================================================= */
+  var sys = d.getElementById('systems');
+  if (sys) (function () {
+    var done = false;
+    function css(href) { return new Promise(function (ok) { var l = d.createElement('link'); l.rel = 'stylesheet'; l.href = href; l.onload = l.onerror = ok; d.head.appendChild(l); }); }
+    function load() {
+      if (done) return; done = true;
+      Promise.all([css('/css/systems.css?v=3'), css('/css/sys-b.css?v=2')]).then(function () {
+        var s = d.createElement('script'); s.src = '/js/systems.js?v=4';
+        s.onload = s.onerror = function () { sys.classList.add('sys-ready'); };
+        body.appendChild(s);
+      });
+    }
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io.disconnect(); load(); } }, { rootMargin: '150% 0px' });
+      io.observe(sys);
+    } else load();
+    // מקלדת: מי שמגיע לאזור בטאב לפני שהוא נטען, מקבל אותו מיד
+    sys.addEventListener('focusin', load);
+  })();
+
+  /* =========================================================
      2. העבודות: פרקים נערמים, והכותרת מחליפה שפה
      ========================================================= */
   var stack = d.getElementById('work');

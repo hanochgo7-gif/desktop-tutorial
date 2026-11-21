@@ -1,0 +1,41 @@
+/* אולם המערכות בדף הבית (js/systems.js + css/systems.css, נטענים רק כשהאזור מתקרב; js/chapters.js).
+   אותו עיצוב כמו ב-systems.html: המשתנים של atelier.css על העטיפה .sys-b, ואחריהם הכללים של .at-sys מתוך atelier.css */
+.sys-b {
+  --bg: #e8ebe4; --fg: #0f3a2d; --mute: #4c6b5f; --line: rgba(15, 58, 45, .16); --line-2: rgba(15, 58, 45, .4);
+  --serif: var(--st-display); --sans: var(--st-text); --m: clamp(20px, 4.6vw, 72px);
+  --fg-dim: #34493f; --fg-faint: var(--line); --fg-line: var(--line-2); --ink: #e8ebe4; --paper: #0f3a2d;
+  --f-body: var(--sans); --f-mono: var(--sans); --fs-xs: .8125rem; --fs-s: .9rem; --fs-b: 1rem; --fs-l: 1.15rem; --radius-xs: 2px;
+}
+.systems { --ease: cubic-bezier(.2, .7, .1, 1); --ink-soft: #dfe4dc; --signal: #0f3a2d; --signal-ink: #e8ebe4; }
+.at-sys .sr-cats { height: clamp(220px, 21vw, 300px); }
+.at-sys .sr-cat { border-radius: 0; border-color: var(--line); background: var(--bg); }
+.at-sys .sr-cat::after { content: none; }
+.at-sys .sr-cat.is-on { border-color: var(--fg); box-shadow: none; }
+.at-sys .sr-cat:not(.is-on) .sr-media img { filter: grayscale(1) brightness(.5); transform: none; }
+.at-sys .sr-cat.is-on .sr-cat-n { color: var(--fg); }
+.at-sys .sr-media { inset: 0 0 auto 0; height: calc(100% - 4.6rem); border: 0; }
+.at-sys .sr-media img { object-position: top center; }
+.at-sys .sr-cat-text { top: auto; bottom: 0; inset-inline: 0; height: 4.6rem; align-content: center; gap: .2rem; padding: 0 clamp(14px, 1.4vw, 20px); background: var(--bg); border-top: 1px solid var(--line); }
+.at-sys .sr-cat-name { font: 700 clamp(1.05rem, 1.3vw, 1.35rem)/1.1 var(--serif); }
+.at-sys .sr-cat-n { font: 400 .8rem/1.3 var(--sans); color: var(--mute); }
+.at-sys .sr-item { border-radius: 0; }
+.at-sys .sr-item.is-on { box-shadow: none; }
+.at-sys .sr-i-name { font: 700 clamp(1.2rem, 1.6vw, 1.5rem)/1.15 var(--serif); }
+.at-sys .sr-device { border-radius: 2px; box-shadow: none; }
+.at-sys .sr-bar i { display: none; }
+.at-sys .sr-url { margin-inline-start: 0; }
+.at-sys .sr-live::before { animation: none; }
+.at-sys .sr-cap-hint, .at-sys .sr-proof { color: var(--mute); }
+/* בתוך מסך הדוגמה: דיו כהה על הרקע הבהיר של העסק הבדיוני, וכתום כצבע הפעולה שלו (ניגודיות) */
+.at-sys .sr-screen { --ink-soft: #0b231b; --signal: #ff5b1f; --signal-ink: #8a2c08; }
+.at-sys .sr-live { color: var(--mute); }
+@media (max-width: 900px) {
+  .at-sys .sr-cats { display: flex; flex-wrap: nowrap; height: auto; gap: 10px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; margin-inline: calc(-1 * var(--m)); padding-inline: var(--m); }
+  .at-sys .sr-cats::-webkit-scrollbar { display: none; }
+  .at-sys .sr-cat, .at-sys .sr-cat.is-on { flex: 0 0 min(62vw, 300px); height: auto; aspect-ratio: auto; max-height: none; scroll-snap-align: start; display: flex; flex-direction: column; }
+  .at-sys .sr-media { position: relative; inset: auto; height: auto; aspect-ratio: 16 / 10; z-index: 0; }
+  .at-sys .sr-media img { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .at-sys .sr-cat-text { position: relative; height: auto; padding: 10px 12px 12px; }
+  .at-sys .sr-item { border-color: var(--line-2); }
+}
+

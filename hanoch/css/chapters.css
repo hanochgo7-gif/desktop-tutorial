@@ -390,6 +390,14 @@ html.motion [data-rv].is-in { opacity: 1; transform: none; }
   .ba > .ba-fig { grid-column: 8 / span 5; --pw: clamp(240px, calc((100svh - 220px) * .4621), 320px); }
 }
 
+/* אולם המערכות: מסגרת הסטודיו. התוכן עצמו מעוצב ב-css/systems.css + css/sys-b.css, שנטענים רק כשמתקרבים */
+.sys-b { position: relative; padding: clamp(5rem, 14vh, 9rem) var(--m) 0; background: var(--chalk); color: var(--st-ink); }
+.sys-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .6rem 3rem; margin-bottom: clamp(2rem, 5vh, 3.4rem); padding-top: 1.4rem; border-top: 2px solid var(--pine); }
+.sys-head .at-h2 { max-width: 16ch; }
+.sys-head .at-line { color: var(--pine-soft); font-weight: 500; }
+/* עד שהסגנון והסקריפט כאן: המקום שמור, בלי הבזק של תוכן לא מעוצב */
+.js .sys-b:not(.sys-ready) .systems { height: clamp(760px, 92vh, 980px); overflow: hidden; visibility: hidden; }
+
 /* פנייה */
 .cta { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1.6rem 3rem; padding-bottom: 0; }
 .cta .at-h2 { max-width: 14ch; }

@@ -11,7 +11,7 @@ WA = 'https://wa.me/972545522053'
 # (קובץ, קידומת לשורש, קישור מסומן, עברית?, נתיב לקבצי css/js)
 PAGES = [('index.html', '', '', True, '/'), ('gallery/index.html', '/', 'gallery/', True, '/'),
          ('faq.html', '/', '', True, '/'), ('brief.html', '/', '', True, '/'),
-         ('systems.html', '/', '', True, '/'),
+         ('systems.html', '/', 'systems.html', True, '/'),
          ('accessibility.html', '', '', True, ''), ('en-accessibility.html', '', '', False, ''), ('404.html', '/', '', True, '/')]
 for path, up, current, he, asset in PAGES:
     f = os.path.join(ROOT, path)

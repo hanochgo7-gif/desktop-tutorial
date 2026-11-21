@@ -16,7 +16,8 @@ def studio_head(up, page_css=True):
 def header(up, wa, current='', he=True):
     esc = html.escape
     if he:
-        links = [('archive/', 'עבודות'), ('#films', 'סרטים'), ('gallery/', 'תמונות'), ('services/', 'שירותים'), ('#contact', 'צור קשר')]
+        # מערכות: בדף הבית קפיצה לאולם המערכות, ובשאר העמודים לעמוד המערכות
+        links = [('archive/', 'עבודות'), ('#systems' if up == '' else 'systems.html', 'מערכות'), ('#films', 'סרטים'), ('gallery/', 'תמונות'), ('services/', 'שירותים'), ('#contact', 'צור קשר')]
         lang = f'<a class="top-lang" href="{up}en.html" lang="en" hreflang="en">EN</a>'
         home, home_label, nav_label, menu_label, cta = (up or '/'), 'HG Studio, לדף הבית', 'ראשי', 'תפריט', 'וואטסאפ'
         extra = (f'<a class="menu-wa" href="{esc(wa)}" target="_blank" rel="noopener">וואטסאפ</a>'
