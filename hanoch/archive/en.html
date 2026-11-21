@@ -639,8 +639,7 @@ video.live.on{ opacity:1; }
   var intro = $('#intro'), film = $('#film'), splash = $('#splash'), bar = $('#bar');
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   // סרט הפתיחה רק בביקור הראשון. מי שחוזר מהתפריט נכנס ישר לכדור
-  var seen = false;
-  try { seen = localStorage.getItem('hg-archive-film') === '1'; localStorage.setItem('hg-archive-film', '1'); } catch (e) {}
+  var seen = true; // בלי סרט פתיחה: נכנסים ישר לכדור
   var coarse = matchMedia('(pointer: coarse)').matches;
   root.style.overflow = 'hidden';
 
