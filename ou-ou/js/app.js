@@ -133,9 +133,15 @@
     track('begin_checkout', { value: subtotal() });
   }
   document.addEventListener('click', function (e) {
-    var b = e.target.closest('[data-order], [data-add]'); if (!b) return;
+    var b = e.target.closest('[data-order], [data-add], [data-order-gift]'); if (!b) return;
     setMenu(false); order();
+    if (b.hasAttribute('data-order-gift')) setGift(true);
   });
+  function setGift(onOff) {
+    var g = $('[data-gift-toggle]'); if (!g || g.checked === onOff) return;
+    g.checked = onOff; g.dispatchEvent(new Event('change'));
+    setTimeout(function () { var box = $('[data-gift]'); if (box && onOff) box.scrollIntoView({ block: 'center', behavior: reduce ? 'auto' : 'smooth' }); }, 350);
+  }
   $$('[data-qty]').forEach(function (b) {
     on(b, 'click', function () { pickQty = Math.max(1, Math.min(MAX, pickQty + parseInt(b.dataset.qty, 10))); $('[data-qty-out]').textContent = pickQty; });
   });
@@ -232,7 +238,7 @@
   on(shipBox, 'change', renderShip);
   on(giftT, 'change', function () {
     giftBox.hidden = !giftT.checked;
-    $('#c-rname').required = giftT.checked; $('#c-rphone').required = giftT.checked;
+    $('#c-rname').required = giftT.checked;
     renderShip();
   });
 
@@ -309,14 +315,15 @@
       'משלוח: ' + s.label + (sp == null ? ' (מחיר לאישור)' : ' – ' + (sp === 0 ? 'חינם' : sp + ' ₪'))
     ];
     if (sp != null) lines.push('סה"כ: ' + money(subtotal() + sp) + ' ₪');
-    lines.push('', 'שם: ' + d.get('name'), 'טלפון: ' + d.get('phone'));
+    lines.push('', 'שם: ' + d.get('name')); if (d.get('phone')) lines.push('טלפון: ' + d.get('phone'));
     if (d.get('email')) lines.push('מייל לקבלה: ' + d.get('email'));
     if (gift) {
-      lines.push('', '*מתנה – לשלוח ישר למקבל/ת*', 'שם המקבל/ת: ' + d.get('rname'), 'טלפון המקבל/ת: ' + d.get('rphone'));
+      lines.push('', '*מתנה – לשלוח ישר למקבל/ת*', 'שם המקבל/ת: ' + d.get('rname'), (d.get('rphone') ? 'טלפון המקבל/ת: ' + d.get('rphone') : 'טלפון המקבל/ת: לתאם איתי'));
       if (d.get('note')) lines.push('ברכה: ' + d.get('note'));
     }
     lines.push((gift ? 'כתובת למשלוח (המקבל/ת): ' : 'כתובת למשלוח: ') + [s.needsAddress ? d.get('addr') : '', d.get('city')].filter(Boolean).join(', ') + (s.needsAddress ? '' : ' (נקודת איסוף)'));
     if (d.get('notes')) lines.push('', 'הערות: ' + d.get('notes'));
+    var demo = get('ouou-demo'); if (demo) lines.push('', 'כבר שלפתי באתר: ' + demo + ' :)');
     track('purchase_request', { value: subtotal() });
     if (C.paymentUrl) { window.location.href = C.paymentUrl.replace('{total}', subtotal() + (sp || 0)).replace('{order}', id); return; }
     var url = wa(lines.join('\n'));
@@ -421,7 +428,7 @@
     });
   }
 
-  /* ---------- draw a card ---------- */
+  /* ---------- draw a card + "מכירים אותי?" challenge ---------- */
   var big = $('[data-bigcard]');
   if (big) {
     // הקלפים שכבר פורסמו בפלייר. להוסיף קלפים נוספים רק באישור רויטל.
@@ -429,38 +436,106 @@
       ['לשיר', 'לרקוד'], ['מציב גבולות', 'מאפשר'], ['לוקח סיכונים', 'הולך על בטוח'],
       ['לצאת חכם', 'לצאת צודק'], ['אוהב להיות במרכז', 'מעדיף לעמוד בצד']
     ];
-    var status = $('[data-draw-status]'), shareBtn = $('[data-share]'), picks = $$('[data-pick]'), order_ = [], cur = -1;
+    var status = $('[data-draw-status]'), shareBtn = $('[data-share]'), picks = $$('[data-pick]'), order_ = [], cur = -1, myPick = -1;
+    var heading = $('#draw-h'), drawBtn = $('[data-draw]'), nameRow = $('[data-share-name]'), orderBtn = $('[data-draw-order]'), backBtn = $('[data-guess-back]');
     var front = $('.bigcard__front', big); front.inert = true;
-    var shuffle = function () { order_ = CARDS.map(function (_, i) { return i; }); for (var i = order_.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = order_[i]; order_[i] = order_[j]; order_[j] = t; } };
-    on($('[data-draw]'), 'click', function () {
-      if (!order_.length) shuffle();
-      var idx = order_.pop(); if (idx === cur && order_.length) { order_.unshift(idx); idx = order_.pop(); }
-      cur = idx; var c = CARDS[idx];
+    var mode = 'self', challenge = null;
+
+    // the challenge travels in the link: which card, which word, and (optionally) who chose
+    function enc(o) { try { return btoa(unescape(encodeURIComponent(JSON.stringify(o)))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); } catch (e) { return ''; } }
+    function dec(s) { try { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; return JSON.parse(decodeURIComponent(escape(atob(s)))); } catch (e) { return null; } }
+
+    function showCard(idx) {
+      var c = CARDS[idx]; cur = idx;
       picks[0].textContent = c[0]; picks[1].textContent = c[1];
-      picks.forEach(function (p) { p.setAttribute('aria-pressed', 'false'); p.setAttribute('aria-label', 'אני יותר ' + p.textContent); });
-      front.inert = false;
-      big.classList.remove('has-pick');
+      picks.forEach(function (p) { p.setAttribute('aria-pressed', 'false'); p.classList.remove('is-answer', 'is-wrong'); });
+      front.inert = false; big.classList.remove('has-pick');
       if (big.classList.contains('is-open')) { big.classList.remove('is-shuffle'); void big.offsetWidth; big.classList.add('is-shuffle'); }
       big.classList.add('is-open');
-      status.textContent = c[0] + ' או ' + c[1] + '? הקישו על המילה שמתארת אתכם יותר.';
-      this.textContent = 'קלף אחר';
-      shareBtn.hidden = true;
+    }
+    var shuffle = function () { order_ = CARDS.map(function (_, i) { return i; }); for (var i = order_.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = order_[i]; order_[i] = order_[j]; order_[j] = t; } };
+    function resetUi() { shareBtn.hidden = true; nameRow.hidden = true; if (orderBtn) orderBtn.hidden = true; }
+
+    on(drawBtn, 'click', function () {
+      if (mode !== 'self') { mode = 'self'; heading.textContent = 'שלפו קלף. מה אתם יותר?'; if (location.hash.indexOf('#g=') === 0 && history.replaceState) history.replaceState(null, '', location.pathname + location.search + '#draw'); if (backBtn) backBtn.hidden = true; }
+      if (!order_.length) shuffle();
+      var idx = order_.pop(); if (idx === cur && order_.length) { order_.unshift(idx); idx = order_.pop(); }
+      showCard(idx); myPick = -1; resetUi();
+      picks.forEach(function (p) { p.setAttribute('aria-label', 'אני יותר ' + p.textContent); });
+      status.textContent = CARDS[idx][0] + ' או ' + CARDS[idx][1] + '? בחרו בשקט את המילה שמתארת אתכם יותר.';
+      drawBtn.textContent = 'קלף אחר';
     });
-    picks.forEach(function (p) {
+
+    picks.forEach(function (p, i) {
       on(p, 'click', function () {
         if (cur < 0) return;
+        if (mode === 'guess') return guess(i);
+        myPick = i;
         picks.forEach(function (x) { x.setAttribute('aria-pressed', x === p ? 'true' : 'false'); });
         big.classList.add('has-pick');
-        status.textContent = 'נבחר. עכשיו שאלו מישהו לידכם מה הוא חושב שבחרתם. ככה נראה כל תור במשחק, ובקופסה מחכים עוד 72 קלפים.';
-        shareBtn.hidden = false; var ob = $('[data-draw-order]'); if (ob) ob.hidden = false;
+        set('ouou-demo', CARDS[cur][0] + ' או ' + CARDS[cur][1]); // remembered for the order message
+        status.textContent = 'נבחר, ואף אחד לא יודע. בקבוצה, עכשיו כולם מרימים כחול או ירוק בבת אחת, ומי שצדק מקבל נקודה. רוצים לבדוק מי באמת מכיר אתכם? שלחו את הקלף לחבר או לחברה.';
+        shareBtn.hidden = false; nameRow.hidden = false; if (orderBtn) orderBtn.hidden = false;
       });
     });
+
     on(shareBtn, 'click', function () {
-      var c = CARDS[cur], text = 'בחרתי בשקט: ' + c[0] + ' או ' + c[1] + '? מכירים אותי? תנחשו מה בחרתי', url = location.href.split('#')[0] + '#draw';
+      if (cur < 0 || myPick < 0) return;
+      var who = ($('#share-name') || {}).value || '';
+      var code = enc({ c: cur, p: myPick, n: who.trim().slice(0, 24) });
+      var url = location.href.split('#')[0] + '#g=' + code;
+      var c = CARDS[cur];
+      var text = (who.trim() ? who.trim() + ' בחר/ה בשקט: ' : 'בחרתי בשקט: ') + c[0] + ' או ' + c[1] + '? מכירים אותי? נחשו כאן:';
       if (navigator.share) navigator.share({ text: text, url: url }).catch(function () {});
       else window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text + '\n' + url), '_blank', 'noopener');
+      status.textContent = 'נשלח. כשינחשו, תדעו אם באמת מכירים אתכם. בינתיים, אפשר לשלוף עוד קלף.';
+    });
+
+    // friend arrives with #g=... → guess mode
+    function startGuess(ch) {
+      mode = 'guess'; challenge = ch;
+      var nm = ch.n ? ch.n : 'מישהו שמכיר אתכם';
+      heading.textContent = nm + ' בחר/ה בשקט. מכירים?';
+      showCard(ch.c); resetUi();
+      picks.forEach(function (p) { p.setAttribute('aria-label', 'הניחוש שלי: ' + p.textContent); });
+      status.textContent = 'איזו מילה לדעתך ' + (ch.n ? ch.n : 'הוא או היא') + ' בחר/ה? הקישו על הניחוש שלכם.';
+      drawBtn.textContent = 'עכשיו תורי לבחור';
+      if (backBtn) backBtn.hidden = true;
+      var sec = $('#draw'); if (sec) setTimeout(function () { sec.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' }); }, 300);
+    }
+    function guess(i) {
+      var right = i === challenge.p, nm = challenge.n || 'הם';
+      picks.forEach(function (x, k) { x.setAttribute('aria-pressed', k === i ? 'true' : 'false'); x.classList.toggle('is-answer', k === challenge.p); x.classList.toggle('is-wrong', k === i && !right); });
+      big.classList.add('has-pick');
+      status.textContent = right
+        ? 'בול! ניחשת נכון. ככה מרגיש ניצחון במשחק, ובקופסה מחכים עוד 72 קלפים שיבדקו כמה באמת מכירים.'
+        : 'לא הפעם. ' + nm + ' בחר/ה ב"' + CARDS[challenge.c][challenge.p] + '". ועכשיו יש לכם על מה לדבר: ככה מתחילות השיחות הכי טובות במשחק.';
+      if (orderBtn) orderBtn.hidden = false;
+      mode = 'done-guess';
+    }
+    var m = location.hash.match(/^#g=([\w-]+)/);
+    if (m) { var ch = dec(m[1]); if (ch && CARDS[ch.c] && (ch.p === 0 || ch.p === 1)) startGuess(ch); }
+
+    // phone as a voting card: try the group moment tonight
+    on($('[data-phone-vote]'), 'click', function () {
+      var o = document.createElement('div'); o.className = 'vote-screen'; o.setAttribute('role', 'dialog'); o.setAttribute('aria-label', 'קלף הצבעה בטלפון');
+      o.innerHTML = '<p class="vote-screen__hint">כולם בוחרים צבע בסוד, ואז מרימים את הטלפונים יחד</p><button type="button" class="vote-screen__b" data-c="blue">כחול</button><button type="button" class="vote-screen__b" data-c="green">ירוק</button><button type="button" class="vote-screen__x" aria-label="סגירה">×</button>';
+      document.body.appendChild(o); document.body.style.overflow = 'hidden';
+      var close = function () { o.remove(); document.body.style.overflow = ''; $('[data-phone-vote]').focus(); };
+      $$('.vote-screen__b', o).forEach(function (b) { on(b, 'click', function () { o.className = 'vote-screen is-' + b.dataset.c; o.innerHTML = '<button type="button" class="vote-screen__full">' + b.textContent + '<small>הקישו לחזרה</small></button>'; on($('.vote-screen__full', o), 'click', close); $('.vote-screen__full', o).focus(); }); });
+      on($('.vote-screen__x', o), 'click', close);
+      on(o, 'keydown', function (e) { if (e.key === 'Escape') close(); });
+      $('.vote-screen__b', o).focus();
     });
   }
+
+  // thanks screen: share the challenge, so every buyer starts a free demo for someone new
+  on($('[data-thanks-share]'), 'click', function () {
+    var url = location.href.split('#')[0].replace(/[^/]*$/, '') + 'index.html#draw';
+    var text = 'הזמנתי משחק שבודק מי באמת מכיר אותי. נסו קלף אחד כאן:';
+    if (navigator.share) navigator.share({ text: text, url: url }).catch(function () {});
+    else window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(text + '\n' + url), '_blank', 'noopener');
+  });
 
   render();
 })();

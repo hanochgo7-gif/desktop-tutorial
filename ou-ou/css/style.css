@@ -805,3 +805,59 @@ input, select, textarea { background: rgba(250, 253, 249, .78); }
 .foot .mark .logo { height: 44px; }
 .foot .mark__q { font-size: 1.05rem; padding-inline-start: 44px; }
 @media (max-width: 560px) { .mark .logo { height: 30px; } .mark__q { font-size: .8rem; padding-inline-start: 30px; } }
+
+/* =========================================================
+   Buyer-psychology pass
+   ========================================================= */
+/* mobile: show the product in the first screen (the big fan sits below the fold) */
+.hero__mini { display: none; }
+@media (max-width: 860px) {
+  .hero__art { display: none; }
+  .hero__mini { display: flex; align-items: center; justify-content: center; gap: 0; height: 150px; margin: 6px 0 14px; position: relative; }
+  .hero__mini .card { --w: 96px; position: relative; }
+  .hero__mini .card:first-child { transform: rotate(-9deg) translateX(-8px); }
+  .hero__mini .card:nth-child(2) { transform: rotate(7deg) translateX(8px); z-index: 1; }
+  .hero__mini .vote { position: absolute; width: 30px; height: 42px; bottom: 2px; }
+  .hero__mini .vote--blue { left: calc(50% - 118px); transform: rotate(-14deg); }
+  .hero__mini .vote--green { left: calc(50% - 92px); transform: rotate(4deg); }
+}
+
+/* gift as its own path */
+.btn--gift { background: var(--green); color: var(--ink); box-shadow: 0 8px 20px -12px rgba(86, 112, 13, .8); }
+.btn--gift:hover { background: #b6d04a; }
+.check--gift { background: var(--glass); border: 1.5px dashed var(--green-deep); border-radius: 12px; padding: 8px 12px; }
+
+/* honest anchors */
+.anchor { background: var(--glass); border-inline-start: 4px solid var(--green); border-radius: 12px; padding: 12px 16px; font-weight: 600; max-width: 56ch; }
+
+/* the "do you know me?" challenge */
+.draw__name { display: grid; gap: 6px; margin-top: 14px; max-width: 340px; }
+.draw__name label { font-weight: 600; font-size: .95rem; }
+.draw__more { margin-top: 12px; }
+.draw__more .linkbtn { min-height: 44px; text-align: start; }
+.pick.is-answer { box-shadow: 0 0 0 4px #fff, 0 0 0 8px #2e9c93; opacity: 1 !important; }
+.pick.is-wrong { opacity: .35 !important; text-decoration: line-through; }
+
+/* phone as a voting card */
+.vote-screen { position: fixed; inset: 0; z-index: 90; background: var(--ink); color: #fff; display: grid; grid-template-rows: auto 1fr 1fr; gap: 12px; padding: 64px 16px 16px; }
+.vote-screen__hint { margin: 0; text-align: center; font-weight: 600; }
+.vote-screen__b { border: 0; border-radius: 24px; font-family: var(--display); font-weight: 600; font-size: 2.6rem; color: #10202a; cursor: pointer; }
+.vote-screen__b[data-c="blue"] { background: var(--blue); }
+.vote-screen__b[data-c="green"] { background: var(--green); }
+.vote-screen__x { position: absolute; top: 12px; inset-inline-end: 12px; width: 48px; height: 48px; border-radius: 50%; border: 0; background: rgba(255, 255, 255, .15); color: #fff; font-size: 1.6rem; cursor: pointer; }
+.vote-screen.is-blue { background: var(--blue); padding: 0; display: block; }
+.vote-screen.is-green { background: var(--green); padding: 0; display: block; }
+.vote-screen__full { width: 100%; height: 100%; border: 0; background: transparent; font-family: var(--display); font-weight: 600; font-size: 4rem; color: #10202a; display: grid; place-content: center; gap: 12px; cursor: pointer; }
+.vote-screen__full small { font-family: var(--body); font-size: 1rem; opacity: .7; }
+
+/* research strip */
+.research { padding-block: 40px; }
+.research__in { background: var(--glass); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border: 1px solid var(--glass-line); border-radius: var(--radius); padding: 28px clamp(20px, 4vw, 40px); }
+.research__q { font-family: var(--display); font-weight: 600; font-size: clamp(1.4rem, 2.6vw, 1.9rem); margin: 0 0 10px; }
+.research__t { margin: 0; color: var(--ink-2); max-width: 72ch; }
+
+/* thanks screen: first card for tonight */
+.firstcard { display: grid; justify-items: center; gap: 10px; margin: 6px 0 10px; }
+.firstcard__l { font-weight: 700; color: var(--blue-deep); }
+.firstcard .card { --w: 150px; transform: rotate(-3deg); }
+@media (max-width: 860px) { body:not(.has-buybar) .wa { opacity: 0; pointer-events: none; transform: translateY(16px); } }

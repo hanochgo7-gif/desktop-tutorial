@@ -47,10 +47,12 @@
     <div class="hero__copy">
       <p class="eyebrow">משחק קלפים בעברית · לזוג ולקבוצה · מגיל 12</p>
       <h1><span>בטוחים שאתם</span> <span>מכירים אותי?</span><br><em><span>בואו נראה.</span></em></h1>
-      <p class="lede">משחק קלפים לחברים, למשפחה, לזוגות ולצוותים. בכל קלף שתי מילים: בוחרים בשקט מה מתאר אתכם, וכולם מנחשים. לא צריך לספר כלום, ובכל זאת נפתחות השיחות הכי טובות.</p>
+      <div class="hero__mini" aria-hidden="true"><div class="card card--flat"><span class="card__t">לשיר</span><span class="card__or">או</span><span class="card__b">לרקוד</span><span class="card__q">?</span></div><div class="card card--flat"><span class="card__t">מציב גבולות</span><span class="card__or">או</span><span class="card__b">מאפשר</span><span class="card__q">?</span></div><span class="vote vote--blue"></span><span class="vote vote--green"></span></div>
+      <p class="lede">משחק קלפים לחברים, למשפחה, לזוגות ולצוותים. בכל קלף שתי מילים: בוחרים בשקט מה מתאר אתכם, וכולם מנחשים. לא עונים על שאלות: מנחשים, מצביעים בבת אחת וצוברים נקודות. מי שמכיר הכי טוב מנצח.</p>
       <div class="hero__cta">
         <button class="btn btn--main" type="button" data-order>להזמנה · <span data-price>140</span> ₪</button>
         <a class="btn btn--ghost" href="#draw">נסו קלף עכשיו, בלי לקנות</a>
+        <button class="btn btn--gift" type="button" data-order-gift>🎁 שולחים כמתנה</button>
       </div>
       <p class="proof">נולד בהנחיית קבוצות של חיילים ומילואימניקים · נוצר על ידי רויטל, מנחת קבוצות</p>
       <ul class="facts" aria-label="מה בקופסה">
@@ -82,7 +84,12 @@
       <div class="draw__actions">
         <button class="btn btn--ghost" type="button" data-draw>שלפו קלף</button>
         <button class="btn btn--main" type="button" data-order data-draw-order hidden>רוצים עוד 72 כאלה? להזמנה · <span data-price>140</span> ₪</button>
-        <button class="btn btn--ghost" type="button" data-share hidden>שלחו לחבר שינחש</button>
+        <button class="btn btn--ghost" type="button" data-share hidden>שלחו לחבר/ה שינחש</button>
+        <button class="btn btn--ghost" type="button" data-guess-back hidden>חזרה</button>
+      </div>
+      <div class="draw__name" data-share-name hidden><label for="share-name">השם שלכם, כדי שידעו מי בחר <small>(לא חובה)</small></label><input id="share-name" maxlength="24" autocomplete="given-name"></div>
+      <div class="draw__more">
+        <button class="linkbtn" type="button" data-phone-vote>משחקים עכשיו בקבוצה? הפכו את הטלפון לקלף הצבעה</button>
       </div>
     </div>
     <div class="draw__stage">
@@ -121,6 +128,13 @@
         <p>"רגע, למה כולכם חשבתם שאני הולך על בטוח?" מהפער בין איך שאנחנו רואים את עצמנו לבין איך שאחרים רואים אותנו נולדות השיחות הכי מפתיעות.</p>
       </article>
     </div>
+  </div>
+</section>
+
+<section class="research" aria-label="מה המחקר אומר">
+  <div class="wrap research__in">
+    <p class="research__q">אנחנו בטוחים שהקרובים אלינו מכירים אותנו. המחקר פחות בטוח.</p>
+    <p class="research__t">במחקר מאוניברסיטת שיקגו (Savitsky ועמיתים, 2011) נמצא שאנשים קרובים מעריכים יתר על המידה כמה טוב הם מבינים זה את זה. או או הוא הדרך הכי כיפית לבדוק את זה אצלכם. <a href="https://news.uchicago.edu/story/couples-sometimes-communicate-no-better-strangers-study-finds" target="_blank" rel="noopener">על המחקר</a></p>
   </div>
 </section>
 
@@ -163,7 +177,7 @@
       </article>
       <article class="who__item">
         <h3>זוגות</h3>
-        <p>בגרסה הזוגית מנחשים זה את זה, קלף אחרי קלף. גם אחרי שנים יחד, תופתעו כמה פעמים תטעו.</p>
+        <p>מתנה לשנה ביחד: בגרסה הזוגית מנחשים זה את זה, קלף אחרי קלף. גם אחרי שנים, תגלו כמה עוד לא ניחשתם.</p>
       </article>
       <article class="who__item">
         <h3>צוותים וארגונים</h3>
@@ -191,7 +205,7 @@
         <li><b>הוראות</b> למשחק בזוג ולמשחק בקבוצה</li>
       </ul>
       <p class="price"><span data-price>140</span> ₪ <small>למשחק · מחיר המשלוח מאושר איתכם לפני התשלום</small></p>
-      <p class="price-note">קופסה אחת מספיקה לקבוצה של עד <span dir="ltr">35</span> משתתפים</p>
+      <p class="price-note">קופסה אחת לעד <span dir="ltr">35</span> משתתפים: בקבוצה מלאה זה 4 ₪ למשתתף, ומשחקים בה שוב ושוב, עם כל קבוצה חדשה.</p>
       <div class="qty-row">
         <div class="qty" role="group" aria-label="כמות">
           <button type="button" data-qty="+1" aria-label="הוספת יחידה">+</button>
@@ -202,7 +216,7 @@
       </div>
       <ul class="assure">
         <li>לא משלמים באתר: רויטל מאשרת איתכם משלוח וסכום, ורק אז משלמים (אשראי או ביט)</li>
-        <li>מתנה? שולחים ישר למקבל/ת, עם ברכה אישית</li>
+        <li>מתנה? לא עוד חפץ על המדף, אלא ערב שלם של צחוק והפתעות. שולחים ישר למקבל/ת, עם ברכה אישית</li>
         <li>נארז ונשלח ידנית על ידי רויטל</li>
         <li>14 ימים לביטול לפי חוק, ומוצר פגום מוחלף בלי עלות</li>
       </ul>

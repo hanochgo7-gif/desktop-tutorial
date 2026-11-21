@@ -92,21 +92,20 @@
       '<form class="drawer__body form" data-view="checkout" data-checkout novalidate hidden>' + steps(2) + qtyRow +
         '<fieldset><legend>הפרטים שלכם</legend>' +
           field('c-name', 'name', 'שם מלא', 'autocomplete="name" required') +
-          field('c-phone', 'phone', 'טלפון נייד', 'type="tel" autocomplete="tel" inputmode="tel" required placeholder="050-1234567"', 'כאן רויטל תחזור אליכם לאישור') +
-          field('c-email', 'email', 'מייל לקבלה <small>(לא חובה)</small>', 'type="email" autocomplete="email" inputmode="email"') +
-        '</fieldset>' +
+          field('c-phone', 'phone', 'טלפון נייד <small>(לא חובה)</small>', 'type="tel" autocomplete="tel" inputmode="tel" placeholder="050-1234567"', 'ההזמנה נשלחת מהוואטסאפ שלכם, אז רויטל כבר תראה את המספר. ממלאים רק אם רוצים שתחזור למספר אחר') +
+          '</fieldset>' +
         '<fieldset><legend>משלוח</legend>' +
           '<div class="radios" data-ship-options role="radiogroup" aria-label="שיטת משלוח"></div>' +
           '<p class="hint-inline" data-ship-note>את מחיר המשלוח וזמן ההגעה רויטל מאשרת איתכם לפני התשלום. לא מתאים? מבטלים בלי עלות.</p>' +
-          '<label class="check"><input type="checkbox" name="gift" data-gift-toggle> <span>זו מתנה: שלחו ישר למקבל/ת, עם ברכה</span></label>' +
+          '<label class="check check--gift"><input type="checkbox" name="gift" data-gift-toggle> <span>זו מתנה: שולחים ישר למקבל/ת, עם ברכה אישית</span></label>' +
           '<div class="gift" data-gift hidden>' +
             field('c-rname', 'rname', 'שם המקבל/ת', 'autocomplete="off"') +
-            field('c-rphone', 'rphone', 'טלפון המקבל/ת', 'type="tel" inputmode="tel" autocomplete="off" placeholder="050-1234567"', 'לתיאום המשלוח בלבד') +
+            field('c-rphone', 'rphone', 'טלפון המקבל/ת <small>(לא חובה)</small>', 'type="tel" inputmode="tel" autocomplete="off" placeholder="050-1234567"', 'רוצים לשמור על הפתעה? השאירו ריק ורויטל תתאם איתכם') +
             '<div class="field field--full"><label for="c-note">ברכה שתצורף למשחק <small>(לא חובה)</small></label><textarea id="c-note" name="note" rows="2" maxlength="300"></textarea></div>' +
           '</div>' +
           field('c-city', 'city', '<span data-city-label>עיר</span>', 'autocomplete="address-level2" required') +
           field('c-addr', 'addr', '<span data-addr-label>רחוב ומספר בית</span>', 'autocomplete="street-address"') +
-          '<details class="more-notes"><summary>+ הוספת הערה להזמנה</summary><div class="field field--full"><label for="c-notes" class="sr-only">הערות להזמנה</label><input id="c-notes" name="notes" placeholder="למשל: קומה, קוד לבניין, מועד נוח"></div></details>' +
+          '<details class="more-notes"><summary>+ מייל לקבלה והערות להזמנה</summary>' + field('c-email', 'email', 'מייל לקבלה <small>(לא חובה)</small>', 'type="email" autocomplete="email" inputmode="email"') + '<div class="field field--full"><label for="c-notes">הערות להזמנה <small>(לא חובה)</small></label><input id="c-notes" name="notes" placeholder="למשל: קומה, קוד לבניין, מועד נוח"></div></details>' +
         '</fieldset>' +
         '<label class="check"><input type="checkbox" name="agree" required aria-describedby="c-agree-err"> <span>קראתי ואני מסכים/ה ל<a href="terms.html" target="_blank" rel="noopener">תקנון<span class="sr-only"> (נפתח בחלון חדש)</span></a></span></label>' +
         '<p class="field__err" id="c-agree-err"></p>' +
@@ -120,7 +119,7 @@
 
       '<div class="drawer__body done" data-view="done" hidden>' + steps(3) +
         '<div class="done__icon done__icon--wa" aria-hidden="true"></div>' +
-        '<p class="done__h" id="done-h">נשאר רק לשלוח את ההודעה בוואטסאפ</p>' +
+        '<p class="done__h" id="done-h">הודעה אחת ואתם בפנים: לוחצים ״שליחה״ בוואטסאפ</p>' +
         '<p>ההודעה עם פרטי ההזמנה (מספר <bdi class="nowrap" dir="ltr" data-order-id></bdi>) מוכנה בוואטסאפ. ההזמנה מגיעה לרויטל רק אחרי שלוחצים שם <b>״שליחה״</b>.</p>' +
         '<a class="btn btn--main btn--wide btn--wa" data-done-link href="#" target="_blank" rel="noopener">פתיחת וואטסאפ ושליחת ההזמנה</a>' +
         '<p class="hint">אם וואטסאפ לא נפתח, לחצו על הכפתור. אפשר גם להתקשר: <a data-tel href="#"><span data-phone>050-7281161</span></a></p>' +
@@ -130,7 +129,9 @@
       '<div class="drawer__body done" data-view="thanks" hidden>' +
         '<div class="done__icon" aria-hidden="true">♥</div>' +
         '<p class="done__h">תודה! ההזמנה אצל רויטל.</p>' +
-        '<p>היא תחזור אליכם לאישור, לתשלום ולתיאום המשלוח. בינתיים, אפשר להציץ ב<a href="how-to-play.html">הוראות המשחק</a>.</p>' +
+        '<p>היא תחזור אליכם לאישור, לתשלום ולתיאום המשלוח.</p>' +
+        '<div class="firstcard"><span class="firstcard__l">הקלף הראשון שלכם לערב</span><div class="card card--flat"><span class="card__t">לצאת חכם</span><span class="card__or">או</span><span class="card__b">לצאת צודק</span><span class="card__q">?</span></div></div>' +
+        '<button class="btn btn--main btn--wide" type="button" data-thanks-share>שלחו לחבר/ה קלף לניחוש</button>' +
         '<button class="btn btn--ghost btn--wide" type="button" data-close>סגירה</button>' +
       '</div>' +
     '</aside>' +
