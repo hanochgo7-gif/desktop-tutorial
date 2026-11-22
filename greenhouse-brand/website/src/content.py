@@ -922,18 +922,14 @@ GALLERY = {
         ]),
         (("Working on the net", "עבודה על הרשת"), [  # stills chosen by Hanoch and Merav, 22 Nov 2026
             ("s018", ("Working on the gathered net at the ridge cable", "עבודה על הרשת האסופה בכבל הרכס")),
-            ("s019", ("From the lift, hands on the net", "מבמת ההרמה, ידיים על הרשת")),
             ("s020", ("Handling the net from the lift basket", "טיפול ברשת מסל במת ההרמה")),
-            ("s021", ("Two layers of net over the worker", "שתי שכבות רשת מעל העובד")),
             ("s022", ("The lift moving along the row", "במת ההרמה נעה לאורך השורה")),
             ("s023", ("Net strips running from the lift", "רצועות הרשת יוצאות מבמת ההרמה")),
             ("s024", ("Guiding the net strip from the basket", "הכוונת רצועת הרשת מהסל")),
             ("s043", ("The lift between the net walls", "במת ההרמה בין דפנות הרשת")),
             ("s044", ("Up at the ridge, between two net walls", "למעלה ברכס, בין שתי דפנות רשת")),
-            ("s045", ("Working at the ridge over the orchard", "עבודה ברכס מעל המטע")),
             ("s046", ("Reaching for the cable at the ridge", "יד אל הכבל ברכס")),
             ("s047", ("From the lift, under a white net", "מבמת ההרמה, מתחת לרשת לבנה")),
-            ("s048", ("The lift in the middle of the row", "במת ההרמה באמצע השורה")),
             ("s059", ("Under the net, from the lift basket", "מתחת לרשת, מסל במת ההרמה")),
         ]),
         (("Shading for work areas", "הצללה לאזורי תפעול"), [
@@ -985,7 +981,6 @@ GALLERY = {
         ]),
         (("In the orchards", "במטעים"), [  # stills chosen by Hanoch and Merav, 22 Nov 2026
             ("s168", ("Checking the plants on the pergola trellis", "בדיקת הצמחים בהדליית הסוכה")),
-            ("s173", ("On the pergola trellis, under the net", "בהדליית הסוכה, מתחת לרשת")),
             ("s174", ("Reaching for a branch on the pergola trellis", "יד אל ענף בהדליית הסוכה")),
             ("s084", ("Between the orchard rows", "בין שורות המטע")),
             ("s209", ("In an orchard in bloom, under the net", "במטע פורח, מתחת לרשת")),
