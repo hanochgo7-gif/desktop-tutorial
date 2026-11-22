@@ -573,7 +573,7 @@ def render(p):
 <meta property="og:url" content="{U}">
 <meta property="og:image" content="{D}/work/og-home.jpg">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="{'#e8ebe4' if he else '#0a0a0b'}">
+<meta name="theme-color" content="{'#0e1613' if he else '#0a0a0b'}">
 <link rel="icon" href="{up}images/icon-180.png" type="image/png">
 <link rel="apple-touch-icon" href="{up}images/icon-180.png">
 {studio_head(up) if he else OLD_HEAD(up, he)}
@@ -650,7 +650,7 @@ def hub(lang):
 <link rel="alternate" hreflang="he" href="{D}/services/"><link rel="alternate" hreflang="en" href="{D}/services/en/"><link rel="alternate" hreflang="x-default" href="{D}/services/">
 <meta property="og:type" content="website"><meta property="og:locale" content="{'he_IL' if he else 'en_US'}"><meta name="twitter:card" content="summary_large_image">
 <meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:url" content="{U}"><meta property="og:image" content="{D}/work/og-home.jpg">
-<meta name="theme-color" content="{'#e8ebe4' if he else '#0a0a0b'}">
+<meta name="theme-color" content="{'#0e1613' if he else '#0a0a0b'}">
 <link rel="icon" href="{up}images/icon-180.png" type="image/png">
 {studio_head(up) if he else OLD_HEAD(up, he, HUB_EXTRA)}
 <script type="application/ld+json">{ld}</script>

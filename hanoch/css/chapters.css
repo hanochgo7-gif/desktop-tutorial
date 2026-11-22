@@ -1,6 +1,5 @@
-/* דף הבית, "כל עסק. שפה משלו.": מסגרת הסטודיו (גיר, אורן, קו כתום) וחמישה פרקים, כל אחד בעולם של הלקוח שלו.
-   הפתיחה: קו כתום אחד בונה מחדש את האתר הקודם של ש. גוטובסקי וצובע את המשטח בעולם שלו, ואחר כך עובר ללקוח הבא (js/chapters.js).
-   העבודות: בדסקטופ הפרקים נערמים זה על זה, וכל עולם נכנס על תפר כתום. בטלפון (עד 899px) ובמסך נמוך הם פשוט נגללים.
+/* דף הבית, "כל עסק. שפה משלו.": חמשת העולמות של הלקוחות (הפרקים) והחלקים שאחרי העבודות.
+   חדר ההקרנה (הפתיחה, הבמה הקבועה מאחורי העמוד והמסגרת הכהה): css/room.css ו-js/room.js.
    הכותרת העליונה, התחתונה ופס הפנייה: css/head.css. גופני הלקוחות נטענים רק בעמוד הזה. */
 
 /* ---------- גופני הלקוחות (SIL OFL 1.1, fonts/b) ---------- */
@@ -63,7 +62,6 @@ body.b-home .top.is-scrolled { background: var(--hd-bg); border-bottom-color: va
 @media (min-width: 900px) and (max-width: 1279.98px) {
   body.b-home .top .top-wa { display: none; }
   body.b-home .top .nav { gap: 1.15rem; }
-  .hx { grid-template-columns: minmax(0, 1fr) 37vw; }
 }
 body[data-theme="ams"]      { --hd-line: rgba(242, 236, 224, .14); --hd-fg: #f2ece0; --hd-btn: #c9a45c; --hd-btn-ink: #140f0a; --hd-bg: #140f0a; }
 body[data-theme="chef"]     { --hd-line: rgba(243, 242, 236, .16); --hd-fg: #f3f2ec; --hd-btn: #f3f2ec; --hd-btn-ink: #3b1a23; --hd-bg: #3b1a23; }
@@ -78,110 +76,34 @@ body[data-theme="contact"] .top .logo { background: var(--st-ink); color: var(--
 }
 
 /* =========================================================
-   הפתיחה
-   ========================================================= */
-.hx { position: relative; min-height: 100vh; min-height: 100svh; display: grid; grid-template-columns: minmax(0, 1fr) 40vw; background: var(--chalk); }
-.hx-copy { grid-column: 1; align-self: center; padding: 118px var(--m) 64px calc(var(--m) * .9); color: var(--pine); }
-.hx-h1 { font: 800 var(--t-xxl)/.98 var(--st-display); letter-spacing: -.006em; }
-.hx-h1 .ln { display: block; }
-.hx-h1 em { font-style: normal; position: relative; white-space: nowrap; }
-.hx-h1 em::after { content: ""; position: absolute; right: 0; left: .04em; bottom: .02em; height: .07em; background: var(--hg-orange); transform-origin: right; }
-.hx-sub { margin-top: clamp(1.4rem, 3.4vh, 2.2rem); font: 400 var(--t-l)/1.08 var(--st-display); }
-.hx-offer .in { text-wrap: balance; }
-.hx-offer { margin-top: .6rem; font-size: clamp(1.06rem, 1.4vw, 1.3rem); line-height: 1.5; color: var(--pine-soft); }
-.hx-act { margin-top: clamp(1.8rem, 4.4vh, 2.6rem); }
-.ln { display: block; overflow: hidden; padding-bottom: .08em; margin-bottom: -.08em; }
-.in { display: inline-block; }
-html.motion:not(.a11y-no-motion) .hx .in { animation: hx-rise 1.05s cubic-bezier(.16, 1, .3, 1) both; }
-html.motion:not(.a11y-no-motion) .hx-h1 .ln:nth-child(2) .in { animation-delay: .1s; }
-html.motion:not(.a11y-no-motion) .hx-sub .in { animation-delay: .22s; }
-html.motion:not(.a11y-no-motion) .hx-offer .in { animation-delay: .32s; }
-html.motion:not(.a11y-no-motion) .hx-act .in { animation-delay: .42s; }
-html.motion:not(.a11y-no-motion) .hx-h1 em::after { animation: hx-draw .7s cubic-bezier(.65, 0, .35, 1) .95s both; }
-.hx-act .ln { overflow: visible; }
-html.motion:not(.a11y-no-motion) .hx-act .in { animation-name: hx-fade; }
-@keyframes hx-rise { from { transform: translateY(108%); } to { transform: none; } }
-@keyframes hx-fade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
-@keyframes hx-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-
-/* המשטח: עולם אחד גלוי, והבא נצבע מעליו מלמעלה למטה עד הקו */
-.hx-field { grid-column: 2; position: relative; margin: 0; overflow: hidden; min-height: 100%; }
-.worlds, .world { position: absolute; inset: 0; }
-.world { visibility: hidden; }
-.world .tex { position: absolute; inset: 0; }
-.cap { position: absolute; inset-inline: 40px; bottom: 34px; display: grid; justify-items: start; gap: 2px; }
-.cap-name { font-size: 1.85rem; line-height: 1.1; }
-.cap-what { font-size: .9rem; opacity: .82; }
-.cap-both { display: none; font-size: .9rem; opacity: .82; }
-.cap .pal { margin-bottom: 12px; }
-.hx-phone { position: absolute; z-index: 3; left: 50%; top: max(100px, calc(50% - 330px)); width: clamp(210px, 19vw, 282px); aspect-ratio: 480 / 1039; transform: translateX(-50%);
-  border-radius: 40px; padding: 8px; background: #0d0f0e; box-shadow: 0 0 0 1px rgba(255, 255, 255, .16), 0 30px 60px -30px rgba(0, 0, 0, .55); }
-.hx-screen { position: relative; width: 100%; height: 100%; border-radius: 32px; overflow: hidden; background: #fff; }
-.hx-screen img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top; visibility: hidden; }
-.sweep { position: absolute; z-index: 4; inset: 0 0 auto 0; height: 2px; background: var(--hg-orange); transform: translateY(calc(50% * 1)); top: 50%; }
-.sweep::before { content: ""; position: absolute; right: -1px; top: -5px; width: 12px; height: 12px; border-radius: 50%; background: var(--hg-orange); }
-/* בלי JS ובלי תנועה: חצי-חצי. למעלה האתר החדש בעולם שלו, למטה האתר הקודם, והקו ביניהם */
-.hx-field:not(.is-live) .w-old, .hx-field:not(.is-live) .w-gotovski, .hx-field:not(.is-live) img[data-w="old"], .hx-field:not(.is-live) img[data-w="gotovski"] { visibility: visible; }
-.hx-field:not(.is-live) .w-gotovski { clip-path: inset(0 0 50% 0); z-index: 1; }
-.hx-field:not(.is-live) .w-gotovski .cap { display: none; }
-.hx-field:not(.is-live) img[data-w="gotovski"] { clip-path: inset(0 0 50% 0); z-index: 1; }
-.hx-field:not(.is-live) .w-old .cap-both { display: block; }
-.hx-field:not(.is-live) .w-old .cap-what { display: none; }
-/* עם תנועה: הצבע הראשון הוא "לפני" בלבד, עד שהסקריפט מתחיל (בלי הבזק של החצי-חצי) */
-html.motion:not(.a11y-no-motion) .hx-field:not(.is-live) .w-gotovski, html.motion:not(.a11y-no-motion) .hx-field:not(.is-live) img[data-w="gotovski"] { visibility: hidden; }
-html.motion:not(.a11y-no-motion) .hx-field:not(.is-live) .sweep { opacity: 0; }
-html.motion:not(.a11y-no-motion) .hx-field:not(.is-live) .w-old .cap-both { display: none; }
-html.motion:not(.a11y-no-motion) .hx-field:not(.is-live) .w-old .cap-what { display: block; }
-.hx-field.is-live .sweep { top: 0; transform: none; opacity: 0; will-change: transform; }
-.hx-field.is-live .world.on, .hx-field.is-live .hx-screen img.on { visibility: visible; }
-.hx-pause { position: absolute; z-index: 5; bottom: 76px; left: 24px; display: inline-flex; align-items: center; gap: .45rem; min-height: 44px; padding: 0 14px; border: 1px solid currentColor; border-radius: 2px;
-  background: transparent; font: 500 .86rem/1 var(--st-text); cursor: pointer; color: var(--fcap, #fff); opacity: .9; }
-.hx-pause:hover { opacity: 1; }
-.hx-pause svg { width: 14px; height: 14px; }
-.hx-pause .i-play, .hx-pause[aria-pressed="true"] .i-pause { display: none; }
-.hx-pause[aria-pressed="true"] .i-play { display: block; }
-.hx-pause[hidden] { display: none; }
-.hx-field[data-now="old"], .hx-field[data-now="clinic"] { --fcap: #2c2a2a; }
-
-/* =========================================================
-   העולמות: משותפים למשטח בפתיחה ולפרקים
+   העולמות של הלקוחות
    ========================================================= */
 .pal { display: inline-flex; height: 8px; width: 76px; box-shadow: 0 0 0 1px rgba(127, 127, 127, .35); }
 .pal i { flex: 1; background: var(--c); }
 
-.w-old { background: #d9d9d6; color: #4f4f55; }
-.w-old .tex { background: repeating-linear-gradient(0deg, transparent 0 23px, rgba(0, 0, 0, .05) 23px 24px); }
-.w-old .cap-name { font: 700 1.5rem/1.1 Arial, sans-serif; }
-.w-old .cap-what { font-family: Arial, sans-serif; }
 
-.grain::after, .w-ams .tex::after, .ch-ams .tex::after, .ch-chef .tex::after, .ch-gotovski .tex::after {
+.ch-ams .tex::after, .ch-chef .tex::after, .ch-gotovski .tex::after {
   content: ""; position: absolute; inset: 0; opacity: .14; mix-blend-mode: overlay; pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
 
-.w-ams, .ch-ams { background: #140f0a; color: #f2ece0; }
-.w-ams .cap-name, .ch-ams .who-name { font: 600 2.4rem/1 var(--st-text); letter-spacing: .06em; color: #c9a45c; }
-.w-ams .cap-name { font-size: 1.9rem; }
-.w-ams .tex, .ch-ams .tex { background: linear-gradient(#a6844966, #a6844966) 0 31% / 100% 1px no-repeat, linear-gradient(#a6844944, #a6844944) 0 47% / 100% 1px no-repeat, linear-gradient(#a6844926, #a6844926) 0 63% / 100% 1px no-repeat; }
+.ch-ams { background: #140f0a; color: #f2ece0; }
+.ch-ams .who-name { font: 600 2.4rem/1 var(--st-text); letter-spacing: .06em; color: #c9a45c; }
+.ch-ams .tex { background: linear-gradient(#a6844966, #a6844966) 0 31% / 100% 1px no-repeat, linear-gradient(#a6844944, #a6844944) 0 47% / 100% 1px no-repeat, linear-gradient(#a6844926, #a6844926) 0 63% / 100% 1px no-repeat; }
 
-.w-chef, .ch-chef { background: #3b1a23; color: #f3f2ec; }
-.w-chef .cap-name, .ch-chef .who-name { font: 700 2.1rem/1.05 "C Bona", var(--st-display); }
-.w-chef .cap-name { font-size: 1.8rem; }
-.w-chef .tex, .ch-chef .tex { box-shadow: inset 0 0 0 20px #3b1a23, inset 0 0 0 21px #f3f2ec33, inset 0 0 0 26px #3b1a23, inset 0 0 0 27px #f3f2ec22; }
+.ch-chef { background: #3b1a23; color: #f3f2ec; }
+.ch-chef .who-name { font: 700 2.1rem/1.05 "C Bona", var(--st-display); }
+.ch-chef .tex { box-shadow: inset 0 0 0 20px #3b1a23, inset 0 0 0 21px #f3f2ec33, inset 0 0 0 26px #3b1a23, inset 0 0 0 27px #f3f2ec22; }
 
-.w-clinic, .ch-clinic { background: #f2e8e3; color: #3d3132; }
-.w-clinic .cap-name, .ch-clinic .who-name { font: 400 2.1rem/1.05 "C Bellefair", var(--st-display); }
-.w-clinic .cap-name { font-size: 1.85rem; }
-.w-clinic .tex { background: radial-gradient(circle at 18% 22%, #e6c1bb 0 9%, transparent 9.2%), radial-gradient(circle at 86% 64%, #e6c1bb99 0 6%, transparent 6.2%); }
+.ch-clinic { background: #f2e8e3; color: #3d3132; }
+.ch-clinic .who-name { font: 400 2.1rem/1.05 "C Bellefair", var(--st-display); }
 
-.w-allenbis, .ch-allenbis { background: #0a0e1d; color: #e9eef8; }
-.w-allenbis .cap-name, .ch-allenbis .who-name { font: 400 2.3rem/1 "C Secular", var(--st-display); color: #ff4f9a; }
-.w-allenbis .cap-name { font-size: 1.85rem; }
-.w-allenbis .tex, .ch-allenbis .tex { background: repeating-linear-gradient(0deg, transparent 0 179px, #1b439666 179px 181px), repeating-linear-gradient(90deg, transparent 0 239px, #1b439633 239px 240px); }
+.ch-allenbis { background: #0a0e1d; color: #e9eef8; }
+.ch-allenbis .who-name { font: 400 2.3rem/1 "C Secular", var(--st-display); color: #ff4f9a; }
+.ch-allenbis .tex { background: repeating-linear-gradient(0deg, transparent 0 179px, #1b439666 179px 181px), repeating-linear-gradient(90deg, transparent 0 239px, #1b439633 239px 240px); }
 
-.w-gotovski, .ch-gotovski { background: #0d2f4a; color: #edebe7; }
-.w-gotovski .cap-name, .ch-gotovski .who-name { font: 600 2.3rem/1 "C Noto Sans", var(--st-display); }
-.w-gotovski .cap-name { font-size: 1.95rem; }
-.w-gotovski .tex, .ch-gotovski .tex { background:
+.ch-gotovski { background: #0d2f4a; color: #edebe7; }
+.ch-gotovski .who-name { font: 600 2.3rem/1 "C Noto Sans", var(--st-display); }
+.ch-gotovski .tex { background:
   repeating-linear-gradient(0deg, transparent 0 79px, #2f6d9766 79px 80px), repeating-linear-gradient(90deg, transparent 0 79px, #2f6d9766 79px 80px),
   repeating-linear-gradient(0deg, transparent 0 15px, #2f6d9724 15px 16px), repeating-linear-gradient(90deg, transparent 0 15px, #2f6d9724 15px 16px); }
 
@@ -487,37 +409,10 @@ html.motion [data-rv].is-in { opacity: 1; transform: none; }
 body.b-home .ft { margin-top: 0; }
 
 /* =========================================================
-   דסקטופ גבוה מספיק: הפרקים נערמים
-   ========================================================= */
-@media (min-width: 900px) and (min-height: 680px) {
-  .intro { position: sticky; top: 0; }
-  .ch { position: sticky; top: 0; height: 100vh; min-height: 680px; }
-  .ch-in { transform: translateY(calc(var(--out, 0) * -40px)) scale(calc(1 - var(--out, 0) * .035)); transform-origin: 50% 0; }
-}
-@media (min-width: 900px) and (max-height: 679.98px) {
-  .ch { min-height: 680px; }
-  .ch .shade { display: none; }
-}
-
-/* =========================================================
    טלפון וטאבלט צר
    ========================================================= */
 @media (max-width: 899px) {
-  .hx { display: block; min-height: 0; }
-  .hx-copy { padding: 84px var(--m) 26px; }
-  .hx-h1 { font-size: clamp(2.6rem, 14vw, 4.6rem); line-height: 1.02; }
-  .hx-sub { margin-top: 1.2rem; font-size: 1.85rem; }
-  .hx-offer { font-size: 1.05rem; }
-  .hx-act { margin-top: 1.2rem; }
-  .hx-sub { margin-top: .8rem !important; }
   .btn { min-height: 54px; font-size: 1rem; padding: 0 1.3rem 0 1.4rem; }
-  .hx-field { height: 420px; min-height: 0; }
-  .hx-phone { top: 22px; left: var(--m); transform: none; width: min(172px, 44vw); padding: 6px; border-radius: 28px; }
-  .hx-screen { border-radius: 22px; }
-  .cap { inset-inline-start: var(--m); inset-inline-end: auto; width: calc(100% - min(172px, 44vw) - var(--m) * 3); }
-  .hx-pause { top: 18px !important; bottom: auto !important; left: auto !important; right: var(--m); }
-  .cap { bottom: 22px; }
-  .cap-name { font-size: 1.5rem !important; }
 
   .intro { min-height: 0; }
   .intro-in { display: block; padding: 84px var(--m) 72px; }

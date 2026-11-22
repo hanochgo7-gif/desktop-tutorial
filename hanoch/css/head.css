@@ -149,3 +149,46 @@ html.a11y-contrast { --pine-soft: #23392f; --hd-mute: var(--pine); --rule: #6d7d
 html[lang="en"] body:not(.st) { --hd-bg: #000; --hd-fg: #ede8df; --hd-mute: #8c877f; --hd-line: rgba(237, 232, 223, .14); --hd-btn: #ede8df; --hd-btn-ink: #000; background: #000; }
 html[lang="en"] body:not(.st) .top .menu-sheet { background: #000; color: #ede8df; }
 html[lang="en"] body:not(.st) .top .menu-sheet a { color: #ede8df; font-family: var(--st-text); font-weight: 400; }
+
+/* =========================================================
+   חדר ההקרנה: המסגרת הכהה של כל העמודים בעברית (body.st). העמודים באנגלית, תיק העבודות הישן והארכיון לא משתנים.
+   דיו-אורן במקום גיר, אותו קו כתום. בעמודי הטקסט עמודת הקריאה נשארת בהירה (css/page.css): טקסט ארוך בעברית
+   נקרא הכי טוב כהה על בהיר, והקולנוע הוא המסגרת.
+   ========================================================= */
+body.st {
+  --st-bg: #0e1613; --st-bg-2: #131d19; --st-fg: #e8ebe4; --st-fg-2: #c3cbc1; --st-mute: #9fb0a6; --st-line: rgba(232, 235, 228, .16);
+  --hd-bg: var(--st-bg); --hd-fg: var(--st-fg); --hd-mute: var(--st-mute); --hd-line: var(--st-line); --hd-btn: var(--st-fg); --hd-btn-ink: var(--st-bg);
+  background: var(--st-bg);
+}
+html:has(body.st) { scrollbar-color: rgba(232, 235, 228, .3) #0e1613; background: #0e1613; }
+body.st .top .top-wa:hover { background: var(--hg-orange); color: #160904; }
+body.st .top .menu-sheet { background: var(--st-bg); color: var(--st-fg); box-shadow: 0 40px 80px -40px #000; }
+body.st .top .menu-sheet a, body.st .top .menu-sheet button { color: var(--st-fg); }
+body.st .top .menu-sheet .top-lang, body.st .top .menu-sheet a[href^="tel:"], body.st .top .menu-sheet button, body.st .top .menu-sheet a[aria-current] { color: var(--st-mute); }
+body.st .top .menu-sheet .menu-wa { color: #160904; }
+body.st .top .menu-sheet :focus-visible { outline-color: var(--st-fg); }
+body.st .ft { background: #090e0c; color: rgba(232, 235, 228, .74); border-top: 1px solid var(--st-line); }
+/* הכפתורים הצפים: עיגול כהה עם סמל בהיר */
+body.st .a11y__btn, body.st .ht-btn { background: #16211c !important; color: var(--st-fg) !important; border-color: rgba(232, 235, 228, .3) !important; box-shadow: 0 8px 22px -10px #000 !important; }
+body.st .a11y__btn:hover, body.st .ht-btn:hover { border-color: var(--st-fg) !important; }
+body.st .a11y__btn:focus-visible, body.st .ht-btn:focus-visible { outline-color: var(--st-fg) !important; }
+/* העוגיות: פס כהה, אותו מבנה (js/consent.js לא השתנה) */
+body.st .consent { background: #131d19; color: var(--st-fg); border-top-color: var(--st-line); box-shadow: 0 -16px 40px -24px #000; }
+body.st .consent__text { color: var(--st-fg-2); }
+body.st .consent__text a { color: var(--st-fg); }
+body.st .consent__btn { border-color: rgba(232, 235, 228, .45); color: var(--st-fg); background: transparent; }
+body.st .consent__btn:hover { border-color: var(--st-fg); }
+body.st .consent__btn[data-choice="yes"] { background: var(--st-fg); border-color: var(--st-fg); color: var(--st-bg); }
+body.st .consent__btn:focus-visible, body.st .consent__text a:focus-visible { outline-color: var(--st-fg); }
+@media (max-width: 899px) {
+  body.st .dock { background: rgba(14, 22, 19, .96); border-top-color: var(--st-line); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  body.st .dock .dock-wa { color: #160904; }
+  body.st .dock .dock-call { border-color: rgba(232, 235, 228, .4); color: var(--st-fg); }
+  body.st .dock a:focus-visible { outline-color: var(--st-fg); }
+}
+/* עמודי טקסט: עמודה בהירה בתוך החדר, עם הקו הכתום למעלה */
+body.st:not(.b-home) > main#main { position: relative; background: var(--chalk); color: var(--st-ink); border-top: 3px solid var(--hg-orange); }
+@media (min-width: 900px) {
+  body.st:not(.b-home) > main#main { margin: clamp(10px, 1.6vw, 28px) clamp(10px, 1.6vw, 28px) clamp(28px, 4vw, 56px); box-shadow: 0 0 0 1px rgba(232, 235, 228, .06), 0 60px 140px -70px #000, 0 -30px 120px -60px rgba(255, 91, 31, .25); }
+}
+html.a11y-contrast body.st { --st-mute: #c9d3cc; --st-fg-2: #e8ebe4; }

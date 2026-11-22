@@ -162,7 +162,7 @@ def head(title, desc, url, img, extra=''):
 <meta property="og:url" content="{url}">
 <meta property="og:image" content="{img}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#e8ebe4">
+<meta name="theme-color" content="#0e1613">
 <link rel="icon" href="../images/icon-180.png" type="image/png">
 <link rel="apple-touch-icon" href="../images/icon-180.png">
 {studio_head('../')}
