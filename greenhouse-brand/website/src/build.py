@@ -846,6 +846,10 @@ def p_about(L):
       <div class="person"><h3>{esc(t(P["merav"], L))}</h3><p class="role">{esc(t(P["merav_r"], L))}</p><p>{esc(t(P["merav_p"], L))}</p></div>
       <div class="person"><h3>{esc(t(P["yiftach"], L))}</h3><p class="role">{esc(t(P["yiftach_r"], L))}</p><p>{esc(t(P["yiftach_p"], L))}</p></div>
     </div>
+    <div class="sec-head team-h"><h2>{esc(t(P["team_h"], L))}</h2></div>
+    <div class="people three">
+      {"".join(f'<div class="person"><h3>{esc(t(n, L))}</h3><p class="role">{esc(t(r, L))}</p><p>{esc(t(p, L))}</p></div>' for n, r, p in P["team"])}
+    </div>
   </div>
 </section>
 <section class="section white" aria-labelledby="how-h">

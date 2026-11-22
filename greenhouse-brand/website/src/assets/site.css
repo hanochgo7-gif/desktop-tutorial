@@ -339,7 +339,10 @@ img.archive { filter: saturate(.88) contrast(1.04); }
 .person { border-top: 4px solid var(--forest); padding-top: 20px; }
 .person .role { font-weight: 600; color: var(--canopy); margin-top: 4px; }
 .person p { margin-top: 12px; color: var(--ink-2); }
-@media (max-width: 760px) { .people { grid-template-columns: 1fr; } }
+.people.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.sec-head.team-h { margin-top: clamp(48px, 7vw, 88px); }
+@media (max-width: 1000px) { .people.three { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 760px) { .people, .people.three { grid-template-columns: 1fr; } }
 .values { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 clamp(24px, 3vw, 48px); }
 .values li { padding: 18px 0; border-top: 1px solid var(--line); }
 .values b { display: block; color: var(--forest); font-size: 1.125rem; }

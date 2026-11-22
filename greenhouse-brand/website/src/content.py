@@ -417,6 +417,19 @@ PAGES = {
         "mgmt_k": ("Management", "הנהלה"),
         "mgmt": ("Merav Eyal Hasfel, CEO, and Yiftach Hasfel, owner and chairman", "מרב איל הספל, מנכ״לית, ויפתח הספל, בעלים ויו\"ר"),  # the about table (Merav, 11 Nov 2026)
         "merav_p": ("BA in Business Administration. Leads the company's activity and is responsible for finance, business development, marketing and sales. The main contact for new projects, with personal support, strategic thinking and high standards of professionalism and service.", "בעלת תואר ראשון במנהל עסקים, מובילה את פעילות החברה ומופקדת על ניהול הכספים, הפיתוח העסקי, השיווק והמכירות. משמשת כאשת הקשר הראשית לפרויקטים חדשים, תוך מתן ליווי אישי, חשיבה אסטרטגית והקפדה על סטנדרטים גבוהים של מקצועיות ושירות."),  # 5.2, q40
+        # The three managers under the owners: Merav's text word for word, WhatsApp 22 Nov 2026 (relayed by Hanoch). Heading "הצוות" is ours.
+        "team_h": ("The team", "הצוות"),
+        "team": [
+            (("Noam Hasfel", "נועם הספל"), ("Production and Product Development Manager", "מנהל יצור ופיתוח מוצרים"),
+             ("Manages the production operation, plans the work processes and keeps improving efficiency and quality. Leads the company's industrial development: finds new opportunities and develops products and innovative solutions. Follows the projects from planning, through manufacturing and logistics, to handover to the end client.",
+              "אחראי על ניהול מערך הייצור, תכנון תהליכי העבודה ושיפור מתמיד של היעילות והאיכות. מוביל את פעילות הפיתוח התעשייתי של החברה, מאתר הזדמנויות חדשות, מפתח מוצרים ופתרונות חדשניים. מלווה את הפרויקטים החל משלבי התכנון, דרך הייצור והלוגיסטיקה ועד למסירתם ללקוח הקצה.")),
+            (("Noam Peper", "נעם פפר"), ("Projects and Field Installation Manager", "מנהל פרויקטים והתקנות בשטח"),
+             ("Manages and runs the projects on site, from construction to handover. Supervises the company's installation crews and subcontractors, manages the schedules, checks the quality of the work and makes sure it meets the client's requirements and the company's professional standards. Many years of knowledge and experience with net houses in Israel and around the world.",
+              "אחראי על ניהול וביצוע הפרויקטים בשטח, משלב ההקמה ועד למסירה. מפקח על צוותי ההתקנה וקבלני המשנה של החברה, מנהל את לוחות הזמנים, מבקר את איכות הביצוע ומוודא עמידה בדרישות הלקוח ובסטנדרטים המקצועיים של החברה. בעל ידע וניסיון רב שנים בתחום בתי הרשת בארץ ובעולם.")),
+            (("Miri Elias", "מירי אליאס"), ("Office and Customer Service Manager", "מנהלת המשרד ושירות לקוחות"),
+             ("Manages the day-to-day office work, coordinates between the company's departments and gives its clients professional, courteous service. Supports clients from the first enquiry until the project is complete, with availability, quick answers and full satisfaction. Responsible for all purchasing and logistics at the company.",
+              "אחראית על ניהול הפעילות המשרדית השוטפת, תיאום בין מחלקות החברה ומתן שירות מקצועי ואדיב ללקוחותיה. מלווה את הלקוחות משלב הפנייה הראשונית ועד להשלמת הפרויקט, תוך הקפדה על זמינות, מענה מהיר ושביעות רצון מלאה. אחראית על כל תחומי הרכש והלוגיסטיקה בחברה.")),
+        ],
         "how_h": ("How we work", "איך אנחנו עובדים"),
         "how_p": ("Our own plant makes the poles, nets, cables and fittings, and checks them before they ship. Our installation crews are trained for work at height and run several projects in parallel. The team brings together Israelis and agronomy students from abroad who come to study in Israel.",
                   "המפעל שלנו מייצר את העמודים, הרשתות, הכבלים והאביזרים ובודק אותם לפני היציאה השטח. צוותי ההקמה שלנו בעלי הכשרה לעבודה בגובה ועובדים בכמה פרויקטים במקביל. בצוות עובדים ישראלים לצד סטודנטים לאגרונומיה מחו״ל שמגיעים ללמוד בישראל."),  # 1.7, 1.9, 5.4
