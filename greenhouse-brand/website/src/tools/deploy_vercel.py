@@ -27,7 +27,11 @@ def token():
         return t
     if not getattr(token, "fresh", False):  # the CLI refreshes its saved login when it runs (an expired one gave 403 invalidToken, 12 Nov 2026)
         import subprocess
-        subprocess.run(["vercel", "whoami"], capture_output=True, timeout=60); token.fresh = True
+        try:
+            subprocess.run(["vercel", "whoami"], capture_output=True, timeout=60)
+        except (OSError, subprocess.SubprocessError):
+            pass  # no CLI installed: use the saved token file as it is
+        token.fresh = True
     for p in (Path.home() / ".local/share/com.vercel.cli/auth.json", Path.home() / ".vercel/auth.json"):
         if p.exists():
             return json.loads(p.read_text())["token"]
