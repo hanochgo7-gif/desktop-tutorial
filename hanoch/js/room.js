@@ -39,9 +39,9 @@
 
   // המצלמה: על איזה מסך (שבר = בין מסכים), זווית מהצד ומלמעלה, כמה מהגובה המסך תופס, והסטת עדשה
   var SHOTS = {
-    land: { hero: { i: 0, th: -34, ph: 3, f: .44, sx: -.46, sy: .04 }, overview: { i: .75, th: -52, ph: 6, f: .3, sx: -.48, sy: -.04, spread: 1 },
+    land: { hero: { i: 0, th: -34, ph: 3, f: .44, sx: -.46, sy: .04, solo: 1 }, overview: { i: .75, th: -52, ph: 6, f: .3, sx: -.48, sy: -.04, spread: 1 },
       pass: { th: -28, ph: 3, f: .52, sx: -.08, sy: .02 }, out: { th: -12, ph: 2, f: .66, sx: 0, sy: 0 }, contact: { i: 5, th: -30, ph: 4, f: .54, sx: -.44, sy: .02 } },
-    port: { hero: { i: 0, th: -24, ph: 3, f: .4, sx: -.06, sy: -.42 }, overview: { i: 1, th: -70, ph: 8, f: .24, sx: -.25, sy: -.32, spread: 1 },
+    port: { hero: { i: 0, th: -24, ph: 3, f: .4, sx: -.06, sy: -.42, solo: 1 }, overview: { i: 1, th: -70, ph: 8, f: .24, sx: -.25, sy: -.32, spread: 1 },
       pass: { th: -22, ph: 3, f: .5, sx: 0, sy: 0 }, out: { th: -10, ph: 2, f: .64, sx: 0, sy: -.05 }, contact: { i: 5, th: -24, ph: 3, f: .22, sx: -.04, sy: .55 } }
   };
   function shotIn(i) { return { i: i, th: 0, ph: 0, f: 1, sx: 0, sy: 0, full: 1 }; }
@@ -103,7 +103,7 @@
     var f = norm(sub(cam.t, cam.p)), r = norm(cross(f, [0, 1, 0])), u = cross(r, f);
     cam.f = f; cam.r = r; cam.u = u;
     cam.sx = lerp(A.sx, B.sx, t); cam.sy = lerp(A.sy, B.sy, t); cam.d = dd; cam.i = i;
-    cam.spread = lerp(A.spread || 0, B.spread || 0, t); cam.full = full;
+    cam.spread = lerp(A.spread || 0, B.spread || 0, t); cam.solo = lerp(A.solo || 0, B.solo || 0, t); cam.full = full;
   }
   function sub(a, b) { return [a[0] - b[0], a[1] - b[1], a[2] - b[2]]; }
   function cross(a, b) { return [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]]; }
@@ -199,7 +199,8 @@
   function setO(el, o) { o = Math.round(o * 1000) / 1000; if (el._o !== o) { el.style.opacity = o; el._o = o; } }
   function setV(el, v) { if (el._v !== v) { el.style.visibility = v ? 'visible' : 'hidden'; el._v = v; } }
   // המסך שבמרכז מואר, השאר מחכים בצל
-  function litOf(i) { var di = i - cam.i, k = lerp(.9, .06, cam.spread); return lerp(.36, 1, Math.exp(-di * di * k)); }
+  // בפתיחה רק המסך של ש. גוטובסקי דולק, כדי שהשאר לא יעמדו מאחורי הכותרת; הם נדלקים כשהמצלמה נסוגה
+  function litOf(i) { var di = i - cam.i, k = lerp(.9, .06, cam.spread), r = lerp(.36, 1, Math.exp(-di * di * k)); return Math.abs(di) < .5 ? r : lerp(r, .07, cam.solo || 0); }
   function dims(i) {
     // ורחוק יותר = יותר ערפל
     var lit = litOf(i);
@@ -214,7 +215,7 @@
       setV(el, true); setT(el, homo(q, SW, SH, 0, 0));
       setO(el.querySelector('.rm-dim'), dims(i));
       var r = refOf(i);
-      if (r) { var qr = quad(i, true); if (qr) { setV(r, true); setT(r, homo(qr, SW, SH, 0, 0)); } else setV(r, false); }
+      if (r) { var qr = quad(i, true); if (qr) { setV(r, true); setT(r, homo(qr, SW, SH, 0, 0)); setO(r, .3 * Math.min(1, litOf(i) / .36)); } else setV(r, false); }
     }
     // הקו על המסך הראשון (והשתקפותו)
     [scrs[0], refOf(0)].forEach(function (el) {
