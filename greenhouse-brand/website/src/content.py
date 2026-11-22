@@ -890,6 +890,13 @@ GALLERY = {
     "h": ("From our projects", "מהפרויקטים שלנו"),
     "p": ("Net houses, shading, installation, folding and the seasons, photographed on our projects.", "בתי רשת, הצללה, הקמה, קיפול ועונות השנה, מצולמים בפרויקטים שלנו."),
     "groups": [
+        (("From the air", "מהאוויר"), [  # drone stills, Drive folder "סטילס רחפן מיפתח 4:25" (Merav, 22 Nov 2026)
+            ("a04", ("A white net house between orchards and forest, along a dirt road", "בית רשת לבן בין מטעים ויער, לאורך דרך עפר")),
+            ("a23", ("A large net house among orchards", "בית רשת גדול בין המטעים")),
+            ("a25", ("Net houses and orchards, with the Hermon behind", "בתי רשת ומטעים, והחרמון ברקע")),
+            ("a26", ("Fields of net houses, wind turbines and the Hermon", "שדות של בתי רשת, טורבינות רוח והחרמון")),
+            ("a27", ("Net houses and a wind turbine, from the air", "בתי רשת וטורבינת רוח, מבט מהאוויר")),
+        ]),
         (("Net houses", "בתי רשת"), [
             ("g-air-forest", ("A white net house between forest and orchards", "בית רשת לבן בין יער למטעים")),
             ("g-air-valley", ("Large net houses in a valley, next to farm buildings", "בתי רשת גדולים בעמק, ליד מבני משק")),
@@ -909,6 +916,25 @@ GALLERY = {
             ("g-basket", ("A worker in a harness in the lift basket, by galvanized poles", "עובד ברתמה בסל במת ההרמה, ליד עמודים מגולוונים")),
             ("g-team", ("Our field crew", "מצוות השטח שלנו")),
             ("g-india", ("Laying out the galvanized poles with the local crew, a project in India", "פריסת העמודים המגולוונים עם צוות העובדים המקומי, פרויקט בהודו")),  # Hanoch, 16 Nov 2026
+            ("s008", ("Work at the foot of a pole in the orchard row", "עבודה בבסיס העמוד בשורת המטע")),  # stills chosen by Hanoch and Merav, 22 Nov 2026
+            ("s009", ("At a pole between the rows", "ליד עמוד בין השורות")),
+            ("s016", ("The lift between the rows, the net gathered on the cable", "במת ההרמה בין השורות, והרשת אסופה על הכבל")),
+        ]),
+        (("Working on the net", "עבודה על הרשת"), [  # stills chosen by Hanoch and Merav, 22 Nov 2026
+            ("s018", ("Working on the gathered net at the ridge cable", "עבודה על הרשת האסופה בכבל הרכס")),
+            ("s019", ("From the lift, hands on the net", "מבמת ההרמה, ידיים על הרשת")),
+            ("s020", ("Handling the net from the lift basket", "טיפול ברשת מסל במת ההרמה")),
+            ("s021", ("Two layers of net over the worker", "שתי שכבות רשת מעל העובד")),
+            ("s022", ("The lift moving along the row", "במת ההרמה נעה לאורך השורה")),
+            ("s023", ("Net strips running from the lift", "רצועות הרשת יוצאות מבמת ההרמה")),
+            ("s024", ("Guiding the net strip from the basket", "הכוונת רצועת הרשת מהסל")),
+            ("s043", ("The lift between the net walls", "במת ההרמה בין דפנות הרשת")),
+            ("s044", ("Up at the ridge, between two net walls", "למעלה ברכס, בין שתי דפנות רשת")),
+            ("s045", ("Working at the ridge over the orchard", "עבודה ברכס מעל המטע")),
+            ("s046", ("Reaching for the cable at the ridge", "יד אל הכבל ברכס")),
+            ("s047", ("From the lift, under a white net", "מבמת ההרמה, מתחת לרשת לבנה")),
+            ("s048", ("The lift in the middle of the row", "במת ההרמה באמצע השורה")),
+            ("s059", ("Under the net, from the lift basket", "מתחת לרשת, מסל במת ההרמה")),
         ]),
         (("Shading for work areas", "הצללה לאזורי תפעול"), [
             ("g-shade-op", ("A work-area shade structure with green shade net", "סככת תפעול עם רשת הצללה ירוקה")),  # Merav: "סככת תפעול"
@@ -925,6 +951,7 @@ GALLERY = {
             ("s124", ("A tree seen through the net", "עץ שנראה מבעד לרשת")),
             ("s143", ("Sunlight through the net and the clips on the ridge", "אור השמש מבעד לרשת והתפסים על הרכס")),
             ("s110", ("Vines climbing under the net", "גפנים מטפסות מתחת לרשת")),
+            ("s075", ("A long alley under the net", "מעבר ארוך מתחת לרשת")),
         ]),
         (("Structure and poles", "המבנה והעמודים"), [
             ("s099", ("A galvanized ladder-frame end post", "עמוד קצה מגולוון במבנה סולם")),
@@ -934,6 +961,8 @@ GALLERY = {
             ("s250", ("The edge of the structure, with a wind turbine", "שולי המבנה, וטורבינת רוח ברקע")),
             ("s242", ("The cable grid over the rows", "רשת הכבלים מעל השורות")),
             ("s104", ("Pole rows along an orchard alley", "שורות עמודים לאורך מעבר במטע")),
+            ("s105", ("Galvanized poles along the orchard track", "עמודים מגולוונים לאורך דרך המטע")),
+            ("s109", ("A galvanized pole and cables over a young orchard", "עמוד מגולוון וכבלים מעל מטע צעיר")),
             ("s226", ("A net house over a young orchard", "בית רשת מעל מטע צעיר")),
         ]),
         (("Folded for winter", "מקופלת לחורף"), [
@@ -953,6 +982,13 @@ GALLERY = {
             ("s154", ("Plants on a pergola trellis under the net", "צמחים על הדליית סוכה מתחת לרשת")),
             ("s160", ("The pergola wires under the net", "חוטי הסוכה מתחת לרשת")),
             ("s147", ("A trellised plot under the net", "חלקה מודלית מתחת לרשת")),
+        ]),
+        (("In the orchards", "במטעים"), [  # stills chosen by Hanoch and Merav, 22 Nov 2026
+            ("s168", ("Checking the plants on the pergola trellis", "בדיקת הצמחים בהדליית הסוכה")),
+            ("s173", ("On the pergola trellis, under the net", "בהדליית הסוכה, מתחת לרשת")),
+            ("s174", ("Reaching for a branch on the pergola trellis", "יד אל ענף בהדליית הסוכה")),
+            ("s084", ("Between the orchard rows", "בין שורות המטע")),
+            ("s209", ("In an orchard in bloom, under the net", "במטע פורח, מתחת לרשת")),
         ]),
         (("From the outside", "מבחוץ"), [
             ("s271", ("Side nets sloping to the ground", "רשתות צד יורדות באלכסון אל הקרקע")),

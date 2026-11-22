@@ -28,6 +28,10 @@ JOBS = {
                                                             199, 202, 211, 259, 153, 154, 160, 147, 148, 150, 189, 235, 268, 271, 273, 277, 280)},
     "g-india": ("gallery/g-india.jpg", None),  # old site world.jpg (gallery "פרויקטים בעולם"), AI upscale of the 900px original kept beside it; Hanoch approved it with the children, 16 Nov 2026
     "s001": ("gallery/s001.jpg", None), "s005": ("gallery/s005.jpg", None),
+    # 22 Nov 2026: 25 stills ("סטילס מצלמה") and 5 drone stills ("סטילס רחפן"), chosen by Hanoch and Merav; resized, lightly sharpened, portraits cropped
+    # to 4:3 around the people. s104 above: weeds cleared from the dirt path only (Merav), the rest of the photo is the original.
+    **{f"s{n:03d}": (f"gallery/s{n:03d}.jpg", None) for n in (8, 9, 16, 18, 19, 20, 21, 22, 23, 24, 43, 44, 45, 46, 47, 48, 59, 75, 84, 105, 109, 168, 173, 174, 209)},
+    **{f"a{n:02d}": (f"gallery/a{n:02d}.jpg", None) for n in (4, 23, 25, 26, 27)},
 }
 
 
