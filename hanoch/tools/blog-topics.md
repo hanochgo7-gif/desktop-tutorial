@@ -11,7 +11,7 @@
 - [x] website-speed | מהירות אתר | למה אתר איטי מפסיד לקוחות ואיך בודקים | seo, website-building (2026-11-01)
 - [x] google-business-profile | פרופיל עסק בגוגל | פתיחה ואופטימיזציה של Google Business Profile צעד אחר צעד | seo (2026-11-08)
 - [x] ai-video-ad-for-business | פרסומת וידאו ב-AI | מה אפשר לקבל, כמה עולה ואיך זה עובד | ai-commercial (2026-11-15)
-- [ ] ai-chatbot-for-website | צ'אטבוט לאתר | נציג AI שעונה ללקוחות: מתי זה שווה את זה | ai-chatbot
+- [x] ai-chatbot-for-website | צ'אטבוט לאתר | נציג AI שעונה ללקוחות: מתי זה שווה את זה | ai-chatbot (2026-11-22)
 - [ ] online-store-platforms | פתיחת חנות אינטרנטית | וויקס, שופיפיי או חנות בהתאמה: השוואה | online-store
 - [ ] how-long-to-build-website | כמה זמן לוקח לבנות אתר | לוח זמנים אמיתי לפי סוג האתר, ומה מעכב | website-building, landing-page
 - [ ] website-accessibility-israel | נגישות אתרים | מה זה אומר בפועל לבעל עסק, ומה בודקים (בלי ייעוץ משפטי) | website-building
