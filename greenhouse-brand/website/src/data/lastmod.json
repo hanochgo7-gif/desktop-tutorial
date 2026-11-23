@@ -1,7 +1,7 @@
 {
  "en/about": {
-  "date": "2026-11-22",
-  "hash": "f81162b2b64ed576"
+  "date": "2026-11-23",
+  "hash": "86eceab5c7494f0f"
  },
  "en/accessibility": {
   "date": "2026-11-11",
@@ -36,20 +36,20 @@
   "hash": "730f045a1b1fca8c"
  },
  "en/profile": {
-  "date": "2026-11-18",
-  "hash": "756fb07a07c91f26"
+  "date": "2026-11-23",
+  "hash": "9d20bda6e5934e73"
  },
  "en/projects": {
   "date": "2026-11-22",
   "hash": "75fc72808819d277"
  },
  "en/turnkey-farms": {
-  "date": "2026-11-18",
-  "hash": "17e07aeae1ea0111"
+  "date": "2026-11-23",
+  "hash": "728674b42e3fcfaf"
  },
  "he/about": {
-  "date": "2026-11-22",
-  "hash": "a20e6c1b39f7294a"
+  "date": "2026-11-23",
+  "hash": "0da0feb36dc7db3e"
  },
  "he/accessibility": {
   "date": "2026-11-18",
@@ -84,15 +84,15 @@
   "hash": "d2aee2e7af3ea946"
  },
  "he/profile": {
-  "date": "2026-11-18",
-  "hash": "88c11a8c66741105"
+  "date": "2026-11-23",
+  "hash": "fbe00384b3def4ad"
  },
  "he/projects": {
   "date": "2026-11-22",
   "hash": "a4d616a9d6277961"
  },
  "he/turnkey-farms": {
-  "date": "2026-11-18",
-  "hash": "f6f257fd5486a1e0"
+  "date": "2026-11-23",
+  "hash": "03d3ceada860a685"
  }
 }

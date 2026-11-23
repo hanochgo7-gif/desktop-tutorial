@@ -347,7 +347,7 @@ PAGES = {
                      "מיפתח פרויקטים בשיתוף פעולה עם גרין ערבה מספקת פתרון חקלאי מלא במתכונת \"עד מפתח\" - החל מאיתור השטח המתאים (במקרה בצורך), דרך בדיקת היתכנות, תכנון, הקמה והטמעה של כלל המערכות, ועד למסירת חווה פעילה ומוכנה להפעלה. התשתיות והמבנים מבוססים על ניסיון מצטבר של למעלה משני עשורים בישראל וברחבי העולם."),
         "stages_h": ("Our range of services", "מגוון השירותים שלנו"),
         "cta_tk": ("Discuss your land abroad", "דברו איתנו על הקרקע בחו״ל"),
-        "profile_go": ("Company profile for management or partners", "פרופיל החברה להנהלה או לשותפים"),
+        "profile_go": ("Company profile", "פרופיל החברה"),  # Hanoch, 23 Nov 2026
         "stages_p": ("Our professional team includes experts with long experience in agronomy, irrigation, livestock, agricultural engineering, aquaculture (fish farming) and economics. Bringing these fields together lets us look at every part of the project and ensure the best design for its success. A one-stop shop, under one roof!", "הצוות המקצועי שלנו כולל מומחים בעלי ניסיון רב בתחומי האגרונומיה, ההשקיה, משק החי, ההנדסה החקלאית, חקלאות המים (מדגה) והכלכלה. שילוב המומחיות הרב-תחומית מאפשר לנו לבחון את כלל מרכיבי הפרויקט ולהבטיח תכנון מיטבי המוביל להצלחתו. והכל תחת קורת גג אחת!"),
         "excl_h": ("What stays with you", "מה נשאר אצלכם"),
         "excl_1": ("Local licensing and permits, with your local advisers.", "רישוי והיתרים מקומיים, עם היועצים המקומיים שלכם."),  # q3 r2
@@ -405,21 +405,21 @@ PAGES = {
     },
     "about": {
         "title": ("About MIFTAH Projects: a family company building for growers", "אודות מיפתח פרויקטים: חברה משפחתית פרויקטים חקלאים"),
-        "desc": ("MIFTAH Projects is a family company at Kibbutz Kfar Masaryk, Israel, owned and run by Merav and Yiftach Hasfel. The company has designed, manufactured and built net houses and agricultural projects since 2003.",
-                 "מיפתח פרויקטים היא חברה משפחתית בקיבוץ כפר מסריק, בבעלות ובניהול של מרב ויפתח הספל. החברה מתכננת, מייצרת ומקימה בתי רשת ופרויקטים חקלאיים מאז 2003."),
+        "desc": ("MIFTAH Projects is a family company at Kibbutz Kfar Masaryk, Israel, owned and run by Yiftach and Merav Hasfel. The company has designed, manufactured and built net houses and agricultural projects since 2003.",
+                 "מיפתח פרויקטים היא חברה משפחתית בקיבוץ כפר מסריק, בבעלות ובניהול של יפתח ומרב הספל. החברה מתכננת, מייצרת ומקימה בתי רשת ופרויקטים חקלאיים מאז 2003."),
         "h1": ("A family company for agricultural projects", "חברה משפחתית פרויקטים חקלאים"),
         "lead": ("Since 2003 we have designed, made and built agricultural projects: net houses for agricultural crops, shade solutions for work areas, windbreaks, and support and trellising solutions, in Israel and all around the world. Our office and plant are at Kibbutz Kfar Masaryk.",
                  "מאז 2003 אנחנו מתכננים, מייצרים ומקימים פרויקטים חקלאיים: בתי רשת לגידולים חקלאיים, פתרונות הצללה לאזורי תפעול, שוברי רוח ופתרונות תמיכה והדליה בישראל ובעולם כולו. המשרד והמפעל שלנו בקיבוץ כפר מסריק."),  # 1.6, 1.7, 1.10, 2.1-2.5
-        "people_h": ("The owners", "הבעלים"),
+        "people_h": ("Our management", "ההנהלה שלנו"),  # one management, a family company (Hanoch, 23 Nov 2026)
+        "people_p": ("A family company since 2003.", "חברה משפחתית מאז 2003."),
         "yiftach": ("Yiftach Hasfel", "יפתח הספל"), "yiftach_r": ("Owner and Chairman", "בעלים ויו\"ר"),
         "yiftach_p": ("A Technion-trained construction technician (practical engineer), he heads engineering at the company. Responsible for mapping the client's needs, shaping the engineering solution, managing development, quality control, supervising manufacturing and leading the work on site. Many years of experience managing, integrating and leading complex projects in Israel and around the world, combining engineering thinking, precise design and end-to-end delivery, to the highest standards of professionalism and quality.", "הנדסאי בניין, בוגר הטכניון, ומוביל התחום ההנדסי בחברה. אחראי על מיפוי צורכי הלקוח, גיבוש הפתרון ההנדסי, ניהול הפיתוח, בקרת האיכות, הפיקוח על תהליכי הייצור והובלת הביצוע בשטח. בעל ניסיון רב שנים בניהול, תכלול והובלת פרויקטים מורכבים בארץ ובעולם, תוך שילוב בין חשיבה הנדסית, תכנון מדויק ויכולת ביצוע מקצה לקצה, בסטנדרטים הגבוהים ביותר של מקצועיות ואיכות."),  # 5.1
         "merav": ("Merav Eyal Hasfel", "מרב איל הספל"), "merav_r": ("CEO", "מנכ״לית"),
         "mgmt_k": ("Management", "הנהלה"),
-        "mgmt": ("Merav Eyal Hasfel, CEO, and Yiftach Hasfel, owner and chairman", "מרב איל הספל, מנכ״לית, ויפתח הספל, בעלים ויו\"ר"),  # the about table (Merav, 11 Nov 2026)
+        "mgmt": ("Yiftach Hasfel, owner and chairman; Merav Eyal Hasfel, CEO; Noam Hasfel, Production and Product Development Manager; Noam Peper, Projects and Field Installation Manager; Miri Elias, Office and Customer Service Manager", "יפתח הספל, בעלים ויו\"ר; מרב איל הספל, מנכ״לית; נועם הספל, מנהל יצור ופיתוח מוצרים; נעם פפר, מנהל פרויקטים והתקנות בשטח; מירי אליאס, מנהלת המשרד ושירות לקוחות"),  # all five are the management (Hanoch, 23 Nov 2026)
         "merav_p": ("BA in Business Administration. Leads the company's activity and is responsible for finance, business development, marketing and sales. The main contact for new projects, with personal support, strategic thinking and high standards of professionalism and service.", "בעלת תואר ראשון במנהל עסקים, מובילה את פעילות החברה ומופקדת על ניהול הכספים, הפיתוח העסקי, השיווק והמכירות. משמשת כאשת הקשר הראשית לפרויקטים חדשים, תוך מתן ליווי אישי, חשיבה אסטרטגית והקפדה על סטנדרטים גבוהים של מקצועיות ושירות."),  # 5.2, q40
         # The three managers under the owners: Merav's text word for word, WhatsApp 22 Nov 2026 (relayed by Hanoch). Heading "הצוות" is ours.
-        "team_h": ("The team", "הצוות"),
-        "team": [
+                "team": [
             (("Noam Hasfel", "נועם הספל"), ("Production and Product Development Manager", "מנהל יצור ופיתוח מוצרים"),
              ("Manages the production operation, plans the work processes and keeps improving efficiency and quality. Leads the company's industrial development: finds new opportunities and develops products and innovative solutions. Follows the projects from planning, through manufacturing and logistics, to handover to the end client.",
               "אחראי על ניהול מערך הייצור, תכנון תהליכי העבודה ושיפור מתמיד של היעילות והאיכות. מוביל את פעילות הפיתוח התעשייתי של החברה, מאתר הזדמנויות חדשות, מפתח מוצרים ופתרונות חדשניים. מלווה את הפרויקטים החל משלבי התכנון, דרך הייצור והלוגיסטיקה ועד למסירתם ללקוח הקצה.")),
@@ -462,7 +462,7 @@ PAGES = {
         "h1": ("Company profile", "פרופיל החברה"),
         "print": ("Print or save as PDF", "הדפסה או שמירה כ-PDF"),
         "bar_p": ("One page to attach to a quote or hand out at a meeting.", "עמוד אחד לצרף להצעת מחיר או לחלק בפגישה."),
-        "who": ("MIFTAH Projects is a family company owned and run by Merav and Yiftach Hasfel, based at Kibbutz Kfar Masaryk. It specializes in designing, manufacturing and building advanced agricultural projects in Israel and around the world, among them net houses, support and trellising systems, and finding and developing agricultural farms worldwide. With engineering expertise, its own manufacturing and many years of complex projects, we deliver complete turnkey solutions from the idea to handover, with uncompromising quality, professionalism and personal service.", "מיפתח פרויקטים היא חברה משפחתית בבעלות ובניהול מרב ויפתח הספל, הפועלת מקיבוץ כפר מסריק. החברה מתמחה בתכנון, ייצור והקמה של פרויקטים חקלאיים מתקדמים בארץ ובעולם בהם בתי רשת, מערכות תמיכה והדליה, איתור ופיתוח חוות חקלאיות ברחבי העולם. בזכות שילוב של מומחיות הנדסית, יכולות ייצור עצמאיות וניסיון רב שנים בביצוע פרויקטים מורכבים, אנו מספקים פתרונות מפתח מלאים משלב הרעיון ועד למסירה, תוך הקפדה בלתי מתפשרת על איכות, מקצועיות ושירות אישי."),
+        "who": ("MIFTAH Projects is a family company owned and run by Yiftach and Merav Hasfel, based at Kibbutz Kfar Masaryk. It specializes in designing, manufacturing and building advanced agricultural projects in Israel and around the world, among them net houses, support and trellising systems, and finding and developing agricultural farms worldwide. With engineering expertise, its own manufacturing and many years of complex projects, we deliver complete turnkey solutions from the idea to handover, with uncompromising quality, professionalism and personal service.", "מיפתח פרויקטים היא חברה משפחתית בבעלות ובניהול יפתח ומרב הספל, הפועלת מקיבוץ כפר מסריק. החברה מתמחה בתכנון, ייצור והקמה של פרויקטים חקלאיים מתקדמים בארץ ובעולם בהם בתי רשת, מערכות תמיכה והדליה, איתור ופיתוח חוות חקלאיות ברחבי העולם. בזכות שילוב של מומחיות הנדסית, יכולות ייצור עצמאיות וניסיון רב שנים בביצוע פרויקטים מורכבים, אנו מספקים פתרונות מפתח מלאים משלב הרעיון ועד למסירה, תוך הקפדה בלתי מתפשרת על איכות, מקצועיות ושירות אישי."),
         "svc_h": ("What we build", "מה אנחנו בונים"),
         "turn_h": ("Turnkey agricultural farms (with partners)", "חוות חקלאיות עד מפתח (עם שותפים)"),
         "proc_h": ("How a project runs", "איך מתנהל פרויקט"),
