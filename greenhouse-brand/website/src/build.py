@@ -763,10 +763,6 @@ def p_turnkey(L):
   <div class="wrap">
     <div class="sec-head"><h2 id="stages-h">{esc(t(P["stages_h"], L))}</h2><p class="lead">{esc(t(P["stages_p"], L))}</p></div>
     <div class="phases">{"".join(phases)}</div>
-    <div class="excl">
-      <div><h3>{esc(t(P["excl_h"], L))}</h3><ul><li>{esc(t(P["excl_1"], L))}</li><li>{esc(t(P["excl_2"], L))}</li></ul></div>
-      <div><h3>{esc(t(P["mistake_h"], L))}</h3><p>{esc(t(P["mistake_p"], L))}</p></div>
-    </div>
   </div>
 </section>
 {cta_band(L, "turnkey", need="turnkey")}

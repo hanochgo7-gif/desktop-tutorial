@@ -351,12 +351,7 @@ PAGES = {
         "cta_tk": ("Discuss your land abroad", "דברו איתנו על הקרקע בחו״ל"),
         "profile_go": ("Company profile", "פרופיל החברה"),  # Hanoch, 23 Nov 2026
         "stages_p": ("Our professional team includes experts with long experience in agronomy, irrigation, livestock, agricultural engineering, aquaculture (fish farming) and economics. Bringing these fields together lets us look at every part of the project and ensure the best design for its success. A one-stop shop, under one roof!", "הצוות המקצועי שלנו כולל מומחים בעלי ניסיון רב בתחומי האגרונומיה, ההשקיה, משק החי, ההנדסה החקלאית, חקלאות המים (מדגה) והכלכלה. שילוב המומחיות הרב-תחומית מאפשר לנו לבחון את כלל מרכיבי הפרויקט ולהבטיח תכנון מיטבי המוביל להצלחתו. והכל תחת קורת גג אחת!"),
-        "excl_h": ("What stays with you", "מה נשאר אצלכם"),
-        "excl_1": ("Local licensing and permits, with your local advisers.", "רישוי והיתרים מקומיים, עם היועצים המקומיים שלכם."),  # q3 r2
-        "excl_2": ("Ongoing reporting to owners and investors on budget and progress, with your own advisers.", "דיווח שוטף לבעלים ולמשקיעים על תקציב והתקדמות, עם היועצים שלכם."),  # q3 r12 ("not us")
-        "mistake_h": ("The most common mistake", "הטעות הנפוצה ביותר"),
-        "mistake_p": ("Investors trying to set up the farm by themselves to save money.",
-                      "משקיעים שמנסים להקים את החווה לבד כדי לחסוך כסף."),  # 4.7
+        # "What stays with you" and "The most common mistake" removed from the turnkey page (Merav via Hanoch, 23 Nov 2026)
         "pt_h": ("Net houses in Portugal", "בתי רשת בפורטוגל"),
         "pt_p": ("The client came to us on the recommendation of a long-standing client, and we led the project from design through to building the avocado farm and its net houses. It is another project that demonstrates our ability to deliver complete turnkey agricultural solutions for entrepreneurs and investors around the world.",
                  "הלקוח הגיע אלינו בעקבות המלצה של לקוח ותיק, ואנו ליווינו את הפרויקט משלב התכנון ועד להקמת חוות האבוקדו ובתי הרשת בפועל. זהו פרויקט נוסף הממחיש את יכולתנו לספק פתרונות חקלאיים מלאים במתכונת \"עד מפתח\" עבור יזמים ומשקיעים ברחבי העולם."),  # 3.1, 3.5, 3.6
