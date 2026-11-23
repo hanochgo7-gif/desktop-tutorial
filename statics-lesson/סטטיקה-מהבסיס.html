@@ -480,11 +480,30 @@ input[aria-invalid="true"]{border-color:var(--bad);border-width:2.5px;background
 @media (max-width:400px){html[data-fs="2"] .sum,html[data-fs="3"] .sum{font-size:14.5px}html[data-fs="3"] .sum .tot{font-size:16px}}
 #zoom-body{direction:ltr}
 
+/* ===== recorded narration player ===== */
+.player{background:var(--card);border:2px solid var(--moment);border-radius:14px;padding:10px;margin:6px 0 16px}
+.player.on{background:var(--moment-soft)}
+.pl-main{display:flex;align-items:center;gap:14px;width:100%;min-height:58px;padding:6px 10px;border:0;background:transparent;color:var(--moment);font:700 19px/1.3 var(--sans);cursor:pointer;text-align:start;border-radius:10px}
+.pl-main small{font-weight:600;font-size:16px;color:var(--muted)}
+.pl-ic{flex:none;width:48px;height:48px;border-radius:50%;background:var(--moment);color:var(--on-accent);display:inline-grid;place-items:center;font-size:20px;line-height:1}
+.pl-more{padding:4px 6px 2px}
+.pl-row{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0}
+.pl-btn{min-height:46px;padding:0 14px;border-radius:10px;border:1.5px solid var(--line-strong);background:var(--card);color:var(--ink);font:700 16px/1 var(--sans);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.pl-seek{width:100%;-webkit-appearance:none;appearance:none;height:40px;background:transparent;direction:ltr}
+.pl-seek::-webkit-slider-runnable-track{height:8px;border-radius:4px;background:var(--line-strong)}
+.pl-seek::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;margin-top:-10px;border-radius:50%;background:var(--moment);border:3px solid var(--card)}
+.pl-seek::-moz-range-track{height:8px;border-radius:4px;background:var(--line-strong)}
+.pl-seek::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:var(--moment);border:3px solid var(--card)}
+.pl-time{display:flex;justify-content:space-between;font:600 15px var(--mono);color:var(--muted);direction:ltr}
+.pl-next{margin:8px 6px 2px;font-weight:700;font-size:17px}
+header .player{margin-top:14px}
+
 </style>
 
 
 </head>
 <body>
+
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
     <marker id="ah-f" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path class="mf" d="M0,0 L10,5 L0,10 z"/></marker>
@@ -522,7 +541,7 @@ input[aria-invalid="true"]{border-color:var(--bad);border-width:2.5px;background
       <li><button type="button" class="kbd" data-go="fs-up">א+</button> ו־<button type="button" class="kbd" data-go="fs-dn">א−</button> (בפס העליון): הגדלה והקטנה של הכתב. נסה עכשיו!</li>
       <li><b class="chip">⤢ הגדל את השרטוט</b> מתחת לכל שרטוט ותמונה: מציג אותם על כל המסך.</li>
       <li>כפתור עם <b class="chip">▾</b> פותח תשובה או הסבר. לחיצה נוספת סוגרת.</li>
-      <li hidden id="help-listen"><b class="chip">🔊 הקרא לי את ההסבר</b> בתחילת כל פרק: המכשיר מקריא את ההסבר בקול (בלי הדוגמאות והתרגילים).</li>
+      <li id="help-listen"><b class="chip">▶ האזן לפרק</b> בתחילת כל פרק: קריינית מקריאה לך את ההסבר של הפרק בקול ברור. אפשר לעצור, לחזור 10 שניות אחורה ולבחור מהירות איטית.</li>
       <li>בסוף כל פרק: <b class="chip">סיימתי את הפרק</b> ו־<b class="chip">לפרק הבא</b>. המכשיר זוכר איפה עצרת.</li>
     </ul>
   </div>
@@ -1181,6 +1200,7 @@ input[aria-invalid="true"]{border-color:var(--bad);border-width:2.5px;background
 </div>
 
 <script>
+window.__AUDIO__={"welcome": {"src": "audio/00-welcome.mp3", "sec": 71}, "intro": {"src": "audio/01-intro.mp3", "sec": 135}, "force": {"src": "audio/02-force.mp3", "sec": 252}, "units": {"src": "audio/03-units.mp3", "sec": 156}, "dir": {"src": "audio/04-dir.mp3", "sec": 167}, "decomp": {"src": "audio/05-decomp.mp3", "sec": 357}, "moment": {"src": "audio/06-moment.mp3", "sec": 252}, "arm": {"src": "audio/07-arm.mp3", "sec": 276}, "sign": {"src": "audio/08-sign.mp3", "sec": 216}, "sum": {"src": "audio/09-sum.mp3", "sec": 308}, "practice": {"src": "audio/10-practice.mp3", "sec": 109}, "supports": {"src": "audio/11-supports.mp3", "sec": 354}, "udl": {"src": "audio/12-udl.mp3", "sec": 342}, "rx-practice": {"src": "audio/13-rx-practice.mp3", "sec": 165}, "quiz": {"src": "audio/14-quiz.mp3", "sec": 189}, "mistakes": {"src": "audio/15-mistakes.mp3", "sec": 187}, "sheet": {"src": "audio/16-sheet.mp3", "sec": 187}, "glossary": {"src": "audio/17-glossary.mp3", "sec": 289}};
 (function(){
 const fmt=n=>{const r=Math.round(n*100)/100;return String(Object.is(r,-0)?0:r);};
 const sg=n=>(n<0?'−':'+')+fmt(Math.abs(n));
@@ -1925,25 +1945,50 @@ const last=store.get('last',null),LS=SECS.find(S=>S.id===last);
 const LM=store.get('lastMark',null);
 if(LS&&LS.n>1){document.getElementById('resume').innerHTML=`<a class="big-btn resume-btn" href="#${LS.id}"><span aria-hidden="true">📖</span> להמשיך מאיפה שעצרת: פרק ${LS.n}${LM&&LM.t&&LM.t!==LS.name?`, "${LM.t}"`:`, ${LS.name}`}</a>`;
   document.querySelector('.resume-btn').addEventListener('click',e=>{const marks=[...document.querySelectorAll('main h2, main h3')].filter(m=>m.getClientRects().length);if(LM&&marks[LM.i]){e.preventDefault();marks[LM.i].scrollIntoView({block:'start'});}});}
-/* read aloud (only where the device has a Hebrew voice) */
-const SAY={'×':' כפול ','·':' כפול ','÷':' חלקי ','=':' שווה ','−':' מינוס ','Σ':' סכום ','α':' אלפא ','°':' מעלות ','→':', ','↻':'','↺':'','≈':' בערך '};
-function speakable(t){return t.replace(/t·m/g,' טון מטר ').replace(/t\/m/g,' טון למטר ').replace(/(\d)\s*t\b/g,'$1 טון').replace(/(\d)\s*m\b/g,'$1 מטר').replace(/[×·÷=−Σα°→↻↺≈]/g,c=>SAY[c]).replace(/\s+/g,' ').trim();}
-let speaking=null;
-function stopSpeak(){try{speechSynthesis.cancel();}catch(e){}if(speaking){speaking.setAttribute('aria-pressed','false');speaking.innerHTML='<span aria-hidden="true">🔊</span> הקרא לי את ההסבר';}speaking=null;}
-function readSection(sec,btn){if(speaking===btn){stopSpeak();return;}stopSpeak();
-  const parts=[];sec.querySelectorAll('h2, .brief, h3, p, li, .rule, .note, figcaption').forEach(el=>{if(el.closest('.ex, .tool, details, table, .sec-end, .gloss, .props, .chain, .howto, .quiz, .mist'))return;if(el.parentElement.closest('.rule, .note, li, figcaption, .brief'))return;
-    const c=el.cloneNode(true);c.querySelectorAll('.sr-only, [aria-hidden="true"], svg').forEach(x=>{if(x.classList.contains('sr-only')){x.replaceWith(x.textContent);}else x.remove();});
-    const t=speakable(c.textContent);if(t)parts.push(t);});
-  const voice=speechSynthesis.getVoices().find(v=>/^he|^iw/i.test(v.lang));
-  speaking=btn;btn.setAttribute('aria-pressed','true');btn.innerHTML='<span aria-hidden="true">⏹</span> עצור את ההקראה';
-  parts.forEach((t,i)=>{const u=new SpeechSynthesisUtterance(t);u.lang='he-IL';if(voice)u.voice=voice;u.rate=0.9;if(i===parts.length-1)u.onend=()=>{if(speaking===btn)stopSpeak();};speechSynthesis.speak(u);});}
-function setupSpeech(){if(!('speechSynthesis' in window))return;const has=()=>speechSynthesis.getVoices().some(v=>/^he|^iw/i.test(v.lang));
-  const add=()=>{if(!has()||document.querySelector('.listen'))return;
-    SECS.forEach(S=>{const b=document.createElement('button');b.type='button';b.className='big-btn listen';b.setAttribute('aria-pressed','false');b.innerHTML='<span aria-hidden="true">🔊</span> הקרא לי את ההסבר';b.addEventListener('click',()=>readSection(S.el,b));S.el.querySelector('.brief, h2').after(b);});
-    const li=document.getElementById('help-listen');if(li)li.hidden=false;};
-  add();speechSynthesis.addEventListener&&speechSynthesis.addEventListener('voiceschanged',add);}
-setupSpeech();
-addEventListener('pagehide',stopSpeak);
+
+/* ================= recorded narration (one audio file per chapter) ================= */
+const AUD=window.__AUDIO__||{};   /* id -> {src, sec} ; filled at build time */
+const fmtT=s=>{s=Math.max(0,Math.round(s||0));return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');};
+const minsTxt=s=>{const m=Math.max(1,Math.round(s/60));return m===1?'דקה אחת':m===2?'שתי דקות':`${m} דקות`;};
+let curPlayer=null;
+const SPEEDS=[0.85,1,1.15];let spi=Math.max(0,Math.min(2,store.get('speed',1)));
+function makePlayer(id,title,host,where){
+  const a=AUD[id];if(!a||!host)return;
+  const box=document.createElement('div');box.className='player';box.dataset.id=id;
+  box.innerHTML=`<audio preload="none" src="${a.src}"></audio>
+   <button type="button" class="pl-main" aria-label="השמע: ${title}"><span class="pl-ic" aria-hidden="true">▶</span><span class="pl-lbl">${where==='welcome'?'האזן להסבר קצר':'האזן לפרק'} <small>(${minsTxt(a.sec)})</small></span></button>
+   <div class="pl-more" hidden>
+     <div class="pl-row"><button type="button" class="pl-btn pl-back" aria-label="חזור עשר שניות אחורה"><span aria-hidden="true">↺</span> 10 שניות אחורה</button>
+       <button type="button" class="pl-btn pl-speed" aria-label="מהירות הדיבור"></button></div>
+     <input type="range" class="pl-seek" min="0" max="${Math.round(a.sec)}" value="0" step="1" aria-label="מיקום בהקראה">
+     <div class="pl-time"><span class="pl-cur">0:00</span><span class="pl-dur">${fmtT(a.sec)}</span></div>
+   </div>
+   <p class="pl-next" hidden></p>`;
+  host.after(box);
+  const au=box.querySelector('audio'),main=box.querySelector('.pl-main'),ic=box.querySelector('.pl-ic'),lbl=box.querySelector('.pl-lbl'),more=box.querySelector('.pl-more'),
+    seek=box.querySelector('.pl-seek'),cur=box.querySelector('.pl-cur'),dur=box.querySelector('.pl-dur'),sp=box.querySelector('.pl-speed'),nxt=box.querySelector('.pl-next');
+  const setSpeed=()=>{au.playbackRate=SPEEDS[spi];sp.textContent=['מהירות: איטי','מהירות: רגיל','מהירות: מהיר'][spi];};setSpeed();
+  const ui=()=>{const on=!au.paused;box.classList.toggle('on',on);ic.textContent=on?'❚❚':'▶';
+    lbl.innerHTML=on?'השהה את ההקראה':(au.currentTime>1&&!au.ended?'המשך להאזין':(where==='welcome'?'האזן להסבר קצר':'האזן לפרק')+` <small>(${minsTxt(a.sec)})</small>`);
+    main.setAttribute('aria-label',(on?'השהה: ':'השמע: ')+title);};
+  main.addEventListener('click',()=>{if(au.paused){if(curPlayer&&curPlayer!==au)curPlayer.pause();curPlayer=au;more.hidden=false;nxt.hidden=true;au.play().catch(()=>{lbl.textContent='לא הצלחתי להשמיע. נסה שוב.';});}else au.pause();});
+  ['play','pause','ended'].forEach(ev=>au.addEventListener(ev,ui));
+  au.addEventListener('loadedmetadata',()=>{if(isFinite(au.duration)){seek.max=Math.round(au.duration);dur.textContent=fmtT(au.duration);}});
+  au.addEventListener('timeupdate',()=>{if(!seek.matches(':active'))seek.value=Math.round(au.currentTime);cur.textContent=fmtT(au.currentTime);seek.setAttribute('aria-valuetext',`${fmtT(au.currentTime)} מתוך ${fmtT(au.duration||a.sec)}`);});
+  seek.addEventListener('input',()=>{au.currentTime=+seek.value;cur.textContent=fmtT(au.currentTime);});
+  box.querySelector('.pl-back').addEventListener('click',()=>{au.currentTime=Math.max(0,au.currentTime-10);});
+  sp.addEventListener('click',()=>{spi=(spi+1)%SPEEDS.length;store.set('speed',spi);document.querySelectorAll('.player audio').forEach(x=>x.playbackRate=SPEEDS[spi]);document.querySelectorAll('.pl-speed').forEach(b=>b.textContent=['מהירות: איטי','מהירות: רגיל','מהירות: מהיר'][spi]);});
+  au.addEventListener('ended',()=>{const i=SECS.findIndex(S=>S.id===id);const n=SECS[i+1];
+    if(where==='welcome'){nxt.hidden=false;nxt.innerHTML=`סיימת את ההסבר. <a href="#${SECS[0].id}">לפרק הראשון ←</a>`;}
+    else if(n){nxt.hidden=false;nxt.innerHTML=`ההקראה של הפרק הסתיימה. <a href="#${n.id}" class="pl-go">לפרק הבא: ${n.name} ←</a>`;}
+    else{nxt.hidden=false;nxt.textContent='ההקראה של השיעור הסתיימה. כל הכבוד!';}});
+  nxt.addEventListener('click',e=>{const g=e.target.closest('a');if(!g)return;const t=document.querySelector(g.getAttribute('href'));const p=t&&t.querySelector('.player .pl-main');if(p&&g.classList.contains('pl-go')){setTimeout(()=>p.click(),350);}});
+}
+SECS.forEach(S=>makePlayer(S.id,'פרק '+S.n+': '+S.name,S.el.querySelector('.brief')||S.el.querySelector('h2'),'chapter'));
+makePlayer('welcome','הסבר על השיעור',document.querySelector('header.top h1'),'welcome');
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&curPlayer&&!curPlayer.paused)curPlayer.pause();});
+addEventListener('pagehide',()=>{if(curPlayer)curPlayer.pause();});
+
 
 /* self-check: question visible, answer behind a button */
 document.querySelectorAll('details.chk').forEach(d=>{const inner=d.querySelector(':scope > div');if(!inner||!inner.querySelector('.q'))return;
