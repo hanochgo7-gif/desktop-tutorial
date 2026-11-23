@@ -674,7 +674,7 @@ def p_net(L):
 
 # Which side of the screen each chapter's card sits on (wide screens), so it never covers the people in that picture
 # (Merav, 16 Nov 2026). Physical sides, the same in Hebrew and English; set from where the people stand in media-src/sim-real/chNN.png.
-SIM_SIDE = {1: "left", 2: "left", 3: "left", 4: "left", 5: "right", 6: "left", 7: "center", 11: "right"}  # 8-10: no people, the default side
+SIM_SIDE = {}  # 23 Nov 2026 (Hanoch): the card always sits in its own column on one side, beside the picture, never over it
 SIM_PHONE_TOP = set()  # phones: the card sits at the top in these chapters, where the people are low in the picture
 
 

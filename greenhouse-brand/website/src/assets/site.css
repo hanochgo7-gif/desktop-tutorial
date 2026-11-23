@@ -1510,3 +1510,15 @@ html[lang="en"] .hero-os h1 { font-size: clamp(1.75rem, calc((100vw - 2 * var(--
 #people-h + .lead { margin-top: 10px; }
 @media (max-width: 1000px) { .people.mgmt { grid-template-columns: repeat(2, minmax(0, 1fr)); } .people.mgmt .person, .people.mgmt .person:nth-child(-n+2) { grid-column: auto; } }
 @media (max-width: 760px) { .people.mgmt { grid-template-columns: 1fr; } }
+
+/* Build illustration, wide screens (Hanoch, 23 Nov 2026): the step's text always comes up on the same side, in its own column,
+   and the whole picture shows beside it, so the text never hides any part of the picture */
+@media (min-width: 761px) {
+  .sim { --simpanel: clamp(360px, 32vw, 470px); }
+  .sim.photo .sim-stage { background: var(--mist); }
+  .sim.photo .sim-ph { inset: var(--head-h, 72px) 0 0 0; inset-inline-start: var(--simpanel); inset-inline-end: 52px; transform: none !important; }  /* 52px: the step dots sit beside the picture, not on it */
+  .sim.photo .sim-ph img { object-fit: contain; object-position: 50% 50%; }
+  .sim.photo .sim-ch, .sim.photo .sim-ch.at-left, .sim.photo .sim-ch.at-right, .sim.photo .sim-ch.at-center { justify-content: flex-start; padding-inline: var(--gutter); }
+  .sim.photo .sim-card { width: calc(var(--simpanel) - 2 * var(--gutter)); box-shadow: 0 10px 28px rgba(14, 42, 37, .1); }
+  .sim.photo .sim-badge { inset-inline-start: calc(var(--simpanel) + 16px); }
+}
