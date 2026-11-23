@@ -5,6 +5,7 @@ Each value is (English, Hebrew)."""
 SITE = {
     "name": ("MIFTAH Projects", "מיפתח פרויקטים"),
     "slogan": ("MIFTAH Projects - Where agriculture feels at home", "מיפתח פרויקטים חקלאות שיש לה בית"),  # 1.13; the company name leads in both languages (Merav, 5 Nov 2026)
+    "foot_slogan": ("Where agriculture feels at home", "חקלאות שיש לה בית"),  # the footer, centred under the logo (Merav #3, 23 Nov 2026)
     "phone_display": ("+972\u00a04\u00a0985\u00a04404", "04\u20119854404"),  # 1.10
     "phone_tel": "+97249854404",
     "town": ("Kibbutz Kfar Masaryk", "קיבוץ כפר מסריק"),  # 1.10
@@ -77,8 +78,8 @@ DRAWING = {  # labels for the signature section drawing; numbers match the legen
         (("Net", "רשת"), ("10–30% shade for orchards: against hail and weather damage at every stage of growth. 11% shade for bananas: a light, airy net against wind and weather damage.", "10%–30% צל למטעים: למניעת ברד ופגעי מזג האויר בכל שלבי הגידול. 11% צל לבננות: רשת קלה ואוורירית להגנה מפני רוח ופגעי מזג האויר.")),  # 2.2, 2.3
         (("Steel cables", "כבלי פלדה"), ("Tensioned across the pole heads to carry the net.", "נמתחים בין ראשי העמודים ונושאים את הרשת.")),  # 2.8
         (("Galvanized steel poles", "עמודי פלדה מגולוונים"), ("Manufactured to the design and processed in our plant, then set in rows at the span and height specified in the design.", "מיוצרים לפי תכנון ועוברים עיבוד במפעל שלנו, מוצבים בשורות, במפתח ובגובה שנקבעו בתכנון.")),  # 1.7
-        (("Perimeter anchoring", "עיגון היקפי"), ("Edge cables tie the structure to the ground against wind.", "כבלי שוליים קושרים את המבנה לקרקע מול הרוח.")),
-        (("Trellising and support", "הדליה ותמיכה"), ("Built with the structure to suit the crop: pergola or T-support trellising for kiwi, trellising in orchards, fruit walls, support for bananas.", "נבנית יחד עם המבנה לפי הגידול: הדליה בשיטת סוכה או תומכות T לקיווי, הדליה במטעים, קיר פירותי , תמיכה לבננות.")),  # 2.2, 3.1
+        (("Perimeter anchoring", "עיגון היקפי"), ("Edge cables anchor the structure to the ground, to a concrete footing buried in the soil.", "כבלי שוליים מעגנים את המבנה לקרקע ליסוד בטון טמון באדמה.")),
+        (("Trellising and support", "הדליה ותמיכה"), ("Trellising and support are built together with the structure, to suit the crop and the grower's requirements: pergola or T-support trellising for kiwi, trellising in orchards, fruit walls, support for bananas.", "ההדליה והתמיכה מוקמות יחד עם המבנה בהתאם לסוג הגידול ולדרישות המגדל: הדליה בשיטת סוכה או תומכות T לקיווי, הדליה במטעים, קיר פירותי, תמיכה לבננות.")),  # 2.2, 3.1
         (("Folding", "קיפול"), ("In orchards the net can fold away in winter and spread again in spring, by hand or automatically.", "במטעים הרשת יכולה להתקפל בחורף ולהיפרס באביב, ידנית או אוטומטית.")),  # 2.3
     ],
     "caption": ("Schematic, not to scale. Spans, heights and net type are set by the project's requirements.", "סכמה, לא בקנה מידה. המפתחים, הגבהים וסוג הרשת נקבעים בהתאם לדרישות הפרויקט."),
@@ -235,12 +236,12 @@ STAGES = [  # (phase, [(title, what it means)]). Merav, 15 Nov 2026 (docs/review
         (("Hydrological analysis and water resources", "ניתוח הידרולוגי ומשאבי מים"), ("Recommendations for agricultural technologies and solutions.", "המלצות לטכנולוגיות ופתרונות חקלאיים.")),
     ]),
     (("Financial and economic analysis", "ניתוח פיננסי וכלכלי"), [
-        (("Financial and economic analysis.", "ניתוח פיננסי וכלכלי."),
+        (("Financial and economic analysis", "ניתוח פיננסי וכלכלי"),
          ("Design takes into account the natural resources available in the project area, the initial investment, the expected operating costs and the required output. On that basis we prepare a business plan and help find financing.",
           "תהליך התכנון מביא בחשבון את משאבי הטבע הזמינים באזור הפרויקט, היקף ההשקעה הראשונית, עלויות התפעול הצפויות והתפוקות הנדרשות. על הבסיס הזה הכנת תוכנית עסקית וסיוע במציאת פתרונות מימון.")),
     ]),
     (("Design", "תכנון"), [
-        (("Complete agricultural systems suited to the client's needs and to local conditions.", "מערכות חקלאיות מלאות המותאמות לצורכי הלקוח ולתנאי הסביבה המקומיים."),
+        (("Complete agricultural systems suited to the client's needs and to the environment", "מערכות חקלאיות מלאות המותאמות לצורכי הלקוח ולתנאי הסביבה"),
          ("The whole design process follows the highest international standards and brings in innovative technologies and advanced solutions from modern agriculture.",
           "כל תהליך התכנון מבוצע בהתאם לסטנדרטים הבינלאומיים הגבוהים ביותר ומשלב טכנולוגיות חדשניות ופתרונות מתקדמים מעולם החקלאות המודרנית.")),
         (("Innovation and advanced solutions", "חדשנות ופתרונות מתקדמים"),
@@ -547,7 +548,7 @@ NET_FAQ = [  # every answer is a ledger fact (numbers in comments)
       "אנו מקבלים מפה טופוגרפית ודרישות מהחקלאי, בודקים את הנתונים ועושים תכנון ראשוני לטובת בניית הצעת מחיר ללקוח.")),  # 2.8, 4.3
     (("Are there other shade solutions?", "יש פתרונות הצללה נוספים?"),
      ("Yes, we also provide shade for agricultural work areas and for loading and unloading produce: a solution that suits the movement of forklifts, trucks, tractors and carts.",
-      "כן, אנחנו נותנים פתרונות הצללה גם לאזורי תפעול חקלאיים, העמסה ופריקת התוצרת החקלאית, פתרונן שמתאים לתנועה של מלגזות, משאיות, טרקטורים ועגלות.")),  # 2.4-2.6
+      "כן, אנחנו נותנים פתרונות הצללה גם לאזורי תפעול בהם מתבצעת העמסה ופריקת התוצרת החקלאית, פתרונות שמתאימים לתנועה של מלגזות, משאיות, טרקטורים ועגלות.")),  # 2.4-2.6
 ]
 NET_FAQ += [EXISTING_Q, GRANT_Q]
 
@@ -575,7 +576,7 @@ FAQ_H = ("Before you get in touch", "לפני שפונים")
 
 CTA_HEADS = {  # a different opening line per page
     "home": ("Tell us about your land.", "ספרו לנו על הקרקע."),
-    "net": ("Tell us about your crop and your land.", "ספרו לנו על הגידול ועל החלקה."),
+    "net": ("Tell us about your plans", "ספרו לנו על התוכניות שלכם"),  # Merav #222, 23 Nov 2026
     "turnkey": ("Tell us about your land abroad.", "ספרו לנו על הקרקע בחו״ל."),
     "projects": ("Planning a project like these?", "מתכננים פרויקט כזה?"),
     "about": ("Here for you. Talk to us", "פה בשבילכם, דברו איתנו"),

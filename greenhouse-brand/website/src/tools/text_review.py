@@ -411,7 +411,7 @@ def main():
     app = (SRC / "text-review/app.js").read_text(encoding="utf-8")
     (OUT / "app.js").write_text(app, encoding="utf-8")
     v = hashlib.sha1((js + app).encode()).hexdigest()[:8]
-    logo = re.search(r'<svg class="logo logo--compact".*?</svg>', (PUB / "he/index.html").read_text(encoding="utf-8"), re.S).group(0)
+    logo = re.search(r'<svg class="logo logo--compact".*?</svg>', (PUB / "index.html").read_text(encoding="utf-8"), re.S).group(0)  # the English footer still carries the compact logo
     logo = logo.replace('class="logo logo--compact"', 'class="logo"').replace('role="img"', 'role="img" focusable="false"')
     page = (SRC / "text-review/index.html").read_text(encoding="utf-8").replace("{LOGO}", logo).replace("{V}", v)
     (OUT / "index.html").write_text(page, encoding="utf-8")

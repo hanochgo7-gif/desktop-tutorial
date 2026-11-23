@@ -93,6 +93,16 @@ def logo(L):
 LOCKUP = {L: (SRC / f"assets/brand/miftah-lockup-{L}.svg").read_text(encoding="utf-8").replace(' xmlns="http://www.w3.org/2000/svg"', "") for L in ("he", "en")}
 
 
+def name_mark(L):
+    """The logo with the company name only: Hebrew pages get the Hebrew lockup without its slogan line (Merav #3, 23 Nov 2026)."""
+    if L != "he":
+        return logo(L)
+    svg = LOCKUP["he"].replace('viewBox="345 232 1222 376"', 'viewBox="345 232 1222 286"').replace("logo--lockup", "logo--name")
+    i = svg.rfind("<path")  # the last path is the slogan line
+    svg = svg[:i] + svg[svg.index("/>", i) + 2:]
+    return svg.replace('aria-label="MIFTAH"', f'aria-label="{esc(tm(C.SITE["name"], L))}"')
+
+
 def lockup(L):
     return LOCKUP[L].replace('role="img" aria-label="MIFTAH"', 'aria-hidden="true"')
 
@@ -376,8 +386,8 @@ def footer(L):
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <span class="plate">{logo(L)}</span>
-        <p class="slogan">{esc(t(S["slogan"], L))}</p>
+        <div class="foot-brand"><span class="plate">{name_mark(L)}</span>
+        <p class="slogan">{esc(t(S["foot_slogan"], L))}</p></div>
       </div>
       <div>
         <h2>{esc(t(S["foot_nav"], L))}</h2>
@@ -749,10 +759,12 @@ def p_turnkey(L):
 <main id="main">
 {page_head("turnkey-farms", L, extra=f'<div class="actions ph-actions"><a class="btn btn-primary" href="contact.html{qs(need="turnkey")}" data-track="cta_click" data-label="turnkey-head">{esc(t(P["cta_tk"], L))}</a><a class="btn btn-line" href="profile.html" data-track="profile_open">{esc(t(P["profile_go"], L))}</a></div>')}
 <section class="section" aria-labelledby="honest-h">
-  <div class="wrap">
-    <div style="max-width:72ch">
+  <div class="wrap split">
+    <div>
       <h2 id="honest-h" class="h-small">{esc(t(P["honest_h"], L))}</h2><p class="lead" style="margin-top:10px">{esc(t(P["honest_p"], L))}</p>
-      <h2 class="h-small" style="margin-top:28px">{esc(t(P["pt_h"], L))}</h2><p class="muted" style="margin-top:8px">{esc(t(P["pt_p"], L))}</p>
+    </div>
+    <div>
+      <h2 class="h-small">{esc(t(P["pt_h"], L))}</h2><p class="muted" style="margin-top:8px">{esc(t(P["pt_p"], L))}</p>
     </div>
   </div>
 </section>
