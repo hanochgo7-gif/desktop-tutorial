@@ -1042,7 +1042,8 @@ body:not(.top-dark) main { padding-top: calc(var(--head-h) + 8px); }
 [dir="rtl"] .hero-os h1 { font-size: min(9.5rem, calc(min(100vw - 2 * var(--gutter), var(--max)) / 9.2)); }
 .head-cta { white-space: nowrap; }
 .sol-body small, .sol-plain .sol-body small { color: var(--white); font-weight: 600; text-shadow: 0 1px 10px rgba(4, 24, 20, .6); }
-.sol::after { background: linear-gradient(180deg, rgba(8, 30, 26, 0) 25%, rgba(8, 30, 26, .55) 55%, rgba(8, 30, 26, .92) 100%); }
+.sol::after { background: linear-gradient(180deg, rgba(8, 30, 26, 0) 42%, rgba(8, 30, 26, .5) 62%, rgba(8, 30, 26, .9) 100%); }  /* lighter above the text, so the photo keeps its colour (Hanoch, 23 Nov 2026) */
+@media (max-width: 760px) { .sol::after { background: linear-gradient(180deg, rgba(8, 30, 26, 0) 22%, rgba(8, 30, 26, .55) 45%, rgba(8, 30, 26, .92) 100%); } }  /* phones: the text starts near the middle of the card */
 .sol-plain::after { background: radial-gradient(120% 90% at 100% 0%, rgba(127, 196, 155, .35), rgba(14, 66, 57, 0) 60%); }
 .hero-os .hero-cap { margin-inline-end: auto; }
 @media (max-width: 720px) { .hero-os .hero-cap { display: block; } }
