@@ -158,13 +158,15 @@ IL_SITES = [  # places in Israel where MIFTAH has built (Hanoch, 12 Nov 2026), g
     ('ניר עם', 'Nir Am', 31.519, 34.581, 'sh'),
     ('נען', "Na'an", 31.884, 34.857, 'gezer'),
     ('עידן', 'Idan', 30.806, 35.299, 'arava'),
+    ('צופר', 'Tzofar', 30.559, 35.180, 'arava'),  # Hanoch, 23 Nov 2026 (OpenStreetMap)
+    ('פארן', 'Paran', 30.363, 35.154, 'arava'),  # Hanoch, 23 Nov 2026 (OpenStreetMap)
     ('אילת', 'Eilat', 29.557, 34.95, 'eilat'),
     ('יטבתה', 'Yotvata', 29.896, 35.06, 'eilot'),
     ('מעוז חיים', "Ma'oz Haim", 32.493, 35.551, 'em'),
     ('ניר דוד', 'Nir David', 32.503, 35.457, 'em'),
     ('כמהין', 'Kmehin', 30.91, 34.431, 'rn'),
     ('ניצנה', 'Nitzana', 30.885, 34.422, 'rn'),  # Hanoch, 12 Nov 2026 (written ניתנה)
-    ('יד נתן', 'Yad Natan', 31.653, 34.706, 'lachish'),
+    ('פנימיית מנוף', 'Manof boarding school', 32.938, 35.089, 'akko'),  # Hanoch, 23 Nov 2026: in place of Yad Natan (Kfar HaNoar Manof by Akko, on the old Yad Natan school; he.wikipedia)
     ('רמת יוחנן', 'Ramat Yohanan', 32.793, 35.121, 'zev'),
     ('כפר המכבי', 'Kfar HaMaccabi', 32.791, 35.115, 'zev'),  # Hanoch, 12 Nov 2026 (written טפר מכבי)
     ('כברי', 'Kabri', 33.021, 35.149, 'ma'),
@@ -175,10 +177,11 @@ IL_SITES = [  # places in Israel where MIFTAH has built (Hanoch, 12 Nov 2026), g
     ('שמרת', 'Shomrat', 32.95, 35.097, 'ma'),
     ('יקב רמת הגולן', 'Golan Heights Winery', 32.992, 35.693, 'katzrin'),
     ('הרדוף', 'Harduf', 32.764, 35.173, 'yizreel'),  # Hanoch, 16 Nov 2026
-    ('מעלה החמישה', "Ma'ale HaHamisha", 31.817, 35.112, 'yehuda'),  # Hanoch, 16 Nov 2026
+    ('רבדים', 'Revadim', 31.773, 34.815, 'yoav'),  # Hanoch, 23 Nov 2026: in place of Ma'ale HaHamisha (OpenStreetMap)
 ]
 IL_REGIONS = {  # key: (en, he): regional or local council, north to south
     'ma': ('Mateh Asher Regional Council', 'מועצה אזורית מטה אשר'),
+    'akko': ('Akko', 'עכו'),
     'my': ("Ma'ale Yosef Regional Council", 'מועצה אזורית מעלה יוסף'),
     'mg': ('Merom HaGalil Regional Council', 'מועצה אזורית מרום הגליל'),
     'ge': ('Upper Galilee Regional Council', 'מועצה אזורית גליל עליון'),
@@ -193,8 +196,7 @@ IL_REGIONS = {  # key: (en, he): regional or local council, north to south
     'gilboa': ('Gilboa Regional Council', 'מועצה אזורית גלבוע'),
     'zev': ('Zevulun Regional Council', 'מועצה אזורית זבולון'),
     'gezer': ('Gezer Regional Council', 'מועצה אזורית גזר'),
-    'yehuda': ('Mateh Yehuda Regional Council', 'מועצה אזורית מטה יהודה'),
-    'lachish': ('Lakhish Regional Council', 'מועצה אזורית לכיש'),
+    'yoav': ('Yoav Regional Council', 'מועצה אזורית יואב'),
     'sh': ("Sha'ar HaNegev Regional Council", 'מועצה אזורית שער הנגב'),
     'eshkol': ('Eshkol Regional Council', 'מועצה אזורית אשכול'),
     'rn': ('Ramat HaNegev Regional Council (Nitzana area)', 'מועצה אזורית רמת נגב (פתחת ניצנה)'),
