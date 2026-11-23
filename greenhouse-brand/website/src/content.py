@@ -817,7 +817,7 @@ HOME3 = {
     "cta2": ("Which net is right for you?", "איזו רשת מתאימה לכם?"),
     "invest": ("Looking for an agricultural investment abroad? We initiate, develop, design and build turnkey farms and agricultural projects, with business partners and growers.", "מחפשים השקעה חקלאית בחו״ל? יזום, פיתוח, תכנון והקמת חוות ופרויקטים חקלאיים עד מפתח, יחד עם שותפים עסקיים וחקלאים."),  # 1.3, 1.4
     "crop_h": ("Which net house for your crop?", "איזה בית רשת מתאים לגידול שלכם?"),
-    "crop_p": ("Choose a crop to see its net and structure.", "בחרו גידול כדי לראות את הרשת והמבנה שלו."),
+    # "crop_p" (the line under the heading) removed by Hanoch, 23 Nov 2026
     "crop_proj": ("On a MIFTAH project", "בפרויקט של מיפתח"),
     "crop_cta": ("Discuss a project for this crop", "דברו איתנו על פרויקט לגידול הזה"),
     "crop_ask": ("Ask about your crop", "שאלו על הגידול שלכם"),
@@ -873,8 +873,8 @@ CROPS = [  # the crop selector; every row traces to the ledger. Four rows for ev
               (("Structure", "מבנה"), ("Galvanized poles from our plant. Abroad, we plan the work, train local crews and manage the build on site", "עמודים מגולוונים מהמפעל שלנו. בחו״ל אנחנו מתכננים את העבודה, מדריכים צוותים מקומיים ומנהלים את הביצוע בשטח")),
               (("Season", "עונה"), ("The net can fold away in winter and spread again in spring", "הרשת יכולה להתקפל בחורף ולהיפרס שוב באביב"))],
      "proj": ("Avocado net house, Portugal", "בית רשת לאבוקדו פורטוגל")},  # 2.3, 3.1, 3.5, 3.6 (the orchard page lists avocado among the orchard crops)
-    {"id": "other", "alt": ("Net houses and crop rows from above, a MIFTAH project", "בתי רשת ושורות גידול ממבט מלמעלה, פרויקט של מיפתח"), "label": ("Other crops", "גידולים אחרים"),
-     "say": ("Persimmon and more, plus shade solutions for work areas and windbreaks.", "אפרסמון ועוד, וגם פתרונות הצללה לאזורי תפעול ושוברי רוח."),
+    {"id": "other", "alt": ("Illustration: nectarine trees under a white net on galvanized poles", "הדמיה: עצי נקטרינה מתחת לרשת לבנה על עמודים מגולוונים"), "label": ("Other crops", "גידולים אחרים"),
+     "say": ("Nectarine and more, plus shade solutions for work areas and windbreaks.", "נקטרינה ועוד, וגם פתרונות הצללה לאזורי תפעול ושוברי רוח."),  # Hanoch, 23 Nov 2026: nectarine instead of persimmon
      "rows": [(("Net", "רשת"), ("Chosen for the crop and the site", "נבחרת לפי הגידול והאתר")),
               (("Protection", "הגנה"), ("Tell us the crop and what it needs protecting from. We'll tell you honestly whether a net house fits.", "ספרו לנו מה הגידול וממה צריך להגן עליו. נגיד לכם בכנות אם בית רשת מתאים.")),
               (("Structure", "מבנה"), ("Net houses, shade solutions for work areas with wide spans, windbreaks, trellising; also dismantling and preparing the material for a new structure", "בתי רשת, פתרונות הצללה לאזורי תפעול במפתחים רחבים, שוברי רוח, הדליה; וגם פירוק והכנת החומר למבנה חדש")),

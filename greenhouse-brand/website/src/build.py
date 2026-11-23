@@ -493,13 +493,13 @@ def crop_selector(L, where="home"):
         sz = "(max-width: 900px) calc(100vw - 32px), 560px"
         return (f'<picture class="cp" data-crop="{cr["id"]}"><source type="image/avif" srcset="{ss("avif")}" sizes="{sz}"><source type="image/webp" srcset="{ss("webp")}" sizes="{sz}">'
                 f'<img src="{r}assets/img/crop-{cr["id"]}-960.jpg{v}" srcset="{ss("jpg")}" sizes="{sz}" width="1280" height="960" alt="{esc(t(cr["alt"], L))}" loading="lazy" decoding="async"></picture>')
-    fig = (f'<figure class="crop-ph crop-dw" data-crop="banana"><div class="cp-stack">{"".join(pic(cr) for cr in C.CROPS)}</div>'
+    fig = (f'<figure class="crop-ph crop-dw" data-crop="banana"><div class="cp-stack">{"".join(pic(cr) for cr in C.CROPS)}<span class="cp-badge">{esc(t(H["crop_ill"], L))}</span></div>'
            f'<figcaption>{esc(t(H["crop_note"], L))}</figcaption></figure>')
     tabs, panels = [], []
     for i, cr in enumerate(C.CROPS):
         sel = i == 0
         tabs.append(f'<button type="button" role="tab" id="tab-{cr["id"]}-{where}" aria-controls="crop-{cr["id"]}-{where}" aria-selected="{"true" if sel else "false"}"'
-                    f'{"" if sel else " tabindex=" + chr(34) + "-1" + chr(34)} data-crop="{cr["id"]}">{esc(t(cr["label"], L))}</button>')
+                    f'{"" if sel else " tabindex=" + chr(34) + "-1" + chr(34)} data-crop="{cr["id"]}"><img class="ct-thumb" src="{r}assets/img/crop-{cr["id"]}-640.jpg?v={ver(PUB / f"assets/img/crop-{cr['id']}-640.jpg")}" alt="" width="44" height="44" loading="lazy" decoding="async"><span>{esc(t(cr["label"], L))}</span></button>')
         rows = "".join(f'<div><dt>{esc(t(k, L))}</dt><dd>{esc(t(v, L))}</dd></div>' for k, v in cr["rows"])
         proj = (f'<p class="crop-proj"><span>{esc(t(H["crop_proj"], L))}</span>{esc(t(cr["proj"], L))}</p>' if cr["proj"] else "")
         q = qs(need="nethouse") if cr["id"] == "other" else qs(crop=cr["id"], need="nethouse")
@@ -508,7 +508,7 @@ def crop_selector(L, where="home"):
                       f'<a class="btn btn-primary" href="contact.html{q}" data-track="cta_click" data-label="crop-{cr["id"]}">{esc(t(H["crop_cta"] if cr["id"] != "other" else H["crop_ask"], L))}</a>{crop_more(cr["id"], L)}</div>')
     return f"""<section class="section crop cable-top" id="crop" aria-labelledby="crop-h-{where}">
   <div class="wrap">
-    <div class="crop-head"><h2 id="crop-h-{where}">{esc(t(H["crop_h"], L))}</h2><p class="lead">{esc(t(H["crop_p"], L))}</p></div>
+    <div class="crop-head"><h2 id="crop-h-{where}">{esc(t(H["crop_h"], L))}</h2></div>
     <div class="crop-tabs" role="tablist" aria-label="{esc(tm(H["crop_h"], L))}">{"".join(tabs)}</div>
     <div class="crop-body"><div class="crop-panels">{"".join(panels)}</div><div class="crop-fig">{fig}</div></div>
   </div>

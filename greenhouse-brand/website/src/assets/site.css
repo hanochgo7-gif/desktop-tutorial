@@ -1478,3 +1478,27 @@ html[lang="en"] .hero-os h1 { font-size: clamp(1.75rem, calc((100vw - 2 * var(--
   .sim-card { max-height: calc(40svh - 24px); overflow: auto; }
 }
 @media (max-width: 760px) and (orientation: portrait) { .sim-ph .ph:nth-child(11) img { object-position: 50% 30%; } }  /* step 11: the faces and the handshake */
+
+/* Crop chooser, 23 Nov 2026 (Hanoch): one heading, then crop buttons that show the crop, then the answer beside its picture */
+.crop-head { grid-template-columns: minmax(0, 1fr); }
+.crop-tabs { flex-wrap: wrap; overflow: visible; gap: 10px; margin-top: clamp(20px, 3vw, 32px); }
+.crop-tabs button { display: inline-flex; align-items: center; gap: 10px; padding: 5px 18px; padding-inline-start: 5px; font-size: 1rem; }
+.ct-thumb { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex: none; background: var(--line); box-shadow: 0 0 0 2px var(--white); }
+.crop-tabs button[aria-selected="true"] .ct-thumb { box-shadow: 0 0 0 2px var(--mint); }
+.cp-badge { position: absolute; top: 12px; inset-inline-start: 12px; z-index: 2; padding: 3px 10px; border-radius: 999px; background: rgba(8, 30, 26, .62); color: var(--white); font-size: .8125rem; font-weight: 600; pointer-events: none; }
+.crop-ph figcaption { margin-top: 10px; font-size: var(--fs-small); color: var(--ink-2); }
+.crop-body { align-items: start; }
+@media (max-width: 900px) { .crop-fig { order: -1; } }  /* phones and tablets: the picture right under the buttons, then the details */
+@media (max-width: 600px) {
+  .crop-tabs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .crop-tabs button { padding: 4px 12px; padding-inline-start: 4px; gap: 8px; font-size: .9375rem; }
+  .ct-thumb { width: 36px; height: 36px; }
+}
+/* each thumbnail centres on the fruit, not the poles */
+.crop-tabs button[data-crop="banana"] .ct-thumb { object-position: 12% 55%; }
+.crop-tabs button[data-crop="apple"] .ct-thumb { object-position: 85% 60%; }
+.crop-tabs button[data-crop="kiwi"] .ct-thumb { object-position: 8% 12%; }
+.crop-tabs button[data-crop="avocado"] .ct-thumb { object-position: 8% 45%; }
+.crop-tabs button[data-crop="other"] .ct-thumb { object-position: 4% 60%; }
+.ct-thumb { width: 44px; height: 44px; object-fit: cover; }
+@media (max-width: 600px) { .ct-thumb { width: 38px; height: 38px; } }
