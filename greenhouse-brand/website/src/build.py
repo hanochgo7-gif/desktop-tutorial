@@ -572,8 +572,8 @@ def p_index(L):
 <section class="hero hero-os" aria-labelledby="hero-h">
   <div class="hero-media" aria-hidden="true">{poster}<video id="hero-video" muted loop playsinline preload="none" {vids}></video></div>
   <div class="wrap hero-in">
-    <h1 id="hero-h" data-edit-whole>{slogan_h1}</h1>
     <div class="hero-row">
+      <h1 id="hero-h" data-edit-whole>{slogan_h1}</h1>
       <div class="actions">
         <a class="btn btn-primary" href="contact.html" data-track="cta_click" data-label="hero">{esc(t(S["cta"], L))}</a>
         <a class="btn btn-line" href="#crop" data-track="route_click" data-label="hero-crop">{esc(t(H["cta2"], L))}</a>

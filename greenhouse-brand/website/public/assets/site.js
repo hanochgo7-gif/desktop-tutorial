@@ -452,6 +452,16 @@
     }
     var off = document.documentElement.dir === "rtl" ? A[1] - B[1] : A[0] - B[0];  // align the starting edge (right in Hebrew, left in English)
     if (Math.abs(off) > .5) b.style.transform = "translateX(" + off + "px)"; else b.style.transform = "";
+    // the buttons beside the headline: their middle on the middle of the slogan line (Hanoch, 23 Nov 2026)
+    var act = h.parentElement && h.parentElement.querySelector(".actions");
+    if (act) {
+      act.style.removeProperty("--act-lift");
+      if (getComputedStyle(h.parentElement).gridTemplateColumns.split(" ").length > 1) {
+        var hb = h.getBoundingClientRect().bottom, sr = b.getBoundingClientRect(), ar = act.getBoundingClientRect();
+        var lift = (hb - (sr.top + sr.height / 2)) - ar.height / 2;
+        act.style.setProperty("--act-lift", Math.round(lift) + "px");
+      }
+    }
   }
   fit(); window.addEventListener("resize", fit);
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);

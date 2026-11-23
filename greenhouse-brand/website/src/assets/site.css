@@ -1427,6 +1427,14 @@ html[lang="en"] .hero-os h1 { font-size: clamp(1.75rem, calc((100vw - 2 * var(--
 /* Hanoch, 16 Nov 2026: the headline centred on the page; the slogan line runs exactly between the name's first and last letter
    (site.js measures both lines and sets the slogan's letter spacing and offset) */
 .hero-os h1 { text-align: center; width: fit-content; max-width: 100%; margin-inline: auto; }
+/* Hanoch, 23 Nov 2026: the headline at the bottom, on the start side (right in Hebrew), the buttons on the other side; site.js lifts the
+   buttons so their middle sits on the slogan line */
+@media (min-width: 861px) {
+  .hero-os .hero-row { grid-template-columns: auto minmax(0, 1fr); align-items: end; gap: 32px; margin-top: 0; }
+  .hero-os .hero-row h1 { margin: 0; text-align: start; }
+  .hero-os .hero-row .actions { justify-self: end; margin-bottom: var(--act-lift, 0px); }
+}
+@media (max-width: 860px) { .hero-os .hero-row h1 { margin-bottom: 4px; } }
 
 /* office hours with a live open/closed line (Hanoch, 16 Nov 2026) */
 .office-hours { display: flex; flex-direction: column; gap: 2px; margin: 10px 0 0; font-size: .95rem; line-height: 1.45; }
