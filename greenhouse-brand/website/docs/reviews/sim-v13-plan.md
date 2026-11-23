@@ -15,4 +15,5 @@ Per slide (slide 7 unchanged):
 10. Crop rows lengthwise; connections.
 11. Small logo on the left chest; connections; net over the cables; rows lengthwise.
 
-Open questions to Hanoch: perimeter poles plumb or leaning slightly outward (note 03-4 vs note 08); "להוריד מספר מהעמודים" read as removing the painted numbers.
+Decided (Hanoch, 23 Nov 2026): perimeter poles lean slightly outward toward the anchors; inner poles plumb. Still assumed: "להוריד מספר מהעמודים" read as removing the painted numbers.
+Hold: no work on this until Higgsfield generation is available again (Hanoch, 23 Nov 2026).
