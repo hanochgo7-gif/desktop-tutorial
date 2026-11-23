@@ -733,10 +733,10 @@ SIM = {  # the 3D page; every line traces to the ledger (numbers in comments)
              "הדמיה שנוצרה בבינה מלאכותית מהמודל התלת-ממדי שלנו, לא צילום של פרויקט אמיתי. המידות, המרווחים והגובה אינם מפרט: כל פרויקט מתוכנן לפי הגידול, צרכי המגדל, הקרקע והניקוז, משטרי הרוחות באתר."),  # Merav #304, approved by Hanoch 17 Nov 2026
     "field_h": ("From the field", "מהשטח"),
     "field_p": ("Photos from our projects.", "צילומים מהפרויקטים שלנו."),
-    "field": [("f-poles", ("A banana net house in the Western Galilee", "בית רשת לבננות בגליל המערבי")),
-              ("f-hailnets", ("Crystal net against wind and hail, being lifted and spread", "רשת קריסטלית להגנה מפגעי רוח וברד בתהליך הרמה ופריסה")),
+    "field": [("a25", ("Net houses and orchards from the air, with the Hermon behind", "בתי רשת ומטעים מהאוויר, והחרמון ברקע")),
+              ("s043", ("Working at the ridge from the lift, between the net walls", "עבודה ברכס מבמת ההרמה, בין דפנות הרשת")),
               ("f-flowers", ("A net house for anemones: a light, professionally built structure that is moved, put up and taken down with the seasons", "בית רשת לכלניות, בניה קלה לתת מקצועי. מזיזים אותו, בונים ומפרקים אותו לפי עונות")),
-              ("f-shade", ("Net houses and greenhouses", "בתי רשת וחממות"))],  # Hanoch's real photos, 8 Nov 2026; captions by Hanoch, 12 Nov 2026 (the anemones photo is back)
+              ("s075", ("A long alley under the net", "מעבר ארוך מתחת לרשת"))],  # Hanoch, 23 Nov 2026: stronger real photos from the Drive; the anemones stay, poles and net straightened
     "nogl": ("This browser can't show the 3D illustration, so here is the section drawing instead.", "הדפדפן הזה לא מציג את ההדמיה התלת-ממדית, אז הנה שרטוט החתך במקומה."),
     "go": ("See how a net house is built, step by step", "ראו איך בונים בית רשת, שלב אחרי שלב"),
     "chapters": [
