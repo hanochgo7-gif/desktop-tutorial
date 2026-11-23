@@ -948,7 +948,7 @@ GALLERY = {
             ("s075", ("A long alley under the net", "מעבר ארוך מתחת לרשת")),
         ]),
         (("Structure and poles", "המבנה והעמודים"), [
-            ("s099", ("A galvanized ladder-frame end post", "עמוד קצה מגולוון במבנה סולם")),
+            ("s099", ("A galvanized brace (nesbach)", "נסבך מגולוון")),  # Hanoch, 23 Nov 2026: this pole is called a נסבך
             ("s101", ("The cable bolted through a galvanized frame", "הכבל מוברג דרך מסגרת מגולוונת")),
             ("s216", ("Perimeter poles leaning outward, with guy cables", "עמודי שוליים נוטים החוצה, עם כבלי עיגון")),
             ("s230", ("End posts and the net rolled on the cable", "עמודי קצה והרשת מגולגלת על הכבל")),
