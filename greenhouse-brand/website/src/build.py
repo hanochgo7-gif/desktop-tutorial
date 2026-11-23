@@ -789,12 +789,6 @@ def p_projects(L):
   </div>
 </section>
 {il_sites(L)}
-<section class="section how-abroad" aria-labelledby="how-h">
-  <div class="wrap">
-    <h2 id="how-h">{esc(t(P["how_h"], L))}</h2>
-    <ol class="path how-path">{"".join(f'<li><span class="n">{i + 1:02d}</span><b>{esc(t(h, L))}</b><span class="d">{esc(t(d, L))}</span></li>' for i, (h, d) in enumerate(P["how"]))}</ol>
-  </div>
-</section>
 <section class="section white" aria-labelledby="feat-h">
   <div class="wrap split">
     <div><h2 id="feat-h">{esc(t(P["feat_h"], L))}</h2><p class="muted" style="margin-top:14px">{esc(t(P["feat_p"], L))}</p></div>
