@@ -493,7 +493,7 @@ def crop_selector(L, where="home"):
         sz = "(max-width: 900px) calc(100vw - 32px), 560px"
         return (f'<picture class="cp" data-crop="{cr["id"]}"><source type="image/avif" srcset="{ss("avif")}" sizes="{sz}"><source type="image/webp" srcset="{ss("webp")}" sizes="{sz}">'
                 f'<img src="{r}assets/img/crop-{cr["id"]}-960.jpg{v}" srcset="{ss("jpg")}" sizes="{sz}" width="1280" height="960" alt="{esc(t(cr["alt"], L))}" loading="lazy" decoding="async"></picture>')
-    fig = (f'<figure class="crop-ph crop-dw" data-crop="banana"><div class="cp-stack">{"".join(pic(cr) for cr in C.CROPS)}<span class="cp-badge">{esc(t(H["crop_ill"], L))}</span></div>'
+    fig = (f'<figure class="crop-ph crop-dw" data-crop="banana"><div class="cp-stack">{"".join(pic(cr) for cr in C.CROPS)}</div>'
            f'<figcaption>{esc(t(H["crop_note"], L))}</figcaption></figure>')
     tabs, panels = [], []
     for i, cr in enumerate(C.CROPS):
@@ -1183,7 +1183,6 @@ def globe_page():
                      ('["eb", "h1", "lede", "s1", "s2", "s3", "g1", "g2", "hint", "note"]', '["eb", "h1", "lede", "s1", "s2", "s3", "g1", "g2", "g3", "hint", "note"]'),
                      ('if (p.g !== g || p.id === "il") return;', 'if (p.g !== g || p.id === "il" || p.site) return;'),
                      ('"</h3><p>" + esc(p[L].d) + ". " + esc(p[L].w) + ".</p>', '"</h3><p>" + esc(p[L].d) + (p[L].w ? ". " + esc(p[L].w) : "") + ".</p>'),
-                     ('var vis = m.g.visible && f > .12', 'var vis = m.g.visible && (!m.p || !m.p.site || on) && f > .12'),
                      ('if (p.g === "il") lookAt(32.98, 35.43,', 'if (p.site) lookAt(p.lat, p.lon, 1 + .1 / Math.max(.62, Math.min(1, camera.aspect)));\n    else if (p.g === "il") lookAt(32.98, 35.43,')):
         assert js.count(old) == 1, old
         js = js.replace(old, new)

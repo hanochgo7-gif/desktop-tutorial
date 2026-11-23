@@ -284,7 +284,7 @@
     halo.scale.set(.09 * scale * (scale < 1 ? .55 : 1), .09 * scale * (scale < 1 ? .55 : 1), 1); halo.position.y = .002; g.add(halo);
     var core = new THREE.Mesh(new THREE.SphereGeometry(.0085 * scale, 16, 16), new THREE.MeshBasicMaterial({ color: 0xffffff }));
     g.add(core);
-    var hit = new THREE.Mesh(new THREE.SphereGeometry(.05 * scale, 8, 8), new THREE.MeshBasicMaterial({ visible: false }));
+    var hit = new THREE.Mesh(new THREE.SphereGeometry((scale < 1 ? .026 : .05) * scale, 8, 8), new THREE.MeshBasicMaterial({ visible: false }));
     hit.userData.id = key; g.add(hit); HITS.push(hit);
     world.add(g);
     M[key] = { g: g, n: n, ring: ring, beam: beam, glow: halo, core: core, phase: Math.random() };
@@ -345,7 +345,7 @@
   var drag = false, lx = 0, ly = 0, moved = 0, pts = {}, pinch0 = 0;
   gl.addEventListener("pointerdown", function (e) { pts[e.pointerId] = [e.clientX, e.clientY]; drag = true; moved = 0; lx = e.clientX; ly = e.clientY; vY = 0; tgt = null; gl.classList.add("drag"); gl.setPointerCapture(e.pointerId); var k = Object.keys(pts); if (k.length === 2) pinch0 = Math.hypot(pts[k[0]][0] - pts[k[1]][0], pts[k[0]][1] - pts[k[1]][1]); });
   gl.addEventListener("pointermove", function (e) {
-    if (!pts[e.pointerId]) return; pts[e.pointerId] = [e.clientX, e.clientY];
+    if (!pts[e.pointerId]) { if (e.pointerType === "mouse") hoverAt(e); return; } pts[e.pointerId] = [e.clientX, e.clientY];
     var k = Object.keys(pts);
     if (k.length === 2) { var d = Math.hypot(pts[k[0]][0] - pts[k[1]][0], pts[k[0]][1] - pts[k[1]][1]); if (pinch0) { distT = Math.max(1.06, Math.min(BASE * 1.15, distT * pinch0 / d)); zoomed = distT < BASE * .95; } pinch0 = d; moved += 10; return; }
     var dx = e.clientX - lx, dy = e.clientY - ly; lx = e.clientX; ly = e.clientY; moved += Math.abs(dx) + Math.abs(dy);
@@ -361,6 +361,15 @@
   gl.addEventListener("pointerup", up); gl.addEventListener("pointercancel", function (e) { delete pts[e.pointerId]; drag = false; gl.classList.remove("drag"); });
   gl.addEventListener("wheel", function (e) { e.preventDefault(); distT = Math.max(1.06, Math.min(BASE * 1.15, 1 + (distT - 1) * (1 + e.deltaY * .0015))); zoomed = distT < BASE * .95; idle = 0; }, { passive: false });
   var ray = new THREE.Raycaster(), mv = new THREE.Vector2();
+  // the place under the mouse shows its name even where there is no free room for it
+  var hover = null;
+  function hoverAt(e) {
+    var b = gl.getBoundingClientRect(); mv.x = (e.clientX - b.left) / b.width * 2 - 1; mv.y = -(e.clientY - b.top) / b.height * 2 + 1;
+    ray.setFromCamera(mv, camera);
+    var hits = ray.intersectObjects(HITS.filter(function (h) { return h.parent.visible; }), false).filter(function (h) { var m = M[h.object.userData.id]; return m && facing(m) > 0; });
+    hover = hits.length ? hits[0].object.userData.id : null; gl.style.cursor = hover && hover !== "hq" ? "pointer" : "";
+  }
+  gl.addEventListener("pointerleave", function () { hover = null; gl.style.cursor = ""; });
   function pick(e) {
     var b = gl.getBoundingClientRect(); mv.x = (e.clientX - b.left) / b.width * 2 - 1; mv.y = -(e.clientY - b.top) / b.height * 2 + 1;
     ray.setFromCamera(mv, camera);
@@ -385,13 +394,17 @@
     var b = gl.getBoundingClientRect(), ms = Math.min(1, Math.max(.035, (dist - 1) / (BASE - 1) * 1.1));
     atmo.material.uniforms.uG.value = 1 - zf; landMat.uniforms.uA.value = 1 - .7 * zf;
     ilPts.visible = false; EU.uZ.value = zf; cloudU.uA.value = .85 * (1. - .92 * zf); if (!reduce) clouds.rotation.y += dt * .004; ilMat.uniforms.uA.value = zf; ilMat.uniforms.uSize.value = renderer.getPixelRatio() * (1.2 + 2.6 * zf);
+    var CAND = [];
     Object.keys(M).forEach(function (k) {
       var m = M[k];
       m.g.visible = m.sub ? zoomIn : (k === "il" ? !zoomIn : true); m.g.scale.setScalar(ms);
       var ph = reduce ? .5 : (t * .8 + m.phase) % 1;
-      m.ring.scale.setScalar(1 + ph * 2.2); m.ring.material.opacity = (1 - ph) * .85;
       var on = sel === k || (k === "il" && P.some(function (p) { return p.sub && p.id === sel; }));
-      m.core.scale.setScalar(on ? 1.5 : 1);
+      // close in on Israel the places are small, still dots: no pulsing rings or light beams, so the dots never run together
+      var quiet = m.sub;
+      m.ring.visible = !quiet || on; m.beam.visible = !quiet; m.glow.visible = !quiet || on;
+      m.ring.scale.setScalar(1 + ph * 2.2); m.ring.material.opacity = (1 - ph) * .85;
+      m.core.scale.setScalar(on ? 1.6 : 1);
       if (m.beam.material.uniforms) m.beam.material.uniforms.uA.value = on ? 1.4 : .85;
       var tg = TG[k];
       if (tg) {
@@ -399,11 +412,36 @@
         m.g.getWorldPosition(proj); proj.project(camera);
         var x = (proj.x * .5 + .5) * b.width, y = (-proj.y * .5 + .5) * b.height;
         var vis = m.g.visible && f > .12 && (k !== "hq" || zoomIn) && x > 8 && x < b.width - 8 && y > 8 && y < b.height - 8;
-        tg.style.opacity = vis ? (on ? 1 : .88) : 0;
-        var ps = tg.dataset.pos, off = ps === "b" ? "translate(-50%,70%)" : ps === "l" ? "translate(calc(-100% - 14px),-50%)" : ps === "r" ? "translate(14px,-50%)" : "translate(-50%,-170%)";
-        tg.style.transform = "translate(" + x + "px," + y + "px) " + off;
         tg.classList.toggle("sel", on);
+        if (!vis) { tg.style.opacity = 0; return; }
+        CAND.push({ k: k, tg: tg, x: x, y: y, on: on, pr: on ? 0 : k === "hq" ? 1 : (m.p && m.p.site) ? 3 : 2, hov: hover === k });
       }
+    });
+    // labels never overlap each other or another place's dot: the selected place first, then the office, the featured projects and the places;
+    // a name with no free room around its dot waits until you zoom in further (or hover the dot)
+    CAND.sort(function (a, c) { return (a.hov ? -1 : a.pr) - (c.hov ? -1 : c.pr); });
+    var R = [], D = CAND.map(function (c) { return { k: c.k, x0: c.x - 5, y0: c.y - 5, x1: c.x + 5, y1: c.y + 5 }; }), W = b.width, H = b.height;
+    function clash(r, k) {
+      if (r.x0 < 4 || r.y0 < 4 || r.x1 > W - 4 || r.y1 > H - 4) return true;
+      for (var i = 0; i < R.length; i++) if (r.x0 < R[i].x1 && r.x1 > R[i].x0 && r.y0 < R[i].y1 && r.y1 > R[i].y0) return true;
+      for (var j = 0; j < D.length; j++) if (D[j].k !== k && r.x0 < D[j].x1 && r.x1 > D[j].x0 && r.y0 < D[j].y1 && r.y1 > D[j].y0) return true;
+      return false;
+    }
+    CAND.forEach(function (c) {
+      var tg = c.tg; if (!tg._w) { tg._w = tg.offsetWidth; tg._h = tg.offsetHeight; }
+      var w = tg._w + 4, h = tg._h + 2, g = c.k === "hq" ? 12 : 8, ps = tg.dataset.pos;
+      var order = ps === "b" ? ["b", "r", "l", "t"] : ps === "l" ? ["l", "r", "t", "b"] : ps === "r" ? ["r", "l", "t", "b"] : ["t", "r", "l", "b"];
+      var placed = null;
+      for (var i = 0; i < order.length && !placed; i++) {
+        var o = order[i], x0 = o === "l" ? c.x - g - w : o === "r" ? c.x + g : c.x - w / 2, y0 = o === "t" ? c.y - g - h : o === "b" ? c.y + g : c.y - h / 2;
+        var r = { x0: x0, y0: y0, x1: x0 + w, y1: y0 + h };
+        if (!clash(r, c.k)) placed = r;
+      }
+      if (!placed && (c.on || c.hov)) { var x0 = c.x - w / 2, y0 = c.y - g - h; placed = { x0: x0, y0: y0, x1: x0 + w, y1: y0 + h }; }
+      if (!placed) { tg.style.opacity = 0; return; }
+      R.push(placed);
+      tg.style.opacity = c.on || c.hov ? 1 : .9;
+      tg.style.transform = "translate(" + (placed.x0 + 2) + "px," + (placed.y0 + 1) + "px)";
     });
     ARCS.forEach(function (a) { a.mat.uniforms.uT.value = reduce ? .7 : t; a.mat.uniforms.uG.value = 1 - zf; a.mat.uniforms.uOn.value += ((sel === a.id ? 1 : 0) - a.mat.uniforms.uOn.value) * .1; });
     renderer.render(scene, camera);
@@ -441,7 +479,7 @@
   function choose(id) {
     sel = id;
     var p = P.filter(function (z) { return z.id === id; })[0];
-    if (p.g === "il") lookAt(32.98, 35.43, 1 + .085 / Math.max(.62, Math.min(1, camera.aspect)));
+    if (p.g === "il") lookAt(32.98, 35.43, 1 + .062 / Math.max(.62, Math.min(1, camera.aspect)));
     else lookAt(p.lat, p.lon, null);
     document.querySelectorAll(".item").forEach(function (bt) { bt.setAttribute("aria-pressed", bt.dataset.id === id ? "true" : "false"); });
     card();
