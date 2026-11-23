@@ -1504,8 +1504,8 @@ html[lang="en"] .hero-os h1 { font-size: clamp(1.75rem, calc((100vw - 2 * var(--
 }
 /* each thumbnail centres on the fruit, not the poles */
 .crop-tabs button[data-crop="banana"] .ct-thumb { object-position: 12% 55%; }
-.crop-tabs button[data-crop="apple"] .ct-thumb { object-position: 85% 60%; }
-.crop-tabs button[data-crop="kiwi"] .ct-thumb { object-position: 8% 12%; }
+.crop-tabs button[data-crop="apple"] .ct-thumb { object-position: 50% 80%; }
+.crop-tabs button[data-crop="kiwi"] .ct-thumb { object-position: 30% 35%; }
 .crop-tabs button[data-crop="avocado"] .ct-thumb { object-position: 8% 45%; }
 .crop-tabs button[data-crop="other"] .ct-thumb { object-position: 4% 60%; }
 .ct-thumb { width: 44px; height: 44px; object-fit: cover; }

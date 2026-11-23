@@ -749,13 +749,10 @@ def p_turnkey(L):
 <main id="main">
 {page_head("turnkey-farms", L, extra=f'<div class="actions ph-actions"><a class="btn btn-primary" href="contact.html{qs(need="turnkey")}" data-track="cta_click" data-label="turnkey-head">{esc(t(P["cta_tk"], L))}</a><a class="btn btn-line" href="profile.html" data-track="profile_open">{esc(t(P["profile_go"], L))}</a></div>')}
 <section class="section" aria-labelledby="honest-h">
-  <div class="wrap split">
-    <div>
+  <div class="wrap">
+    <div style="max-width:72ch">
       <h2 id="honest-h" class="h-small">{esc(t(P["honest_h"], L))}</h2><p class="lead" style="margin-top:10px">{esc(t(P["honest_p"], L))}</p>
       <h2 class="h-small" style="margin-top:28px">{esc(t(P["pt_h"], L))}</h2><p class="muted" style="margin-top:8px">{esc(t(P["pt_p"], L))}</p>
-    </div>
-    <div>
-      <h2 class="h-small">{esc(t(P["where_h"], L))}</h2><p class="muted" style="margin-top:8px">{esc(t(P["where_p"], L))}</p>
     </div>
   </div>
 </section>

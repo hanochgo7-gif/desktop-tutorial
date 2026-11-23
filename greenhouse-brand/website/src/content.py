@@ -359,9 +359,7 @@ PAGES = {
         "core_p": ("The net houses, shade solutions and windbreaks of a turnkey farm are the same structures we design, make and build for growers.",
                    "בתי הרשת, פתרונות ההצללה ושוברי הרוח של חוות מפתח הם אותם מבנים שאנחנו מתכננים, מייצרים ומקימים לחקלאים."),
         "core_go": ("How we build net houses", "איך אנחנו בונים בתי רשת"),
-        "where_h": ("Where", "איפה"),  # Merav, 18 Nov 2026 (Q5): back to "איפה"
-        "where_p": ("Portugal and other European countries, India and other markets.",
-                    "פורטוגל ומדינות נוספות באירופה, הודו ושווקים נוספים."),  # 4.1, 4.2
+        # "Where" and its line removed (Merav via Hanoch, 23 Nov 2026: "זה סתם מגביל")
     },
     "banana-net-houses": {
         "title": ("Banana net houses: 11% net, wide spans | MIFTAH Projects", "בתי רשת לבננות: רשת 11%, מפתחים רחבים | מיפתח פרויקטים"),
@@ -844,7 +842,7 @@ CROPS = [  # the crop selector; every row traces to the ledger. Four rows for ev
               (("Structure", "מבנה"), ("Wide spans, with trellising and support built in", "מפתחים רחבים, עם הדליה ותמיכה מובנות")),
               (("Season", "עונה"), ("All year; in the hot season it saves water and gives the plants the best conditions, by reducing evaporation and giving shade.", "כל השנה, בעונה החמה חוסכת מים ומאפשרת תנאים מיטביים לצמח כי היא מפחיתה התאדות ונותנת צל."))],
      "proj": ("Banana net house with 11% net, in the Western Galilee area", "בית רשת לבננות עם רשת 11%, באזור הגליל המערבי")},  # 2.2, 3.1
-    {"id": "apple", "alt": ("White anti-hail net laid in strips over a young orchard, on round galvanized poles", "רשת לבנה נגד ברד שנפרסת ברצועות מעל מטע צעיר, על עמודים מגולוונים עגולים"), "label": ("Orchards", "מטעים"),
+    {"id": "apple", "alt": ("An apple orchard in bloom under a white anti-hail net, a MIFTAH project", "מטע תפוחים בפריחה מתחת לרשת לבנה נגד ברד, פרויקט של מיפתח"), "label": ("Orchards", "מטעים"),
      "say": ("Nets that protect against hail and sun damage", "רשתות להגנה מפני ברד ופגעי שמש"),
      "kinds": [("Apples", "תפוחים"), ("Pears", "אגסים"), ("Cherries", "דובדבנים"), ("Peaches", "אפרסקים"), ("Nectarines", "נקטרינות"), ("Apricots", "משמשים"), ("Lemons", "לימונים"), ("and more", "ועוד")],  # Hanoch, 12 Nov 2026: one text each, so each is editable on its own
      "rows": [(("Net", "רשת"), ("10–30% shade net", "רשת צל 10%–30%")),
