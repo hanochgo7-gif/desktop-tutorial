@@ -396,11 +396,7 @@ PAGES = {
         "il_p": ("Kibbutzim, moshavim and farms, from the Golan Heights to Eilat.", "קיבוצים, מושבים וחוות, מרמת הגולן ועד אילת."),  # Hanoch, 12 Nov 2026
         "th_country": ("Country", "מדינה"), "th_work": ("Project", "פרויקט"),
         "feat_h": ("Selected projects", "פרויקטים נבחרים"),
-        "how_h": ("How we work abroad", "איך אנחנו עובדים בחו״ל"),
-        "how": [(("We design the project", "מתכננים את הפרויקט"), ("Fitted to the site and the crop.", "בהתאמה השטח ולגידול.")),  # 2.8
-                (("We train and manage local crews", "מדריכים ומנהלים צוותים מקומיים"), ("Together with the client through the whole build.", "יחד עם הלקוח לאורך כל ההקמה.")),  # 3.2
-                (("We manage the build until handover", "מנהלים את הביצוע עד המסירה"), ("We handle manufacturing, shipping and training the local crews, or build the project turnkey.", "דואגים לייצור, לשילוח ולהדרכת הצוותים המקומיים או להקמה עד מפתח.")),  # 1.2, 3.3
-                (("A reference from Portugal", "המלצה מפורטוגל"), ("Our client there is willing to give a reference, on request.", "הלקוח שלנו שם מוכן להמליץ, לפי בקשה."))],  # 3.5
+        # "How we work abroad" (four steps) removed with its section (Hanoch, 23 Nov 2026)
         "feat_th": (("Crop", "Structure", "Region"), ("גידול", "מבנה", "אזור")),
         "feat_p": ("We name clients only with their permission. References from clients in Israel and Portugal on request.",
                    "שמות לקוחות מופיעים רק באישורם. המלצות מלקוחות בישראל ובפורטוגל, לפי בקשה."),  # q13, O2, 3.5, D6
