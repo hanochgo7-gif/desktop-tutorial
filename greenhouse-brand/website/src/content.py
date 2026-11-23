@@ -951,7 +951,6 @@ GALLERY = {
             ("s099", ("A galvanized brace (nesbach)", "נסבך מגולוון")),  # Hanoch, 23 Nov 2026: this pole is called a נסבך
             ("s101", ("The cable bolted through a galvanized frame", "הכבל מוברג דרך מסגרת מגולוונת")),
             ("s216", ("Perimeter poles leaning outward, with guy cables", "עמודי שוליים נוטים החוצה, עם כבלי עיגון")),
-            ("s230", ("End posts and the net rolled on the cable", "עמודי קצה והרשת מגולגלת על הכבל")),
             ("s250", ("The edge of the structure, with a wind turbine", "שולי המבנה, וטורבינת רוח ברקע")),
             ("s242", ("The cable grid over the rows", "רשת הכבלים מעל השורות")),
             ("s104", ("Pole rows along an orchard alley", "שורות עמודים לאורך מעבר במטע")),
