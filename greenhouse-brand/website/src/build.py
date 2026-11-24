@@ -793,6 +793,14 @@ def p_projects(L):
     <div class="proj-table">{projects_table(L)}</div>
   </div>
 </section>
+<section class="section atl" aria-labelledby="atl-h">
+  <div class="wrap split atl-in">
+    <div><span class="atl-k">{esc(t(P["atl_k"], L))}</span><h2 id="atl-h">{esc(t(P["atl_h"], L))}</h2><p class="lead" style="margin-top:14px">{esc(t(P["atl_p"], L))}</p>
+      <p style="margin-top:18px"><a class="btn btn-line" href="https://www.atlantrees.com/" target="_blank" rel="noopener" data-track="partner_click" data-label="atlantrees">{esc(t(P["atl_link"], L))}</a></p></div>
+    <div class="yt" data-yt="FZxSaZLNt_k" data-title="{esc(tm(P["atl_title"], L))}">{picture("atlantrees", "", L, sizes="(max-width: 960px) 100vw, 640px", widths=(640, 1024))}
+      <button type="button" class="yt-play" aria-label="{esc(tm(P["atl_play"], L))}"><svg width="28" height="28" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 1.5l7.5 4.5L3 10.5z" fill="currentColor"/></svg></button></div>
+  </div>
+</section>
 {il_sites(L)}
 <section class="section white" aria-labelledby="feat-h">
   <div class="wrap split">
@@ -1393,7 +1401,7 @@ def main():
     EP = " " + "/".join(FORM_ENDPOINT.split("/")[:3]) if FORM_ENDPOINT else ""  # the form endpoint's origin, allowed by the CSP
     # one policy for both hosts (they had drifted apart)
     csp = ("default-src 'self'; img-src 'self' data:; media-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'" + EP +
-           "; frame-src 'self'; frame-ancestors 'self'; form-action 'self'" + EP + "; base-uri 'self'")
+           "; frame-src 'self' https://www.youtube-nocookie.com; frame-ancestors 'self'; form-action 'self'" + EP + "; base-uri 'self'")
     perms = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
     # host config for Apache (Nethost): 404 pages per language and cache headers
     write(PUB / ".htaccess", old_redirects_htaccess() + "ErrorDocument 404 /404.html\n<If \"%{REQUEST_URI} =~ m#^/he/#\">\n  ErrorDocument 404 /he/404.html\n</If>\n"

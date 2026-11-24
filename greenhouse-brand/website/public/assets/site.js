@@ -513,3 +513,17 @@
   tick(); setInterval(tick, 30000);
   document.addEventListener("visibilitychange", function () { if (!document.hidden) tick(); });
 })();
+
+/* YouTube, loaded only when the visitor presses play (no YouTube request or cookie before that) */
+(function () {
+  [].forEach.call(document.querySelectorAll(".yt[data-yt]"), function (box) {
+    var b = box.querySelector(".yt-play"); if (!b) return;
+    b.addEventListener("click", function () {
+      var f = document.createElement("iframe");
+      f.src = "https://www.youtube-nocookie.com/embed/" + box.getAttribute("data-yt") + "?autoplay=1&rel=0&modestbranding=1&playsinline=1";
+      f.title = box.getAttribute("data-title") || ""; f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen"; f.allowFullscreen = true;
+      f.referrerPolicy = "strict-origin-when-cross-origin";
+      box.innerHTML = ""; box.appendChild(f); box.classList.add("on"); f.focus();
+    });
+  });
+})();

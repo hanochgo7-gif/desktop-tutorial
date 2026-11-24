@@ -1548,3 +1548,16 @@ html[lang="en"] .hero-os h1 { font-size: clamp(1.75rem, calc((100vw - 2 * var(--
 /* footer: the logo, and the slogan centred under it (Merav #3, 23 Nov 2026) */
 .foot-brand { display: inline-flex; flex-direction: column; align-items: center; }
 .foot-brand .slogan { text-align: center; }
+
+/* the Atlantrees video, Portugal (Hanoch, 24 Nov 2026) */
+.atl { background: var(--mist); }
+.atl-in { align-items: center; }
+.atl-k { display: inline-block; font-size: .875rem; font-weight: 700; color: var(--canopy); margin-bottom: 8px; }
+.yt { position: relative; aspect-ratio: 16 / 9; border-radius: var(--radius); overflow: hidden; background: #0B3530; box-shadow: 0 10px 28px rgba(14, 42, 37, .12); }
+.yt img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.yt iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.yt-play { position: absolute; inset: 0; margin: auto; width: 78px; height: 78px; border-radius: 50%; border: 0; cursor: pointer; display: grid; place-items: center;
+  background: rgba(255, 255, 255, .92); color: #0E4239; box-shadow: 0 6px 24px rgba(0, 0, 0, .3); padding-inline-start: 6px; transition: transform .15s; }
+.yt-play:hover { transform: scale(1.06); }
+.yt-play:focus-visible { outline: 3px solid var(--mint); outline-offset: 3px; }
+@media (max-width: 960px) { .atl-in { gap: 24px; } }

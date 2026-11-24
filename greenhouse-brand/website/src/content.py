@@ -389,6 +389,14 @@ PAGES = {
         "il_h": ("Where we have built in Israel", "איפה עבדנו בישראל"),
         "il_p": ("Kibbutzim, moshavim and farms, from the Golan Heights to Eilat.", "קיבוצים, מושבים וחוות, מרמת הגולן ועד אילת."),  # Hanoch, 12 Nov 2026
         "th_country": ("Country", "מדינה"), "th_work": ("Project", "פרויקט"),
+        # the Portugal avocado project with Atlantrees, the partner's own before-and-after video from YouTube (Hanoch, 24 Nov 2026)
+        "atl_k": ("Portugal", "פורטוגל"),
+        "atl_h": ("Avocado net houses in Portugal, with Atlantrees", "בתי רשת למטע אבוקדו בפורטוגל, עם Atlantrees"),
+        "atl_p": ("An excellent partnership between MIFTAH and Atlantrees, an avocado grower in central Portugal. In the video: the field before, and the same field after, under the net houses.",
+                  "שיתוף פעולה מעולה של מיפתח עם Atlantrees, מגדלת אבוקדו במרכז פורטוגל. בסרטון: השטח לפני, ואותו שטח אחרי, מתחת לבתי הרשת."),
+        "atl_link": ("Atlantrees website", "לאתר של Atlantrees"),
+        "atl_play": ("Play the video (from YouTube)", "הפעלת הסרטון (מיוטיוב)"),
+        "atl_title": ("Atlantrees field, before and after", "השטח של Atlantrees, לפני ואחרי"),
         "feat_h": ("Selected projects", "פרויקטים נבחרים"),
         # "How we work abroad" (four steps) removed with its section (Hanoch, 23 Nov 2026)
         "feat_th": (("Crop", "Structure", "Region"), ("גידול", "מבנה", "אזור")),
