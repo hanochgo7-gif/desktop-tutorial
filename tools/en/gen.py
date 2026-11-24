@@ -54,7 +54,7 @@ URL_ATTRS = ("href", "src", "poster", "action", "data-full", "data-video",
              "data-src", "data-bg-src")
 SRCSET_ATTRS = ("srcset", "imagesrcset")
 TEXT_ATTRS = ("alt", "aria-label", "title", "placeholder", "data-cap",
-              "data-caption", "data-sub", "value", "label", "content")
+              "data-caption", "data-sub", "data-tag", "value", "label", "content")
 SKIP_TEXT_IN = ("script", "style")
 
 WA_PREFIX = "https://wa.me/972502703674?text="
@@ -211,7 +211,7 @@ def prepare(page, soup):
     for logo in soup.select("a.navpill__logo"):
         sw = soup.new_tag("a", attrs={
             "class": "navpill__lang", "href": "../" * depth + page,
-            "lang": "he", "dir": "rtl", "aria-label": "עברית"})
+            "lang": "he", "dir": "rtl", "aria-label": "עב – עברית"})
         sw.string = "עב"
         logo.insert_after(sw)
 

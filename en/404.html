@@ -10,6 +10,17 @@
 
 <script>
     (function () {
+      // Dira Ready (/desktop-tutorial/dira/) is a separate site: keep its visitors there.
+      if (location.pathname.indexOf('/desktop-tutorial/dira') === 0) {
+        var l = /\/dira\/en(\/|$)/.test(location.pathname) ? 'en' : 'he';
+        location.replace('/desktop-tutorial/dira/' + l + '/' + location.search);
+        return;
+      }
+      // Lucid (/desktop-tutorial/lucid/) is a separate app that routes by #: a mistyped path goes to its start.
+      if (/^\/desktop-tutorial\/lucid(\/|$)/.test(location.pathname)) {
+        location.replace('/desktop-tutorial/lucid/' + location.search);
+        return;
+      }
       var p = decodeURIComponent(location.pathname + location.search).toLowerCase();
       var map = [
         [/גלרי|gallery|תמונ|photo/, '/#gallery'],

@@ -2323,3 +2323,76 @@ html[dir="rtl"] input[dir="ltr"]::placeholder { text-align: right; }
 .pvbar .pv__acts .btn { flex: 1 1 0; }
 .map { aspect-ratio: auto; height: 340px; }
 .map__facade { padding: 20px 20px 76px; }
+
+/* ==========================================================================
+   שלב 1: ביצועים, נראוּת ונגישות
+   הדף נח כשלא גוללים: אין אנימציות אינסופיות מחוץ למסך, אין שכבות מיותרות
+   ========================================================================== */
+.grain, .hero--word .hero__shade::after { animation: none; }
+.mobile-menu:not(.is-open) .mm__bg::before { animation: none; }
+[data-split] .w > span, .line > span { will-change: auto; }
+.paused-offscreen, .paused-offscreen *, .paused-offscreen *::before, .paused-offscreen *::after { animation-play-state: paused !important; }
+html.intro-done .hero__intro, html.intro-done .hero__mid p, html.intro-done .hero__cta, html.intro-done .feed, html.intro-done .wordmark > span > i, html.intro-done .hero__logo, html.intro-done .hero__title, html.intro-done .hero__lead, html.intro-done .hero__clients, html.intro-done .hero__rule { animation: none; opacity: 1; transform: none; }
+.scene.is-done svg .l, .scene.is-done svg .f, .scene.is-done svg .drop, .scene.is-done svg .truck, .scene.is-done svg .hook { animation: none; opacity: 1; stroke-dashoffset: 0; transform: none; }
+.scene.is-done svg .crane { animation: none; opacity: 0; }
+
+/* מפת הפרויקטים: הפעימה רצה שלוש פעמים ונעצרת, בלי טשטוש מאחורי הלוח הדביק */
+.map__pin.is-on .map__ring, .mapsec .pin.on .ring { animation-iteration-count: 3; }
+@media (max-width: 999px) { .map-panel { background: #fff; backdrop-filter: none; -webkit-backdrop-filter: none; } }
+/* זרימה בחתך: בלי טשטוש וזוהר על קווים שזזים */
+.cut__flow-halo, .cut__flow-pulse { filter: none; }
+.cut__flow-halo { stroke: rgba(79,187,234,.35); }
+/* כפתור הוואטסאפ לא מקפץ כל הזמן */
+.wa-float img, .mobile-cta__wa img { animation: none; }
+/* טשטוש רקע רק במקום שבאמת צריך אותו */
+.header .container.header__inner { background: rgba(50,45,42,.97); backdrop-filter: none; -webkit-backdrop-filter: none; }
+.mobile-cta { background: rgb(18,17,16); backdrop-filter: none; -webkit-backdrop-filter: none; }
+.band__tag, .band__kicker span { background: rgba(10,10,12,.78); backdrop-filter: none; -webkit-backdrop-filter: none; }
+.cut__pin span, .steps__tag { backdrop-filter: none; -webkit-backdrop-filter: none; }
+.cut__pin span { background: rgba(255,255,255,.82); }
+.steps__tag { background: rgba(15,14,13,.7); }
+
+/* בלי JavaScript (או כשהוא נכשל) כל התוכן נשאר גלוי */
+html:not(.js) .reveal, html:not(.js) .lqip img, html:not(.js) .footer__mark img, html:not(.js) .footer__brand,
+html:not(.js) .hero__intro, html:not(.js) .hero__title, html:not(.js) .hero__lead, html:not(.js) .hero__logo, html:not(.js) .hero__clients, html:not(.js) .hero__cta,
+html:not(.js) .pipe__node, html:not(.js) [data-split] .w > span, html:not(.js) .line > span {
+  opacity: 1 !important; transform: none !important; clip-path: none !important; animation: none !important;
+}
+
+/* שורת המיקום (פירורי לחם) מיושרת, גם כשהפריט הראשון הוא קישור */
+.crumbs { align-items: center; }
+.crumbs li { display: inline-flex; align-items: center; }
+
+/* גודל טקסט מינימלי של 13 פיקסלים לכל מה שנועד לקריאה */
+.footer__bottom, .footer__bottom span, #year, .legal-links a, .legal-links__btn,
+.field__badge, .row .field__badge, .field-tile__name .field__badge,
+.card__stamp, .cut__stamp, .article-figure figcaption, .steps__tag, .sim__stamp, .pipe__sub,
+.case__gallery-note, .row .n, .article-card__tag, .cut__card-n, .card .n, .about__illu-tag, .ann__link {
+  font-size: max(.8125rem, 13px);
+}
+
+/* שטחי לחיצה של 44 פיקסלים לפחות */
+.ann__close { width: 44px; height: 44px; inset-inline-end: 0; }
+.ann__link { position: relative; min-height: 32px; display: inline-flex; align-items: center; }
+.ann__link::after { content: ""; position: absolute; inset: -6px -4px; }
+.mm__btn { min-height: 44px; height: auto; }
+.mm__links a, .mm .legal-links a, .mm .legal-links__btn { display: inline-flex; align-items: center; min-height: 44px; min-width: 44px; }
+.cut__pin::before { content: ""; position: absolute; left: 50%; top: 50%; width: 44px; height: 44px; transform: translate(-50%, -50%); border-radius: 50%; }
+
+/* פס ההודעה בטלפון: הטקסט נשבר לשתי שורות במקום להיחתך, והסגירה לא עולה על הקישור */
+@media (max-width: 640px) {
+  :root { --ann-h: 52px; }
+  .ann { padding-inline: 12px 48px; gap: 10px; justify-content: flex-start; }
+  .ann__text { white-space: normal; overflow: visible; text-overflow: clip; line-height: 1.3; }
+}
+
+/* מיקוד מקלדת גלוי על כפתור ההדמיה */
+.sim__play:focus-visible { outline: 3px solid #fff; outline-offset: -6px; }
+
+/* טלפון: אין פס בהיר בין הפוטר לסרגל הפעולות התחתון; כפתור הנגישות קטן יותר ומוסתר פחות תוכן */
+@media (max-width: 999px) {
+  body { padding-bottom: 0; }
+  .footer::after { content: ""; display: block; height: 72px; }
+  .a11y__btn { width: 44px; height: 44px; }
+  .a11y__btn svg { width: 24px; height: 24px; }
+}
