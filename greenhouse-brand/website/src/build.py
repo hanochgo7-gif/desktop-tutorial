@@ -713,7 +713,7 @@ def p_sim(L):
         src_png = SRC.parent / "media-src" / "sim-real" / f"ch{i + 1:02d}.png"
         v = "?v=" + hashlib.md5(src_png.read_bytes()).hexdigest()[:8] if src_png.exists() else ""
         ss = lambda ext: ", ".join(f"{r}assets/img/sim-r{i + 1:02d}-{w}.{ext}{v} {w}w" for w in (960, 1600, 2400))
-        ms = lambda ext: f"{r}assets/img/sim-r{i + 1:02d}m-720.{ext}{v} 720w, {r}assets/img/sim-r{i + 1:02d}m-hd.{ext}{v} 850w"
+        ms = ss  # phones show the whole 16:9 picture too (Hanoch, 24 Nov 2026: the 9:16 cut hid the structure)
         PHQ = "(max-width: 760px) and (orientation: portrait)"
         if i == 0:
             return (f'<picture class="ph" data-i="0"><source type="image/avif" media="{PHQ}" srcset="{ms("avif")}" sizes="100vw"><source type="image/webp" media="{PHQ}" srcset="{ms("webp")}" sizes="100vw">'

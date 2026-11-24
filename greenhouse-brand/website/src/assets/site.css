@@ -1611,3 +1611,13 @@ html.lb-open { overflow: hidden; }
   .gf::-webkit-scrollbar { display: none; }
   .gf-chip { flex: none; scroll-snap-align: start; }
 }
+
+/* Phones (Hanoch, 24 Nov 2026): the whole picture at the top, under the header, never cropped; the step's card below it.
+   site.js fades a card out as it scrolls up to the picture, so no card ever lies over the picture. */
+@media (max-width: 760px) and (orientation: portrait) {
+  .sim-ph { inset: calc(var(--head-h) + 10px) 0 auto 0 !important; height: 56.25vw; transform: none !important; }
+  .sim-ph .ph img, .sim-ph .ph:nth-child(11) img { object-fit: contain !important; object-position: 50% 50% !important; }
+  .sim-badge, .sim-hud { top: calc(var(--head-h) + 56.25vw + 20px); }
+  .sim-ch { align-items: flex-end; }
+  .sim-card { max-height: calc(100svh - var(--head-h) - 56.25vw - 90px); }
+}

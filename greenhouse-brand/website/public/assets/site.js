@@ -577,3 +577,18 @@
     var rtl = document.documentElement.dir === "rtl"; show((dx < 0) !== rtl ? i + 1 : i - 1);
   });
 })();
+
+/* Phones: a step card fades out before it reaches the picture at the top, so it never covers it */
+(function () {
+  var sim = document.getElementById("sim"); if (!sim) return;
+  var mq = window.matchMedia("(max-width: 760px) and (orientation: portrait)"), ph = sim.querySelector(".sim-ph"), cards = [].slice.call(sim.querySelectorAll(".sim-card"));
+  var raf = 0;
+  function run() {
+    raf = 0;
+    if (!mq.matches) { cards.forEach(function (c) { c.style.opacity = ""; }); return; }
+    var lim = ph.getBoundingClientRect().bottom + 12;
+    cards.forEach(function (c) { var t = c.getBoundingClientRect().top; c.style.opacity = t >= lim + 40 ? "" : String(Math.max(0, (t - lim) / 40)); });
+  }
+  window.addEventListener("scroll", function () { if (!raf) raf = requestAnimationFrame(run); }, { passive: true });
+  window.addEventListener("resize", run); run();
+})();
