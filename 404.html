@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>מעבירים אתכם… | ש. גוטובסקי</title>
+  <title>העמוד לא נמצא | ש.גוטובסקי בע״מ</title>
   <meta name="robots" content="noindex, follow">
-  <link rel="canonical" href="https://gotovski.co.il/">
-  <!-- כתובות מהאתר הישן מופנות לקטע המתאים באתר החדש -->
+  <!-- עמוד 404 אמיתי. כתובות ישנות שמזוהות מועברות לעמוד המתאים; כל השאר מקבלות הודעה וקישורים -->
   <script>
     (function () {
       // Dira Ready (/desktop-tutorial/dira/) is a separate site: keep its visitors there.
@@ -20,30 +19,59 @@
         location.replace('/desktop-tutorial/lucid/' + location.search);
         return;
       }
-      var p = decodeURIComponent(location.pathname + location.search).toLowerCase();
+      // שורש האתר: בכתובת הזמנית של GitHub Pages האתר יושב תחת /desktop-tutorial/
+      var base = location.pathname.indexOf('/desktop-tutorial/') === 0 ? '/desktop-tutorial/' : '/';
+      window.__base = base;
+      var path = decodeURIComponent(location.pathname).toLowerCase();
+      // כתובות מהאתר הישן (בלי .html) מועברות לעמוד המתאים
+      var rest = path.slice(base.length);
+      // רק כתובות ברמה העליונה או תחת services/articles: לא נוגעים בכתובות של אתרים אחרים באותו מאגר
+      if (/\.html?$/.test(path) || !(/^[^\/]+\/?$/.test(rest) || /^(services|articles)\//.test(rest))) return;
       var map = [
-        [/גלרי|gallery|תמונ|photo/, '/#gallery'],
-        [/אודות|עלינו|about|החברה|company/, '/#about'],
-        [/שירות|תחומ|service|הקמ|שיפוץ|גז|צנרת|עפר/, '/#fields'],
-        [/פרויקט|project|עבודות|portfolio/, '/#projects'],
-        [/צור|קשר|contact|טלפון|הצעת/, '/#contact'],
-        [/מאמר|בלוג|blog|article|כתב/, '/#articles'],
-        [/שאל|faq/, '/#faq'],
-        [/נגישות|accessib/, '/accessibility.html'],
-        [/פרטיות|privacy/, '/privacy.html']
+        [/גלרי|gallery|תמונ|photo/, 'gallery.html'],
+        [/אודות|עלינו|about|החברה|company/, 'about.html'],
+        [/דרוש|משרות|career|jobs/, 'careers.html'],
+        [/שירות|תחומ|service|הקמ|שיפוץ|צנרת|עפר/, 'index.html#fields'],
+        [/פרויקט|project|portfolio/, 'projects.html'],
+        [/צור|קשר|contact|הצעת/, 'contact.html'],
+        [/מאמר|בלוג|blog|article/, 'articles.html'],
+        [/נגישות|accessib/, 'accessibility.html'],
+        [/פרטיות|privacy/, 'privacy.html']
       ];
-      var to = '/';
-      for (var i = 0; i < map.length; i++) { if (map[i][0].test(p)) { to = map[i][1]; break; } }
-      location.replace(to);
+      for (var i = 0; i < map.length; i++) { if (map[i][0].test(path)) { location.replace(base + map[i][1]); return; } }
     })();
   </script>
-  <meta http-equiv="refresh" content="1; url=https://gotovski.co.il/">
-  <style>body{font-family:Heebo,Arial,sans-serif;background:#f3f1ec;color:#0c0d0f;display:grid;place-items:center;min-height:100vh;margin:0;text-align:center;padding:24px}a{color:#0c6b96}</style>
-  <link rel="alternate" hreflang="he" href="https://gotovski.co.il/404.html">
-  <link rel="alternate" hreflang="en" href="https://gotovski.co.il/en/404.html">
-  <link rel="alternate" hreflang="x-default" href="https://gotovski.co.il/404.html">
+  <style>
+    :root { color-scheme: light; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 32px 20px; background: #eeece7; color: #1f1b19; font-family: Heebo, "Segoe UI", Arial, sans-serif; line-height: 1.6; }
+    main { max-width: 640px; }
+    h1 { font-size: clamp(2rem, 6vw, 3.2rem); line-height: 1.05; letter-spacing: -.02em; margin: 0 0 16px; }
+    p { font-size: 1.125rem; margin: 0 0 24px; color: #2e2925; }
+    ul { list-style: none; padding: 0; margin: 0 0 32px; display: flex; flex-wrap: wrap; gap: 10px; }
+    a { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: 999px; background: #fff; color: #1f1b19; text-decoration: none; font-weight: 600; }
+    a.primary { background: #0b668f; color: #fff; }
+    a:focus-visible { outline: 3px solid #0b668f; outline-offset: 3px; }
+    .en { direction: ltr; text-align: left; border-top: 1px solid #d1cec6; padding-top: 24px; }
+    .en p { font-size: 1rem; margin-bottom: 14px; }
+  </style>
 </head>
 <body>
-  <p>העמוד עבר. מעבירים אתכם לאתר החדש… <a href="https://gotovski.co.il/">ש. גוטובסקי</a></p>
+  <main>
+    <h1>העמוד הזה לא נמצא</h1>
+    <p>ייתכן שהכתובת השתנתה או שנפלה בה טעות. אפשר להמשיך מכאן:</p>
+    <ul>
+      <li><a class="primary" data-href="index.html" href="/">לעמוד הראשי</a></li>
+      <li><a data-href="index.html#fields" href="/index.html#fields">תחומי ביצוע</a></li>
+      <li><a data-href="projects.html" href="/projects.html">פרויקטים</a></li>
+      <li><a data-href="contact.html" href="/contact.html">צור קשר</a></li>
+    </ul>
+    <div class="en" lang="en">
+      <p>This page could not be found.</p>
+      <ul><li><a data-href="en/index.html" href="/en/index.html">Go to the English site</a></li></ul>
+    </div>
+  </main>
+  <script>
+    (function () { var b = window.__base || '/'; [].forEach.call(document.querySelectorAll('[data-href]'), function (a) { a.href = b + a.getAttribute('data-href'); }); })();
+  </script>
 </body>
 </html>

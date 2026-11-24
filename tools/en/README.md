@@ -55,3 +55,8 @@ At the end the script prints `untranslated strings: N`. It exits with status 1 w
 - **Someone hand-edited `en/` pages:** run `python3 tools/en/build_dict.py` to pull those edits back into the inputs. It walks each prepared Hebrew page and the English page in parallel and pairs their text nodes, attributes and JSON values. It reports any structural mismatches and any Hebrew string that has two different translations. Entries in `KNOWN_CONFLICTS` are expected conflicts.
 
 A new page needs an entry in `PAGES` in `gen.py`.
+
+## Other inputs
+
+- `wa.json`: Hebrew WhatsApp prefilled message → English message. Each Hebrew page has its own message (by topic); add a pair here when a new message is introduced.
+- `images/share/map.json` (outside this folder): per-page share images. The generator sets `og:image`, `og:image:alt` and `twitter:image` on each English page from the `en/<page>` entry.

@@ -1,0 +1,297 @@
+{
+  "_note": "Open Graph / social share images, 1200x630 JPEG. Keys are page paths relative to the site root.",
+  "pages": {
+    "index.html": {
+      "image": "images/share/home.jpg",
+      "alt": "תשתיות דלק שנבנות לעשרות שנים | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: מנוף צהוב מניף מיכל דלק שחור מעל אתר בנייה",
+      "width": 1200,
+      "height": 630,
+      "source": "images/hero-tank-lift.webp",
+      "rendering": false
+    },
+    "en/index.html": {
+      "image": "images/share/en-home.jpg",
+      "alt": "Fuel infrastructure built to last for decades | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: A yellow crane lifting a black fuel tank over a construction site",
+      "width": 1200,
+      "height": 630,
+      "source": "images/hero-tank-lift.webp",
+      "rendering": false
+    },
+    "about.html": {
+      "image": "images/share/about.jpg",
+      "alt": "דור שני בתשתיות דלק | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: רחבת בטון טרייה עם שוחות מילוי ומכסים, על רקע הרים",
+      "width": 1200,
+      "height": 630,
+      "source": "images/concrete-pour-sumps.webp",
+      "rendering": false
+    },
+    "en/about.html": {
+      "image": "images/share/en-about.jpg",
+      "alt": "Second generation in fuel infrastructure | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: Fresh concrete forecourt with fill sumps and covers, mountains behind",
+      "width": 1200,
+      "height": 630,
+      "source": "images/concrete-pour-sumps.webp",
+      "rendering": false
+    },
+    "story.html": {
+      "image": "images/share/story.jpg",
+      "alt": "הסיפור שלנו | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: מיכל דלק תלוי על רתמות מול השמש יורד לבור לצד מיכל שכבר מונח",
+      "width": 1200,
+      "height": 630,
+      "source": "images/hartuv-second-tank.webp",
+      "rendering": false
+    },
+    "en/story.html": {
+      "image": "images/share/en-story.jpg",
+      "alt": "Our Story | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: A fuel tank hanging from slings against the sun being lowered into a pit beside a tank already in place",
+      "width": 1200,
+      "height": 630,
+      "source": "images/hartuv-second-tank.webp",
+      "rendering": false
+    },
+    "projects.html": {
+      "image": "images/share/projects.jpg",
+      "alt": "העבודה שלנו, על המפה | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: מבט מלמעלה על אתר בנייה של חוות שרתים: מנוף צהוב מוריד מיכל דלק שחור לבור מגודר עם יריעת איטום",
+      "width": 1200,
+      "height": 630,
+      "source": "images/hartuv-aerial-lift.webp",
+      "rendering": false
+    },
+    "en/projects.html": {
+      "image": "images/share/en-projects.jpg",
+      "alt": "Our work, on the map | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: Top view of a data center construction site: a yellow crane lowering a black fuel tank into a fenced pit with a containment liner",
+      "width": 1200,
+      "height": 630,
+      "source": "images/hartuv-aerial-lift.webp",
+      "rendering": false
+    },
+    "gallery.html": {
+      "image": "images/share/gallery.jpg",
+      "alt": "מה שקורה מתחת לרחבה | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: שורת מיכלי דלק שחורים בבור חול, עובדים ומשאית מנוף",
+      "width": 1200,
+      "height": 630,
+      "source": "images/tanks-crane-truck.webp",
+      "rendering": false
+    },
+    "en/gallery.html": {
+      "image": "images/share/en-gallery.jpg",
+      "alt": "What happens beneath the forecourt | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: A row of black fuel tanks in a sand pit, workers and a crane truck",
+      "width": 1200,
+      "height": 630,
+      "source": "images/tanks-crane-truck.webp",
+      "rendering": false
+    },
+    "articles.html": {
+      "image": "images/share/articles.jpg",
+      "alt": "מאמרים מהניסיון שלנו | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: רתך עובד על מיכלי דלק תחת רשתות צל באתר",
+      "width": 1200,
+      "height": 630,
+      "source": "images/tank-welding-shade.webp",
+      "rendering": false
+    },
+    "en/articles.html": {
+      "image": "images/share/en-articles.jpg",
+      "alt": "Articles from our experience | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: A welder working on fuel tanks under shade netting on site",
+      "width": 1200,
+      "height": 630,
+      "source": "images/tank-welding-shade.webp",
+      "rendering": false
+    },
+    "contact.html": {
+      "image": "images/share/contact.jpg",
+      "alt": "בואו נדבר | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: מיכל דלק ענק תלוי על רתמות יורד לבור, שני עובדים בקסדות ואפודים מכוונים אותו",
+      "width": 1200,
+      "height": 630,
+      "source": "images/hartuv-tank-lowering.webp",
+      "rendering": false
+    },
+    "en/contact.html": {
+      "image": "images/share/en-contact.jpg",
+      "alt": "Let's talk | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: A huge fuel tank hanging from slings being lowered into a pit, two workers in helmets and vests guiding it",
+      "width": 1200,
+      "height": 630,
+      "source": "images/hartuv-tank-lowering.webp",
+      "rendering": false
+    },
+    "careers.html": {
+      "image": "images/share/careers.jpg",
+      "alt": "מהנדס/ת או הנדסאי/ת בניין | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: חלק מצוות החברה ביום הכשרת עבודה בגובה, בקסדות ורתמות בטיחות",
+      "width": 1200,
+      "height": 630,
+      "source": "images/team-wide.webp",
+      "rendering": false
+    },
+    "en/careers.html": {
+      "image": "images/share/en-careers.jpg",
+      "alt": "Civil Engineer or Practical Engineer | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: Part of the company team on a work-at-height training day, in helmets and safety harnesses",
+      "width": 1200,
+      "height": 630,
+      "source": "images/team-wide.webp",
+      "rendering": false
+    },
+    "services/station-construction.html": {
+      "image": "images/share/services-station-construction.jpg",
+      "alt": "הקמת תחנות דלק, מהיסודות ועד המשאבה | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: משאית מנוף עם מיכל דלק שחור גדול נכנסת לתחנת דלק",
+      "width": 1200,
+      "height": 630,
+      "source": "images/tank-delivery.webp",
+      "rendering": false
+    },
+    "en/services/station-construction.html": {
+      "image": "images/share/en-services-station-construction.jpg",
+      "alt": "Fuel station construction, ground to pump | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: A crane truck with a large black fuel tank entering a fuel station",
+      "width": 1200,
+      "height": 630,
+      "source": "images/tank-delivery.webp",
+      "rendering": false
+    },
+    "services/station-renovation.html": {
+      "image": "images/share/services-station-renovation.jpg",
+      "alt": "שיפוץ ושדרוג תחנות דלק, בתחנה שממשיכה לעבוד | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: רחבת תדלוק פעילה של תחנת דור אלון במהלך עבודות שדרוג",
+      "width": 1200,
+      "height": 630,
+      "source": "images/station-forecourt.webp",
+      "rendering": false
+    },
+    "en/services/station-renovation.html": {
+      "image": "images/share/en-services-station-renovation.jpg",
+      "alt": "Fuel station renovation without closing | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: The operating forecourt of a Dor Alon station during upgrade works",
+      "width": 1200,
+      "height": 630,
+      "source": "images/station-forecourt.webp",
+      "rendering": false
+    },
+    "services/gas-stations.html": {
+      "image": "images/share/services-gas-stations.jpg",
+      "alt": "תחנות גז, מהצוברים ועד המשאבה | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: תחנת תדלוק קטנה של דור אלון עם סככה ירוקה-לבנה, משאבה ואי תדלוק צהוב",
+      "width": 1200,
+      "height": 630,
+      "source": "images/dor-alon-small-station.webp",
+      "rendering": false
+    },
+    "en/services/gas-stations.html": {
+      "image": "images/share/en-services-gas-stations.jpg",
+      "alt": "LPG stations, from the vessels to the dispenser | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: A small Dor Alon fueling station with a green and white canopy, a pump and a yellow dispenser island",
+      "width": 1200,
+      "height": 630,
+      "source": "images/dor-alon-small-station.webp",
+      "rendering": false
+    },
+    "services/fuel-piping.html": {
+      "image": "images/share/services-fuel-piping.jpg",
+      "alt": "עבודות צנרת דלק, אטומות ומתועדות | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: שני עובדים באפודים זוהרים מניחים צנרת דלק, מיכלים ברקע",
+      "width": 1200,
+      "height": 630,
+      "source": "images/crew-pipes-tanks.webp",
+      "rendering": false
+    },
+    "en/services/fuel-piping.html": {
+      "image": "images/share/en-services-fuel-piping.jpg",
+      "alt": "Fuel piping works, sealed and documented | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: Two workers in high-visibility vests laying fuel piping, tanks in the background",
+      "width": 1200,
+      "height": 630,
+      "source": "images/crew-pipes-tanks.webp",
+      "rendering": false
+    },
+    "services/earthworks.html": {
+      "image": "images/share/services-earthworks.jpg",
+      "alt": "עבודות עפר ופיתוח, עם ציוד משלנו | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: מחפרון קטרפילר ושני עובדים באפודים בחפירה לצד קיר תומך",
+      "width": 1200,
+      "height": 630,
+      "source": "images/earthworks-cat.webp",
+      "rendering": false
+    },
+    "en/services/earthworks.html": {
+      "image": "images/share/en-services-earthworks.jpg",
+      "alt": "Earthworks for fuel stations and sites | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: A Caterpillar backhoe and two workers in vests excavating beside a retaining wall",
+      "width": 1200,
+      "height": 630,
+      "source": "images/earthworks-cat.webp",
+      "rendering": false
+    },
+    "services/data-center.html": {
+      "image": "images/share/services-data-center.jpg",
+      "alt": "תשתיות דלק לגנרטורי חירום בחוות שרתים | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: מיכלי דלק גליליים גדולים בבור מרופד ביריעת איטום, מנוף מעליהם",
+      "width": 1200,
+      "height": 630,
+      "source": "images/tanks-in-pit-liner.webp",
+      "rendering": false
+    },
+    "en/services/data-center.html": {
+      "image": "images/share/en-services-data-center.jpg",
+      "alt": "Fuel systems for data center generators | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: Large cylindrical fuel tanks in a pit lined with a containment liner, a crane above them",
+      "width": 1200,
+      "height": 630,
+      "source": "images/tanks-in-pit-liner.webp",
+      "rendering": false
+    },
+    "services/data-center-360.html": {
+      "image": "images/share/services-data-center-360.jpg",
+      "alt": "סיור 360° בחוות גנרטורים | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: הדמיה: חצר גנרטורים בחוות שרתים, שתי שורות גנרטורים במכולות משני צדי כביש שירות",
+      "width": 1200,
+      "height": 630,
+      "source": "images/tour/generator-farm-preview.webp",
+      "rendering": true
+    },
+    "en/services/data-center-360.html": {
+      "image": "images/share/en-services-data-center-360.jpg",
+      "alt": "360° generator farm tour | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: Rendering: a data center generator yard, two rows of containerized gensets on either side of a service road",
+      "width": 1200,
+      "height": 630,
+      "source": "images/tour/generator-farm-preview.webp",
+      "rendering": true
+    },
+    "articles/data-center-generator-farm.html": {
+      "image": "images/share/articles-data-center-generator-farm.jpg",
+      "alt": "גנרטורי חירום לחוות שרתים: N+1 ותשתית הדלק | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: מנוף מחזיק מיכל דלק שחור באוויר מעל בור מגודר, מבנה חוות השרתים ברקע",
+      "width": 1200,
+      "height": 630,
+      "source": "images/hartuv-video-poster.webp",
+      "rendering": false
+    },
+    "en/articles/data-center-generator-farm.html": {
+      "image": "images/share/en-articles-data-center-generator-farm.jpg",
+      "alt": "Data center emergency generators and fuel | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: A crane holding a black fuel tank in the air above a fenced pit, the data center building behind",
+      "width": 1200,
+      "height": 630,
+      "source": "images/hartuv-video-poster.webp",
+      "rendering": false
+    },
+    "articles/environment-protection.html": {
+      "image": "images/share/articles-environment-protection.jpg",
+      "alt": "איכות הסביבה בתחנות דלק: התקנים והביצוע | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: בור גדול מכוסה יריעת איטום שחורה, עובדים בבור ועל השפה",
+      "width": 1200,
+      "height": 630,
+      "source": "images/pit-liner-workers.webp",
+      "rendering": false
+    },
+    "en/articles/environment-protection.html": {
+      "image": "images/share/en-articles-environment-protection.jpg",
+      "alt": "Environmental standards at fuel stations | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: A large pit covered with a black containment liner, workers in the pit and on the edge",
+      "width": 1200,
+      "height": 630,
+      "source": "images/pit-liner-workers.webp",
+      "rendering": false
+    },
+    "articles/gas-station-construction-process.html": {
+      "image": "images/share/articles-gas-station-construction-process.jpg",
+      "alt": "הקמת תחנת דלק: כל השלבים מהתכנון ועד ההפעלה | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: מנוף מניף מיכל דלק גדול לבור בתחנת סונול, עם עובדים באפודים זוהרים",
+      "width": 1200,
+      "height": 630,
+      "source": "images/tank-lift-sonol.webp",
+      "rendering": false
+    },
+    "en/articles/gas-station-construction-process.html": {
+      "image": "images/share/en-articles-gas-station-construction-process.jpg",
+      "alt": "Building a fuel station: every stage | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: A crane lowering a large fuel tank into a pit at a Sonol station, with workers in high-visibility vests",
+      "width": 1200,
+      "height": 630,
+      "source": "images/tank-lift-sonol.webp",
+      "rendering": false
+    }
+  },
+  "skipped": {
+    "articles/fuel-station-environmental-standards.html": "noindex redirect to articles/environment-protection.html",
+    "en/articles/fuel-station-environmental-standards.html": "noindex redirect to en/articles/environment-protection.html"
+  }
+}

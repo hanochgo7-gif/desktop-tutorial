@@ -20,7 +20,7 @@ import posixpath
 import re
 import sys
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, unquote
 
 try:
     from bs4 import BeautifulSoup, Comment, NavigableString, Tag
@@ -35,7 +35,7 @@ SITE = "https://gotovski.co.il/"
 PAGES = [
     "index.html", "about.html", "projects.html", "contact.html", "story.html",
     "articles.html", "gallery.html", "privacy.html", "terms.html",
-    "accessibility.html", "404.html",
+    "accessibility.html", "404.html", "careers.html",
     "services/station-construction.html", "services/station-renovation.html",
     "services/gas-stations.html", "services/fuel-piping.html",
     "services/earthworks.html", "services/data-center.html",
@@ -60,6 +60,9 @@ SKIP_TEXT_IN = ("script", "style")
 WA_PREFIX = "https://wa.me/972502703674?text="
 WA_HE = "שלום עוזי, מדבר ____ . מתי תהיה פנוי לשיחה?"
 WA_EN = "Hello, this is ____. When would be a good time to talk?"
+WA_MAP = json.loads((Path(__file__).resolve().parent / "wa.json").read_text(encoding="utf-8"))
+_share_file = Path(__file__).resolve().parents[2] / "images" / "share" / "map.json"
+SHARE = json.loads(_share_file.read_text(encoding="utf-8"))["pages"] if _share_file.exists() else {}
 
 TEXT_TYPES = (NavigableString, TemplateString)  # not comments/scripts/doctype
 HEB = re.compile(r"[֐-׿]")
@@ -215,10 +218,12 @@ def prepare(page, soup):
         sw.string = "עב"
         logo.insert_after(sw)
 
-    wa_he = WA_PREFIX + quote(WA_HE, safe="")
-    wa_en = WA_PREFIX + quote(WA_EN, safe="")
-    for a in soup.find_all(href=wa_he):
-        a["href"] = wa_en
+    # WhatsApp prefilled messages: each Hebrew message has an English one in wa.json.
+    for a in soup.find_all("a", href=re.compile("^" + re.escape(WA_PREFIX))):
+        he_msg = unquote(a["href"][len(WA_PREFIX):])
+        en_msg = WA_MAP.get(he_msg, WA_EN if he_msg == WA_HE else None)
+        if en_msg:
+            a["href"] = WA_PREFIX + quote(en_msg, safe="")
 
     for a in soup.find_all("a", href=re.compile(r"docs/gotovski-profile-he\.pdf$")):
         a["href"] = a["href"].replace("gotovski-profile-he.pdf",
@@ -239,6 +244,16 @@ def prepare(page, soup):
         m = head.find("meta", property="og:url")
         if m:
             m["content"] = url
+        share = SHARE.get("en/" + page)
+        if share:
+            img = "https://gotovski.co.il/" + share["image"]
+            for prop, val in (("og:image", img), ("og:image:alt", share["alt"])):
+                m = head.find("meta", property=prop)
+                if m:
+                    m["content"] = val
+            m = head.find("meta", attrs={"name": "twitter:image"})
+            if m:
+                m["content"] = img
         for l in head.find_all("link", rel="alternate", hreflang=True):
             l.extract()
         for lang, href in (("he", page_url(page, False)), ("en", url),
@@ -291,6 +306,8 @@ def postprocess(out):
     out = out.replace('<label for="f-phone">phone', '<label for="f-phone">Phone')
     out = out.replace("docs/gotovski-profile-he.pdf", "docs/gotovski-capability-statement.pdf")
     out = out.replace("PDF · 0.6MB", "PDF · 0.5MB")
+    out = out.replace("subject=" + quote("קורות חיים – מהנדס/ת או הנדסאי/ת בניין", safe=""),
+                      "subject=" + quote("CV – Civil Engineer or Practical Engineer", safe=""))
     return out
 
 

@@ -2693,3 +2693,10 @@ a, button, .btn, .row, .card, .post { -webkit-tap-highlight-color: transparent; 
   .ff--live .ff__rail { grid-row: 3; }
   .ff--live .ff__steps { min-height: 136px; }
 }
+
+/* פרויקטים בטלפון: טור קריאה אחד ברוחב מלא; המפה מוצגת פעם אחת מעל הרשימה ולא דוחקת את הטקסט */
+@media (max-width: 999px) {
+  .projects__layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .map-panel { position: relative; top: auto; order: -1; justify-self: center; width: min(200px, 54vw); padding: 14px 12px 10px; border-radius: var(--r-media); background: #fff; }
+  .map-panel__caption { display: block; }
+}
