@@ -26,6 +26,7 @@ JOBS = {
     # 39 stills from the Drive folder "סטילס מצלמה" for the gallery (Hanoch, 12 Nov 2026: at least 45 photos); 001 and 005 are panoramas
     **{f"s{n:03d}": (f"gallery/s{n:03d}.jpg", None) for n in (13, 89, 95, 117, 124, 143, 99, 101, 104, 110, 216, 226, 242, 250, 128, 130, 131, 136, 138,
                                                             199, 202, 211, 259, 153, 154, 160, 147, 148, 150, 189, 235, 268, 271, 273, 277, 280)},
+    **{f"k{n:02d}": (f"gallery/k{n:02d}.jpg", None) for n in (1, 2, 3)},  # kiwi, Hanoch 24 Nov 2026 (portrait phone photos, cut to 4:3)
     "atlantrees": ("atlantrees-poster.jpg", None),  # a frame of the Atlantrees YouTube video without the years (Hanoch, 24 Nov 2026)
     "g-india": ("gallery/g-india.jpg", None),  # old site world.jpg (gallery "פרויקטים בעולם"), AI upscale of the 900px original kept beside it; Hanoch approved it with the children, 16 Nov 2026
     "s001": ("gallery/s001.jpg", None), "s005": ("gallery/s005.jpg", None),

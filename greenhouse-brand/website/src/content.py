@@ -897,6 +897,11 @@ GALLERY = {
             ("a26", ("Fields of net houses, wind turbines and the Hermon", "שדות של בתי רשת, טורבינות רוח והחרמון")),
             ("a27", ("Net houses and a wind turbine, from the air", "בתי רשת וטורבינת רוח, מבט מהאוויר")),
         ]),
+        (("Kiwi under the net", "קיווי מתחת לרשת"), [  # Hanoch's photos, 24 Nov 2026, placed near the top of the gallery
+            ("k02", ("Along the alley between kiwi rows, the net folded along the rows", "לאורך המעבר בין שורות הקיווי, והרשת מקופלת לאורך השורות")),
+            ("k03", ("A galvanized pole with a T-support for the kiwi, the net folded above", "עמוד מגולוון עם תומכת T לקיווי, והרשת מקופלת מעליו")),
+            ("k01", ("Kiwi leaves in the sun, under the net", "עלי קיווי בשמש, מתחת לרשת")),
+        ]),
         (("Net houses", "בתי רשת"), [
             ("g-air-forest", ("A white net house between forest and orchards", "בית רשת לבן בין יער למטעים")),
             ("g-air-valley", ("Large net houses in a valley, next to farm buildings", "בתי רשת גדולים בעמק, ליד מבני משק")),
