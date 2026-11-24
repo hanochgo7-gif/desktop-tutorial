@@ -2419,7 +2419,8 @@ body { font-family: var(--font); font-weight: 400; color: var(--ink); background
 p, li, dd, td, blockquote, figcaption, summary, .lead, .service-hero__lead, .about__list, .service-list, .faq__item, .story__body,
 .case p, .article-body, .quick__sub, .cta p, .manifesto p, .contact-list, .statement { font-family: var(--font); font-weight: 400; }
 :where(main) p { color: inherit; }
-:where([data-theme="light"], .section) p:not([class*="__cap"]) { color: var(--ink-2); }
+:where([data-theme="light"], .section:not(.section--dark):not(.sim):not(.mapsec)) p:not([class*="__cap"]) { color: var(--ink-2); }
+:where(.section--dark, [data-theme="dark"], .band, .quick, .cta, .footer) p:not([class*="__cap"]) { color: rgba(255,255,255,.88); }
 
 /* כותרות: משקל 700, ריווח צפוף, בלי מילה אחת צבועה בכחול */
 h1, h2, h3, h4 { font-family: var(--font); font-weight: 700; letter-spacing: -.022em; }
@@ -2458,7 +2459,7 @@ h1 em, h2 em, h3 em, .statement em { font-style: normal; color: inherit; }
 .btn--quote::before { display: none; }
 .btn--quote:hover { transform: none; box-shadow: none; }
 .btn--quote svg { display: inline-block; }
-.sim__go, .sim__btn { background: var(--accent-fill) !important; box-shadow: none !important; color: #fff; }
+.sim__go, .sim__btn { background: var(--accent) !important; box-shadow: none !important; color: #fff; }
 .sim__go:active, .sim__play:active .sim__btn { transform: scale(.97); }
 .tbtn:active, .navpill:active, .mm__btn:active, .row:active { transform: scale(.98); }
 
@@ -2699,4 +2700,24 @@ a, button, .btn, .row, .card, .post { -webkit-tap-highlight-color: transparent; 
   .projects__layout { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .map-panel { position: relative; top: auto; order: -1; justify-self: center; width: min(200px, 54vw); padding: 14px 12px 10px; border-radius: var(--r-media); background: #fff; }
   .map-panel__caption { display: block; }
+}
+
+.btn--whatsapp { background: #157a3c; color: #fff; }
+@media (hover: hover) and (pointer: fine) { .btn--whatsapp:hover { background: #106030; } }
+
+/* תיקוני גימור אחרי המדידה */
+@media (max-width: 860px) { .stage { position: relative !important; top: auto !important; outline: 0; box-shadow: none; } }
+.card > .kicker { display: none; }
+.post__cat { background: none !important; padding: 0 !important; border: 0 !important; color: var(--accent) !important; font-weight: 600; }
+.rows { border-top: 0; gap: 4px; }
+.row { border-bottom: 0; padding-block: 16px; }
+.post--sm { border-top: 0; }
+.post--lead, .post__body { display: flex; flex-direction: column; }
+.post--lead .post__media { order: 0; } .post--lead h3, .post__body h3 { order: 1; } .post--lead .post__meta, .post__body .post__meta { order: 2; margin-top: 6px; } .post--lead p { order: 3; }
+.post__meta { color: var(--muted); }
+.consent, .consent span, .consent a, [data-office], .footer__office span { font-size: max(.8125rem, 13px); }
+@media (max-width: 640px) { .ann { padding-inline: 16px 48px; } }
+@media (min-width: 1000px) {
+  .section--faq .container { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); column-gap: clamp(40px, 6vw, 96px); align-items: start; }
+  .section--faq .section-head { margin: 0; }
 }
