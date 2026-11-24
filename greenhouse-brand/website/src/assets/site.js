@@ -57,6 +57,16 @@
     mb.addEventListener("click", function () { setMenu(mb.getAttribute("aria-expanded") !== "true"); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape" && mb.getAttribute("aria-expanded") === "true") { setMenu(false); mb.focus(); } });
     nav.addEventListener("click", function (e) { if (e.target.closest("a")) setMenu(false); });
+    var mmx = document.getElementById("mm-x"); if (mmx) mmx.addEventListener("click", function () { setMenu(false); mb.focus(); });
+    // the menu card's clock and greeting, by the time in Israel
+    var mt = nav.querySelector(".mm-time"), mh = nav.querySelector(".mm-hi"), G = []; try { G = JSON.parse(mh.getAttribute("data-greet")); } catch (e) {}
+    function tick() {
+      if (!mt || !window.Intl) return;
+      var p = {}; new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Jerusalem", hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).formatToParts(new Date()).forEach(function (x) { p[x.type] = x.value; });
+      mt.textContent = p.hour + ":" + p.minute; var h = parseInt(p.hour, 10);
+      if (G.length === 4) mh.textContent = h >= 5 && h < 12 ? G[0] : h >= 12 && h < 17 ? G[1] : h >= 17 && h < 21 ? G[2] : G[3];
+    }
+    tick(); setInterval(tick, 20000);
   }
 
   // ---- header steps aside while scrolling down, returns on the way up; phone action bar after the opening ----

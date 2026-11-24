@@ -1635,3 +1635,64 @@ html.lb-open { overflow: hidden; }
   .sim-ch { align-items: flex-end; }
   .sim-card { max-height: calc(100svh - var(--head-h) - 56.25vw - 90px); }
 }
+
+/* The phone menu (Hanoch, 24 Nov 2026): a full-screen dark panel over the opening photo: the logo, language and close on top;
+   a live card (time in Israel, a greeting, whether the office is open, the two ways to reach us); then the pages, numbered, each with a photo. */
+.mm-top, .mm-card, .mm-ic, .mm-n, .mm-go { display: none; }
+@media (max-width: 1180px) {
+  .nav.open { position: fixed; inset: 0; z-index: 200; max-height: none; height: 100svh; overflow-y: auto; overscroll-behavior: contain; margin: 0;
+    padding: max(14px, env(safe-area-inset-top)) 16px 28px; border: 0; color: #fff;
+    background: linear-gradient(180deg, rgba(6, 22, 19, .82) 0%, rgba(6, 22, 19, .9) 40%, rgba(6, 22, 19, .97) 100%), var(--mm-bg) center / cover no-repeat, #061613; }
+  .nav.open .mm-top { display: flex; align-items: center; gap: 8px; padding: 6px; border-radius: 999px; background: rgba(0, 0, 0, .45); border: 1px solid rgba(255, 255, 255, .08); }
+  .mm-logo { display: block; background: #fff; border-radius: 999px; padding: 6px 14px; margin-inline-end: auto; }
+  .mm-logo svg { display: block; height: 34px; width: auto; }
+  .mm-lang, .mm-x { all: unset; box-sizing: border-box; cursor: pointer; height: 44px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; border-radius: 999px; color: #fff; font-weight: 700; font-size: .95rem; }
+  .mm-lang { width: 44px; background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .2); }
+  .mm-x { padding-inline: 14px 6px; }
+  .mm-x svg { width: 32px; height: 32px; padding: 8px; border-radius: 50%; background: rgba(255, 255, 255, .14); box-sizing: border-box; }
+  .mm-lang:focus-visible, .mm-x:focus-visible, .mm-cta:focus-visible, .mm-tel:focus-visible, .nav.open ul a:focus-visible { outline: 3px solid #7FC49B; outline-offset: 2px; }
+  .nav.open .mm-card { display: block; margin-top: 14px; padding: 18px; border-radius: 22px; background: rgba(20, 34, 31, .78); border: 1px solid rgba(255, 255, 255, .1);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, .35); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); }
+  .mm-clock { display: flex; align-items: center; gap: 12px; }
+  .mm-ico { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 14px; background: linear-gradient(145deg, #1B6E62, #0E4239); color: #CDEEDA; flex: none; }
+  .mm-time { font-size: 2rem; font-weight: 600; letter-spacing: .04em; font-variant-numeric: tabular-nums; direction: ltr; }
+  .mm-hi { margin-inline-start: auto; font-size: 1.15rem; color: rgba(255, 255, 255, .9); }
+  .mm-card .office-hours { margin: 12px 0 0; color: rgba(255, 255, 255, .7); font-size: .9rem; }
+  .mm-card .office-hours .oh-fixed { display: none; }
+  .mm-card .office-hours .oh-live[hidden] + .oh-fixed { display: block; }
+  .mm-acts { display: grid; grid-template-columns: auto 1fr; gap: 10px; margin-top: 14px; }
+  .mm-cta, .mm-tel { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 0 18px; border-radius: 999px; font-weight: 700; text-decoration: none; font-size: .95rem; }
+  .mm-cta { background: #fff; color: #0E4239; }
+  .mm-tel { color: #fff; border: 1.5px solid rgba(255, 255, 255, .28); white-space: nowrap; }
+  .nav.open ul { display: block; margin: 10px 0 0; padding: 0; list-style: none; }
+  .nav.open ul li { border-bottom: 1px solid rgba(255, 255, 255, .1); }
+  .nav.open ul a { display: flex; align-items: center; gap: 14px; padding: 12px 2px; color: #fff; text-decoration: none; font-size: 1.7rem; font-weight: 300; line-height: 1.2; border: 0; }
+  .nav.open ul a::after { display: none; }
+  .nav.open .mm-ic { display: block; width: 56px; height: 56px; border-radius: 16px; overflow: hidden; flex: none; box-shadow: 0 6px 16px rgba(0, 0, 0, .35); border: 1px solid rgba(255, 255, 255, .15); }
+  .mm-ic img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .nav.open .mm-n { display: block; font-size: .85rem; font-weight: 600; color: #7FC49B; font-variant-numeric: tabular-nums; letter-spacing: .06em; width: 24px; }
+  .mm-t { flex: 1; }
+  .nav.open ul a[aria-current="page"] { color: #7FC49B; }
+  .nav.open ul a[aria-current="page"] .mm-go { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: #fff; color: #0E4239; padding: 11px; box-sizing: border-box; flex: none; }
+  [dir="ltr"] .mm-go { transform: scaleX(-1); }
+  .nav.open .nav-cta { display: none; }
+  body.menu-open::after { display: none; }
+}
+@media (max-width: 360px) { .mm-acts { grid-template-columns: 1fr; } .nav.open ul a { font-size: 1.45rem; } }
+@media (prefers-reduced-motion: no-preference) and (max-width: 1180px) {
+  .nav.open { animation: mm-in .28s cubic-bezier(.2, .7, .2, 1) both; }
+  @keyframes mm-in { from { opacity: 0; transform: translateY(-8px); } }
+}
+/* the menu panel's own links win over the header link styles */
+@media (max-width: 1180px) {
+  .site-head #nav.open a { background: transparent; box-shadow: none; text-decoration: none; border-radius: 0; white-space: normal; }
+  .site-head #nav.open ul a { color: #fff; padding: 12px 2px; font-size: 1.7rem; font-weight: 300; border-bottom: 0; }
+  .site-head #nav.open ul a[aria-current="page"] { color: #7FC49B; }
+  .site-head #nav.open a.mm-lang { width: 44px; height: 44px; padding: 0; border-radius: 999px; color: #fff; font-size: .95rem; font-weight: 700; background: rgba(255, 255, 255, .12); border: 1px solid rgba(255, 255, 255, .2); display: inline-flex; align-items: center; justify-content: center; }
+  .site-head #nav.open a.mm-cta { background: #fff; color: #0E4239; border-radius: 999px; padding: 0 18px; font-size: .95rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; min-height: 50px; }
+  .site-head #nav.open a.mm-tel { color: #fff; border-radius: 999px; padding: 0 16px; font-size: .95rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; border: 1.5px solid rgba(255, 255, 255, .28); white-space: nowrap; }
+  .site-head #nav.open .mm-card .office-hours { font-size: .9rem; }
+}
+@media (max-width: 360px) { .site-head #nav.open ul a { font-size: 1.45rem; } }
+@media (max-width: 1180px) { .mm-acts { grid-template-columns: 1fr 1fr; } .site-head #nav.open a.mm-cta, .site-head #nav.open a.mm-tel { white-space: nowrap; padding: 0 12px; font-size: .9rem; } }
+@media (max-width: 400px) { .mm-acts { grid-template-columns: 1fr; } }

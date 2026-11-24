@@ -339,7 +339,11 @@ def head(slug, L, crumbs=None, noindex=False, r=None):
 def header(slug, L):
     alt = "he" if L == "en" else "en"
     other = ("he/" if L == "en" else "../") + ("" if slug in ("index", "404") else f"{slug}.html")  # home is "/" and "/he/", never index.html (one URL per page)
-    items = "".join(f'<li><a href="{s}.html"{" aria-current=" + chr(34) + "page" + chr(34) if s == slug else ""}>{esc(en if L == "en" else he)}</a></li>' for s, en, he in C.NAV)
+    MM_IMG = {"net-houses": "forest-640", "how-we-build": "sim-r05-960", "turnkey-farms": "valley-640", "projects": "a04-640", "about": "g-team-640", "contact": "s174-640"}
+    arrow = '<svg class="mm-go" width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    items = "".join(f'<li><a href="{s}.html"{" aria-current=" + chr(34) + "page" + chr(34) if s == slug else ""}>'
+                    f'<span class="mm-ic" aria-hidden="true"><img src="{rel(L)}assets/img/{MM_IMG[s]}.webp" alt="" width="64" height="64" loading="lazy" decoding="async"></span>'
+                    f'<span class="mm-n" aria-hidden="true">{k + 1:02d}</span><span class="mm-t">{esc(en if L == "en" else he)}</span>{arrow}</a></li>' for k, (s, en, he) in enumerate(C.NAV))
     # the main buttons carry the page's context into the form (turnkey, net houses, the crop of a crop page)
     ctx = qs(need="turnkey") if slug == "turnkey-farms" else qs(need="nethouse") if slug == "net-houses" else \
         qs(crop=C.CROP_PAGES[slug]["prefill"], need="nethouse") if slug in C.CROP_PAGES else ""
@@ -357,7 +361,14 @@ def header(slug, L):
     <a class="brand" href="./" aria-label="{esc(tm(C.SITE["name"], L))}, {esc(tm(C.SITE["home"], L))}">{lockup(L)}</a>
     <p class="tagline">{esc(t(C.SITE["slogan"], L))}</p>
     <button class="menu-btn" id="menu-btn" type="button" aria-expanded="false" aria-controls="nav" aria-label="{esc(tm(C.SITE["menu"], L))}" data-open="{esc(tm(C.SITE["menu"], L))}" data-close="{esc(tm(C.SITE["close"], L))}"><span class="bars" aria-hidden="true"></span><span class="mb-t">{esc(t(C.SITE["menu"], L))}</span></button>
-    <nav class="nav" id="nav" aria-label="{"Main" if L == "en" else "ראשי"}">
+    <nav class="nav" id="nav" aria-label="{"Main" if L == "en" else "ראשי"}" style="--mm-bg:url({rel(L)}assets/img/hero-960.webp)">
+      <div class="mm-top"><span class="mm-logo">{lockup(L)}</span><a class="mm-lang" href="{other}" hreflang="{alt}" lang="{alt}">{"EN" if L == "he" else "עב"}</a>
+        <button type="button" class="mm-x" id="mm-x"><span>{esc(t(C.SITE["close"], L))}</span><svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div>
+      <div class="mm-card"><div class="mm-clock"><span class="mm-ico" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        <b class="mm-time" aria-hidden="true"></b><span class="mm-hi" data-greet="{esc(json.dumps([tm(g, L) for g in C.SITE["mm_greet"]], ensure_ascii=False))}"></span></div>
+        {office_hours(L, "menu")}
+        <div class="mm-acts"><a class="mm-cta" href="contact.html{ctx}" data-track="cta_click" data-label="menu">{esc(t(C.SITE["cta"], L))}</a>
+          <a class="mm-tel" href="tel:{C.SITE["phone_tel"]}" data-where="menu"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"/></svg>{esc(t(C.SITE["mm_office"], L))} <bdi class="ltr">{esc(t(C.SITE["phone_display"], L))}</bdi></a></div></div>
       <ul>{items}</ul>
       <a class="btn btn-primary nav-cta" href="contact.html{ctx}" data-track="cta_click" data-label="nav">{esc(t(C.SITE["cta"], L))}</a>
     </nav>

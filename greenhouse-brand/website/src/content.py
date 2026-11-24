@@ -14,6 +14,8 @@ SITE = {
     "skip": ("Skip to content", "דילוג לתוכן"),
     "close": ("Close", "סגירה"),
     "menu": ("Menu", "תפריט"),
+    # the phone menu (Hanoch, 24 Nov 2026): a live card with the time in Israel, a greeting and whether the office is open
+    "mm_office": ("Office", "משרד"), "mm_greet": (("Good morning", "בוקר טוב"), ("Good afternoon", "צהריים טובים"), ("Good evening", "ערב טוב"), ("Good night", "לילה טוב")),
     "lang_other": ("עברית", "English"),
     "cta": ("Discuss your project", "דברו איתנו על הפרויקט"),  # the header button: the longer wording does not fit beside the menu at 1181-1440 px,
     "call_short": ("Call", "התקשרו"),
