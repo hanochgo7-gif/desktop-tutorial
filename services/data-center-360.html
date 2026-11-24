@@ -30,25 +30,29 @@
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; }
 body { background: var(--onyx); color: var(--paper); font-family: var(--font); overflow: hidden; -webkit-font-smoothing: antialiased; }
+/* the frame clips everything, so a panel slid off-screen never adds scrollable space */
+.app { position: fixed; inset: 0; overflow: hidden; }
 #pano { position: absolute; inset: 0; }
+.sr-only { position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
 button { font: inherit; color: inherit; }
 button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
 .glass { background: var(--glass); border: 1px solid var(--line); backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2); }
 
 /* side panel */
-.panel { position: absolute; z-index: 6; top: 14px; bottom: 14px; inset-inline-start: 14px; width: var(--panel); border-radius: 18px; display: flex; flex-direction: column; overflow: hidden; transition: transform .45s cubic-bezier(.2,.8,.2,1), opacity .3s; }
-.panel.is-closed { transform: translateX(calc(100% + 20px)); opacity: 0; pointer-events: none; }
+.panel { position: absolute; z-index: 6; top: 14px; bottom: 14px; inset-inline-start: 14px; width: var(--panel); border-radius: 18px; display: flex; flex-direction: column; overflow: hidden; transition: transform .45s cubic-bezier(.2,.8,.2,1), opacity .3s, visibility 0s; }
+/* closed: slid away, then hidden once the slide ends, so nothing in it can take focus (it is also inert) */
+.panel.is-closed { transform: translateX(calc(100% + 20px)); opacity: 0; pointer-events: none; visibility: hidden; transition: transform .45s cubic-bezier(.2,.8,.2,1), opacity .3s, visibility 0s linear .45s; }
 [dir="ltr"] .panel.is-closed { transform: translateX(calc(-100% - 20px)); }
 .p-head { padding: 18px 18px 14px; border-bottom: 1px solid var(--line); }
-.brand { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 11px; letter-spacing: .14em; font-weight: 600; color: var(--accent-2); text-transform: uppercase; }
-.stamp { letter-spacing: .04em; text-transform: none; font-size: 11px; font-weight: 600; color: #0f0e12; background: #f2d27a; padding: 3px 9px; border-radius: 999px; }
+.brand { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 12px; letter-spacing: .12em; font-weight: 600; color: var(--accent-2); text-transform: uppercase; }
+.stamp { letter-spacing: .04em; text-transform: none; font-size: 12px; font-weight: 600; color: #0f0e12; background: #f2d27a; padding: 3px 9px; border-radius: 999px; }
 .p-links { display: flex; gap: 8px; margin-top: 12px; }
 .p-links a { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); color: var(--paper); text-decoration: none; font-size: 12.5px; font-weight: 500; background: rgba(255,255,255,.05); }
 .p-links a:hover { background: rgba(255,255,255,.12); }
 .p-links svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
 [dir="rtl"] .p-links .back svg { transform: scaleX(-1); }
 .embed .p-links { display: none; }
-.p-head h1 { margin: 8px 0 0; font-size: 21px; font-weight: 600; line-height: 1.2; }
+.p-head .p-title { margin: 8px 0 0; font-size: 21px; font-weight: 600; line-height: 1.2; }
 .p-head p { margin: 4px 0 0; font-size: 13px; color: var(--muted); }
 .steps { list-style: none; margin: 0; padding: 8px; overflow-y: auto; flex: 1 1 auto; min-height: 0; }
 .step { width: 100%; display: grid; grid-template-columns: 26px 66px 1fr; gap: 10px; align-items: center; padding: 8px; border: 0; border-radius: 12px; background: none; text-align: start; cursor: pointer; position: relative; transition: background .2s; }
@@ -68,17 +72,17 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent
 .plan svg { display: block; width: 100%; height: auto; }
 .plan .pt { cursor: pointer; }
 .plan .pt circle { fill: var(--onyx); stroke: var(--paper); stroke-width: 2; }
-.plan .pt text { font: 600 8px var(--font); fill: var(--paper); pointer-events: none; }
+.plan .pt text { font: 600 9.5px var(--font); fill: var(--paper); pointer-events: none; }
 .plan .pt.on circle { fill: var(--accent); stroke: var(--accent-2); }
 .plan .fov { fill: rgba(79,187,234,.32); }
-.p-foot { padding: 10px 16px 14px; font-size: 11px; color: var(--muted); border-top: 1px solid var(--line); }
+.p-foot { padding: 10px 16px 14px; font-size: 12px; color: var(--muted); border-top: 1px solid var(--line); }
 
 /* bottom control bar */
 .bar { position: absolute; z-index: 6; bottom: 14px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 4px; padding: 6px; border-radius: 16px; max-width: calc(100% - 28px); }
 .with-panel .bar { left: calc(50% + (var(--panel) + 14px) / 2); }
 [dir="ltr"] .with-panel .bar { left: calc(50% + (var(--panel) + 14px) / 2); }
 [dir="rtl"] .with-panel .bar { left: calc(50% - (var(--panel) + 14px) / 2); }
-.ctl { all: unset; box-sizing: border-box; cursor: pointer; display: inline-grid; place-items: center; height: 42px; min-width: 42px; padding: 0 10px; border-radius: 11px; color: var(--paper); transition: background .2s; }
+.ctl { all: unset; box-sizing: border-box; cursor: pointer; display: inline-grid; place-items: center; height: 44px; min-width: 44px; padding: 0 10px; border-radius: 11px; color: var(--paper); transition: background .2s; }
 .ctl:hover { background: rgba(255,255,255,.1); }
 .ctl:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 1px; }
 .ctl[aria-pressed="true"] { background: var(--accent); }
@@ -86,7 +90,7 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent
 [dir="rtl"] .flip svg { transform: scaleX(-1); }
 .ctl.nav { display: inline-flex; gap: 8px; font-size: 14px; font-weight: 500; }
 .now { display: grid; text-align: center; padding: 0 14px; min-width: 170px; line-height: 1.2; }
-.now small { font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; letter-spacing: .06em; }
+.now small { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; letter-spacing: .06em; }
 .now b { font-size: 14px; font-weight: 600; white-space: nowrap; }
 .sep { width: 1px; height: 26px; background: var(--line); margin: 0 4px; }
 
@@ -97,11 +101,13 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent
 .hint.gone { opacity: 0; }
 
 /* hotspots inside the panorama */
-.hs { width: 0; height: 0; cursor: pointer; }
-.hs .dot { position: absolute; left: -24px; top: -24px; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: rgba(14,16,20,.55); border: 2px solid rgba(255,255,255,.9); box-shadow: 0 0 0 6px rgba(79,187,234,.22), 0 6px 18px rgba(0,0,0,.35); transition: transform .25s, background .25s; }
+/* the hotspot box itself is the 48 px target (Pannellum centres it on the point by its size) */
+.pnlm-hotspot.hs { width: 48px; height: 48px; border-radius: 50%; cursor: pointer; }
+.pnlm-hotspot.hs, .pnlm-hotspot.hs:hover { background: none; }
+.hs .dot { position: absolute; left: 0; top: 0; width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; background: rgba(14,16,20,.55); border: 2px solid rgba(255,255,255,.9); box-shadow: 0 0 0 6px rgba(79,187,234,.22), 0 6px 18px rgba(0,0,0,.35); transition: transform .25s, background .25s; }
 .hs .dot svg { width: 20px; height: 20px; fill: none; stroke: #fff; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
 .hs:hover .dot { transform: scale(1.1); background: var(--accent); }
-.hs .lbl { position: absolute; top: 32px; left: 50%; transform: translateX(-50%); white-space: nowrap; font: 600 12.5px/1 var(--font); color: #fff; background: var(--glass-2); border: 1px solid var(--line); border-radius: 999px; padding: 7px 12px; }
+.hs .lbl { position: absolute; top: 56px; left: 50%; transform: translateX(-50%); white-space: nowrap; font: 600 12.5px/1 var(--font); color: #fff; background: var(--glass-2); border: 1px solid var(--line); border-radius: 999px; padding: 7px 12px; }
 .pnlm-load-box { background: var(--glass-2) !important; border-radius: 14px; font-family: var(--font) !important; }
 .pnlm-panorama-info, .pnlm-about-msg { display: none !important; }
 
@@ -111,7 +117,7 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent
   .panel { top: auto; bottom: 74px; inset-inline: 10px; width: auto; max-height: 52svh; border-radius: 16px; }
   .panel.is-closed { transform: translateY(calc(100% + 90px)); }
   [dir="ltr"] .panel.is-closed { transform: translateY(calc(100% + 90px)); }
-  .p-head { padding: 12px 14px 10px; } .p-head h1 { font-size: 17px; } .p-head p { display: none; }
+  .p-head { padding: 12px 14px 10px; } .p-head .p-title { font-size: 17px; } .p-head p { display: none; }
   .plan, .p-foot { display: none; }
   .about { margin: 0 8px 8px; }
   .bar, .with-panel .bar, [dir="rtl"] .with-panel .bar, [dir="ltr"] .with-panel .bar { left: 10px; right: 10px; transform: none; bottom: 10px; justify-content: space-between; max-width: none; }
@@ -137,11 +143,12 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent
 </head>
 <body>
 <main class="app with-panel" id="app">
+  <h1 class="sr-only" data-t="title"></h1>
   <div id="pano" role="img"></div>
   <aside class="panel glass" id="panel">
     <div class="p-head">
       <div class="brand"><span data-t="brand"></span><span class="stamp" data-t="stamp"></span></div>
-      <h1 data-t="title"></h1>
+      <div class="p-title" data-t="title" aria-hidden="true"></div>
       <p data-t="lead"></p>
       <div class="p-links"><a class="back" href="data-center.html"><svg viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg><span data-t="back"></span></a><a href="../en/services/data-center-360.html" lang="en" hreflang="en">English</a></div>
     </div>
@@ -180,6 +187,8 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent
   const root = document.documentElement, EN = root.lang === 'en', BASE = root.dataset.base || '';
   const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const phone = matchMedia('(max-width: 760px)').matches;
+  // phones and data-saver get the 2048 px panoramas (about a quarter of the bytes); larger screens keep the 4096 px originals
+  const lite = phone || !!(navigator.connection && navigator.connection.saveData);
   if (new URLSearchParams(location.search).has('embed')) document.getElementById('app').classList.add('embed');
   const T = EN ? {
     back: 'Back to data centers', brand: 'S. Gotovski Ltd. · Data center fuel systems', stamp: 'Rendering', title: '360° tour of a generator farm', lead: 'Five stops on a typical site, from the generator yard to the pump room.',
@@ -226,7 +235,7 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent
   const tip = (div, a) => { div.classList.add('hs'); div.innerHTML = '<span class="dot">' + arrow + '</span><span class="lbl"></span>'; div.querySelector('.lbl').textContent = a.label; div.setAttribute('role', 'button'); div.setAttribute('aria-label', T.go + a.label); };
   const scenes = {};
   order.forEach((id) => {
-    scenes[id] = { type: 'equirectangular', panorama: BASE + SC[id].file + '.jpg', hfov: 100, minHfov: 50, maxHfov: 120, minPitch: -75, maxPitch: 90,
+    scenes[id] = { type: 'equirectangular', panorama: BASE + SC[id].file + (lite ? '-2048' : '') + '.jpg', hfov: 100, minHfov: 50, maxHfov: 120, minPitch: -75, maxPitch: 90,
       hotSpots: SC[id].links.map((l) => ({ type: 'scene', sceneId: l.to, yaw: l.yaw, pitch: l.pitch, createTooltipFunc: tip, createTooltipArgs: { label: T.S[l.to][0] }, targetYaw: 'sameAzimuth' })) };
   });
   const viewer = pannellum.viewer('pano', { default: { firstScene: order[0], sceneFadeDuration: 900, autoLoad: true, autoRotate: reduced ? 0 : -1.6, autoRotateInactivityDelay: 8000, showControls: false, compass: false, keyboardZoom: true }, scenes });
@@ -238,7 +247,7 @@ button:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--accent
   order.forEach((id, i) => {
     const li = document.createElement('li'), b = document.createElement('button');
     b.type = 'button'; b.className = 'step'; b.dataset.id = id;
-    b.innerHTML = '<span class="num">0' + (i + 1) + '</span><img alt="" src="' + BASE + 'thumb-' + SC[id].file + '.jpg"><span><b></b><small></small></span>';
+    b.innerHTML = '<span class="num">0' + (i + 1) + '</span><img alt="" src="' + BASE + 'thumb-' + SC[id].file + '-160.webp" srcset="' + BASE + 'thumb-' + SC[id].file + '-160.webp 160w, ' + BASE + 'thumb-' + SC[id].file + '.jpg 240w" sizes="66px" width="160" height="80" decoding="async"><span><b></b><small></small></span>';
     b.querySelector('b').textContent = T.S[id][0]; b.querySelector('small').textContent = T.S[id][1];
     b.addEventListener('click', () => { go(id); if (phone) setPanel(false); });
     li.appendChild(b); list.appendChild(li);

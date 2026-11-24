@@ -35,10 +35,12 @@ html, body { height: 100%; margin: 0; overflow: hidden; }
 .app { position: fixed; inset: 0; }
 .stage { position: absolute; inset: 0; overflow: hidden; background: #cfe0ec; touch-action: none; isolation: isolate; }
 .stage canvas { display: block; width: 100%; height: 100%; }
-.stamp { flex: none; font-family: var(--font); letter-spacing: .06em; font-weight: 600; font-size: .7rem; padding: 4px 10px; border-radius: 999px; background: rgba(15,26,36,.82); color: #fff; }
+.stamp { flex: none; font-family: var(--font); letter-spacing: .06em; font-weight: 600; font-size: .78rem; padding: 4px 10px; border-radius: 999px; background: rgba(15,26,36,.82); color: #fff; }
 button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .layer { position: absolute; inset: 0; pointer-events: none; }
-.hot { position: absolute; left: 0; top: 0; pointer-events: auto; width: 28px; height: 28px; margin: -14px 0 0 -14px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.95); background: rgba(10,22,34,.55); color: #fff; font: 600 .74rem/1 var(--mono); display: grid; place-items: center; cursor: pointer; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); transition: transform .2s, background .2s, opacity .25s; }
+.hot { position: absolute; left: 0; top: 0; pointer-events: auto; width: 28px; height: 28px; margin: -14px 0 0 -14px; border-radius: 50%; border: 1.5px solid rgba(255,255,255,.95); background: rgba(10,22,34,.55); color: #fff; font: 600 .78rem/1 var(--mono); display: grid; place-items: center; cursor: pointer; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); transition: transform .2s, background .2s, opacity .25s; }
+/* the visible dot stays small; an invisible ring around it makes a 44 px hit area */
+.hot::before { content: ""; position: absolute; inset: -8px; border-radius: 50%; }
 .hot:hover { transform: scale(1.12); }
 .hot.is-on { background: var(--accent); border-color: #fff; }
 .hot.is-alarm { background: var(--alarm); }
@@ -51,7 +53,7 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .leads .dot { fill: #fff; filter: drop-shadow(0 0 4px currentColor); }
 .leads .halo { fill: none; stroke: currentColor; stroke-width: 1.2; transform-box: fill-box; transform-origin: center; animation: halo 2.2s ease-out infinite; }
 @keyframes halo { from { transform: scale(.35); opacity: 1; } to { transform: scale(2.1); opacity: 0; } }
-.holo { --c: var(--holo); position: absolute; left: 0; top: 0; will-change: transform; pointer-events: none; min-width: 176px; padding: 7px 10px 8px; color: #eaf8ff; font-size: .72rem; line-height: 1.35; border-radius: 3px; overflow: hidden; transition: opacity .3s;
+.holo { --c: var(--holo); position: absolute; left: 0; top: 0; will-change: transform; pointer-events: none; min-width: 176px; padding: 7px 10px 8px; color: #eaf8ff; font-size: .82rem; line-height: 1.35; border-radius: 3px; overflow: hidden; transition: opacity .3s;
   background:
     linear-gradient(var(--c), var(--c)) 0 0 / 11px 2px no-repeat, linear-gradient(var(--c), var(--c)) 0 0 / 2px 11px no-repeat,
     linear-gradient(var(--c), var(--c)) 100% 0 / 11px 2px no-repeat, linear-gradient(var(--c), var(--c)) 100% 0 / 2px 11px no-repeat,
@@ -70,9 +72,9 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .holo.flash { animation: holoIn .75s ease-out; }
 @keyframes holoIn { 0% { clip-path: inset(0 0 100% 0); filter: brightness(2.4); } 40% { clip-path: inset(0 0 0 0); filter: brightness(2); } 52% { opacity: .35; } 62% { opacity: 1; } 100% { filter: none; } }
 .hh { position: relative; display: flex; align-items: center; gap: 7px; margin-bottom: 5px; white-space: nowrap; }
-.hh .id { font: 600 .66rem/1 var(--mono); color: #03131d; background: var(--c); padding: 3px 5px 2px; border-radius: 2px; direction: ltr; box-shadow: 0 0 10px var(--c); }
+.hh .id { font: 600 .78rem/1 var(--mono); color: #03131d; background: var(--c); padding: 3px 5px 2px; border-radius: 2px; direction: ltr; box-shadow: 0 0 10px var(--c); }
 .hh .tt { font-weight: 500; color: #fff; letter-spacing: .01em; }
-.hh .st { margin-inline-start: auto; display: inline-flex; align-items: center; gap: 5px; font: 500 .64rem/1 var(--font); color: var(--c); }
+.hh .st { margin-inline-start: auto; display: inline-flex; align-items: center; gap: 5px; font: 500 .78rem/1 var(--font); color: var(--c); }
 .hh .st i { width: 6px; height: 6px; border-radius: 50%; background: var(--c); box-shadow: 0 0 8px var(--c); animation: pulse 1.4s ease-in-out infinite; }
 .hh .st em { font-style: normal; }
 .hb { position: relative; display: flex; align-items: center; gap: 10px; }
@@ -84,23 +86,23 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .ring .v.low { stroke: var(--alarm); filter: drop-shadow(0 0 3px var(--alarm)); }
 .ring .o { stroke: color-mix(in srgb, var(--c) 55%, transparent); stroke-width: .8; stroke-dasharray: 8 4.5; animation: spin 14s linear infinite; transform-origin: 22px 22px; }
 @keyframes spin { to { transform: rotate(360deg); } }
-.ring b { position: absolute; top: 17px; inset-inline: 0; text-align: center; font: 600 .7rem/1 var(--mono); color: #fff; direction: ltr; font-variant-numeric: tabular-nums; }
-.ring small { font-size: .56rem; color: rgba(234, 248, 255, .72); margin-top: 1px; white-space: nowrap; }
+.ring b { position: absolute; top: 18px; inset-inline: 0; text-align: center; font: 600 .78rem/1 var(--mono); color: #fff; direction: ltr; font-variant-numeric: tabular-nums; }
+.ring small { font-size: .78rem; color: rgba(234, 248, 255, .72); margin-top: 1px; white-space: nowrap; }
 .rows { flex: 1; display: grid; gap: 2px; min-width: 0; }
 .holo .row { display: flex; justify-content: space-between; gap: 12px; white-space: nowrap; }
 .holo .row span { color: rgba(234, 248, 255, .7); }
-.holo .row b { font: 600 .76rem/1.35 var(--font); color: #fff; direction: ltr; font-variant-numeric: tabular-nums; }
-.holo .row.pri b { font-size: .86rem; color: var(--c); text-shadow: 0 0 10px color-mix(in srgb, var(--c) 70%, transparent); }
+.holo .row b { font: 600 .84rem/1.35 var(--font); color: #fff; direction: ltr; font-variant-numeric: tabular-nums; }
+.holo .row.pri b { font-size: .92rem; color: var(--c); text-shadow: 0 0 10px color-mix(in srgb, var(--c) 70%, transparent); }
 .spark { position: relative; display: block; width: 100%; height: 22px; margin-top: 6px; border-top: 1px dashed color-mix(in srgb, var(--c) 30%, transparent); }
 .spark .l { fill: none; stroke: var(--c); stroke-width: 1.3; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 2px var(--c)); }
 .spark .a { fill: color-mix(in srgb, var(--c) 18%, transparent); }
-.holo .cap { display: block; font-size: .58rem; color: rgba(234, 248, 255, .6); margin-top: 1px; }
+.holo .cap { display: block; font-size: .78rem; color: rgba(234, 248, 255, .6); margin-top: 1px; }
 .holo.mini .cap { display: none; }
 .holo.mini { min-width: 0; padding: 5px 8px 6px; }
 .holo.mini .hh { margin-bottom: 2px; }
 .holo.mini .ring, .holo.mini .spark, .holo.mini .row:not(.pri), .holo.mini .tt { display: none; }
 .holo.mini .row.pri span { display: none; }
-.dim { position: absolute; left: 0; top: 0; pointer-events: none; font: 500 .7rem/1 var(--mono); color: #0f1a24; background: rgba(255,255,255,.88); border: 1px solid rgba(15,26,36,.2); padding: 4px 7px; border-radius: 6px; white-space: nowrap; transform: translate(-50%, -50%); direction: ltr; }
+.dim { position: absolute; left: 0; top: 0; pointer-events: none; font: 500 .78rem/1 var(--mono); color: #0f1a24; background: rgba(255,255,255,.88); border: 1px solid rgba(15,26,36,.2); padding: 4px 7px; border-radius: 6px; white-space: nowrap; transform: translate(-50%, -50%); direction: ltr; }
 .dim[hidden] { display: none; }
 
 .hud-top { position: absolute; top: 12px; inset-inline: 12px; display: flex; gap: 10px; align-items: start; justify-content: space-between; pointer-events: none; }
@@ -118,9 +120,9 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .timeline { flex: 1; max-width: 600px; background: var(--glass); border: 1px solid var(--glass-line); border-radius: 14px; padding: 10px 14px 12px; color: #e9f7ff; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 .tl-head { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
 .tl-head b { font-size: 1rem; font-weight: 600; }
-.tl-head span { font-family: var(--mono); font-size: .78rem; color: var(--holo); direction: ltr; font-variant-numeric: tabular-nums; }
+.tl-head span { font-family: var(--mono); font-size: .82rem; color: var(--holo); direction: ltr; font-variant-numeric: tabular-nums; }
 .steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-top: 9px; }
-.steps div { font-size: .68rem; color: rgba(233,247,255,.55); display: grid; gap: 5px; }
+.steps div { font-size: .78rem; line-height: 1.25; color: rgba(233,247,255,.55); display: grid; gap: 5px; }
 .steps div::before { content: ""; height: 3px; border-radius: 2px; background: rgba(255,255,255,.16); }
 .steps div.done { color: #e9f7ff; }
 .steps div.done::before { background: var(--ok); box-shadow: 0 0 8px rgba(63,220,149,.8); }
@@ -131,7 +133,8 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 
 .banner { --c: var(--alarm); position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%) scaleY(.2); padding: 16px 30px 14px; font-size: clamp(1.15rem, 2.6vw, 1.9rem); font-weight: 500; letter-spacing: .02em; color: #fff; text-shadow: 0 0 18px var(--c); opacity: 0; pointer-events: none; transition: opacity .3s, transform .45s cubic-bezier(.2,1.4,.4,1); text-align: center; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); z-index: 4; }
 .banner small { color: color-mix(in srgb, var(--c) 60%, #fff); }
-.banner small { display: block; font-size: .5em; font-weight: 400; opacity: .85; margin-top: 4px; font-family: var(--mono); }
+.banner small { display: block; font-size: max(.5em, .82rem); font-weight: 400; opacity: .85; margin-top: 4px; font-family: var(--mono); }
+.banner { width: max-content; max-width: calc(100% - 24px); }
 .banner.show { opacity: 1; transform: translate(-50%, -50%) scaleY(1); }
 .banner.ok { --c: var(--ok); }
 
@@ -156,7 +159,7 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .gauges { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); min-width: min(500px, 100%); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 .g { border-inline-start: 1px solid rgba(127,220,255,.14); padding: 10px 14px; display: grid; gap: 4px; min-width: 0; color: #e9f7ff; }
 .g:first-child { border: 0; }
-.g small { font-size: .7rem; color: rgba(233,247,255,.75); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.g small { font-size: .78rem; color: rgba(233,247,255,.75); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .g b { font: 600 1.15rem/1.1 var(--font); font-variant-numeric: tabular-nums; text-shadow: 0 0 12px rgba(127,220,255,.55); white-space: nowrap; }
 .g b.ok { color: var(--ok); } .g b.warn { color: var(--warn); }
 .g .meter { height: 3px; border-radius: 2px; background: rgba(255,255,255,.12); overflow: hidden; }
@@ -166,50 +169,69 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
 .info[hidden] { display: none; }
 .info .x { position: absolute; top: 8px; inset-inline-end: 8px; width: 32px; height: 32px; border-radius: 50%; border: 1px solid rgba(160,220,255,.3); background: rgba(255,255,255,.06); color: #fff; cursor: pointer; display: grid; place-items: center; }
 .info .x svg { width: 16px; height: 16px; }
-.info .n { font-family: var(--mono); font-size: .72rem; color: var(--holo); direction: ltr; text-align: end; margin-inline-end: 40px; }
+.info .n { font-family: var(--mono); font-size: .82rem; color: var(--holo); direction: ltr; text-align: end; margin-inline-end: 48px; }
 .info h2 { font-size: 1.15rem; font-weight: 500; margin: 0; line-height: 1.25; }
 .info p { margin: 0; font-size: .86rem; font-weight: 300; color: rgba(233,247,255,.9); }
 .spec { display: grid; margin: 0; border-top: 1px solid rgba(160,220,255,.18); }
 .spec div { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid rgba(160,220,255,.18); font-size: .8rem; }
 .spec dt { color: rgba(233,247,255,.7); }
-.spec dd { margin: 0; font-family: var(--mono); font-size: .76rem; text-align: end; color: #fff; }
+.spec dd { margin: 0; font-family: var(--mono); font-size: .82rem; text-align: end; color: #fff; }
 .stds { display: flex; flex-wrap: wrap; gap: 6px; }
-.stds span { font: 500 .7rem/1 var(--mono); padding: 5px 8px; border-radius: 4px; border: 1px solid rgba(127,220,255,.4); color: var(--holo); direction: ltr; }
+.stds span { font: 500 .78rem/1 var(--mono); padding: 5px 8px; border-radius: 4px; border: 1px solid rgba(127,220,255,.4); color: var(--holo); direction: ltr; }
 .nav { display: flex; gap: 8px; align-items: center; justify-content: space-between; }
 .nav button { font: inherit; font-size: .8rem; color: #fff; background: none; border: 1px solid rgba(160,220,255,.3); border-radius: 999px; padding: 7px 13px; cursor: pointer; }
-.nav span { font-size: .76rem; color: rgba(233,247,255,.7); }
-.loading { position: absolute; inset: 0; display: grid; place-items: center; background: #dde8f0; color: var(--muted); font-size: .92rem; transition: opacity .6s; z-index: 5; }
-.loading.done { opacity: 0; pointer-events: none; }
+.nav span { font-size: .82rem; color: rgba(233,247,255,.7); }
+/* poster: shows at once with the HUD on top of it; three.js and the model load only when the visitor starts */
+.loading { position: absolute; inset: 0; display: grid; place-items: center; background: #cfe0ec; transition: opacity .6s, visibility 0s linear .6s; }
+.loading.done { opacity: 0; visibility: hidden; pointer-events: none; }
+.poster { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.start { position: relative; font: 600 1.05rem/1 var(--font); color: #fff; background: rgba(8,24,38,.78); border: 1px solid rgba(160,220,255,.55); border-radius: 999px; min-height: 56px; padding: 0 26px 0 20px; display: inline-flex; gap: 12px; align-items: center; cursor: pointer; box-shadow: 0 0 0 8px rgba(127,220,255,.16), 0 12px 34px rgba(4,16,28,.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); transition: transform .15s, background .2s; }
+.start:hover { background: rgba(11,102,143,.9); }
+.start:active { transform: scale(.97); }
+.start svg { width: 22px; height: 22px; flex: none; }
+.lmsg { position: relative; margin: 0; padding: 12px 20px; border-radius: 999px; background: rgba(8,24,38,.78); color: #e9f7ff; font-size: .95rem; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.lmsg[hidden], .start[hidden] { display: none; }
 @media (max-width: 720px) {
   .hud-top { top: 8px; inset-inline: 8px; }
   .timeline { padding: 8px 10px 9px; }
   .tl-head b { font-size: .86rem; }
-  .tl-sub { font-size: .72rem; }
-  .steps div { font-size: .58rem; }
+  .tl-sub { font-size: .8rem; }
+  .steps { gap: 4px; }
+  .steps div { font-size: .75rem; }
   .bar { inset-inline: 8px; bottom: 8px; flex-direction: column-reverse; align-items: stretch; gap: 8px; }
   .ctrl { grid-template-columns: 1fr auto; align-items: center; }
   .go { font-size: .92rem; padding: 12px 16px; justify-content: center; }
   .more { grid-column: 1 / -1; }
-  .chip { font-size: .7rem; padding: 7px 10px; }
+  .chip { font-size: .8rem; padding: 7px 10px; }
   .side { justify-items: stretch; }
   .gauges { min-width: 0; }
   .g { padding: 7px 9px; }
-  .g small { font-size: .6rem; }
+  .g small { font-size: .75rem; white-space: normal; line-height: 1.2; }
   .g b { font-size: .9rem; }
   .tools { justify-content: center; }
   .tog { padding: 7px 10px; }
   .tog span { display: none; }
-  .hot { width: 24px; height: 24px; margin: -12px 0 0 -12px; font-size: .66rem; }
-  .holo { font-size: .64rem; }
+  .hot { width: 28px; height: 28px; margin: -14px 0 0 -14px; font-size: .75rem; }
+  .holo { font-size: .75rem; }
   .info { top: auto; bottom: 8px; inset-inline: 8px; width: auto; max-height: 58%; }
 }
-@media (prefers-reduced-motion: reduce) { .go.idle, .steps div.now::before, .holo, .holo::before, .holo::after, .hh .st i, .leads .halo, .ring .o, .hx::after { animation: none !important; } .holo::after { display: none; } }
+@media (pointer: coarse), (max-width: 720px) {
+  .tog { min-width: 44px; min-height: 44px; justify-content: center; }
+  .chip { min-height: 44px; }
+  .nav button { min-height: 44px; min-width: 44px; }
+  .info .x { width: 44px; height: 44px; top: 4px; inset-inline-end: 4px; }
+}
+@media (prefers-reduced-motion: reduce) { .loading, .start { transition: none; } .go.idle, .steps div.now::before, .holo, .holo::before, .holo::after, .hh .st i, .leads .halo, .ring .o, .hx::after { animation: none !important; } .holo::after { display: none; } }
 </style>
 </head>
 <body>
 <main class="app" dir="rtl" lang="he">
   <div class="stage" id="stage">
-    <div class="loading" id="loading">טוענים את ההדמיה…</div>
+    <div class="loading" id="loading">
+      <img class="poster" src="../../images/sim-datacenter-960.webp" srcset="../../images/sim-datacenter-480.webp 480w, ../../images/sim-datacenter-960.webp 960w, ../../images/sim-datacenter.webp 1600w" sizes="(max-aspect-ratio: 16/9) 178vh, 100vw" alt="" width="1600" height="900" decoding="async" fetchpriority="high">
+      <button class="start" type="button" id="start"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l11-6.5a1 1 0 0 0 0-1.72l-11-6.5A1 1 0 0 0 8 5.5z"/></svg><span>הפעילו את ההדמיה</span></button>
+      <p class="lmsg" id="lmsg" role="status" hidden>טוענים את ההדמיה…</p>
+    </div>
     <div class="layer" id="holoLayer"></div>
     <div class="layer" id="hotLayer" hidden></div>
     <div class="banner hx" id="banner" role="status" aria-live="assertive"></div>
@@ -255,27 +277,32 @@ button:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
   </div>
 </main>
 
-<script type="importmap">{"imports":{"three":"../../vendor/three/build/three.module.js","three/addons/":"../../vendor/three/examples/jsm/"}}</script>
+<script type="importmap">{"imports":{"three":"../../vendor/three/build/three.module.min.js","three/addons/":"../../vendor/three/examples/jsm/","three/sim-addons":"../../vendor/three/build/three.sim-addons.min.js"}}</script>
 <script type="module">
-import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { Sky } from 'three/addons/objects/Sky.js';
-import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
-import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
-import { GTAOPass } from 'three/addons/postprocessing/GTAOPass.js';
-import { Pass } from 'three/addons/postprocessing/Pass.js';
-
 const $ = (s) => document.querySelector(s);
 const stage = $('#stage');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const phone = matchMedia('(max-width: 720px)').matches;
 const embed = new URLSearchParams(location.search).has('embed');
 const touch = matchMedia('(pointer: coarse)').matches;
+
+/* ================= start: the poster and the HUD show at once; three.js (≈0.8 MB) and the model load on the first press =================
+   Inside the site (?embed=1) the visitor already pressed play on the page's own poster, so loading starts right away.
+   A press on any HUD control before the model is ready also starts loading, and that control runs once the scene is up. */
+const SKID = 'genset-skid.glb', DRACO = '../../vendor/three/examples/jsm/libs/draco/gltf/';
+const loadingEl = $('#loading'), startBtn = $('#start'), bar = $('.bar');
+let booted = false, queued = null, begin;
+const gate = new Promise((go) => { begin = go; });
+function early(e) { const b = e.target.closest('button'); if (!b || booted) return; e.preventDefault(); e.stopImmediatePropagation(); queued = b; begin(); }
+bar.addEventListener('click', early, true);
+startBtn.addEventListener('click', () => { begin(); $('#go').focus({ preventScroll: true }); }, { once: true });
+if (embed) begin();
+await gate;
+startBtn.hidden = true; $('#lmsg').hidden = false; stage.setAttribute('aria-busy', 'true');
+const skidBuf = fetch(SKID).then((r) => { if (!r.ok) throw new Error(r.status); return r.arrayBuffer(); });
+skidBuf.catch(() => {});
+const [THREE, { OrbitControls, GLTFLoader, DRACOLoader, Sky, RoundedBoxGeometry, EffectComposer, RenderPass, UnrealBloomPass, OutputPass, ShaderPass, GTAOPass, Pass }] = await Promise.all([import('three'), import('three/sim-addons')]);
+const draco = new DRACOLoader().setDecoderPath(DRACO).setDecoderConfig({ type: 'wasm' }).preload();
 
 /* ================= real dimensions (meters) ================= */
 const FT = 0.3048, GAL = 3.78541;
@@ -1176,8 +1203,12 @@ function fitSkid(root) {
   root.traverse((o) => { if (o.isMesh) { o.castShadow = true; o.receiveShadow = true; if (o.material) o.material.envMapIntensity = 0.7; } });
   const g = new THREE.Group(); g.add(root); g.rotation.y = Math.PI; return g;
 }
-loader.load('genset-skid.glb', (gl) => { placeSkids(fitSkid(gl.scene)); ready(); }, undefined, () => { placeSkids(null); ready(); });
-function ready() { select(0, false); $('#loading').classList.add('done'); }
+loader.setDRACOLoader(draco);
+skidBuf.then((buf) => new Promise((ok, no) => loader.parse(buf, '', ok, no))).then((gl) => fitSkid(gl.scene), () => null).then((skid) => { placeSkids(skid); draco.dispose(); ready(); });
+function ready() {
+  select(0, false); loadingEl.classList.add('done'); stage.removeAttribute('aria-busy'); booted = true; bar.removeEventListener('click', early, true);
+  const b = queued; queued = null; if (b) b.click();
+}
 
 /* ================= loop ================= */
 const clock = new THREE.Clock(); const v3 = new THREE.Vector3(), v3b = new THREE.Vector3(); const col = new THREE.Color();
