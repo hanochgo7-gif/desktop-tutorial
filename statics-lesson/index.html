@@ -497,6 +497,19 @@ input[aria-invalid="true"]{border-color:var(--bad);border-width:2.5px;background
 .pl-time{display:flex;justify-content:space-between;font:600 15px var(--mono);color:var(--muted);direction:ltr}
 .pl-next{margin:8px 6px 2px;font-weight:700;font-size:17px}
 header .player{margin-top:14px}
+/* shear force diagram */
+.sh-pos{fill:var(--moment-soft);stroke:none}
+.sh-neg{fill:var(--bad-soft);stroke:none}
+.sh-line{fill:none;stroke:var(--ink);stroke-width:3;stroke-linejoin:round}
+.sh-axis{stroke:var(--ink);stroke-width:1.6}
+.sh-guide{stroke:var(--line-strong);stroke-width:1.1;stroke-dasharray:5 5}
+.sh-dot{fill:var(--moment);stroke:var(--card);stroke-width:2.5}
+.sh-say{min-height:5.2em;background:var(--note);border:1px solid var(--note-line);border-radius:12px;padding:12px 16px;line-height:1.75;margin:10px 0}
+#sh-walk .row{align-items:center}
+#sh-walk .btn[disabled]{opacity:.45;cursor:default}
+.sh-t td:first-child{white-space:nowrap;font-weight:700}
+#shear ol.steps li{margin-bottom:6px}
+.sh-t .f{white-space:nowrap}
 
 </style>
 
@@ -525,7 +538,7 @@ header .player{margin-top:14px}
 <header class="top" id="top">
   <div class="kicker">חישוב סטטי · לפי החומר מהכיתה</div>
   <h1>סטטיקה מהבסיס</h1>
-  <p class="lead">כוח, פירוק כוח משופע, מומנט, סכום מומנטים, עומס מפורס וחישוב תגובות בסמכים, מההתחלה ממש. לא צריך רקע בפיזיקה או במתמטיקה: כל מילה מקצועית מוסברת בפעם הראשונה שהיא מופיעה, ויש <a href="#glossary">מילון מונחים</a> בסוף. כל פרק נשען על הקודם, אז כדאי לעבור לפי הסדר. בסוף כל פרק יש "בדוק את עצמך": נסה לענות לבד לפני שאתה פותח את התשובה.</p>
+  <p class="lead">כוח, פירוק כוח משופע, מומנט, סכום מומנטים, עומס מפורס, חישוב תגובות בסמכים ומהלך כוחות גזירה, מההתחלה ממש. לא צריך רקע בפיזיקה או במתמטיקה: כל מילה מקצועית מוסברת בפעם הראשונה שהיא מופיעה, ויש <a href="#glossary">מילון מונחים</a> בסוף. כל פרק נשען על הקודם, אז כדאי לעבור לפי הסדר. בסוף כל פרק יש "בדוק את עצמך": נסה לענות לבד לפני שאתה פותח את התשובה.</p>
   <p class="legend-h">מקרא צבעים לשרטוטים (הכול מוסבר בהמשך):</p>
   <div class="legend" role="group" aria-label="מקרא צבעים">
     <span><i style="background:var(--force)"></i>כוח (חץ רציף)</span>
@@ -1060,10 +1073,97 @@ header .player{margin-top:14px}
 </section>
 
 <!-- 14 -->
-<section id="quiz">
+<section id="shear">
   <div class="step">פרק 14</div>
+  <h2>מהלך כוחות גזירה</h2>
+  <p>עד עכשיו מצאנו כמה כל סמך דוחף. עכשיו שואלים שאלה חדשה: מה קורה <b>בתוך</b> הקורה, בכל נקודה לאורכה? בשביל זה מציירים <b>מהלך</b>.</p>
+  <div class="rule"><span class="lbl">הגדרה</span><b>מהלך</b> הוא גרף שמראה איך הכוחות או המומנטים משתנים בכל נקודה לאורך הקורה. מציירים אותו <b>מתחת לקורה</b>, באותו קנה מידה, כך שכל נקודה בגרף נמצאת בדיוק מתחת לנקודה המתאימה בקורה.</div>
+
+  <h3>מהלך כוחות גזירה, S</h3>
+  <p>המהלך הראשון שלומדים הוא <b>מהלך כוחות הגזירה</b>. באנגלית "גזירה" היא Shear, ולכן מסמנים אותו באות <b>S</b>. הוא מראה את <b>הכוחות האנכיים</b> בכל נקודה לאורך הקורה.</p>
+  <div class="rule"><span class="lbl">הכלל</span>
+    <div class="big"><span aria-hidden="true">S = ΣF<sub>y</sub> עד הנקודה</span><span class="sr-only">S שווה סכום הכוחות האנכיים עד הנקודה</span></div>
+    הערך של המהלך בנקודה שווה ל<b>סכום הכוחות האנכיים</b>, מתחילת הקורה משמאל ועד הנקודה. כוח למעלה = פלוס, כוח למטה = מינוס.</div>
+  <div class="grid2">
+    <div class="note" style="margin:0"><span class="lbl">הסכום חיובי (+)</span>משרטטים <b>מעל</b> הקו.</div>
+    <div class="note" style="margin:0"><span class="lbl">הסכום שלילי (−)</span>משרטטים <b>מתחת</b> לקו.</div>
+  </div>
+  <p class="small-note">בדף מהכיתה כתוב גם בשורה של הסכום השלילי "בחלק העליון". זו טעות הקלדה: סכום שלילי משרטטים בחלק <b>התחתון</b>, בדיוק כמו בדוגמה שבאותו דף.</p>
+
+  <h3>הדרך הקלה: הולכים משמאל לימין</h3>
+  <p>לא צריך לחשב סכום מחדש בכל נקודה. פשוט הולכים לאורך הקורה, משמאל לימין, ובכל חץ "קופצים" לפי הכיוון שלו:</p>
+  <div class="rule"><span class="lbl">כלל הקפיצה</span>
+    <b>חץ למעלה</b> ← המהלך קופץ <b>למעלה</b>, בגודל של החץ.<br>
+    <b>חץ למטה</b> ← המהלך קופץ <b>למטה</b>, בגודל של החץ.<br>
+    <b>בין החצים</b> אין כוחות, ולכן הקו נשאר <b>ישר ושוכב</b>.<br>
+    <b>בסוף הקורה</b> המהלך חוזר בדיוק ל־0. אם הוא לא חוזר ל־0, יש טעות בתגובות.</div>
+  <p>כלומר, משרטטים את המהלך <b>לפי כיוון החץ</b> של כל כוח. וזכור: גם התגובות בסמכים הן חצים. הקפיצה הראשונה היא תמיד התגובה בסמך השמאלי.</p>
+
+  <h3>דוגמה מהדף</h3>
+  <div class="ex" id="sh-ex">
+    <h3>קורה ACDB</h3>
+    <div class="src">מתוך הדף "שרטוט מהלכים" · סמך קבוע ב־A, סמך נייד ב־B</div>
+    <div class="fig" id="sh-ex-q"></div>
+    <p>על הקורה פועלים שני כוחות אנכיים: <span class="ltr f">10t</span> בנקודה C ו־<span class="ltr f">15t</span> בנקודה D, שניהם למטה. <b>דרוש:</b> א. לחשב את התגובות בסמכים A ו־B. ב. לחשב ולשרטט את מהלך כוחות הגזירה לאורך הקורה.</p>
+    <p><b>א. התגובות</b> (כמו בפרק 11, אין כוחות אופקיים ולכן <span class="ltr f">H<sub>A</sub> = 0</span>):</p>
+    <ol class="steps">
+      <li>סביב A: <span class="ltr f">+10×2 + 15×4 − V<sub>B</sub>×5 = 0</span> ← <span class="ltr f">80 = 5·V<sub>B</sub></span> ← <span class="ltr f">V<sub>B</sub> = 16t</span> למעלה.</li>
+      <li>סביב B: <span class="ltr f">+V<sub>A</sub>×5 − 10×3 − 15×1 = 0</span> ← <span class="ltr f">5·V<sub>A</sub> = 45</span> ← <span class="ltr f">V<sub>A</sub> = 9t</span> למעלה.</li>
+      <li>בדיקה: <span class="ltr f">9 + 16 = 25 = 10 + 15</span> ✓</li>
+    </ol>
+    <p><b>ב. המהלך.</b> הולכים משמאל לימין. לחץ על "הצעד הבא" וראה איך הגרף נבנה:</p>
+    <div class="tool" id="sh-walk">
+      <h3>בוא נצייר יחד, צעד אחרי צעד</h3>
+      <div data-fig class="fig"></div>
+      <p class="sh-say" data-say aria-live="polite"></p>
+      <div class="row" role="group" aria-label="צעדי השרטוט">
+        <button class="btn primary" id="sh-next" type="button">הצעד הבא <span aria-hidden="true">←</span></button>
+        <button class="btn" id="sh-prev" type="button"><span aria-hidden="true">→</span> צעד אחורה</button>
+        <button class="btn" id="sh-reset" type="button">התחל מחדש</button>
+        <span class="score" data-count></span>
+      </div>
+    </div>
+    <p><b>התוצאה המלאה:</b></p>
+    <div class="fig" id="sh-ex-full"></div>
+    <div class="tbl"><table class="mt sh-t"><thead><tr><th>איפה</th><th>מה קורה</th><th>S</th></tr></thead><tbody>
+      <tr><td>A</td><td>V<sub>A</sub> = 9t למעלה: קופצים למעלה</td><td><span class="ltr f">0 + 9 = +9t</span></td></tr>
+      <tr><td>מ־A עד C</td><td>אין כוחות: קו שוכב</td><td><span class="ltr f">+9t</span></td></tr>
+      <tr><td>C</td><td>10t למטה: קופצים למטה</td><td><span class="ltr f">9 − 10 = −1t</span></td></tr>
+      <tr><td>מ־C עד D</td><td>אין כוחות: קו שוכב</td><td><span class="ltr f">−1t</span></td></tr>
+      <tr><td>D</td><td>15t למטה: קופצים למטה</td><td><span class="ltr f">−1 − 15 = −16t</span></td></tr>
+      <tr><td>מ־D עד B</td><td>אין כוחות: קו שוכב</td><td><span class="ltr f">−16t</span></td></tr>
+      <tr><td>B</td><td>V<sub>B</sub> = 16t למעלה: קופצים למעלה</td><td><span class="ltr f">−16 + 16 = 0 ✓</span></td></tr>
+    </tbody></table></div>
+  </div>
+
+  <h3>עכשיו תורך</h3>
+  <div class="ex" id="sh-pr">
+    <h3>תרגיל: קורה באורך 6 m</h3>
+    <div class="src">סמך קבוע ב־A, סמך נייד ב־B</div>
+    <div class="fig" id="sh-pr-q"></div>
+    <p>בנקודה C פועל כוח של <span class="ltr f">6t</span> למטה, ובנקודה D כוח של <span class="ltr f">3t</span> למטה. חשב את התגובות, ושרטט את מהלך כוחות הגזירה.</p>
+    <details><summary>רמזים, אחד אחרי השני<span class="sr-only">: תרגיל מהלך גזירה</span></summary><div><ol class="hint-list">
+      <li>קודם התגובות. סביב A: <span class="ltr f">6×2 + 3×5 = 6·V<sub>B</sub></span>.</li>
+      <li>יוצא <span class="ltr f">V<sub>B</sub> = 4.5t</span>, ולכן <span class="ltr f">V<sub>A</sub> = 9 − 4.5 = 4.5t</span>.</li>
+      <li>עכשיו הולכים משמאל: ב־A קופצים למעלה ב־4.5. ב־C קופצים למטה ב־6.</li>
+    </ol></div></details>
+    <details><summary>הצג פתרון מלא<span class="sr-only">: תרגיל מהלך גזירה</span></summary><div>
+      <p><span class="ltr f">V<sub>A</sub> = 4.5t</span>, <span class="ltr f">V<sub>B</sub> = 4.5t</span>, שתיהן למעלה.</p>
+      <p>מ־A עד C: <span class="ltr f">S = +4.5t</span>. מ־C עד D: <span class="ltr f">4.5 − 6 = −1.5t</span>. מ־D עד B: <span class="ltr f">−1.5 − 3 = −4.5t</span>. ב־B: <span class="ltr f">−4.5 + 4.5 = 0</span> ✓</p>
+      <div class="fig" id="sh-pr-a"></div>
+    </div></details>
+  </div>
+  <details class="chk"><summary>בדוק את עצמך</summary><div>
+    <p class="q">במהלך גזירה, כוח של 4t שמצביע למעלה. לאן קופץ המהלך, ובכמה?</p>
+    <p><b>תשובה:</b> למעלה, ב־4. המהלך תמיד קופץ לכיוון של החץ.</p>
+  </div></details>
+</section>
+
+<!-- 15 -->
+<section id="quiz">
+  <div class="step">פרק 15</div>
   <h2>מבחן עצמי</h2>
-  <p>12 שאלות על כל החומר. כתוב תשובות על דף, ורק אז פתח את התשובות.</p>
+  <p>13 שאלות על כל החומר. כתוב תשובות על דף, ורק אז פתח את התשובות.</p>
   <div class="quiz"><ol>
     <li>המר: <span class="ltr f">2.5 t = ? kg = ? kN</span></li>
     <li>המר: <span class="ltr f">750 kg = ? t</span></li>
@@ -1077,6 +1177,7 @@ header .player{margin-top:14px}
     <li>עומס של <span class="ltr f">5 t/m</span> פרוס על <span class="ltr f">6 m</span>. כמה שווה השקול, ואיפה הוא פועל?</li>
     <li>קורה באורך 10 m: סמך קבוע ב־A (בקצה השמאלי), סמך נייד ב־B (בקצה הימני). כוח של <span class="ltr f">20 t</span> למטה, 3 m מ־A. מצא את V<sub>A</sub> ואת V<sub>B</sub>.</li>
     <li>בחישוב יצא <span class="ltr f">V<sub>A</sub> = −2 t</span>. מה זה אומר?</li>
+    <li>באותה קורה כמו בשאלה 11, שרטט את מהלך כוחות הגזירה. כמה שווה S בין A לכוח, וכמה אחרי הכוח?</li>
   </ol></div>
   <details class="chk"><summary>תשובות</summary><div><ol>
     <li><span class="ltr f">2500 kg</span>, <span class="ltr f">25 kN</span>.</li>
@@ -1091,12 +1192,13 @@ header .player{margin-top:14px}
     <li><span class="ltr f">R = 5 × 6 = 30 t</span>, באמצע, 3 m מכל קצה.</li>
     <li><span class="ltr f">ΣM<sub>A</sub>: +20×3 − V<sub>B</sub>×10 = 0 → V<sub>B</sub> = 6 t</span>. <span class="ltr f">ΣM<sub>B</sub>: +V<sub>A</sub>×10 − 20×7 = 0 → V<sub>A</sub> = 14 t</span>. בדיקה: <span class="ltr f">14 + 6 − 20 = 0</span> ✓.</li>
     <li>הגודל של התגובה הוא 2 t, אבל היא מצביעה <b>למטה</b> ולא למעלה כפי שהנחנו. הסמך מושך את הקורה למטה.</li>
+    <li>ב־A קופצים למעלה ב־14: מ־A עד הכוח <span class="ltr f">S = +14t</span>, מעל הקו. בכוח קופצים למטה ב־20: <span class="ltr f">14 − 20 = −6t</span>, מתחת לקו, עד B. ב־B קופצים למעלה ב־6 וחוזרים ל־0 ✓</li>
   </ol></div></details>
 </section>
 
-<!-- 15 -->
+<!-- 16 -->
 <section id="mistakes">
-  <div class="step">פרק 15</div>
+  <div class="step">פרק 16</div>
   <h2>טעויות נפוצות</h2>
   <div class="mist">
     <div><b>שכחת לפרק כוח משופע</b>מכפילים את הכוח המלא במרחק, למשל 8t בדוגמה 5. צריך להשתמש רק ב־Py, שם 4t.</div>
@@ -1111,13 +1213,16 @@ header .player{margin-top:14px}
     <div><b>H בסמך נייד</b>לסמך נייד יש רק V. H יש רק בסמך הקבוע.</div>
     <div><b>נבהלים מתגובה שלילית</b>מינוס אומר רק שהכיוון הפוך ממה שהנחנו. הגודל נכון.</div>
     <div><b>לא בודקים בסוף</b>תמיד בודקים ב־<span class="ltr f">ΣF<sub>y</sub> = 0</span>. אם לא יוצא 0, יש טעות באחד המומנטים.</div>
+    <div><b>מהלך שקופץ הפוך</b>חץ למעלה: המהלך קופץ <b>למעלה</b>. חץ למטה: קופץ <b>למטה</b>. המהלך תמיד הולך עם כיוון החץ.</div>
+    <div><b>שוכחים את התגובות במהלך</b>התגובות בסמכים הן חצים כמו כל כוח. הקפיצה הראשונה של המהלך היא התגובה בסמך השמאלי.</div>
+    <div><b>מהלך שלא חוזר ל־0</b>בסוף הקורה מהלך הגזירה תמיד חוזר ל־0. אם הוא לא חוזר, תבדוק שוב את התגובות.</div>
     <div><b>שכחת יחידות</b>מומנט נכתב תמיד ב־<span class="ltr f">t·m</span>.</div>
   </div>
 </section>
 
-<!-- 16 -->
+<!-- 17 -->
 <section id="sheet">
-  <div class="step">פרק 16</div>
+  <div class="step">פרק 17</div>
   <h2>דף נוסחאות</h2>
   <div class="model">
     <b>כל תרגיל, אותה דרך:</b>
@@ -1145,13 +1250,15 @@ header .player{margin-top:14px}
     <dt>סמך נייד / סמך קבוע</dt><dd style="direction:rtl;font-family:var(--sans)">תגובה אחת (V) / שתי תגובות (H, V)</dd>
     <dt>שיווי משקל</dt><dd>ΣFx = 0 · ΣFy = 0 · ΣM = 0</dd>
     <dt>תגובה שלילית</dt><dd style="direction:rtl;font-family:var(--sans)">הכיוון הפוך ממה שהנחנו</dd>
+    <dt>מהלך גזירה S</dt><dd style="direction:rtl;font-family:var(--sans)">ערך בנקודה = <span class="ltr f">ΣF<sub>y</sub></span> משמאל עד הנקודה. + מעל הקו, − מתחת</dd>
+    <dt>קפיצות במהלך גזירה</dt><dd style="direction:rtl;font-family:var(--sans)">חץ למעלה: קופץ למעלה. חץ למטה: קופץ למטה. בין כוחות: קו שוכב. בסוף: חוזר ל־0</dd>
     <dt>Px על קורה שוכבת</dt><dd style="direction:rtl;font-family:var(--sans)">M = 0 סביב נקודות על הקורה</dd>
   </dl></div>
 </section>
 
-<!-- 17 -->
+<!-- 18 -->
 <section id="glossary">
-  <div class="step">פרק 17</div>
+  <div class="step">פרק 18</div>
   <h2>מילון מונחים</h2>
   <dl class="gloss">
     <dt>סטטיקה</dt><dd>חישוב של כוחות על מבנים שעומדים במקום ולא זזים.</dd>
@@ -1189,8 +1296,10 @@ header .player{margin-top:14px}
     <dt>שיווי משקל</dt><dd>מצב שבו הקורה לא זזה ולא מסתובבת: ΣFx = 0, ΣFy = 0, ΣM = 0.</dd>
     <dt>עומס מפורס אחיד (q)</dt><dd>עומס שפרוס באופן שווה לאורך הקורה, ביחידות t/m (טון למטר).</dd>
     <dt>שקול (R)</dt><dd>כוח אחד שמחליף עומס מפורס: R = q × L, באמצע הקטע.</dd>
+    <dt>מהלך</dt><dd>גרף שמראה איך כוחות או מומנטים משתנים בכל נקודה לאורך הקורה. מציירים אותו מתחת לקורה.</dd>
+    <dt>מהלך כוחות גזירה (S)</dt><dd>מהלך שמראה, בכל נקודה, את סכום הכוחות האנכיים משמאל לנקודה. S מהמילה האנגלית Shear, גזירה.</dd>
   </dl>
-  <footer>נבנה מהחומר שהועלה: צילומי הלוח, המחברת, "חישוב סטטי", "המומנט" ולוח השיעור מ־16/11. כל החישובים בדוגמאות ובפתרונות מחושבים אוטומטית מאותם נתונים.</footer>
+  <footer>נבנה מהחומר שהועלה: צילומי הלוח, המחברת, "חישוב סטטי", "המומנט", לוח השיעור מ־16/11 והדף "שרטוט מהלכים". כל החישובים בדוגמאות ובפתרונות מחושבים אוטומטית מאותם נתונים.</footer>
 </section>
 </main>
 </div>
@@ -1200,7 +1309,7 @@ header .player{margin-top:14px}
 </div>
 
 <script>
-window.__AUDIO__={"welcome": {"src": "audio/00-welcome.mp3", "sec": 71}, "intro": {"src": "audio/01-intro.mp3", "sec": 135}, "force": {"src": "audio/02-force.mp3", "sec": 252}, "units": {"src": "audio/03-units.mp3", "sec": 156}, "dir": {"src": "audio/04-dir.mp3", "sec": 167}, "decomp": {"src": "audio/05-decomp.mp3", "sec": 357}, "moment": {"src": "audio/06-moment.mp3", "sec": 252}, "arm": {"src": "audio/07-arm.mp3", "sec": 276}, "sign": {"src": "audio/08-sign.mp3", "sec": 216}, "sum": {"src": "audio/09-sum.mp3", "sec": 308}, "practice": {"src": "audio/10-practice.mp3", "sec": 109}, "supports": {"src": "audio/11-supports.mp3", "sec": 354}, "udl": {"src": "audio/12-udl.mp3", "sec": 342}, "rx-practice": {"src": "audio/13-rx-practice.mp3", "sec": 165}, "quiz": {"src": "audio/14-quiz.mp3", "sec": 189}, "mistakes": {"src": "audio/15-mistakes.mp3", "sec": 187}, "sheet": {"src": "audio/16-sheet.mp3", "sec": 187}, "glossary": {"src": "audio/17-glossary.mp3", "sec": 289}};
+window.__AUDIO__={"welcome": {"src": "audio/00-welcome.mp3", "sec": 74}, "intro": {"src": "audio/01-intro.mp3", "sec": 135}, "force": {"src": "audio/02-force.mp3", "sec": 252}, "units": {"src": "audio/03-units.mp3", "sec": 156}, "dir": {"src": "audio/04-dir.mp3", "sec": 167}, "decomp": {"src": "audio/05-decomp.mp3", "sec": 357}, "moment": {"src": "audio/06-moment.mp3", "sec": 252}, "arm": {"src": "audio/07-arm.mp3", "sec": 276}, "sign": {"src": "audio/08-sign.mp3", "sec": 216}, "sum": {"src": "audio/09-sum.mp3", "sec": 308}, "practice": {"src": "audio/10-practice.mp3", "sec": 109}, "supports": {"src": "audio/11-supports.mp3", "sec": 354}, "udl": {"src": "audio/12-udl.mp3", "sec": 342}, "rx-practice": {"src": "audio/13-rx-practice.mp3", "sec": 168}, "shear": {"src": "audio/14-shear.mp3", "sec": 272}, "quiz": {"src": "audio/15-quiz.mp3", "sec": 203}, "mistakes": {"src": "audio/16-mistakes.mp3", "sec": 227}, "sheet": {"src": "audio/17-sheet.mp3", "sec": 214}, "glossary": {"src": "audio/18-glossary.mp3", "sec": 308}};
 (function(){
 const fmt=n=>{const r=Math.round(n*100)/100;return String(Object.is(r,-0)?0:r);};
 const sg=n=>(n<0?'−':'+')+fmt(Math.abs(n));
@@ -1697,7 +1806,9 @@ function supSVG(o){
   Object.entries(o.pts||{}).forEach(([n,x])=>{const isS=supAt.includes(n);
     g+=`<circle class="pt" cx="${X(x)}" cy="${Y}" r="${nar?5:4.2}"/>`;
     g+=isS?`<text class="pn" x="${(X(x)+15).toFixed(1)}" y="${Y+17}" text-anchor="start" style="font-size:${FS.p}px">${n}</text>`:`<text class="pn" x="${X(x).toFixed(1)}" y="${Y+FS.p+8}" text-anchor="middle" style="font-size:${FS.p}px">${n}</text>`;});
-  const H=Math.ceil(yDim+(o.dims&&o.dims.length?FS.d+12:8));
+  let yEnd=yDim+(o.dims&&o.dims.length?FS.d+12:8);
+  if(o.shear){const r=shearPart(o,X,yEnd,Y,FS,T,nar);g+=r.g;yEnd=r.yEnd;}
+  const H=Math.ceil(yEnd);
   return `<svg class="dg bm sp" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(o.label||'')}">${g}</svg>`;
 }
 
@@ -1864,11 +1975,104 @@ function renderRx(){
 }
 renderRx();
 
+
+/* ================= shear force diagram (מהלך כוחות גזירה) ================= */
+/* beams with vertical point loads only; pin at sup.pin, roller at sup.roller. F: + up, - down (tons) */
+const SH=[
+  {id:'sh-ex',title:'דוגמה מהדף: קורה ACDB',src:'מתוך הדף "שרטוט מהלכים"',L:5,pts:{A:0,C:2,D:4,B:5},sup:{pin:'A',roller:'B'},dims:[[0,2,'2m'],[2,4,'2m'],[4,5,'1m']],
+   loads:[{n:'C',x:2,F:-10},{n:'D',x:4,F:-15}]},
+  {id:'sh-pr',title:'תרגיל: קורה באורך 6 m',src:'תרגיל לתרגול',L:6,pts:{A:0,C:2,D:5,B:6},sup:{pin:'A',roller:'B'},dims:[[0,2,'2m'],[2,5,'3m'],[5,6,'1m']],
+   loads:[{n:'C',x:2,F:-6},{n:'D',x:5,F:-3}]}
+];
+const shNum=v=>{const r=Math.round(v*100)/100;return (Object.is(r,-0)?0:r).toString();};
+const shSig=v=>v>0?'+'+shNum(v):v<0?'−'+shNum(-v):'0';
+function shSolve(o){
+  const a=o.pts[o.sup.pin],b=o.pts[o.sup.roller];
+  const VB=o.loads.reduce((s,l)=>s+(-l.F)*(l.x-a),0)/(b-a);
+  const VA=o.loads.reduce((s,l)=>s+(-l.F),0)-VB;
+  const ev=[{n:o.sup.pin,x:a,F:VA,react:true},{n:o.sup.roller,x:b,F:VB,react:true},...o.loads.map(l=>({...l}))].sort((p,q)=>p.x-q.x||(q.react?1:0)-(p.react?1:0));
+  let v=0;ev.forEach(e=>{e.before=v;v+=e.F;e.after=Math.abs(v)<1e-9?0:v;});
+  return {VA,VB,ev};
+}
+const shName=e=>e.react?`התגובה V<sub>${e.n}</sub>`:'כוח';
+/* draw: beam with loads + reactions (supSVG), shear diagram underneath on the same scale */
+function shFig(o,s,show,withShear){
+  const draw=[...o.loads.map(l=>({k:l.F<0?'down':'up',x:l.x,l:shNum(Math.abs(l.F))+'t',c:'f'})),
+    {k:'react',x:o.pts[o.sup.pin],dir:'up',l:`${vSub('V',o.sup.pin)} = ${shNum(s.VA)}t`},
+    {k:'react',x:o.pts[o.sup.roller],dir:'up',l:`${vSub('V',o.sup.roller)} = ${shNum(s.VB)}t`}];
+  const segs=s.ev.slice(0,-1).map((e,i)=>`מ־${e.n} עד ${s.ev[i+1].n}: S = ${shSig(e.after)} טון`).join('. ');
+  const lbl=`קורה ${Object.keys(o.pts).join('')} באורך ${o.L} מטר, סמך קבוע ב־${o.sup.pin} וסמך נייד ב־${o.sup.roller}. ${o.loads.map(l=>`בנקודה ${l.n} כוח של ${shNum(Math.abs(l.F))} טון ${l.F<0?'למטה':'למעלה'}`).join(', ')}. תגובות: V${o.sup.pin} = ${shNum(s.VA)} טון, V${o.sup.roller} = ${shNum(s.VB)} טון, למעלה.`+(withShear?` מתחת: מהלך כוחות הגזירה. ${segs}. בסוף הקורה חוזרים ל־0.`:'');
+  return supSVG({L:o.L,pts:o.pts,sup:o.sup,dims:o.dims,draw,label:lbl,shear:withShear?{ev:s.ev,show}:null});
+}
+/* called from supSVG: X = x→px, y0 = first free y below the beam figure, Yb = beam y */
+function shearPart(o,X,y0,Yb,FS,T,nar){
+  const ev=o.shear.ev,show=o.shear.show==null?ev.length:o.shear.show;
+  const vals=ev.map(e=>e.after),mp=Math.max(0,...vals),mn=Math.max(0,...vals.map(v=>-v));
+  const PH=(nar?150:125)*Math.min(1.25,TS()),k=PH/Math.max(1e-6,mp+mn);
+  const top=y0+FS.d+18,ax=top+mp*k,bot=ax+mn*k;
+  let g='';
+  /* dashed guides from the beam down through the diagram */
+  [...new Set(ev.map(e=>e.x))].forEach(x=>{g+=`<line class="sh-guide" x1="${X(x).toFixed(1)}" y1="${Yb+30}" x2="${X(x).toFixed(1)}" y2="${(bot+10).toFixed(1)}"/>`;});
+  const yv=v=>ax-v*k;
+  /* filled areas and labels for every revealed flat part */
+  let path=`M${X(ev[0].x).toFixed(1)},${ax.toFixed(1)}`,labels='';
+  for(let i=0;i<show&&i<ev.length;i++){const e=ev[i],x=X(e.x);
+    path+=` L${x.toFixed(1)},${yv(e.after).toFixed(1)}`;
+    const nx=i+1<ev.length?ev[i+1]:null;
+    if(nx&&e.after!==0){const x2=X(nx.x),y=yv(e.after);
+      g+=`<rect class="${e.after>0?'sh-pos':'sh-neg'}" x="${x.toFixed(1)}" y="${Math.min(y,ax).toFixed(1)}" width="${(x2-x).toFixed(1)}" height="${Math.abs(y-ax).toFixed(1)}"/>`;
+      const big=Math.abs(y-ax)>FS.d*2.2&&x2-x>FS.d*2.2;
+      labels+=T((x+x2)/2,e.after>0?(big?(y+ax)/2+FS.d*0.35:y-7):(big?(y+ax)/2+FS.d*0.35:y+FS.d+5),'\u200E'+shSig(e.after)+'t','i','middle',FS.d+1);}
+    if(nx)path+=` L${X(nx.x).toFixed(1)},${yv(e.after).toFixed(1)}`;}
+  g+=`<line class="sh-axis" x1="${X(0).toFixed(1)}" y1="${ax.toFixed(1)}" x2="${X(o.L).toFixed(1)}" y2="${ax.toFixed(1)}"/>`;
+  if(show>0)g+=`<path class="sh-line" d="${path}"/>`;
+  g+=labels;
+  /* the dot shows where the walk has reached */
+  if(show>0&&show<=ev.length){const e=ev[show-1];g+=`<circle class="sh-dot" cx="${X(e.x).toFixed(1)}" cy="${yv(e.after).toFixed(1)}" r="${nar?7:6}"/>`;}
+  else if(show===0)g+=`<circle class="sh-dot" cx="${X(ev[0].x).toFixed(1)}" cy="${ax.toFixed(1)}" r="${nar?7:6}"/>`;
+  const lx=X(0)-10;
+  g+=T(lx,ax+FS.d*0.35,'S','i','end',FS.d+3);
+  if(mp>0)g+=T(lx,Math.max(top+FS.d,ax-mp*k/2+FS.d*0.35),'+','i','end',FS.d+5);
+  if(mn>0)g+=T(lx,Math.min(bot,ax+mn*k/2+FS.d*0.35),'−','i','end',FS.d+5);
+  return {g,yEnd:bot+(mn>0?FS.d+16:FS.d+12)};
+}
+/* step-by-step walker */
+let shStep=0;
+function shStepText(o,s,i){
+  if(i===0)return `מתחילים <b>משמאל</b>, רגע לפני הנקודה ${s.ev[0].n}. עוד לא פגשנו שום כוח, ולכן <span class="ltr f">S = 0</span>. לחץ על "הצעד הבא".`;
+  const e=s.ev[i-1],nx=s.ev[i],up=e.F>0,m=shNum(Math.abs(e.F));
+  let t=`בנקודה ${e.n}: ${shName(e)}, <b>${m}t ${up?'למעלה':'למטה'}</b>. חץ ${up?'למעלה':'למטה'}, ולכן המהלך <b>קופץ ${up?'למעלה':'למטה'}</b> ב־${m}:<br><span class="ltr f">S = ${shSig(e.before)} ${up?'+':'−'} ${m} = ${e.after===0?'0':shSig(e.after)+'t'}</span>`;
+  if(nx)t+=`<br>מ־${e.n} עד ${nx.n} אין כוחות, ולכן הקו נשאר <b>שוכב</b> על ${shSig(e.after)}t.`+(e.after<0&&e.before>=0?' הערך שלילי, ולכן מציירים <b>מתחת</b> לקו.':'');
+  else t+=`<br><b>חזרנו ל־0 בסוף הקורה.</b> זו הבדיקה שהחישוב נכון ✓`;
+  return t;
+}
+function shRenderStepper(){
+  const host=document.getElementById('sh-walk');if(!host)return;
+  const o=SH[0],s=shSolve(o),n=s.ev.length;shStep=Math.max(0,Math.min(n,shStep));
+  host.querySelector('[data-fig]').innerHTML=shFig(o,s,shStep,true);
+  host.querySelector('[data-say]').innerHTML=shStepText(o,s,shStep);
+  host.querySelector('[data-count]').textContent=`צעד ${shStep} מתוך ${n}`;
+  host.querySelector('#sh-next').disabled=shStep>=n;host.querySelector('#sh-prev').disabled=shStep<=0;
+}
+function renderShear(){
+  const o=SH[0],s=shSolve(o),p=SH[1],ps=shSolve(p);
+  set('sh-ex-q',shFig(o,s,0,false));
+  set('sh-ex-full',shFig(o,s,null,true));
+  set('sh-pr-q',shFig(p,ps,0,false));
+  set('sh-pr-a',shFig(p,ps,null,true));
+  shRenderStepper();
+}
+(function(){const host=document.getElementById('sh-walk');if(!host)return;
+  host.querySelector('#sh-next').addEventListener('click',()=>{shStep++;shRenderStepper();});
+  host.querySelector('#sh-prev').addEventListener('click',()=>{shStep--;shRenderStepper();});
+  host.querySelector('#sh-reset').addEventListener('click',()=>{shStep=0;shRenderStepper();host.querySelector('#sh-next').focus();});})();
+renderShear();
+
 /* re-render diagrams (phone breakpoint or text size change) */
 function rerenderAll(){
   BS.forEach(({id})=>{const el=document.getElementById(id);const sel=el&&el.querySelector('[aria-selected="true"]');if(sel)sel.click();});
   BS.forEach(({id,o})=>{if(!o.orig)return;const el=document.getElementById(id);const f=el.querySelector('.fig:not([data-fig])');if(f)f.innerHTML=fig(o,null,true);});
-  renderStatics();renderRx();if(Q)draw(false);calc();
+  renderStatics();renderRx();renderShear();if(Q)draw(false);calc();
   document.querySelectorAll('svg.st text').forEach(t=>{t.style.fontSize='';delete t.dataset.b;});fitText();
 }
 NARROW.addEventListener('change',rerenderAll);
@@ -1876,7 +2080,7 @@ NARROW.addEventListener('change',rerenderAll);
 
 /* ================= reading comfort: navigation, text size, zoom, read-aloud, progress ================= */
 const store={get(k,d){try{const v=localStorage.getItem('statics.'+k);return v==null?d:JSON.parse(v);}catch(e){return d;}},set(k,v){try{localStorage.setItem('statics.'+k,JSON.stringify(v));}catch(e){}}};
-const BRIEF={intro:'מה זה סטטיקה, ואיך המשקל של בניין יורד עד האדמה.',force:'מה זה כוח, ואיך מציירים אותו כחץ.',units:'טון, קילוגרם וניוטון, ואיך עוברים מאחד לשני.',dir:'מה זו זווית, ולאן כוח יכול להצביע.',decomp:'איך מחלקים כוח אלכסוני לשני חלקים: אחד לצד ואחד למעלה או למטה.',moment:'מה זה מומנט: כוח שמסובב. הנוסחה M = P × d.',arm:'איך מוצאים את המרחק d שבנוסחה.',sign:'מתי מומנט הוא פלוס ומתי מינוס.',sum:'איך מחברים את המומנטים של כמה כוחות יחד.',practice:'תרגילים על מומנטים, עם רמזים ופתרונות.',supports:'על מה הקורה נשענת, ואיך מחשבים כמה כל סמך דוחף.',udl:'עומס שפרוס לאורך הקורה, ואיך מחליפים אותו בכוח אחד.','rx-practice':'תרגילים על חישוב תגובות, עם רמזים ופתרונות.',quiz:'שאלות לבדיקה עצמית על כל החומר.',mistakes:'הטעויות שהכי קל לעשות, ואיך להימנע מהן.',sheet:'כל הנוסחאות במקום אחד.',glossary:'הסבר פשוט לכל מילה מקצועית.'};
+const BRIEF={intro:'מה זה סטטיקה, ואיך המשקל של בניין יורד עד האדמה.',force:'מה זה כוח, ואיך מציירים אותו כחץ.',units:'טון, קילוגרם וניוטון, ואיך עוברים מאחד לשני.',dir:'מה זו זווית, ולאן כוח יכול להצביע.',decomp:'איך מחלקים כוח אלכסוני לשני חלקים: אחד לצד ואחד למעלה או למטה.',moment:'מה זה מומנט: כוח שמסובב. הנוסחה M = P × d.',arm:'איך מוצאים את המרחק d שבנוסחה.',sign:'מתי מומנט הוא פלוס ומתי מינוס.',sum:'איך מחברים את המומנטים של כמה כוחות יחד.',practice:'תרגילים על מומנטים, עם רמזים ופתרונות.',supports:'על מה הקורה נשענת, ואיך מחשבים כמה כל סמך דוחף.',udl:'עומס שפרוס לאורך הקורה, ואיך מחליפים אותו בכוח אחד.','rx-practice':'תרגילים על חישוב תגובות, עם רמזים ופתרונות.',shear:'איך מציירים גרף שמראה את הכוח האנכי בכל נקודה לאורך הקורה.',quiz:'שאלות לבדיקה עצמית על כל החומר.',mistakes:'הטעויות שהכי קל לעשות, ואיך להימנע מהן.',sheet:'כל הנוסחאות במקום אחד.',glossary:'הסבר פשוט לכל מילה מקצועית.'};
 const SECS=[...document.querySelectorAll('main > section')].map((s,i)=>({el:s,id:s.id,n:i+1,name:s.querySelector('h2').textContent.trim()}));
 let done=store.get('done',[]);let curS=-1;
 /* brief + chapter end */
