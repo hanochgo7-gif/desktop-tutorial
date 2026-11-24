@@ -245,7 +245,7 @@
   }
 
   /* ---------- טקסט שמחליק בהובר, אות אחר אות (כפתורים וקישורי התפריט) ---------- */
-  if (!noMotion() && mqFine.matches) {
+  if (false) { /* בוטל: פיצול טקסט לאותיות פוגע בקוראי מסך ומוסיף תנועה בלי סיבה */
     $$('.btn, .nav > ul > li > a, .nav__sub-all, .ann__link').forEach(function (el) {
       var tn = Array.prototype.filter.call(el.childNodes, function (n) { return n.nodeType === 3 && n.textContent.trim(); });
       if (tn.length !== 1) return;
@@ -348,7 +348,7 @@
     if (mqW > 0) {
       mqTrack.classList.add('is-js');
       var mqPos = 0, mqSpeed = .5, mqWant = .5, mqBase = .5, mqDir = 1, mqLastY = window.scrollY, mqLastT = performance.now(), mqTimer = null;
-      window.addEventListener('scroll', function () {
+      if (false) window.addEventListener('scroll', function () { /* בוטל: המרקיזה נעה במהירות קבועה ושקטה */
         var now = performance.now(), dy = window.scrollY - mqLastY, dt = Math.max(16, now - mqLastT);
         var v = dy / dt * 1000;
         if (Math.abs(v) > 40) { mqDir = v > 0 ? 1 : -1; mqWant = mqDir * Math.min(Math.abs(v) * 0.004, 4); }
@@ -1094,8 +1094,8 @@
     var ring = $('.cta__ring');
     if (ring) gsap.to(ring, { rotate: 90, ease: 'none', scrollTrigger: { trigger: '.cta', start: 'top bottom', end: 'bottom top', scrub: true } });
 
-    /* כפתורים מגנטיים */
-    if (mqFine.matches) {
+    /* כפתורים מגנטיים: בוטלו */
+    if (false) {
       $$('[data-magnetic]').forEach(function (btn) {
         var xTo = gsap.quickTo(btn, 'x', { duration: .5, ease: 'power3' }), yTo = gsap.quickTo(btn, 'y', { duration: .5, ease: 'power3' });
         btn.addEventListener('mousemove', function (e) {
@@ -1108,7 +1108,7 @@
 
     /* סמן מותאם */
     var cursor = $('#cursor');
-    if (cursor && mqFine.matches) {
+    if (false) { /* סמן מותאם: בוטל, הסמן של המערכת מספיק */
       var cx = gsap.quickTo(cursor, 'x', { duration: .25, ease: 'power3' }), cy = gsap.quickTo(cursor, 'y', { duration: .25, ease: 'power3' });
       window.addEventListener('mousemove', function (e) { cx(e.clientX); cy(e.clientY); cursor.classList.remove('is-hidden'); }, { passive: true });
       document.addEventListener('mouseleave', function () { cursor.classList.add('is-hidden'); });
@@ -1226,7 +1226,7 @@
     /* תווית שנכתבת אות אחר אות */
     function typeIn(el) {
       if (el.dataset.typed) return; el.dataset.typed = '1';
-      if (still) { el.classList.add('is-typed'); return; }
+      el.classList.add('is-typed'); return; /* בלי הקלדה אות אחר אות */
       var nodes = Array.prototype.slice.call(el.childNodes), k = 0;
       nodes.forEach(function (n) {
         if (n.nodeType !== 3) return;
@@ -1362,6 +1362,99 @@
     var mo2 = new MutationObserver(function () { if (sc.classList.contains('is-in')) { mo2.disconnect(); later(); } });
     mo2.observe(sc, { attributes: true, attributeFilter: ['class'] });
   });
+
+  /* ---------- "עקבו אחרי הדלק": מצלמה שעוברת על החתך לפי הגלילה ----------
+     ViewTimeline (על הקומפוזיטור) כשיש; אחרת אותן אנימציות WAAPI שמוזזות לפי הגלילה.
+     בלי JS או בהפחתת תנועה: תמונה ורשימה רגילה. */
+  (function followFuel() {
+    var sec = $('.ff'); if (!sec || noMotion() || !Element.prototype.animate) return;
+    var track = $('.ff__track', sec), stage = $('.ff__stage', sec), cam = $('.ff__cam', sec);
+    var steps = $$('.ff__step', sec), rail = $('.ff__rail i', sec), fill = $('.ff__fuel .fill', sec), num = $('[data-ff-n]', sec);
+    if (!track || !stage || !cam || !fill || steps.length < 2) return;
+    sec.classList.add('ff--live');
+    var SHOTS = [
+      { x: .50, y: .55, s: 1 },
+      { x: .215, y: .55, s: 1.9 },
+      { x: .25, y: .72, s: 1.5 },
+      { x: .55, y: .66, s: 1.35 },
+      { x: .44, y: .52, s: 2.0 },
+      { x: .63, y: .57, s: 1.7 },
+      { x: .78, y: .52, s: 1.4 },
+      { x: .50, y: .55, s: 1 }
+    ];
+    var FUEL = [1000, 1000, 960, 800, 600, 420, 120, 0];
+    var N = SHOTS.length - 1, anims = [], cur = -1, useVT = 'ViewTimeline' in window, DUR = 1000;
+    function camT(sh, Ws, Hs, Wc, Hc) {
+      var sc = sh.s, tx = Ws / 2 - sh.x * Wc * sc, ty = Hs / 2 - sh.y * Hc * sc;
+      tx = Math.min(0, Math.max(Ws - Wc * sc, tx)); ty = Math.min(0, Math.max(Hs - Hc * sc, ty));
+      return 'translate(' + tx.toFixed(1) + 'px,' + ty.toFixed(1) + 'px) scale(' + sc + ')';
+    }
+    function holdFrames(vals, prop, hold) {
+      var f = [];
+      vals.forEach(function (v, i) {
+        var c = i / N, a = Math.max(0, c - hold), b = Math.min(1, c + hold), o1 = { offset: a, easing: 'linear' }, o2 = { offset: b, easing: 'cubic-bezier(.65,0,.35,1)' };
+        o1[prop] = v; o2[prop] = v; f.push(o1, o2);
+      });
+      return f;
+    }
+    function stepFrames(i) {
+      var c = (i + 1) / N, w = .5 / N, a = c - w, b = c + w;
+      var f = [{ offset: 0, opacity: i === 0 ? 1 : 0, transform: 'translateY(0)' }];
+      if (i > 0) f.push({ offset: a + .002, opacity: 0, transform: 'translateY(12px)' }, { offset: a + .022, opacity: 1, transform: 'translateY(0)' });
+      if (i < steps.length - 1) f.push({ offset: b - .022, opacity: 1, transform: 'translateY(0)' }, { offset: b - .002, opacity: 0, transform: 'translateY(-12px)' });
+      f.push({ offset: 1, opacity: i === steps.length - 1 ? 1 : 0, transform: 'translateY(0)' });
+      return f;
+    }
+    function progress() {
+      var r = track.getBoundingClientRect(), span = r.height - innerHeight;
+      return span > 0 ? Math.min(1, Math.max(0, -r.top / span)) : 0;
+    }
+    function mark(p) {
+      var k = Math.min(steps.length - 1, Math.max(0, Math.round(p * N) - 1));
+      if (k === cur) return; cur = k;
+      if (num) num.textContent = String(k + 1);
+      steps.forEach(function (li, j) { if (j === k) li.setAttribute('aria-current', 'step'); else li.removeAttribute('aria-current'); });
+    }
+    var pend = false;
+    function onScroll() {
+      if (pend) return; pend = true;
+      requestAnimationFrame(function () {
+        pend = false; var p = progress();
+        if (!useVT) anims.forEach(function (a) { a.currentTime = p * DUR; });
+        mark(p);
+      });
+    }
+    function build() {
+      anims.forEach(function (a) { a.cancel(); }); anims = [];
+      var Ws = stage.clientWidth, Hs = stage.clientHeight;
+      var Wc = Math.max(Ws, Hs * 2000 / 848), Hc = Wc * 848 / 2000;
+      sec.style.setProperty('--cam-w', Wc + 'px');
+      var camF = holdFrames(SHOTS.map(function (sh) { return camT(sh, Ws, Hs, Wc, Hc); }), 'transform', .045);
+      var fuelF = holdFrames(FUEL.map(String), 'strokeDashoffset', .045);
+      var opt;
+      if (useVT) {
+        try {
+          opt = { timeline: new ViewTimeline({ subject: track, axis: 'block' }), rangeStart: { rangeName: 'contain', offset: CSS.percent(0) }, rangeEnd: { rangeName: 'contain', offset: CSS.percent(100) }, fill: 'both', duration: 'auto' };
+          cam.animate(camF, opt).cancel();
+        } catch (e) { useVT = false; }
+      }
+      if (!useVT) opt = { duration: DUR, fill: 'both' };
+      anims.push(cam.animate(camF, opt), fill.animate(fuelF, opt));
+      if (rail) anims.push(rail.animate([{ transform: 'scaleX(0)' }, { transform: 'scaleX(1)' }], opt));
+      steps.forEach(function (li, i) { anims.push(li.animate(stepFrames(i), opt)); });
+      if (!useVT) anims.forEach(function (a) { a.pause(); });
+      cur = -1; onScroll();
+    }
+    build();
+    addEventListener('scroll', onScroll, { passive: true });
+    var rt; addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(build, 150); });
+    /* כיבוי מתפריט הנגישות: חוזרים לתמונה ולרשימה */
+    new MutationObserver(function () {
+      if (!root.classList.contains('a11y-no-motion') || !sec.classList.contains('ff--live')) return;
+      anims.forEach(function (a) { a.cancel(); }); anims = []; sec.classList.remove('ff--live'); steps.forEach(function (li) { li.removeAttribute('aria-current'); });
+    }).observe(root, { attributes: true, attributeFilter: ['class'] });
+  })();
+
   function boot() {
     if (!noMotion() && hasGsap()) { try { initGsap(); return; } catch (err) { /* נפילה למצב סטטי */ } }
     heroIntroStatic();

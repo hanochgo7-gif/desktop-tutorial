@@ -2613,3 +2613,83 @@ html[lang="en"] .opening::before { background: linear-gradient(to right, rgba(20
 .case__tags li, .service-case__tags li, .cut__pin b, .cut__list button b, .footer__h, .navpill__lang, .legal-links__btn, .band__tag, .band__kicker,
 .pipe__legend, .ann__text, .footer__bottom span, .footer small, .cut__count, .cut__nav span, [data-office-status], .mm__btn, .office__status { font-size: max(.8125rem, 13px) !important; }
 .footer__h { font-size: max(.875rem, 14px) !important; }
+
+/* ==========================================================================
+   שלב 3: "עקבו אחרי הדלק" – רצף הגלילה בעמוד חוות השרתים
+   ברירת מחדל (בלי JS / הפחתת תנועה): תמונה סטטית ורשימה מלאה.
+   ff--live: מסילה גבוהה ובמה דביקה (position: sticky), המצלמה זזה על הקומפוזיטור.
+   ========================================================================== */
+.ff { padding-bottom: clamp(40px, 6vw, 80px); }
+.ff__head { margin-bottom: clamp(24px, 3vw, 40px); }
+.ff__head h2 { max-width: 18ch; margin: 0 0 14px; }
+.ff__head p { max-width: 52ch; margin: 0; font-size: var(--fs-lead); color: var(--ink-2); }
+.ff__stage { position: relative; overflow: hidden; border-radius: var(--r-media); background: #e7e3dc; aspect-ratio: 2000 / 848; }
+.ff__cam { position: absolute; left: 0; top: 0; width: 100%; transform-origin: 0 0; }
+.ff__cam img { display: block; width: 100%; height: auto; }
+.ff__fuel { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.ff__fuel path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+.ff__fuel .base { stroke: rgba(255,255,255,.45); stroke-width: 6; }
+.ff__fuel .fill { stroke: var(--accent-fill); stroke-width: 7; stroke-dasharray: 1000; stroke-dashoffset: 0; }
+.ff__stamp, .ff__count { position: absolute; z-index: 2; top: 12px; font-size: 13px; padding: 5px 12px; border-radius: 999px; background: rgba(255,255,255,.9); color: var(--ink); }
+.ff__stamp { inset-inline-end: 12px; }
+.ff__count { inset-inline-start: 12px; direction: ltr; font-variant-numeric: tabular-nums; display: none; }
+.ff__steps { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); counter-reset: ff; }
+.ff__step { background: #fff; border-radius: var(--r-media); padding: 20px 22px; counter-increment: ff; }
+.ff__step h3 { margin: 0 0 6px; font-size: 1.25rem; }
+.ff__step h3::before { content: counter(ff) ". "; color: var(--accent); }
+.ff__step p { margin: 0 0 10px; color: var(--ink-2); }
+.ff__step ul { margin: 0; padding-inline-start: 1.1em; color: var(--ink-2); font-size: .95rem; display: grid; gap: 4px; }
+.ff__rail { display: none; }
+.ff__legend { margin: 18px 0 0; font-size: .875rem; color: var(--muted); max-width: 70ch; }
+
+.ff--live .ff__track { height: 560svh; position: relative; }
+.ff--live .ff__sticky { position: sticky; top: 0; height: 100svh; display: grid; grid-template-rows: minmax(0, 1fr) auto auto; gap: 14px; padding-top: calc(var(--header-h) + 8px); padding-bottom: 18px; }
+.ff--live .ff__stage { aspect-ratio: auto; height: 100%; min-height: 0; contain: strict; }
+.ff--live .ff__cam { width: var(--cam-w); will-change: transform; }
+.ff--live .ff__count { display: block; }
+.ff--live .ff__steps { position: relative; margin: 0; display: block; min-height: 150px; }
+.ff--live .ff__step { position: absolute; inset: 0 0 auto 0; opacity: 0; }
+.ff--live .ff__step:first-child { opacity: 1; }
+.ff--live .ff__step ul { display: none; }
+.ff--live .ff__rail { display: block; position: relative; height: 4px; background: rgba(31,27,25,.12); border-radius: 4px; overflow: hidden; }
+.ff--live .ff__rail i { position: absolute; inset: 0; background: var(--accent-fill); transform-origin: right; transform: scaleX(0); }
+html[lang="en"] .ff--live .ff__rail i { transform-origin: left; }
+@media (min-width: 900px) {
+  .ff--live .ff__sticky { grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; padding-top: calc(var(--header-h) + 12px); padding-bottom: 22px; }
+  .ff--live .ff__stage { grid-area: 1 / 1; height: 100%; aspect-ratio: auto; max-height: none; }
+  .ff--live .ff__steps { grid-area: 1 / 1; align-self: end; justify-self: start; width: min(400px, 40%); min-height: 0; margin: 0 20px 20px; z-index: 3; }
+  .ff--live .ff__step { inset: auto 0 0 0; box-shadow: 0 18px 40px -20px rgba(20,17,15,.45); }
+  .ff--live .ff__step ul { display: grid; }
+  .ff--live .ff__rail { grid-row: 2; grid-column: 1; }
+}
+@media (max-width: 899px) {
+  .ff--live .ff__track { height: 480svh; }
+  .ff--live .ff__steps { min-height: 128px; }
+  .ff--live .ff__step { padding: 16px 18px; }
+}
+.ff__stamp { left: 12px; right: auto; }
+.ff__count { right: 12px; left: auto; }
+html[lang="en"] .ff__stamp { right: 12px; left: auto; }
+html[lang="en"] .ff__count { left: 12px; right: auto; }
+
+/* שפת תנועה אחידה: עקומה אחת לכניסה, משכים קצרים, מדרג של 60ms */
+.reveal { transform: translateY(18px); transition: opacity .6s var(--ease-ui), transform .6s var(--ease-ui); }
+.reveal:nth-child(2) { transition-delay: .06s; } .reveal:nth-child(3) { transition-delay: .12s; }
+.reveal:nth-child(4) { transition-delay: .18s; } .reveal:nth-child(5) { transition-delay: .24s; } .reveal:nth-child(6) { transition-delay: .3s; }
+[data-stagger] .reveal { transition-delay: calc(var(--i, 0) * 60ms); }
+.cursor { display: none !important; }
+a, button, .btn, .row, .card, .post { -webkit-tap-highlight-color: transparent; }
+@media (hover: hover) and (pointer: fine) {
+  .row .arr, .tbtn .arr, .btn .arr { transition: transform 200ms var(--ease-ui); }
+  .row:hover .arr, .tbtn:hover .arr, .btn:hover .arr { transform: translateX(-4px); }
+  html[lang="en"] .row:hover .arr, html[lang="en"] .tbtn:hover .arr, html[lang="en"] .btn:hover .arr { transform: translateX(4px); }
+  .card--photo img, .post__media img { transition: transform .6s var(--ease-ui); }
+  .card--photo:hover img, .post:hover .post__media img { transform: scale(1.03); }
+}
+@media (max-width: 899px) {
+  .ff--live .ff__sticky { grid-template-rows: auto minmax(0, 1fr) auto; padding-bottom: 84px; gap: 10px; }
+  .ff--live .ff__steps { grid-row: 1; }
+  .ff--live .ff__stage { grid-row: 2; }
+  .ff--live .ff__rail { grid-row: 3; }
+  .ff--live .ff__steps { min-height: 136px; }
+}

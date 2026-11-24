@@ -20,7 +20,7 @@
 <meta content="summary_large_image" name="twitter:card"/>
 <link href="../../images/logo.png" rel="icon" type="image/png"/>
 <link href="../../css/fonts.css" rel="stylesheet"/>
-<link href="../../css/styles.css?v=134" rel="stylesheet"/>
+<link href="../../css/styles.css?v=135" rel="stylesheet"/>
 <script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Service", "name": "Fuel Infrastructure for Data Centers", "serviceType": "Fuel infrastructure and emergency generators for data centers", "description": "Fuel infrastructure and emergency generator connections for data centers: pits and foundations, underground and above-ground fuel tanks, day tanks, N+1 feed lines, leak detection and connection to control systems. Fuel station experience at data center scale. S. Gotovski, since 1972.", "areaServed": "IL", "provider": {"@type": "GeneralContractor", "name": "S. Gotovski", "url": "https://gotovski.co.il/en/", "telephone": "+972-50-270-3674"}, "url": "https://gotovski.co.il/en/services/data-center.html", "image": "https://gotovski.co.il/images/tanks-in-pit-liner.webp"}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://gotovski.co.il/en/"}, {"@type": "ListItem", "position": 2, "name": "Fields of Work", "item": "https://gotovski.co.il/en/#fields"}, {"@type": "ListItem", "position": 3, "name": "Data Centers"}]}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "What is an N+1 configuration in feed lines?", "acceptedAnswer": {"@type": "Answer", "text": "Every unit receives fuel from at least two lines, so if one line is out of service, for maintenance or a fault, the generators keep receiving fuel."}}, {"@type": "Question", "name": "Do you work with the site's electrical consultants?", "acceptedAnswer": {"@type": "Answer", "text": "Yes. The fuel infrastructure is designed and built in coordination with the electrical consultants, the designers and the regulators, and connected to the site's control systems."}}, {"@type": "Question", "name": "What is the difference between a storage tank and a day tank?", "acceptedAnswer": {"@type": "Answer", "text": "The storage tank is the main reservoir, usually underground and double-wall. The day tank is smaller, sits beside the generator, and is fed from the storage tank through the feed lines."}}]}]}</script>
 
 
@@ -122,51 +122,35 @@
 <a class="tbtn tbtn--dark" href="#cutaway">The fuel path in a data center <span aria-hidden="true" class="arr"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" viewbox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg></span></a>
 </div>
 </section>
-<section aria-labelledby="cut-title" class="section section--tight cut" id="cutaway">
-<div class="container">
-<div class="section-head">
-<span class="kicker reveal">The fuel path</span>
-<h2 data-split="" id="cut-title">Seven things that must work <em>in a data center's fuel infrastructure</em></h2>
-<p class="reveal">A cross-section of a typical site. Each number is a stage in the fuel path, and each stage is work we plan, execute, test and document. Step through the numbers.</p>
+
+<section aria-labelledby="cut-title" class="section ff" id="cutaway">
+<div class="container ff__head">
+<h2 id="cut-title">Follow the fuel, from the tanker to the generator</h2>
+<p>A cutaway of a typical site and seven stages along the fuel path. Each stage is work we plan, build, test and document.</p>
 </div>
-<div class="cut__wrap">
-<div class="cut__stage" data-cut-stage="">
-<script data-cut-data="" type="application/json">[{"t": "Underground tanks", "l": "The facility's main fuel tanks, buried in a concrete pit.", "b": ["Double-wall steel tanks with monitoring of the interstitial space", "Capacity follows the backup hours the facility defines, not the other way around", "Saddles, anchoring and sand backfill to the manufacturer's specification and the standard", "Accessible sumps and measurement points above every tank"]}, {"t": "Fill and unloading point", "l": "Where the tanker connects. If it is not planned properly, this is where most leaks happen.", "b": ["Access and maneuvering for the tanker without blocking the facility", "Sealed fill sumps with spill containment", "Fuel separator and drainage for the unloading area", "Continuous inventory gauging and leak detection"]}, {"t": "Feed lines", "l": "The line that connects the tanks to the generators. Tested before backfill, and documented for decades ahead.", "b": ["Double-wall piping on a planned, documented route", "Separate supply and return lines", "Pressure and tightness testing before backfill, with a protocol", "On-site marking and as-built drawings at handover"]}, {"t": "Pump and control room", "l": "The heart of the system. This is where you make sure fuel arrives even when something fails.", "b": ["Feed pumps with N+1 redundancy", "Manual bypass in case of a control failure", "Level control and alarms to the facility's control room", "Accessible emergency shut-off outside the room"]}, {"t": "Day tanks", "l": "A small tank beside each generator, so the first hours of an outage depend on nothing else.", "b": ["Capacity for the generator's first hours of running", "Automatic refill from the main tanks", "Overflow protection and a return line", "Bund and spill collection"]}, {"t": "Emergency generators", "l": "The end point of the path, and the proof that everything works.", "b": ["Fuel connection to every generator, including the stand-alone units", "Full coordination with the electrical consultant and the generator supplier", "Load test run before handover", "Facility file: drawings, tests and protocols"]}, {"t": "Safety and environment", "l": "What you no longer see after backfill, but what decides whether the facility passes inspection in ten years.", "b": ["Pit sealing and liners protecting the ground", "Cathodic protection and static grounding", "Standards of the Ministry of Environmental Protection and the Ministry of Labor", "A plan of periodic inspections and orderly maintenance"]}]</script>
-<img alt="Rendering: cross-section of a data center's fuel infrastructure, from the underground tanks in the pit, through the piping, the pump room and the day tanks, to the generators and the building" decoding="async" height="848" loading="lazy" sizes="(max-width: 900px) 90vw, 770px" src="../../images/datacenter-cutaway.webp" srcset="../../images/datacenter-cutaway-480.webp 480w, ../../images/datacenter-cutaway-960.webp 960w, ../../images/datacenter-cutaway.webp 2000w" width="2000"/>
-<svg aria-hidden="true" class="cut__flow" preserveaspectratio="none" viewbox="0 0 2000 848"><path class="cut__flow-base" d="M340 492 V540 H850 V572 H1800 V512"></path><path class="cut__flow-base" d="M1180 572 V505"></path><path class="cut__flow-base" d="M1380 572 V505"></path><path class="cut__flow-base" d="M1580 572 V505"></path><path class="cut__flow-halo" d="M340 492 V540 H850 V572 H1800 V512" pathlength="1000"></path><path class="cut__flow-pulse" d="M340 492 V540 H850 V572 H1800 V512" pathlength="1000"></path><path class="cut__flow-halo cut__flow-halo--b cut__flow--b1" d="M1180 572 V505" pathlength="1000"></path><path class="cut__flow-pulse cut__flow-pulse--b cut__flow--b1" d="M1180 572 V505" pathlength="1000"></path><path class="cut__flow-halo cut__flow-halo--b cut__flow--b2" d="M1380 572 V505" pathlength="1000"></path><path class="cut__flow-pulse cut__flow-pulse--b cut__flow--b2" d="M1380 572 V505" pathlength="1000"></path><path class="cut__flow-halo cut__flow-halo--b cut__flow--b3" d="M1580 572 V505" pathlength="1000"></path><path class="cut__flow-pulse cut__flow-pulse--b cut__flow--b3" d="M1580 572 V505" pathlength="1000"></path></svg>
-<span class="cut__stamp">Rendering · Typical site</span>
-<button aria-controls="cut-card" aria-expanded="true" class="cut__pin is-on" data-cut="0" style="--x:26%;--y:76%" type="button"><b>1</b><span>Underground tanks</span></button>
-<button aria-controls="cut-card" aria-expanded="false" class="cut__pin" data-cut="1" style="--x:21.5%;--y:52%" type="button"><b>2</b><span>Fill and unloading point</span></button>
-<button aria-controls="cut-card" aria-expanded="false" class="cut__pin" data-cut="2" style="--x:52%;--y:67%" type="button"><b>3</b><span>Feed lines</span></button>
-<button aria-controls="cut-card" aria-expanded="false" class="cut__pin" data-cut="3" style="--x:44%;--y:50%" type="button"><b>4</b><span>Pump and control room</span></button>
-<button aria-controls="cut-card" aria-expanded="false" class="cut__pin" data-cut="4" style="--x:62.5%;--y:56%" type="button"><b>5</b><span>Day tanks</span></button>
-<button aria-controls="cut-card" aria-expanded="false" class="cut__pin" data-cut="5" style="--x:77%;--y:51%" type="button"><b>6</b><span>Emergency generators</span></button>
-<button aria-controls="cut-card" aria-expanded="false" class="cut__pin" data-cut="6" style="--x:9.5%;--y:70%" type="button"><b>7</b><span>Safety and environment</span></button>
+<div class="ff__track">
+<div class="ff__sticky container">
+<div class="ff__stage">
+<div class="ff__cam">
+<img alt="Rendering: cross-section of a data center's fuel infrastructure, from the underground tanks in the pit, through the piping, the pump room and the day tanks, to the generators and the building" decoding="async" height="848" loading="lazy" sizes="(max-width: 900px) 260vw, 1600px" src="../../images/datacenter-cutaway.webp" srcset="../../images/datacenter-cutaway-960.webp 960w, ../../images/datacenter-cutaway.webp 2000w, ../../images/datacenter-cutaway-4k.webp 4000w" width="2000"/>
+<svg aria-hidden="true" class="ff__fuel" preserveaspectratio="none" viewbox="0 0 2000 848"><path class="base" d="M420 440 V492 H340 V540 H850 V572 H1800 V512 M1180 572 V505 M1380 572 V505 M1580 572 V505"></path><path class="fill" d="M420 440 V492 H340 V540 H850 V572 H1800 V512" pathlength="1000"></path></svg>
 </div>
-<div aria-live="polite" class="cut__card" id="cut-card" role="region">
-<span class="cut__card-n" data-cut-n="">01</span>
-<h3 data-cut-title="">Underground tanks</h3>
-<p data-cut-lead="">The facility's main fuel tanks, buried in a concrete pit.</p>
-<ul data-cut-list="">
-<li>Double-wall steel tanks with monitoring of the interstitial space</li>
-<li>Capacity follows the backup hours the facility defines, not the other way around</li>
-<li>Saddles, anchoring and sand backfill to the manufacturer's specification and the standard</li>
-<li>Accessible sumps and measurement points above every tank</li>
-</ul>
-<div class="cut__nav"><button aria-label="Previous step" class="cut__prev" data-cut-step="-1" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg></button><span data-cut-count="">1 / 7</span><button aria-label="Next step" class="cut__next" data-cut-step="1" type="button"><svg aria-hidden="true" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg></button></div>
+<span class="ff__stamp">Rendering · Typical site</span>
+<span aria-hidden="true" class="ff__count"><span data-ff-n="">1</span> / 7</span>
 </div>
-</div>
-<ol aria-label="Stages of the fuel path" class="cut__list">
-<li class="is-on"><button data-cut="0" type="button"><b>01</b><span>Underground tanks</span></button></li>
-<li><button data-cut="1" type="button"><b>02</b><span>Fill and unloading point</span></button></li>
-<li><button data-cut="2" type="button"><b>03</b><span>Feed lines</span></button></li>
-<li><button data-cut="3" type="button"><b>04</b><span>Pump and control room</span></button></li>
-<li><button data-cut="4" type="button"><b>05</b><span>Day tanks</span></button></li>
-<li><button data-cut="5" type="button"><b>06</b><span>Emergency generators</span></button></li>
-<li><button data-cut="6" type="button"><b>07</b><span>Safety and environment</span></button></li>
+<ol aria-label="Stages of the fuel path" class="ff__steps">
+<li class="ff__step"><h3>Fill and unloading point</h3><p>Where the tanker connects. If it is not planned properly, this is where most leaks happen.</p><ul><li>Access and maneuvering for the tanker without blocking the facility</li><li>Sealed fill sumps with spill containment</li><li>Fuel separator and drainage for the unloading area</li><li>Continuous inventory gauging and leak detection</li></ul></li>
+<li class="ff__step"><h3>Underground tanks</h3><p>The facility's main fuel tanks, buried in a concrete pit.</p><ul><li>Double-wall steel tanks with monitoring of the interstitial space</li><li>Capacity follows the backup hours the facility defines, not the other way around</li><li>Saddles, anchoring and sand backfill to the manufacturer's specification and the standard</li><li>Accessible sumps and measurement points above every tank</li></ul></li>
+<li class="ff__step"><h3>Feed lines</h3><p>The line that connects the tanks to the generators. Tested before backfill, and documented for decades ahead.</p><ul><li>Double-wall piping on a planned, documented route</li><li>Separate supply and return lines</li><li>Pressure and tightness testing before backfill, with a protocol</li><li>On-site marking and as-built drawings at handover</li></ul></li>
+<li class="ff__step"><h3>Pump and control room</h3><p>The heart of the system. This is where you make sure fuel arrives even when something fails.</p><ul><li>Feed pumps with N+1 redundancy</li><li>Manual bypass in case of a control failure</li><li>Level control and alarms to the facility's control room</li><li>Accessible emergency shut-off outside the room</li></ul></li>
+<li class="ff__step"><h3>Day tanks</h3><p>A small tank beside each generator, so the first hours of an outage depend on nothing else.</p><ul><li>Capacity for the generator's first hours of running</li><li>Automatic refill from the main tanks</li><li>Overflow protection and a return line</li><li>Bund and spill collection</li></ul></li>
+<li class="ff__step"><h3>Emergency generators</h3><p>The end point of the path, and the proof that everything works.</p><ul><li>Fuel connection to every generator, including the stand-alone units</li><li>Full coordination with the electrical consultant and the generator supplier</li><li>Load test run before handover</li><li>Facility file: drawings, tests and protocols</li></ul></li>
+<li class="ff__step"><h3>Safety and environment</h3><p>What you no longer see after backfill, but what decides whether the facility passes inspection in ten years.</p><ul><li>Pit sealing and liners protecting the ground</li><li>Cathodic protection and static grounding</li><li>Standards of the Ministry of Environmental Protection and the Ministry of Labor</li><li>A plan of periodic inspections and orderly maintenance</li></ul></li>
 </ol>
-<p class="pipe__legend">The dashed line marks the direction of fuel flow. The cross-section is a rendering of a typical site, not a specific project. In every project the configuration is set together with the electrical consultant, the generator supplier and the authorities.</p>
+<div aria-hidden="true" class="ff__rail"><i></i></div>
 </div>
+</div>
+<div class="container"><p class="ff__legend">The cutaway is a rendering of a typical site, not a specific project. On every project the configuration is set together with the electrical consultant, the generator supplier and the authorities.</p></div>
 </section>
 
 <section aria-labelledby="tour-title" class="section section--dark sim" id="tour">
@@ -357,7 +341,7 @@
 <a class="mobile-cta__call" href="tel:+97286229307">Call</a>
 <a aria-label="WhatsApp" class="mobile-cta__wa" href="https://wa.me/972502703674?text=Hello%2C%20this%20is%20____.%20When%20would%20be%20a%20good%20time%20to%20talk%3F" rel="noopener" target="_blank"><img alt="" decoding="async" height="415" loading="lazy" src="../../images/wa-bubble.webp" width="372"/><span>WhatsApp</span></a>
 </nav>
-<script defer="" src="../../js/main.js?v=76"></script>
+<script defer="" src="../../js/main.js?v=77"></script>
 <script defer="" src="../../js/a11y.js?v=2"></script>
 </body>
 </html>
