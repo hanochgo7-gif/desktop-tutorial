@@ -2721,3 +2721,5 @@ a, button, .btn, .row, .card, .post { -webkit-tap-highlight-color: transparent; 
   .section--faq .container { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); column-gap: clamp(40px, 6vw, 96px); align-items: start; }
   .section--faq .section-head { margin: 0; }
 }
+/* מאמרים: כותרות ארוכות בגודל קריא, עד ארבע שורות */
+.article-hero.hero-split:not(.service-hero) h1 { font-size: clamp(1.9rem, 3.3vw, 3rem); line-height: 1.08; }
