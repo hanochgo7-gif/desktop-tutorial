@@ -110,3 +110,13 @@ html, body { background: var(--ink); color: var(--fg); font-family: var(--f-body
 .site .tub i { position: absolute; border-radius: 50%; background: #fff; border: 3px solid #cfe6f6; }
 .site .tub i:nth-of-type(1) { width: 34px; height: 34px; left: 40px; bottom: 60px; } .site .tub i:nth-of-type(2) { width: 24px; height: 24px; left: 200px; bottom: 70px; }
 .site .tub i:nth-of-type(3) { width: 18px; height: 18px; left: 220px; bottom: 110px; } .site .tub i:nth-of-type(4) { width: 14px; height: 14px; left: 60px; bottom: 104px; }
+
+/* פרק העוגות: עוגה בשתי קומות על מעמד, עם נרות */
+.site .cake { position: relative; width: 260px; height: 180px; }
+.site .cake::before { content: ""; position: absolute; left: 30px; right: 30px; bottom: 0; height: 12px; border-radius: 6px; background: #fff; box-shadow: 0 10px 24px rgba(31, 95, 158, .22); }
+.site .cake::after { content: ""; position: absolute; left: 122px; bottom: 12px; width: 16px; height: 14px; background: #fff; }
+.site .cake b { position: absolute; left: 50px; bottom: 26px; width: 160px; height: 62px; border-radius: 10px 10px 6px 6px; background: #f6d3dc; box-shadow: inset 0 14px 0 #fff4f6, inset 0 -8px 0 rgba(0, 0, 0, .06); }
+.site .cake u { position: absolute; left: 82px; bottom: 88px; width: 96px; height: 46px; border-radius: 8px 8px 4px 4px; background: #c9547a; box-shadow: inset 0 10px 0 #fff4f6; }
+.site .cake i { position: absolute; bottom: 134px; width: 8px; height: 26px; border-radius: 3px; background: #ffd36b; }
+.site .cake i::after { content: ""; position: absolute; left: -2px; top: -14px; width: 12px; height: 14px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; background: #ff8a3d; }
+.site .cake i:nth-of-type(1) { left: 100px; } .site .cake i:nth-of-type(2) { left: 126px; } .site .cake i:nth-of-type(3) { left: 152px; }
