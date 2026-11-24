@@ -1,0 +1,276 @@
+---
+import Base from '../layouts/Base.astro';
+import FilmPlayer from '../components/FilmPlayer.astro';
+
+/** Short vertical films made in Higgsfield (October 2026). Each plays on request, with sound where it has any. */
+const reels = [
+  { file: 'the-collision', title: 'The collision', length: '0:11', sound: true, alt: 'Walking an empty street at dawn with Unforgettable, a man collides with a passer-by: the bottle and a silk scarf fly up in slow motion and he ends on his back on the asphalt' },
+  { file: 'the-edit', title: 'The edit', length: '0:13', sound: true, alt: 'A fast edit: men in linen in black and white, the bottle in blue light, a red-lit street, a couple, the bottle on black' },
+  { file: 'the-fall', title: 'The fall', length: '0:19', sound: false, alt: 'A man in a black suit falls through the sky over a city, lands in a cloud of dust beside a grey CUPRA with the HG bottle on its roof, and walks away' },
+  { file: 'the-bag', title: 'The bag', length: '0:12', sound: true, alt: 'A woman in sunglasses breaks a car window, takes the HG shopping bag from the back seat and walks off down the street' },
+  { file: 'flash', title: 'Flash', length: '0:08', sound: false, alt: 'Night, camera flash: a man on a wet road, a woman laughing with the bottle, a man spraying it at his collar, the bottle on a car dashboard' },
+  { file: 'pick-one', title: 'Pick one', length: '0:12', sound: true, alt: 'Which one? The man in the black coat walks a sunlit street with Nocturne; pick one' },
+  { file: 'by-the-fire', title: 'By the fire', length: '0:05', sound: false, alt: 'A man in a black coat holds Nocturne by a mountain fireplace, then stands at a window over the snow' },
+  { file: 'the-tower', title: 'The tower', length: '0:04', sound: false, alt: 'Under a glass tower and a blue sky, a man in a long black coat touches his collar and walks away' },
+];
+
+/** Creator-style films, 3:4, with sound. */
+const feed = [
+  { file: 'the-entrance', title: 'The entrance', length: '0:13', alt: 'Seen on a hallway camera, a man in a navy suit sprays Unforgettable at his collar; a friend walks in and stops: "Whoa, wait, what are you wearing?"' },
+  { file: 'one-spray', title: 'One spray', length: '0:12', alt: 'A man takes the HG bottle from a shelf, talks to the camera, sprays it at his collar in the mirror, and sets it down by a lamp' },
+];
+---
+
+<Base title="The Film" description="HG Unforgettable — the 20-second campaign film.">
+  <section class="film-hero" aria-labelledby="film-title">
+    <div class="wrap">
+      <header class="film-hero__head grid">
+        <p class="label faint">The film</p>
+        <h1 class="display film-hero__title" id="film-title">Unforgettable</h1>
+      </header>
+      <div class="film-hero__player" data-reveal="fade" data-immediate data-delay="0.3">
+        <FilmPlayer id="film-page-video" />
+      </div>
+      <div class="film-hero__meta grid">
+        <p class="lead it muted film-hero__line" data-reveal="fade">A man, a window, a lamp left on. He wears it once, and leaves.</p>
+        <div class="film-hero__note" data-reveal="fade">
+          <a class="btn btn--solid" href="/fragrances/unforgettable">Discover Unforgettable</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section films" aria-labelledby="films-title">
+    <div class="wrap">
+      <header class="films__head">
+        <p class="label faint">More films</p>
+        <h2 class="h2" id="films-title" data-reveal="lines">The reels</h2>
+      </header>
+      <ul class="films__grid" role="list">
+        {
+          reels.map((r) => (
+            <li class="films__item">
+              <video class="films__video" controls playsinline preload="none" data-poster={`/media/films/${r.file}-poster.webp`} width="720" height="1280" aria-label={r.alt}>
+                <source src={`/media/films/${r.file}.mp4`} type="video/mp4" />
+              </video>
+              <p class="films__cap">
+                <span class="films__name">{r.title}</span>
+                <span class="label muted">{r.length}{r.sound ? ' · Sound' : ''}</span>
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section feed" aria-labelledby="feed-title">
+    <div class="wrap">
+      <header class="feed__head">
+        <p class="label faint">On the feed</p>
+        <h2 class="h2" id="feed-title" data-reveal="lines">One spray. <em>At the collar.</em></h2>
+        <p class="lead it muted" data-reveal="fade">Two short films, made for the phone. AI-generated creator content.</p>
+      </header>
+      <ul class="feed__grid" role="list">
+        {
+          feed.map((f) => (
+            <li>
+              <video class="feed__video" controls playsinline preload="none" data-poster={`/media/films/${f.file}-poster.webp`} width="834" height="1112" aria-label={f.alt}>
+                <source src={`/media/films/${f.file}.mp4`} type="video/mp4" />
+              </video>
+              <p class="films__cap">
+                <span class="films__name">{f.title}</span>
+                <span class="label muted">{f.length} · Sound</span>
+              </p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section film-night" aria-labelledby="night-title">
+    <div class="wrap grid">
+      <div class="film-night__frame" data-reveal="fade">
+        <picture>
+          <source srcset="/media/night-film-poster.webp" type="image/webp" />
+          <img src="/media/night-film-poster.jpg" alt="Night on a red-lit street: the HG bottle glowing on wet stone, a man walking toward the camera, then a couple sharing the fragrance" width="1080" height="1920" loading="lazy" decoding="async" />
+        </picture>
+        <video id="night-film" data-ambient data-src="/media/night-film.mp4" muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+        <button class="film-night__pause label" type="button" data-ambient-toggle aria-controls="night-film">Pause</button>
+      </div>
+      <div class="film-night__copy">
+        <p class="label faint">After dark</p>
+        <h2 class="h2" id="night-title" data-reveal="lines">The night <em>is just starting.</em></h2>
+        <p class="lead it muted" data-reveal="fade">A red street after the rain, a warm glass in the hand.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  .films__head {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+  .films__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1.75rem, 4vw, 2.5rem) clamp(0.75rem, 2.5vw, var(--gap));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .films__video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 9 / 16;
+    object-fit: cover;
+    background: var(--c-ink-2);
+  }
+  .films__cap {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.25rem 1rem;
+    margin-top: 0.85rem;
+  }
+  .films__name {
+    font-family: var(--f-serif);
+    font-size: clamp(1.15rem, 1rem + 0.6vw, 1.5rem);
+  }
+  @media (min-width: 900px) {
+    .films__grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .feed__head {
+    display: grid;
+    gap: 0.75rem;
+    max-width: 36rem;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+  .feed__grid {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3rem) var(--gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .feed__video {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 4;
+    object-fit: cover;
+    background: var(--c-ink-2);
+  }
+  @media (min-width: 600px) {
+    .feed__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-width: 60rem;
+    }
+  }
+  .film-night .grid {
+    row-gap: 2.5rem;
+    align-items: center;
+  }
+  .film-night__frame,
+  .film-night__copy {
+    grid-column: 1 / -1;
+  }
+  .film-night__copy {
+    display: grid;
+    gap: 1.25rem;
+    align-content: center;
+  }
+  .film-night__frame {
+    position: relative;
+    width: min(100%, calc(84svh * 9 / 16));
+    aspect-ratio: 9 / 16;
+    margin-inline: auto;
+    overflow: hidden;
+    background: var(--c-ink);
+  }
+  .film-night__frame img,
+  .film-night__frame video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .film-night__frame video {
+    opacity: 0;
+    transition: opacity 1.2s var(--ease-soft);
+  }
+  .film-night__frame video.is-playing {
+    opacity: 1;
+  }
+  .film-night__pause {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    min-height: 2.75rem;
+    padding-inline: 0.75rem;
+    color: rgb(239 231 216 / 0.8);
+    background: rgb(10 9 8 / 0.35);
+    transition: color var(--dur-2);
+  }
+  .film-night__pause:hover {
+    color: var(--c-ivory);
+  }
+  @media (min-width: 900px) {
+    .film-night__frame {
+      grid-column: 2 / span 5;
+    }
+    .film-night__copy {
+      grid-column: 8 / span 4;
+    }
+  }
+  .film-hero {
+    padding-top: calc(var(--header-h) + clamp(2.5rem, 6vw, 5rem));
+  }
+  .film-hero__head {
+    row-gap: 1rem;
+    margin-bottom: clamp(2rem, 5vw, 4rem);
+  }
+  .film-hero__head > * {
+    grid-column: 1 / -1;
+  }
+  .film-hero__title {
+    font-style: italic;
+    font-size: clamp(3.6rem, 1rem + 11vw, 15rem);
+  }
+  .film-hero__meta {
+    row-gap: 2rem;
+    margin-top: 2.5rem;
+  }
+  .film-hero__line {
+    grid-column: 1 / -1;
+    max-width: 30rem;
+  }
+  .film-hero {
+    padding-bottom: var(--section);
+  }
+  .film-hero__note {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 1.25rem;
+    justify-items: start;
+    align-content: start;
+  }
+  @media (min-width: 900px) {
+    .film-hero__line {
+      grid-column: 1 / span 6;
+    }
+    .film-hero__note {
+      grid-column: 9 / span 4;
+      justify-items: end;
+    }
+  }
+
+</style>

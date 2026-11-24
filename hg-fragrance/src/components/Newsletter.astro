@@ -1,0 +1,31 @@
+---
+import { t } from '../i18n/ui';
+import { site } from '../config/site';
+const lang = site.locale.lang;
+interface Props {
+  id?: string;
+  heading?: string;
+  text?: string;
+}
+const { id = 'newsletter', heading = 'Letters from HG', text = 'Rare, considered news: new chapters, films and the first access to what comes next.' } = Astro.props;
+---
+
+<div class="newsletter">
+  <h2 class="h3" id={`${id}-title`}>{heading}</h2>
+  {text && <p class="muted" style="margin-top:1rem;max-width:30rem">{text}</p>}
+  <form class="newsletter__form" action="/api/subscribe" method="post" data-newsletter aria-labelledby={`${id}-title`} novalidate>
+    <div class="field" style="margin-top:2rem">
+      <label class="visually-hidden" for={`${id}-email`}>{t('newsletter.label', lang)}</label>
+      <input id={`${id}-email`} name="email" type="email" autocomplete="email" inputmode="email" placeholder="Your email" required />
+      <button type="submit">{t('newsletter.submit', lang)}</button>
+    </div>
+    <div class="hp" aria-hidden="true">
+      <label for={`${id}-company`}>Company</label>
+      <input id={`${id}-company`} name="company" type="text" tabindex="-1" autocomplete="off" />
+    </div>
+    <p class="form-status" role="status" aria-live="polite" data-status></p>
+    <p class="faint" style="font-size:var(--step--2);margin-top:.25rem">
+      By subscribing you agree to our <a class="link" href="/legal/privacy">privacy policy</a>. Unsubscribe at any time.
+    </p>
+  </form>
+</div>

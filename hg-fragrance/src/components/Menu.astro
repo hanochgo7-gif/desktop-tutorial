@@ -1,0 +1,33 @@
+---
+import Media from './Media.astro';
+import { t } from '../i18n/ui';
+import { site } from '../config/site';
+const lang = site.locale.lang;
+
+const items = [
+  { href: '/fragrances', label: t('nav.fragrances', lang) },
+  { href: '/fragrances/unforgettable', label: t('nav.unforgettable', lang) },
+  { href: '/campaigns', label: t('nav.campaigns', lang) },
+  { href: '/film', label: t('nav.film', lang) },
+];
+---
+
+<div class="menu" id="site-menu" role="dialog" aria-modal="true" aria-label="Site menu" data-menu inert>
+  <div class="menu__top">
+    <button class="close-btn label" type="button" data-menu-close>
+      <span class="close-btn__x" aria-hidden="true"></span>
+      {t('nav.close', lang)}
+    </button>
+    <a class="logo" href="/" aria-label={`${site.name} — home`}>HG</a>
+    <a class="label" href="/bag" data-open-bag>{t('nav.bag', lang)}</a>
+  </div>
+  <div class="menu__inner">
+    <ul class="menu__list" role="list">
+      {items.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+    </ul>
+    <div class="menu__aside" aria-hidden="true">
+      <Media name="fashion-unforgettable" alt="" sizes="30vw" reveal={false} position="50% 30%" />
+    </div>
+    <p class="menu__foot label">Leave the room. Stay in it.</p>
+  </div>
+</div>

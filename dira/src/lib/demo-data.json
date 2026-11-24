@@ -1,0 +1,244 @@
+[
+ {
+  "id": "living",
+  "width": 1200,
+  "height": 900,
+  "findings": [
+   {
+    "id": "cast",
+    "kelvin": 3800,
+    "warm": true
+   },
+   {
+    "id": "lean",
+    "degrees": 3.2
+   },
+   {
+    "id": "lowres",
+    "megapixels": 1.1
+   }
+  ],
+  "changes": [
+   {
+    "kind": "verticals",
+    "from": 3.2,
+    "to": 0.3
+   },
+   {
+    "kind": "crop",
+    "value": 12
+   },
+   {
+    "kind": "exposure",
+    "value": 0.9
+   },
+   {
+    "kind": "whiteBalance",
+    "from": 3800,
+    "to": 5700
+   },
+   {
+    "kind": "toneMap",
+    "value": 23
+   },
+   {
+    "kind": "contrast",
+    "value": 18
+   },
+   {
+    "kind": "color",
+    "value": 12
+   },
+   {
+    "kind": "sharpen"
+   }
+  ],
+  "zonesBefore": [
+   0.115,
+   0.076,
+   0.094,
+   0.114,
+   0.092,
+   0.114,
+   0.203,
+   0.147,
+   0.036,
+   0.005,
+   0.004
+  ],
+  "zonesAfter": [
+   0.06,
+   0.058,
+   0.069,
+   0.083,
+   0.119,
+   0.095,
+   0.097,
+   0.134,
+   0.199,
+   0.084,
+   0.002
+  ],
+  "kelvin": 3800,
+  "medianBefore": 46.3,
+  "medianAfter": 56.1
+ },
+ {
+  "id": "kitchen",
+  "width": 1200,
+  "height": 900,
+  "findings": [
+   {
+    "id": "cast",
+    "kelvin": 5950,
+    "warm": true
+   },
+   {
+    "id": "lowres",
+    "megapixels": 1.1
+   }
+  ],
+  "changes": [
+   {
+    "kind": "exposure",
+    "value": 1
+   },
+   {
+    "kind": "whiteBalance",
+    "from": 5950,
+    "to": 6200
+   },
+   {
+    "kind": "toneMap",
+    "value": 33
+   },
+   {
+    "kind": "contrast",
+    "value": 18
+   },
+   {
+    "kind": "color",
+    "value": 12
+   },
+   {
+    "kind": "sharpen"
+   }
+  ],
+  "zonesBefore": [
+   0.167,
+   0.137,
+   0.089,
+   0.061,
+   0.048,
+   0.068,
+   0.115,
+   0.105,
+   0.091,
+   0.063,
+   0.055
+  ],
+  "zonesAfter": [
+   0.021,
+   0.07,
+   0.133,
+   0.102,
+   0.077,
+   0.059,
+   0.065,
+   0.117,
+   0.159,
+   0.13,
+   0.067
+  ],
+  "kelvin": 5950,
+  "medianBefore": 45.1,
+  "medianAfter": 60.8
+ },
+ {
+  "id": "bedroom",
+  "width": 1200,
+  "height": 900,
+  "findings": [
+   {
+    "id": "dark",
+    "value": 32.1
+   },
+   {
+    "id": "lean",
+    "degrees": 3.27
+   },
+   {
+    "id": "flat",
+    "range": 41.9
+   },
+   {
+    "id": "lowres",
+    "megapixels": 1.1
+   }
+  ],
+  "changes": [
+   {
+    "kind": "verticals",
+    "from": 3.27,
+    "to": 0.07
+   },
+   {
+    "kind": "crop",
+    "value": 8.9
+   },
+   {
+    "kind": "exposure",
+    "value": 2
+   },
+   {
+    "kind": "whiteBalance",
+    "from": 5500,
+    "to": 6100
+   },
+   {
+    "kind": "toneMap",
+    "value": 14
+   },
+   {
+    "kind": "contrast",
+    "value": 18
+   },
+   {
+    "kind": "color",
+    "value": 12
+   },
+   {
+    "kind": "sharpen"
+   }
+  ],
+  "zonesBefore": [
+   0.03,
+   0.093,
+   0.221,
+   0.277,
+   0.248,
+   0.084,
+   0.018,
+   0.014,
+   0.008,
+   0.003,
+   0.005
+  ],
+  "zonesAfter": [
+   0.008,
+   0.015,
+   0.034,
+   0.048,
+   0.093,
+   0.161,
+   0.212,
+   0.27,
+   0.106,
+   0.028,
+   0.025
+  ],
+  "kelvin": 5500,
+  "medianBefore": 32.1,
+  "medianAfter": 61.1
+ }
+]

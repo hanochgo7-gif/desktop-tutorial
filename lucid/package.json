@@ -1,0 +1,17 @@
+{
+  "name": "lucid",
+  "private": true,
+  "type": "module",
+  "description": "Lucid English: static app, no build step. package.json exists for tests and tools only.",
+  "scripts": {
+    "validate": "node tools/validate-content.mjs",
+    "test": "node --test tests/unit/*.test.mjs",
+    "test:db": "node --test tests/db/*.test.mjs",
+    "test:e2e": "node tests/e2e/run.mjs"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.13",
+    "axe-core": "4.14.0",
+    "google-play-scraper": "10.1.2"
+  }
+}

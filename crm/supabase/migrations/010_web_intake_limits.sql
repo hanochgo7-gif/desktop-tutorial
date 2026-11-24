@@ -1,0 +1,2 @@
+-- security review: tighter flood guard on website leads (20 per 10 minutes, 200 a day per workspace).
+-- Applied as a patch of crm_web_lead's body; 009_web_intake.sql already contains the final version.

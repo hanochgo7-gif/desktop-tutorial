@@ -1,0 +1,130 @@
+/* ------------------------------------------------------------------
+   HG design tokens
+   Night: warm black, midnight glass, amber light, brass.
+   Morning: ivory stone and paper.
+------------------------------------------------------------------- */
+
+@font-face {
+  font-family: 'Cormorant';
+  src: url('/fonts/cormorant-garamond-latin-300-normal.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cormorant';
+  src: url('/fonts/cormorant-garamond-latin-300-italic.woff2') format('woff2');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cormorant';
+  src: url('/fonts/cormorant-garamond-latin-400-normal.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cormorant';
+  src: url('/fonts/cormorant-garamond-latin-400-italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cormorant';
+  src: url('/fonts/cormorant-garamond-latin-500-normal.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  src: url('/fonts/instrument-sans-wght.woff2') format('woff2-variations');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  color-scheme: dark;
+
+  /* colour */
+  --c-ink: #0a0908;
+  --c-ink-2: #13110f;
+  --c-ink-3: #1c1916;
+  --c-night: #0b121a;
+  --c-ivory: #efe7d8;
+  --c-paper: #f3eee5;
+  --c-stone: #d9cfbe;
+  --c-brass: #c8a66b;
+  --c-amber: #c27a2e;
+  --c-ember: #8a4a17;
+
+  --c-text: var(--c-ivory);
+  --c-muted: rgb(239 231 216 / 0.66);
+  --c-faint: rgb(239 231 216 / 0.56); /* ≥ 4.5:1 on ink for small labels */
+  --c-line: rgb(239 231 216 / 0.14);
+  --c-line-strong: rgb(239 231 216 / 0.32);
+  --c-bg: var(--c-ink);
+  --c-focus: var(--c-brass);
+
+  /* type */
+  --f-serif: 'Cormorant', 'Cormorant Garamond', 'Frank Ruhl Libre', 'Times New Roman', serif;
+  --f-sans: 'Instrument Sans', 'Rubik', 'Helvetica Neue', Arial, system-ui, sans-serif;
+
+  --step--2: clamp(0.75rem, 0.73rem + 0.08vw, 0.8rem); /* ≥ 12px: legible on phones */
+  --step--1: clamp(0.78rem, 0.75rem + 0.12vw, 0.85rem);
+  --step-0: clamp(0.95rem, 0.91rem + 0.18vw, 1.0625rem);
+  --step-1: clamp(1.2rem, 1.08rem + 0.5vw, 1.5rem);
+  --step-2: clamp(1.6rem, 1.25rem + 1.5vw, 2.5rem);
+  --step-3: clamp(2.25rem, 1.45rem + 3.4vw, 4.5rem);
+  --step-4: clamp(3rem, 1.55rem + 6.2vw, 7.75rem);
+  --step-5: clamp(4.5rem, 1.5rem + 13vw, 15.5rem);
+
+  --tracking-label: 0.2em;
+  --leading-tight: 0.92;
+  --leading-display: 1.02;
+  --leading-body: 1.62;
+
+  /* space */
+  --gutter: clamp(1rem, 0.55rem + 2.4vw, 3rem);
+  --gap: clamp(0.75rem, 0.5rem + 1.2vw, 1.75rem);
+  --section: clamp(5.5rem, 3.5rem + 9vw, 13rem);
+  --header-h: 4.5rem;
+  --max: 1680px;
+  --measure: 34rem;
+
+  /* motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-soft: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --dur-1: 180ms;
+  --dur-2: 360ms;
+  --dur-3: 720ms;
+  --dur-4: 1200ms;
+
+  --radius: 2px;
+  --z-header: 50;
+  --z-drawer: 80;
+  --z-modal: 90;
+  --z-cursor: 100;
+}
+
+.theme-ivory {
+  color-scheme: light;
+  --c-bg: var(--c-paper);
+  --c-text: #17140f;
+  --c-muted: rgb(23 20 15 / 0.68);
+  --c-faint: rgb(23 20 15 / 0.62);
+  --c-line: rgb(23 20 15 / 0.14);
+  --c-line-strong: rgb(23 20 15 / 0.34);
+  --c-focus: var(--c-ember);
+  background: var(--c-bg);
+  color: var(--c-text);
+}
+
+[dir='rtl'] {
+  --tracking-label: 0.04em;
+}

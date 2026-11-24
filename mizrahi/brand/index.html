@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ספר המותג | י. מזרחי בניה ושות׳</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../css/site.css">
+<style>
+  .bb { padding-bottom: 120px; }
+  .bb section { padding-top: 96px; }
+  .bb h1 { font-size: var(--step-head); font-stretch: var(--narrow); font-weight: 800; line-height: .95; }
+  .bb h2 { font-size: clamp(2rem, 1.2rem + 2.4vw, 3.5rem); font-stretch: var(--narrow); font-weight: 800; line-height: 1; margin-bottom: 20px; }
+  .bb h3 { font-size: var(--step-lead); font-weight: 700; margin: 0 0 8px; }
+  .bb p { max-width: 70ch; }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 32px; }
+  .grid2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 32px; }
+  .tile { background: var(--surface); padding: 32px; display: flex; flex-direction: column; gap: 16px; }
+  .tile.dark { background: var(--ink); color: var(--on-ink); }
+  .tile.black { background: #000; color: #fff; }
+  .tile.white { background: #fff; }
+  .tile img { max-width: 100%; }
+  .stage { min-height: 220px; display: grid; place-items: center; }
+  .chosen { outline: 6px solid var(--ink); outline-offset: -6px; }
+  table.cmp { border-collapse: collapse; width: 100%; margin-top: 32px; }
+  table.cmp th, table.cmp td { text-align: start; padding: 12px 12px 12px 0; border-bottom: 2px solid var(--ink); vertical-align: top; }
+  .sw { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 32px; }
+  .sw div { padding: 20px; min-height: 160px; display: flex; flex-direction: column; justify-content: flex-end; font-variant-numeric: tabular-nums; }
+  .sizes { display: flex; align-items: end; gap: 32px; flex-wrap: wrap; }
+  /* mockups */
+  .mock-head { background: var(--bg); display: flex; align-items: center; gap: 28px; padding: 18px 28px; }
+  .mock-head img { height: 42px; }
+  .mock-head span { font-weight: 500; }
+  .card-front, .card-back { aspect-ratio: 90 / 50; width: 100%; max-width: 520px; padding: 7%; display: flex; flex-direction: column; justify-content: space-between; }
+  .card-front { background: var(--ink); color: var(--on-ink); }
+  .card-back { background: var(--bg); color: var(--ink); }
+  .card-front img:first-child { width: 22%; }
+  .card-back img { width: 62%; }
+  .card-back .who { font-weight: 700; font-size: 1.05rem; }
+  .card-back .lines { font-size: .85rem; line-height: 1.7; }
+  .letter { background: #fff; aspect-ratio: 210 / 140; padding: 6%; display: flex; flex-direction: column; justify-content: space-between; max-width: 620px; }
+  .letter .top { display: flex; justify-content: space-between; align-items: start; }
+  .letter .top img { width: 46%; }
+  .letter .txt { font-size: .8rem; color: #444; }
+  .letter .foot { border-top: 3px solid var(--ink); padding-top: 10px; font-size: .75rem; display: flex; justify-content: space-between; gap: 12px; }
+  .sig { background: #fff; padding: 24px; max-width: 620px; font-size: .95rem; }
+  .sig .row { display: flex; gap: 16px; align-items: center; border-top: 3px solid var(--ink); padding-top: 14px; margin-top: 10px; }
+  .sig img { width: 64px; }
+  .site-sign { background: var(--bg); border: 14px solid var(--ink); max-width: 760px; aspect-ratio: 3 / 2; display: grid; grid-template-rows: auto 1fr auto; }
+  .site-sign .band { background: var(--ink); color: var(--on-ink); padding: 18px 26px; display: flex; align-items: center; justify-content: space-between; }
+  .site-sign .band img { height: 64px; }
+  .site-sign .band b { font-size: 1.6rem; font-stretch: var(--narrow); font-weight: 800; }
+  .site-sign table { width: 100%; border-collapse: collapse; margin: 0; }
+  .site-sign td, .site-sign th { padding: 10px 26px; border-bottom: 2px solid var(--ink); text-align: start; }
+  .site-sign th { width: 40%; font-weight: 500; }
+  .site-sign .warn { background: var(--ink); color: var(--on-ink); padding: 10px 26px; font-weight: 700; }
+  .note { background: var(--surface); padding: 16px 20px; margin-top: 20px; }
+  @media (max-width: 900px) { .grid3, .grid2, .sw { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<main class="bb wrap" id="main">
+  <section style="padding-top:64px">
+    <h1>ספר המותג</h1>
+    <p class="lead" style="margin-top:20px">י. מזרחי בניה ושות׳: הלוגו, הצבעים, הגופן, ואיך הם נראים בעולם. מסמך עבודה פנימי (לא מאונדקס).</p>
+  </section>
+
+  <section aria-labelledby="pos">
+    <h2 id="pos">הרעיון</h2>
+    <p class="lead">בכל אתר בנייה בישראל תלוי שלט, ועליו שם הקבלן שאחראי לביצוע. המותג בנוי סביב הרגע הזה: השם על השלט.</p>
+    <p style="margin-top:16px">מבוגרים וצעירים בענף מתחרים על "איכות" ו"חדשנות". מה שיש לחברה עם 60 שנות פעילות ואין לחברה חדשה הוא שם שעמד מאחורי עבודה לאורך זמן. לכן השפה החזותית מדויקת ויציבה: אלמנט מבני אחד, צבע אחד, גופן אחד, ותמונות של אתרי בנייה אמיתיים מאז ועד היום.</p>
+  </section>
+
+  <section aria-labelledby="dirs">
+    <h2 id="dirs">הלוגו: שלד הבניין</h2>
+    <div class="grid2">
+      <div class="tile white chosen"><div class="stage"><img src="directions/g-frame.svg" alt="חתך של בניין: שני עמודים, שתי תקרות, ויסוד רחב וכבד" width="200"></div>
+        <h3>הסמל</h3>
+        <p>חתך של בניין: שני עמודים, תקרה ותקרת גג, עומדים על יסוד כבד ורחב מהם. העומס יורד ליסוד, כמו בכל מבנה שהחברה בונה. שלוש התקרות הן שלושת סוגי המבנים: בתים פרטיים, בנייני מגורים ומבני ציבור.</p></div>
+      <div class="tile white"><div class="stage"><img src="../assets/brand/logo-horizontal-olive.svg" alt="הלוגו המלא: שלד הבניין, פס מפריד, והשם" width="420"></div>
+        <h3>השם</h3>
+        <p>Noto Sans Hebrew, הגופן של האתר, צר וכבד, כמו אותיות על שלטי אתרים ותמרורים. פס מפריד בין הסמל לשם, והשורה השנייה מרווחת. מותג אחד ואתר אחד באותה אות.</p></div>
+    </div>
+    <table class="cmp">
+      <thead><tr><th>מבחן</th><th>איך הוא עומד בו</th></tr></thead>
+      <tbody>
+        <tr><th>הנדסי</th><td>שלד אמיתי: עמודים, תקרות ויסוד, ביחסים קבועים. היסוד הכי עבה, כי הוא נושא הכול.</td></tr>
+        <tr><th>על הנושא</th><td>מראה בדיוק את מה שהחברה עושה: בונה מבנים מהיסוד ומעלה. בלי גג משולש, מנוף או קסדה.</td></tr>
+        <tr><th>קריא בקטן</th><td>נבדק מ-16 עד 200 פיקסלים: גם בפביקון רואים עמודים ותקרות.</td></tr>
+        <tr><th>צבע אחד</th><td>צורה אחידה בלי פרטים פנימיים: עובד בזית, בבהיר, בשחור-לבן, בחיתוך לייזר, ברקמה ובחותמת.</td></tr>
+        <tr><th>נבחר</th><td>מתוך שש צורות הנדסיות (מסבך, קורת פלדה, מסגרת מחוזקת, חתך עמוד, חתך בניין, בלוק), בחירת הלקוח.</td></tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top:56px">איך הגענו לזה</h3>
+    <div class="grid3">
+      <div class="tile white"><div class="stage"><img src="directions/a-monogram.svg" alt="מ׳ גאומטרית כחתך של מבנה" width="120"></div>
+        <h3>מ׳ גאומטרית</h3>
+        <p>האות נבנתה ביד ונקראה גם כ"פ" או כ"כי". חברת בנייה לא יכולה להרשות לעצמה אות שקוראים לא נכון.</p></div>
+      <div class="tile white"><div class="stage"><img src="directions/b-abstract.svg" alt="קיר על רגל יסוד" width="120"></div>
+        <h3>אבנים ואותיות קלאסיות</h3>
+        <p>אבן פינה ואבן מסותתת עם אות עיתונאית. יפות, אבל קרובות מדי לשלט זיכרון ולמורשת, ולא הנדסיות.</p></div>
+      <div class="tile white"><div class="stage"><img src="directions/c-wordmark.svg" alt="השם בלבד" width="230"></div>
+        <h3>פלטת עיגון, ושש צורות</h3>
+        <p>פלטת פלדה עם מ׳ הייתה הנדסית, אבל עדיין אות. הלקוח ביקש צורה הנדסית נקייה, ומתוך שש אפשרויות נבחר שלד הבניין.</p></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="logo">
+    <h2 id="logo">הלוגו וגרסאותיו</h2>
+    <div class="grid2">
+      <div class="tile"><div class="stage"><img src="../assets/brand/logo-horizontal-olive.svg" alt="הלוגו האופקי בירוק זית" width="420"></div><h3>אופקי, על רקע בהיר</h3><p>הגרסה הראשית: אתר, מסמכים, חתימת אימייל.</p></div>
+      <div class="tile dark"><div class="stage"><img src="../assets/brand/logo-horizontal-bone.svg" alt="הלוגו האופקי בבהיר על ירוק זית" width="420"></div><h3>אופקי, על רקע כהה</h3><p>שלטים, כרטיס ביקור (צד קדמי), רכבים.</p></div>
+      <div class="tile"><div class="stage"><img src="../assets/brand/logo-compact-olive.svg" alt="הלוגו הקומפקטי: הסמל מעל השם" width="220"></div><h3>קומפקטי</h3><p>למקומות ריבועיים: פרופיל ברשתות, חותמת, פינת שלט.</p></div>
+      <div class="tile"><div class="stage" style="gap:28px;display:flex;align-items:end;justify-content:center"><img src="../assets/brand/mark-olive.svg" alt="הסמל בגודל גדול" width="120"><img src="../assets/brand/mark-olive.svg" alt="הסמל בגודל בינוני" width="48"><img src="../assets/brand/mark-olive.svg" alt="הסמל בגודל 16 פיקסלים" width="16"><img src="../assets/favicon.svg" alt="הפביקון" width="32"></div><h3>הסמל והפביקון</h3><p>נבדק ב-120, 48, 32 ו-16 פיקסלים.</p></div>
+      <div class="tile black"><div class="stage"><img src="../assets/brand/logo-horizontal-white.svg" alt="הלוגו בלבן על שחור" width="420"></div><h3>לבן על שחור</h3></div>
+      <div class="tile white"><div class="stage"><img src="../assets/brand/logo-horizontal-black.svg" alt="הלוגו בשחור על לבן" width="420"></div><h3>שחור על לבן</h3><p>פקס, חותמת גומי, הדפסה בשחור-לבן.</p></div>
+    </div>
+    <h3 style="margin-top:40px">כללי שימוש</h3>
+    <ul style="list-style:square;padding-inline-start:1.2em;display:grid;gap:6px">
+      <li>מרווח נקי סביב הלוגו: לפחות רבע מגובה הסמל מכל צד.</li>
+      <li>גודל מינימלי: הסמל 16 פיקסלים / 5 מ״מ. האופקי: 140 פיקסלים / 35 מ״מ רוחב.</li>
+      <li>בלי צל, מתאר, הטיה, מתיחה או שינוי צבע מחוץ לפלטה. הסמל תמיד בצבע אחד, בלי מילוי פנימי בצבע שני.</li>
+      <li>השם בלוגו הומר לקווי מתאר, כך שאין צורך בגופן מותקן כדי לפתוח את הקבצים.</li>
+    </ul>
+    <div class="note">
+      <strong>ממתין לאישור:</strong> <a href="../assets/brand/pending-approval-logo-60-years.svg">גרסה עם "60 שנות ניסיון"</a>.
+      לא בשימוש באתר עד שהחברה תאשר את הניסוח ואת שנת הייסוד. אם המספר 60 הוא נכון לשנת 2026, הוא ישתנה ב-2027; עדיף ניסוח קבוע כמו "מאז 19XX".
+    </div>
+  </section>
+
+  <section aria-labelledby="colour">
+    <h2 id="colour">צבעים</h2>
+    <p>אחד לרקע, אחד לדיו, והדיו הוא גם צבע הפעולה. ירוק זית: עץ הזית חי יותר מהאנשים ששותלים אותו. המתחרים בענף תפסו אדום וכחול כהה.</p>
+    <div class="sw">
+      <div style="background:#38450f;color:#ecebe7"><b>זית</b>#38450f · RGB 56 69 15<br>טקסט, כפתורים, שטחי צבע</div>
+      <div style="background:#ecebe7"><b>גבס</b>#ecebe7 · RGB 236 235 231<br>רקע הדף</div>
+      <div style="background:#e1dfd9"><b>בטון</b>#e1dfd9 · RGB 225 223 217<br>משטח, צעד אחד כהה יותר</div>
+      <div style="background:#4f5a2c;color:#ecebe7"><b>זית רך</b>#4f5a2c<br>טקסט משני</div>
+    </div>
+    <p style="margin-top:16px">ניגודיות (חישוב WCAG 2.1): זית על גבס 8.69:1 · זית על בטון 7.78:1 · זית רך על גבס 6.22:1 · זית רך על בטון 5.57:1. כולם עוברים AA, גם לטקסט קטן.</p>
+  </section>
+
+  <section aria-labelledby="type">
+    <h2 id="type">גופן</h2>
+    <p>משפחה אחת ללוגו ולאתר: <b>Noto Sans Hebrew</b> (Google, רישיון SIL OFL 1.1, מותר גם בלוגו ובדפוס). לכותרות היא נלחצת לרוחב 68% ומשקל 800, כמו האותיות על שלטי אתרים ותמרורים; לטקסט היא ברוחב מלא ומשקל 400.</p>
+    <p style="font-size:var(--step-head);font-stretch:68%;font-weight:800;line-height:.95;margin-top:28px">בונים לעשרות שנים</p>
+    <p class="lead" style="margin-top:16px">טקסט מוביל, 26 פיקסלים: בית או בניין עומדים עשרות שנים אחרי שהקבלן עזב את האתר.</p>
+    <p style="margin-top:12px">טקסט רץ, 19 פיקסלים, גובה שורה 1.55: לכן אנחנו עובדים לפי מפרט כתוב, מתעדים כל שלב, ומדברים על הפרטים האלה כבר בפגישה הראשונה.</p>
+    <p style="margin-top:12px;font-size:var(--step-small)">קטן, 15 פיקסלים: כיתובי תמונות, הערות.</p>
+  </section>
+
+  <section aria-labelledby="mock">
+    <h2 id="mock">בעולם</h2>
+
+    <h3 style="margin-top:24px">כותרת האתר</h3>
+    <div class="mock-head"><img src="../assets/brand/logo-horizontal-olive.svg" alt="הלוגו בכותרת האתר"><span>בתים פרטיים</span><span>בנייני מגורים</span><span>מבנים ציבוריים</span><span>פרויקטים</span><span>החברה</span></div>
+
+    <h3 style="margin-top:40px">כרטיס ביקור (90×50 מ״מ)</h3>
+    <div class="grid2" style="margin-top:12px">
+      <div class="card-front"><img src="../assets/brand/mark-bone.svg" alt="צד קדמי: הסמל בבהיר על זית"><img src="../assets/brand/wordmark-bone.svg" alt="שם החברה" style="width:78%"></div>
+      <div class="card-back"><img src="../assets/brand/logo-horizontal-olive.svg" alt="צד אחורי: הלוגו האופקי">
+        <div><div class="who">[שם ומשפחה] · [תפקיד]</div><div class="lines">[טלפון] · [אימייל]<br>[כתובת המשרד] · קבלן רשום מס׳ [מספר]</div></div></div>
+    </div>
+    <p class="note">השדות בסוגריים הם תבנית: ממלאים רק בפרטים שאושרו.</p>
+
+    <h3 style="margin-top:40px">חתימת מסמך ונייר מכתבים</h3>
+    <div class="grid2" style="margin-top:12px">
+      <div class="letter"><div class="top"><img src="../assets/brand/logo-horizontal-olive.svg" alt="הלוגו בראש מכתב"><span class="txt">[תאריך]</span></div>
+        <div class="txt">לכבוד [שם]<br><br>הנדון: הצעת מחיר לבניית [סוג המבנה] ב[יישוב]<br><br>[גוף המכתב]</div>
+        <div class="foot"><span>י. מזרחי בניה ושות׳ · ח.פ. [מספר]</span><span>קבלן רשום מס׳ [מספר] · [ענף וסוג]</span></div></div>
+      <div class="sig">בברכה,<br><b>[שם ומשפחה]</b><br>[תפקיד]
+        <div class="row"><img src="../assets/brand/mark-olive.svg" alt="הסמל בחתימת אימייל"><div><b>י. מזרחי בניה ושות׳</b><br>[טלפון] · [אתר]</div></div></div>
+    </div>
+
+    <h3 style="margin-top:40px">שלט אתר בנייה</h3>
+    <div class="site-sign" style="margin-top:12px">
+      <div class="band"><img src="../assets/brand/logo-horizontal-bone.svg" alt="הלוגו על שלט האתר"><b>[שם הפרויקט]</b></div>
+      <table><tbody>
+        <tr><th>קבלן ראשי</th><td><b>י. מזרחי בניה ושות׳</b> · רישום מס׳ [מספר]</td></tr>
+        <tr><th>יזם / מזמין</th><td>[שם]</td></tr>
+        <tr><th>אדריכל</th><td>[שם]</td></tr>
+        <tr><th>מהנדס ביצוע / מנהל עבודה</th><td>[שם וטלפון]</td></tr>
+        <tr><th>היתר בנייה</th><td>[מספר ותאריך]</td></tr>
+      </tbody></table>
+      <div class="warn">הכניסה לאתר למורשים בלבד · חובה חבישת קסדה</div>
+    </div>
+    <p class="note">תוכן השלט נקבע בחוק ובתנאי ההיתר. הפריסה כאן היא עיצוב בלבד; לפני ייצור לבדוק מול דרישות הרשות המקומית ותקנות הבטיחות.</p>
+  </section>
+
+  <section aria-labelledby="files">
+    <h2 id="files">קבצים</h2>
+    <p>כל הקבצים ב-<code>assets/brand/</code>. SVG לכל שימוש דיגיטלי ולבית הדפוס (וקטורי, ניתן לעריכה ב-Illustrator, Figma, Inkscape ו-Canva); PNG ב-<code>assets/brand/png/</code>.</p>
+    <p style="margin-top:12px">המקור: <code>tools/brand.py</code> מייצר את כל הגרסאות מאותה גאומטריה. שינוי בעובי הקו או בצבע נעשה שם, פעם אחת.</p>
+  </section>
+</main>
+</body>
+</html>

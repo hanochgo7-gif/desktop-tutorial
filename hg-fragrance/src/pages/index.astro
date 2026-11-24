@@ -1,0 +1,419 @@
+---
+import { getImage } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Media from '../components/Media.astro';
+import FourLights from '../components/FourLights.astro';
+import { img } from '../assets/images';
+
+
+// Closing: the empty study on wide screens, the bottle alone under the lamp on tall ones.
+const room = img('unf-empty-study');
+const roomTall = img('unf-packshot-vertical');
+const roomSet = await Promise.all([960, 1440, 1920, room.width].map((w) => getImage({ src: room, width: w, format: 'webp', quality: 78 })));
+const roomTallSet = await Promise.all([640, 960, roomTall.width].map((w) => getImage({ src: roomTall, width: w, format: 'webp', quality: 78 })));
+const roomJpg = await getImage({ src: room, width: 1600, format: 'jpg', quality: 78 });
+const srcset = (set: { src: string; attributes: Record<string, unknown> }[]) =>
+  set.map((s) => `${s.src} ${s.attributes.width}w`).join(', ');
+
+const campaign = [
+  { name: 'rosso-golden', alt: 'On a coastal road at golden hour, a man in a black suit leans on a red sports car, holding Unforgettable', ratio: '3 / 4', cls: 'a', position: '50% 35%' },
+  { name: 'cupra-rear', alt: 'Unforgettable on the wet tailgate of the CUPRA Leon, beside the glowing red light bar and copper logo', ratio: '3 / 4', cls: 'b', position: '55% 40%' },
+] as const;
+---
+
+<Base description="HG Unforgettable, Eau de Parfum. Leave the room. Stay in it.">
+  <Fragment slot="head">
+    <link rel="preload" as="image" type="image/webp" media="(max-aspect-ratio: 4/5)" imagesrcset="/media/hero-vertical-poster.webp 893w, /media/hero-vertical-poster-1440.webp 1440w" imagesizes="100vw" fetchpriority="high" />
+    <link rel="preload" as="image" type="image/webp" media="(min-aspect-ratio: 401/500)" imagesrcset="/media/hero-desk-poster.webp 1600w, /media/hero-desk-poster-2400.webp 2400w" imagesizes="116vw" fetchpriority="high" />
+  </Fragment>
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-labelledby="hero-title">
+    <!-- The opening film: the bottle on the desk, rain on the window behind (portrait cut on tall screens). -->
+    <div class="hero__media">
+      <picture>
+        <source media="(max-aspect-ratio: 4/5)" srcset="/media/hero-vertical-poster.webp 893w, /media/hero-vertical-poster-1440.webp 1440w" sizes="100vw" type="image/webp" />
+        <source media="(max-aspect-ratio: 4/5)" srcset="/media/hero-vertical-poster.jpg 893w, /media/hero-vertical-poster-1440.jpg 1440w" sizes="100vw" />
+        <source srcset="/media/hero-desk-poster.webp 1600w, /media/hero-desk-poster-2400.webp 2400w" sizes="116vw" type="image/webp" />
+        <img src="/media/hero-desk-poster.jpg" srcset="/media/hero-desk-poster.jpg 1600w, /media/hero-desk-poster-2400.jpg 2400w" sizes="116vw" alt="The Unforgettable bottle on a walnut desk at night, a lamp beside it and rain running down the window behind" width="1600" height="893" fetchpriority="high" decoding="async" />
+      </picture>
+      <video
+        id="hero-video"
+        data-ambient
+        data-src="/media/hero-desk.mp4"
+        data-src-portrait="/media/hero-vertical.mp4"
+        data-src-large="/media/hero-desk-2k.mp4"
+        data-src-portrait-large="/media/hero-vertical-2k.mp4"
+        muted
+        playsinline
+        loop
+        preload="none"
+        aria-hidden="true"
+        tabindex="-1"></video>
+    </div>
+    <div class="hero__shade" aria-hidden="true"></div>
+    <div class="hero__content wrap">
+      <p class="label hero__kicker">Unforgettable <span aria-hidden="true">·</span> Eau de Parfum</p>
+      <h1 class="hero__title" id="hero-title">
+        <span class="hero__line"><span>Leave the room.</span></span>
+        <span class="hero__line"><span><em>Stay in it.</em></span></span>
+      </h1>
+      <div class="hero__actions">
+        <a class="btn btn--solid hero__cta" href="/fragrances/unforgettable">Discover Unforgettable</a>
+        <a class="link label hero__shop" href="/fragrances">All fragrances</a>
+      </div>
+    </div>
+    <button class="hero__pause label" type="button" data-ambient-toggle aria-controls="hero-video">Pause</button>
+  </section>
+
+  <!-- ============ THE FEELING ============ -->
+  <section class="section feel" aria-labelledby="feel-title">
+    <div class="wrap grid">
+      <div class="feel__copy">
+        <h2 class="h2 feel__title" id="feel-title" data-reveal="lines">Some presences end at the door. <em>Others stay.</em></h2>
+        <p class="feel__text muted" data-reveal="fade">
+          Unforgettable is made for the moment after he has gone — the lamp still on, the room still holding him.
+        </p>
+        <a class="link label" href="/film" data-open-film data-reveal="fade">Watch the film</a>
+      </div>
+      <div class="feel__visual">
+        <Media name="unf-door" alt="He leaves the study through a lit doorway; the lamp stays on and the bottle stays on the desk" ratio="3 / 2" sizes="(min-width: 900px) 58vw, 100vw" position="62% 50%" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE CAMPAIGN ============ -->
+  <section class="section camp" aria-labelledby="camp-title">
+    <div class="wrap">
+      <header class="camp__head">
+        <h2 class="label" id="camp-title">The campaign</h2>
+        <a class="link label" href="/campaigns">See it all</a>
+      </header>
+      <div class="camp__grid">
+        {
+          campaign.map((c) => (
+            <figure class={`camp__item camp__item--${c.cls}`}>
+              <Media
+                name={c.name}
+                alt={c.alt}
+                ratio={c.ratio}
+                position={'position' in c ? c.position : '50% 35%'}
+                sizes={c.cls === 'a' ? '(min-width: 900px) 56vw, 100vw' : '(min-width: 900px) 32vw, 82vw'}
+              />
+            </figure>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE FRAGRANCES ============ -->
+  <FourLights />
+
+  <!-- ============ CLOSING ============ -->
+  <section class="close" aria-labelledby="close-title">
+    <picture class="close__media">
+      <source media="(max-aspect-ratio: 4/5)" srcset={srcset(roomTallSet)} sizes="max(100vw, 56vh)" type="image/webp" />
+      <source srcset={srcset(roomSet)} sizes="max(100vw, 178vh)" type="image/webp" />
+      <img
+        src={roomJpg.src}
+        alt="The study after he has gone: the bottle on the desk in the lamplight, rain on the window"
+        width={room.width}
+        height={room.height}
+        loading="lazy"
+        decoding="async"
+      />
+    </picture>
+    <div class="close__shade" aria-hidden="true"></div>
+    <div class="close__content wrap">
+      <h2 class="display close__title" id="close-title" data-reveal="lines">The room <em>remembers.</em></h2>
+      <a class="btn close__cta" href="/fragrances/unforgettable" data-reveal="fade">Discover Unforgettable</a>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative;
+    height: 100svh;
+    min-height: 34rem;
+    max-height: 72rem;
+    overflow: hidden;
+    background: var(--c-ink);
+  }
+  .hero__media {
+    position: absolute;
+    inset: 0;
+    animation: hero-in 1.6s var(--ease-out) both;
+  }
+  /* Wide screens: the frame reaches past the right edge so the bottle sits clear of the type. */
+  @media (min-aspect-ratio: 4/5) {
+    .hero__media {
+      inset-inline-end: -16%;
+    }
+  }
+  .hero__media img,
+  .hero__media video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 58% 50%;
+  }
+  .hero__media video {
+    opacity: 0;
+    transition: opacity 1.4s var(--ease-soft);
+  }
+  .hero__media video.is-playing {
+    opacity: 1;
+  }
+  .hero__pause {
+    position: absolute;
+    right: max(var(--gutter), env(safe-area-inset-right, 0px));
+    bottom: clamp(3.75rem, 8svh, 5.5rem);
+    min-height: 2.75rem;
+    padding-inline: 0.5rem;
+    color: rgb(239 231 216 / 0.75);
+    transition: color var(--dur-2);
+  }
+  .hero__pause:hover {
+    color: var(--c-ivory);
+  }
+  .hero__shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to bottom, rgb(10 9 8 / 0.5) 0%, transparent 16%),
+      linear-gradient(to top, rgb(10 9 8 / 0.82) 0%, rgb(10 9 8 / 0.35) 34%, transparent 58%),
+      linear-gradient(to right, rgb(10 9 8 / 0.55) 0%, transparent 46%);
+  }
+  .hero__content {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    margin-inline: auto;
+    padding-bottom: clamp(2.5rem, 8svh, 5.5rem);
+    display: grid;
+    justify-items: start;
+    gap: 1.25rem;
+  }
+  .hero__kicker {
+    color: rgb(239 231 216 / 0.82);
+  }
+  .hero__title {
+    font-family: var(--f-serif);
+    font-weight: 300;
+    font-size: clamp(3.1rem, 1.6rem + 6.2vw, 8.5rem);
+    line-height: 0.96;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.75rem;
+  }
+  .hero__line {
+    display: block;
+    overflow: hidden;
+    padding-bottom: 0.06em;
+  }
+  .hero__line > span {
+    display: block;
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.1rem 2rem;
+    animation: hero-fade 1.2s var(--ease-out) 0.5s both;
+  }
+  .hero__shop {
+    color: var(--c-ivory);
+  }
+  .hero__kicker {
+    animation: hero-fade 1.2s var(--ease-out) 0.2s both;
+  }
+  @keyframes hero-in {
+    from {
+      transform: scale(1.04);
+    }
+  }
+  @keyframes hero-fade {
+    from {
+      opacity: 0;
+    }
+  }
+  html:not(.motion) .hero__media,
+  html:not(.motion) .hero__actions,
+  html:not(.motion) .hero__kicker {
+    animation: none;
+  }
+  @media (max-aspect-ratio: 4/5) {
+    .hero__media img,
+    .hero__media video {
+      object-position: 50% 50%;
+    }
+    /* tall screens: the bottle stands in the lower half, so the headline moves to the top */
+    .hero__shade {
+      background:
+        linear-gradient(to bottom, rgb(10 9 8 / 0.82) 0%, rgb(10 9 8 / 0.45) 30%, transparent 50%),
+        linear-gradient(to top, rgb(10 9 8 / 0.75) 0%, transparent 22%);
+    }
+    .hero__content {
+      top: 0;
+      grid-template-rows: auto auto 1fr auto;
+      align-items: start;
+      padding-top: calc(var(--header-h) + 1.75rem);
+    }
+    .hero__actions {
+      grid-row: 4;
+      align-self: end;
+    }
+  }
+
+  /* ---------- the feeling ---------- */
+  .feel .grid {
+    row-gap: 2.5rem;
+    align-items: center;
+  }
+  .feel__copy {
+    grid-column: 1 / -1;
+    display: grid;
+    gap: 1.5rem;
+    justify-items: start;
+  }
+  .feel__title {
+    max-width: 14ch;
+  }
+  .feel__text {
+    max-width: 30rem;
+  }
+  .feel__visual {
+    grid-column: 1 / -1;
+    margin-inline: calc(var(--gutter) * -1);
+  }
+  @media (min-width: 900px) {
+    .feel__copy {
+      grid-column: 1 / span 4;
+    }
+    .feel__visual {
+      grid-column: 6 / -1;
+      margin-inline: 0 calc(var(--gutter) * -1);
+    }
+  }
+
+  /* ---------- the campaign ---------- */
+  .camp {
+    padding-top: 0;
+  }
+  .camp__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+    margin-bottom: clamp(1.5rem, 4vw, 3rem);
+    border-bottom: 1px solid var(--c-line);
+  }
+  .camp__head h2 {
+    color: var(--c-muted);
+  }
+  .camp__grid {
+    display: grid;
+    gap: clamp(1.25rem, 3vw, 2.5rem);
+  }
+  @media (max-width: 899px) {
+    .camp__item--c {
+      margin-inline: calc(var(--gutter) * -1);
+    }
+  }
+  @media (max-width: 599px) {
+    .camp__item--c .media {
+      aspect-ratio: 4 / 5 !important;
+    }
+  }
+  @media (max-width: 899px) {
+    .camp__item--b {
+      width: 82%;
+      justify-self: end;
+    }
+    .camp__item--d {
+      width: 82%;
+      justify-self: center;
+    }
+  }
+  @media (min-width: 900px) {
+    .camp__grid {
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      column-gap: var(--gap);
+      row-gap: clamp(4rem, 8vw, 8rem);
+      align-items: start;
+    }
+    .camp__item--a {
+      grid-column: 1 / span 7;
+    }
+    .camp__item--b {
+      grid-column: 9 / span 4;
+      margin-top: 30%;
+    }
+    .camp__item--c {
+      grid-column: 1 / -1;
+    }
+    .camp__item--c .media {
+      aspect-ratio: 21 / 9 !important;
+    }
+    .camp__item--d {
+      grid-column: 4 / span 6;
+    }
+  }
+
+  /* ---------- closing ---------- */
+  .close {
+    position: relative;
+    min-height: 100svh;
+    max-height: 64rem;
+    display: grid;
+    align-items: end;
+    overflow: hidden;
+    background: var(--c-ink);
+  }
+  .close__media,
+  .close__media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .close__media img {
+    object-fit: cover;
+    object-position: 58% 50%;
+  }
+  @media (max-aspect-ratio: 4/5) {
+    /* tall screens: the bottle sits low in the frame, so the line moves to the top */
+    .close {
+      align-items: start;
+    }
+    .close__media img {
+      object-position: 50% 40%;
+    }
+    .close__shade {
+      background: linear-gradient(to bottom, rgb(10 9 8 / 0.85) 0%, rgb(10 9 8 / 0.35) 38%, transparent 60%);
+    }
+    .close__content {
+      padding-block: calc(var(--header-h) + 2rem) var(--section);
+    }
+  }
+  .close__shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(10 9 8 / 0.85) 0%, rgb(10 9 8 / 0.3) 40%, transparent 65%);
+  }
+  .close__content {
+    position: relative;
+    display: grid;
+    justify-items: start;
+    gap: 2rem;
+    padding-block: var(--section) clamp(3rem, 9svh, 6rem);
+  }
+  .close__title {
+    font-size: clamp(3.4rem, 1.5rem + 7vw, 9.5rem);
+    max-width: 8.5ch;
+  }
+</style>

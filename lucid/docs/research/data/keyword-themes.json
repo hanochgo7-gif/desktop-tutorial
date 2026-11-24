@@ -1,0 +1,1140 @@
+{
+ "generated_from": "15340 English-language reviews",
+ "themes": {
+  "ads": "\\b(ads?|adverts?|advertis\\w*|commercials?)\\b",
+  "price_subscription": "\\b(expensive|overpriced|price[ds]?|pricing|subscription|paywall|pay ?wall|too much money|premium|super|max plan|costs? (too )?much)\\b",
+  "billing_cancellation": "\\b(cancel\\w*|refund\\w*|charged|charge me|auto-?renew\\w*|billing|unsubscrib\\w*|free trial)\\b",
+  "hearts_energy_limits": "\\b(hearts?|energy|lives)\\b",
+  "repetitive": "\\b(repetitive|repeats?|repeating|same (questions|thing|exercises|words|sentences)|boring|tedious)\\b",
+  "poor_explanations": "\\b(no explanations?|doesn'?t explain|not explain\\w*|without explanation|grammar (is|isn'?t) explained|explanations? (are|is) (poor|bad|lacking|missing))\\b",
+  "speech_recognition": "\\b(speech recognition|voice recognition|microphone|mic\\b|doesn'?t (hear|recogni[sz]e|understand) (me|my)|recogni[sz]e my (voice|accent|speech)|pronunciation (is )?(marked|scored) wrong)\\b",
+  "bugs_ui": "\\b(bugs?|buggy|glitch\\w*|crash\\w*|freez\\w*|lag\\w*|won'?t load|doesn'?t load|not loading)\\b",
+  "plateau_advanced": "\\b(advanced|beyond (the )?basics|intermediate|plateau|fluent|fluency|too easy|only (the )?basics)\\b",
+  "writing_practice": "\\b(writing|essay|write (sentences|paragraphs|essays))\\b",
+  "conversation_ai": "\\b(ai|chatbot|conversation partner|role ?play|video call|lily)\\b",
+  "gamification_streak": "\\b(streaks?|gamif\\w*|leagues?|leaderboard|xp|gems|badges?|owl)\\b",
+  "offline": "\\b(offline|no internet|without internet|wifi|wi-fi)\\b",
+  "personalization": "\\b(personali[sz]\\w*|my level|adaptive|tailored|custom\\w*)\\b",
+  "notifications": "\\b(notifications?|reminders?|spam\\w*)\\b",
+  "progress_loss": "\\b(lost (my )?(progress|streak|data)|progress (was )?(gone|lost|reset)|reset my)\\b",
+  "support": "\\b(customer (service|support)|no (reply|response)|support team|contacted support)\\b"
+ },
+ "apps": {
+  "duolingo": {
+   "n": {
+    "neg": 373,
+    "mid": 159,
+    "pos": 1580
+   },
+   "themes": {
+    "price_subscription": {
+     "neg": 63,
+     "mid": 21,
+     "pos": 127
+    },
+    "gamification_streak": {
+     "neg": 57,
+     "mid": 27,
+     "pos": 88
+    },
+    "ads": {
+     "neg": 49,
+     "mid": 17,
+     "pos": 55
+    },
+    "hearts_energy_limits": {
+     "neg": 54,
+     "mid": 18,
+     "pos": 49
+    },
+    "conversation_ai": {
+     "neg": 25,
+     "mid": 7,
+     "pos": 9
+    },
+    "billing_cancellation": {
+     "neg": 24,
+     "mid": 5,
+     "pos": 6
+    },
+    "plateau_advanced": {
+     "neg": 2,
+     "mid": 0,
+     "pos": 18
+    },
+    "bugs_ui": {
+     "neg": 30,
+     "mid": 9,
+     "pos": 18
+    },
+    "notifications": {
+     "neg": 10,
+     "mid": 6,
+     "pos": 15
+    },
+    "personalization": {
+     "neg": 9,
+     "mid": 1,
+     "pos": 7
+    },
+    "support": {
+     "neg": 11,
+     "mid": 0,
+     "pos": 3
+    },
+    "repetitive": {
+     "neg": 12,
+     "mid": 4,
+     "pos": 16
+    },
+    "speech_recognition": {
+     "neg": 2,
+     "mid": 1,
+     "pos": 3
+    },
+    "poor_explanations": {
+     "neg": 1,
+     "mid": 2,
+     "pos": 1
+    },
+    "writing_practice": {
+     "neg": 0,
+     "mid": 0,
+     "pos": 3
+    },
+    "progress_loss": {
+     "neg": 2,
+     "mid": 1,
+     "pos": 0
+    },
+    "offline": {
+     "neg": 3,
+     "mid": 2,
+     "pos": 2
+    }
+   }
+  },
+  "babbel": {
+   "n": {
+    "neg": 607,
+    "mid": 163,
+    "pos": 595
+   },
+   "themes": {
+    "ads": {
+     "neg": 17,
+     "mid": 1,
+     "pos": 4
+    },
+    "repetitive": {
+     "neg": 27,
+     "mid": 9,
+     "pos": 14
+    },
+    "gamification_streak": {
+     "neg": 7,
+     "mid": 6,
+     "pos": 20
+    },
+    "billing_cancellation": {
+     "neg": 87,
+     "mid": 5,
+     "pos": 5
+    },
+    "price_subscription": {
+     "neg": 134,
+     "mid": 19,
+     "pos": 39
+    },
+    "personalization": {
+     "neg": 35,
+     "mid": 4,
+     "pos": 7
+    },
+    "notifications": {
+     "neg": 12,
+     "mid": 2,
+     "pos": 7
+    },
+    "support": {
+     "neg": 29,
+     "mid": 1,
+     "pos": 2
+    },
+    "poor_explanations": {
+     "neg": 5,
+     "mid": 0,
+     "pos": 2
+    },
+    "plateau_advanced": {
+     "neg": 21,
+     "mid": 11,
+     "pos": 20
+    },
+    "bugs_ui": {
+     "neg": 18,
+     "mid": 6,
+     "pos": 9
+    },
+    "writing_practice": {
+     "neg": 5,
+     "mid": 3,
+     "pos": 12
+    },
+    "hearts_energy_limits": {
+     "neg": 5,
+     "mid": 0,
+     "pos": 4
+    },
+    "speech_recognition": {
+     "neg": 17,
+     "mid": 4,
+     "pos": 8
+    },
+    "conversation_ai": {
+     "neg": 22,
+     "mid": 7,
+     "pos": 7
+    },
+    "offline": {
+     "neg": 10,
+     "mid": 1,
+     "pos": 2
+    },
+    "progress_loss": {
+     "neg": 2,
+     "mid": 0,
+     "pos": 0
+    }
+   }
+  },
+  "busuu": {
+   "n": {
+    "neg": 143,
+    "mid": 89,
+    "pos": 1723
+   },
+   "themes": {
+    "ads": {
+     "neg": 31,
+     "mid": 12,
+     "pos": 47
+    },
+    "plateau_advanced": {
+     "neg": 2,
+     "mid": 4,
+     "pos": 31
+    },
+    "price_subscription": {
+     "neg": 49,
+     "mid": 12,
+     "pos": 133
+    },
+    "billing_cancellation": {
+     "neg": 24,
+     "mid": 1,
+     "pos": 6
+    },
+    "bugs_ui": {
+     "neg": 6,
+     "mid": 3,
+     "pos": 10
+    },
+    "conversation_ai": {
+     "neg": 12,
+     "mid": 7,
+     "pos": 29
+    },
+    "gamification_streak": {
+     "neg": 2,
+     "mid": 0,
+     "pos": 23
+    },
+    "writing_practice": {
+     "neg": 4,
+     "mid": 1,
+     "pos": 22
+    },
+    "personalization": {
+     "neg": 4,
+     "mid": 0,
+     "pos": 14
+    },
+    "notifications": {
+     "neg": 6,
+     "mid": 1,
+     "pos": 7
+    },
+    "hearts_energy_limits": {
+     "neg": 0,
+     "mid": 0,
+     "pos": 8
+    },
+    "repetitive": {
+     "neg": 3,
+     "mid": 5,
+     "pos": 19
+    },
+    "poor_explanations": {
+     "neg": 1,
+     "mid": 3,
+     "pos": 1
+    },
+    "speech_recognition": {
+     "neg": 3,
+     "mid": 0,
+     "pos": 1
+    },
+    "support": {
+     "neg": 2,
+     "mid": 1,
+     "pos": 4
+    },
+    "progress_loss": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 0
+    },
+    "offline": {
+     "neg": 1,
+     "mid": 1,
+     "pos": 1
+    }
+   }
+  },
+  "memrise": {
+   "n": {
+    "neg": 450,
+    "mid": 132,
+    "pos": 1177
+   },
+   "themes": {
+    "ads": {
+     "neg": 6,
+     "mid": 1,
+     "pos": 18
+    },
+    "repetitive": {
+     "neg": 11,
+     "mid": 5,
+     "pos": 29
+    },
+    "bugs_ui": {
+     "neg": 35,
+     "mid": 11,
+     "pos": 25
+    },
+    "gamification_streak": {
+     "neg": 10,
+     "mid": 4,
+     "pos": 21
+    },
+    "speech_recognition": {
+     "neg": 1,
+     "mid": 2,
+     "pos": 1
+    },
+    "price_subscription": {
+     "neg": 62,
+     "mid": 10,
+     "pos": 65
+    },
+    "conversation_ai": {
+     "neg": 53,
+     "mid": 16,
+     "pos": 46
+    },
+    "writing_practice": {
+     "neg": 5,
+     "mid": 1,
+     "pos": 9
+    },
+    "billing_cancellation": {
+     "neg": 29,
+     "mid": 3,
+     "pos": 3
+    },
+    "plateau_advanced": {
+     "neg": 10,
+     "mid": 7,
+     "pos": 18
+    },
+    "hearts_energy_limits": {
+     "neg": 0,
+     "mid": 0,
+     "pos": 5
+    },
+    "notifications": {
+     "neg": 5,
+     "mid": 2,
+     "pos": 2
+    },
+    "personalization": {
+     "neg": 23,
+     "mid": 2,
+     "pos": 3
+    },
+    "support": {
+     "neg": 15,
+     "mid": 2,
+     "pos": 0
+    },
+    "offline": {
+     "neg": 13,
+     "mid": 4,
+     "pos": 7
+    },
+    "progress_loss": {
+     "neg": 7,
+     "mid": 1,
+     "pos": 1
+    },
+    "poor_explanations": {
+     "neg": 2,
+     "mid": 1,
+     "pos": 0
+    }
+   }
+  },
+  "elsa": {
+   "n": {
+    "neg": 405,
+    "mid": 74,
+    "pos": 479
+   },
+   "themes": {
+    "personalization": {
+     "neg": 14,
+     "mid": 1,
+     "pos": 4
+    },
+    "support": {
+     "neg": 17,
+     "mid": 1,
+     "pos": 3
+    },
+    "repetitive": {
+     "neg": 13,
+     "mid": 2,
+     "pos": 2
+    },
+    "speech_recognition": {
+     "neg": 16,
+     "mid": 0,
+     "pos": 3
+    },
+    "price_subscription": {
+     "neg": 103,
+     "mid": 8,
+     "pos": 13
+    },
+    "billing_cancellation": {
+     "neg": 75,
+     "mid": 2,
+     "pos": 0
+    },
+    "bugs_ui": {
+     "neg": 55,
+     "mid": 8,
+     "pos": 10
+    },
+    "conversation_ai": {
+     "neg": 35,
+     "mid": 3,
+     "pos": 19
+    },
+    "notifications": {
+     "neg": 6,
+     "mid": 1,
+     "pos": 1
+    },
+    "hearts_energy_limits": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 0
+    },
+    "plateau_advanced": {
+     "neg": 7,
+     "mid": 3,
+     "pos": 5
+    },
+    "ads": {
+     "neg": 7,
+     "mid": 1,
+     "pos": 0
+    },
+    "offline": {
+     "neg": 2,
+     "mid": 1,
+     "pos": 1
+    },
+    "writing_practice": {
+     "neg": 0,
+     "mid": 1,
+     "pos": 0
+    },
+    "gamification_streak": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 0
+    }
+   }
+  },
+  "rosetta": {
+   "n": {
+    "neg": 346,
+    "mid": 91,
+    "pos": 867
+   },
+   "themes": {
+    "speech_recognition": {
+     "neg": 90,
+     "mid": 20,
+     "pos": 47
+    },
+    "personalization": {
+     "neg": 14,
+     "mid": 2,
+     "pos": 4
+    },
+    "bugs_ui": {
+     "neg": 62,
+     "mid": 20,
+     "pos": 19
+    },
+    "repetitive": {
+     "neg": 24,
+     "mid": 9,
+     "pos": 28
+    },
+    "plateau_advanced": {
+     "neg": 4,
+     "mid": 6,
+     "pos": 12
+    },
+    "price_subscription": {
+     "neg": 67,
+     "mid": 16,
+     "pos": 42
+    },
+    "gamification_streak": {
+     "neg": 2,
+     "mid": 0,
+     "pos": 3
+    },
+    "offline": {
+     "neg": 8,
+     "mid": 1,
+     "pos": 4
+    },
+    "billing_cancellation": {
+     "neg": 17,
+     "mid": 4,
+     "pos": 1
+    },
+    "ads": {
+     "neg": 6,
+     "mid": 0,
+     "pos": 5
+    },
+    "writing_practice": {
+     "neg": 2,
+     "mid": 2,
+     "pos": 10
+    },
+    "conversation_ai": {
+     "neg": 2,
+     "mid": 0,
+     "pos": 3
+    },
+    "support": {
+     "neg": 11,
+     "mid": 1,
+     "pos": 3
+    },
+    "poor_explanations": {
+     "neg": 7,
+     "mid": 1,
+     "pos": 3
+    },
+    "notifications": {
+     "neg": 2,
+     "mid": 0,
+     "pos": 3
+    },
+    "progress_loss": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 0
+    },
+    "hearts_energy_limits": {
+     "neg": 0,
+     "mid": 0,
+     "pos": 1
+    }
+   }
+  },
+  "lingq": {
+   "n": {
+    "neg": 173,
+    "mid": 54,
+    "pos": 699
+   },
+   "themes": {
+    "price_subscription": {
+     "neg": 47,
+     "mid": 9,
+     "pos": 51
+    },
+    "plateau_advanced": {
+     "neg": 5,
+     "mid": 3,
+     "pos": 43
+    },
+    "billing_cancellation": {
+     "neg": 17,
+     "mid": 4,
+     "pos": 3
+    },
+    "bugs_ui": {
+     "neg": 22,
+     "mid": 13,
+     "pos": 22
+    },
+    "notifications": {
+     "neg": 5,
+     "mid": 2,
+     "pos": 5
+    },
+    "repetitive": {
+     "neg": 3,
+     "mid": 0,
+     "pos": 20
+    },
+    "ads": {
+     "neg": 3,
+     "mid": 0,
+     "pos": 4
+    },
+    "conversation_ai": {
+     "neg": 14,
+     "mid": 3,
+     "pos": 21
+    },
+    "personalization": {
+     "neg": 7,
+     "mid": 2,
+     "pos": 20
+    },
+    "gamification_streak": {
+     "neg": 4,
+     "mid": 1,
+     "pos": 13
+    },
+    "support": {
+     "neg": 10,
+     "mid": 1,
+     "pos": 5
+    },
+    "writing_practice": {
+     "neg": 1,
+     "mid": 1,
+     "pos": 7
+    },
+    "hearts_energy_limits": {
+     "neg": 0,
+     "mid": 0,
+     "pos": 2
+    },
+    "poor_explanations": {
+     "neg": 0,
+     "mid": 1,
+     "pos": 0
+    },
+    "offline": {
+     "neg": 1,
+     "mid": 1,
+     "pos": 3
+    }
+   }
+  },
+  "speak": {
+   "n": {
+    "neg": 152,
+    "mid": 43,
+    "pos": 559
+   },
+   "themes": {
+    "repetitive": {
+     "neg": 4,
+     "mid": 4,
+     "pos": 10
+    },
+    "conversation_ai": {
+     "neg": 19,
+     "mid": 5,
+     "pos": 22
+    },
+    "speech_recognition": {
+     "neg": 11,
+     "mid": 5,
+     "pos": 6
+    },
+    "ads": {
+     "neg": 16,
+     "mid": 2,
+     "pos": 4
+    },
+    "price_subscription": {
+     "neg": 47,
+     "mid": 10,
+     "pos": 23
+    },
+    "hearts_energy_limits": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 2
+    },
+    "personalization": {
+     "neg": 3,
+     "mid": 3,
+     "pos": 6
+    },
+    "plateau_advanced": {
+     "neg": 3,
+     "mid": 1,
+     "pos": 7
+    },
+    "billing_cancellation": {
+     "neg": 20,
+     "mid": 3,
+     "pos": 2
+    },
+    "bugs_ui": {
+     "neg": 4,
+     "mid": 3,
+     "pos": 1
+    },
+    "gamification_streak": {
+     "neg": 0,
+     "mid": 0,
+     "pos": 6
+    },
+    "offline": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 0
+    },
+    "poor_explanations": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 0
+    },
+    "support": {
+     "neg": 4,
+     "mid": 1,
+     "pos": 0
+    },
+    "notifications": {
+     "neg": 2,
+     "mid": 0,
+     "pos": 0
+    },
+    "writing_practice": {
+     "neg": 0,
+     "mid": 1,
+     "pos": 1
+    }
+   }
+  },
+  "praktika": {
+   "n": {
+    "neg": 412,
+    "mid": 70,
+    "pos": 537
+   },
+   "themes": {
+    "repetitive": {
+     "neg": 20,
+     "mid": 3,
+     "pos": 4
+    },
+    "conversation_ai": {
+     "neg": 95,
+     "mid": 23,
+     "pos": 54
+    },
+    "ads": {
+     "neg": 46,
+     "mid": 2,
+     "pos": 4
+    },
+    "billing_cancellation": {
+     "neg": 114,
+     "mid": 9,
+     "pos": 9
+    },
+    "speech_recognition": {
+     "neg": 12,
+     "mid": 1,
+     "pos": 6
+    },
+    "price_subscription": {
+     "neg": 72,
+     "mid": 7,
+     "pos": 14
+    },
+    "personalization": {
+     "neg": 29,
+     "mid": 2,
+     "pos": 7
+    },
+    "support": {
+     "neg": 28,
+     "mid": 1,
+     "pos": 1
+    },
+    "plateau_advanced": {
+     "neg": 11,
+     "mid": 4,
+     "pos": 6
+    },
+    "poor_explanations": {
+     "neg": 2,
+     "mid": 0,
+     "pos": 0
+    },
+    "notifications": {
+     "neg": 6,
+     "mid": 4,
+     "pos": 0
+    },
+    "bugs_ui": {
+     "neg": 23,
+     "mid": 5,
+     "pos": 10
+    },
+    "writing_practice": {
+     "neg": 2,
+     "mid": 0,
+     "pos": 1
+    },
+    "progress_loss": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 0
+    },
+    "gamification_streak": {
+     "neg": 0,
+     "mid": 1,
+     "pos": 4
+    },
+    "hearts_energy_limits": {
+     "neg": 2,
+     "mid": 0,
+     "pos": 2
+    },
+    "offline": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 0
+    }
+   }
+  },
+  "quizlet": {
+   "n": {
+    "neg": 377,
+    "mid": 132,
+    "pos": 889
+   },
+   "themes": {
+    "price_subscription": {
+     "neg": 59,
+     "mid": 20,
+     "pos": 59
+    },
+    "ads": {
+     "neg": 29,
+     "mid": 4,
+     "pos": 9
+    },
+    "conversation_ai": {
+     "neg": 27,
+     "mid": 5,
+     "pos": 26
+    },
+    "billing_cancellation": {
+     "neg": 22,
+     "mid": 4,
+     "pos": 3
+    },
+    "bugs_ui": {
+     "neg": 32,
+     "mid": 10,
+     "pos": 18
+    },
+    "personalization": {
+     "neg": 7,
+     "mid": 2,
+     "pos": 7
+    },
+    "notifications": {
+     "neg": 4,
+     "mid": 1,
+     "pos": 0
+    },
+    "repetitive": {
+     "neg": 7,
+     "mid": 0,
+     "pos": 4
+    },
+    "support": {
+     "neg": 2,
+     "mid": 1,
+     "pos": 2
+    },
+    "plateau_advanced": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 1
+    },
+    "offline": {
+     "neg": 7,
+     "mid": 4,
+     "pos": 1
+    },
+    "gamification_streak": {
+     "neg": 2,
+     "mid": 0,
+     "pos": 4
+    },
+    "writing_practice": {
+     "neg": 2,
+     "mid": 0,
+     "pos": 10
+    },
+    "progress_loss": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 0
+    }
+   }
+  },
+  "bc-grammar": {
+   "n": {
+    "neg": 132,
+    "mid": 47,
+    "pos": 453
+   },
+   "themes": {
+    "ads": {
+     "neg": 45,
+     "mid": 11,
+     "pos": 14
+    },
+    "offline": {
+     "neg": 0,
+     "mid": 0,
+     "pos": 4
+    },
+    "bugs_ui": {
+     "neg": 8,
+     "mid": 2,
+     "pos": 3
+    },
+    "writing_practice": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 1
+    },
+    "price_subscription": {
+     "neg": 2,
+     "mid": 1,
+     "pos": 6
+    },
+    "plateau_advanced": {
+     "neg": 0,
+     "mid": 2,
+     "pos": 3
+    },
+    "billing_cancellation": {
+     "neg": 0,
+     "mid": 0,
+     "pos": 2
+    },
+    "poor_explanations": {
+     "neg": 2,
+     "mid": 3,
+     "pos": 0
+    },
+    "repetitive": {
+     "neg": 1,
+     "mid": 1,
+     "pos": 1
+    },
+    "notifications": {
+     "neg": 1,
+     "mid": 1,
+     "pos": 0
+    }
+   }
+  },
+  "bc-english": {
+   "n": {
+    "neg": 79,
+    "mid": 6,
+    "pos": 29
+   },
+   "themes": {
+    "bugs_ui": {
+     "neg": 4,
+     "mid": 1,
+     "pos": 0
+    },
+    "price_subscription": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 1
+    },
+    "billing_cancellation": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 0
+    },
+    "writing_practice": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 0
+    },
+    "ads": {
+     "neg": 0,
+     "mid": 0,
+     "pos": 1
+    }
+   }
+  },
+  "cambly": {
+   "n": {
+    "neg": 232,
+    "mid": 29,
+    "pos": 559
+   },
+   "themes": {
+    "hearts_energy_limits": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 1
+    },
+    "price_subscription": {
+     "neg": 37,
+     "mid": 5,
+     "pos": 27
+    },
+    "billing_cancellation": {
+     "neg": 15,
+     "mid": 0,
+     "pos": 2
+    },
+    "personalization": {
+     "neg": 7,
+     "mid": 0,
+     "pos": 5
+    },
+    "support": {
+     "neg": 7,
+     "mid": 0,
+     "pos": 3
+    },
+    "ads": {
+     "neg": 5,
+     "mid": 0,
+     "pos": 0
+    },
+    "notifications": {
+     "neg": 6,
+     "mid": 0,
+     "pos": 5
+    },
+    "speech_recognition": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 0
+    },
+    "bugs_ui": {
+     "neg": 17,
+     "mid": 1,
+     "pos": 2
+    },
+    "plateau_advanced": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 18
+    },
+    "writing_practice": {
+     "neg": 0,
+     "mid": 0,
+     "pos": 4
+    },
+    "offline": {
+     "neg": 2,
+     "mid": 1,
+     "pos": 0
+    },
+    "repetitive": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 0
+    }
+   }
+  },
+  "loora": {
+   "n": {
+    "neg": 23,
+    "mid": 3,
+    "pos": 198
+   },
+   "themes": {
+    "price_subscription": {
+     "neg": 2,
+     "mid": 0,
+     "pos": 5
+    },
+    "bugs_ui": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 1
+    },
+    "conversation_ai": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 8
+    },
+    "notifications": {
+     "neg": 0,
+     "mid": 0,
+     "pos": 1
+    },
+    "ads": {
+     "neg": 2,
+     "mid": 0,
+     "pos": 1
+    },
+    "personalization": {
+     "neg": 0,
+     "mid": 0,
+     "pos": 1
+    },
+    "support": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 0
+    },
+    "plateau_advanced": {
+     "neg": 1,
+     "mid": 0,
+     "pos": 2
+    }
+   }
+  }
+ }
+}

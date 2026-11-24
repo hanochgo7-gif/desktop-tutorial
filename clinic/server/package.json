@@ -1,0 +1,16 @@
+{
+  "name": "rotem-assistant-server",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "knowledge": "node build-knowledge.mjs",
+    "dev": "npm run knowledge && wrangler dev",
+    "deploy": "npm run knowledge && wrangler deploy"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.131.0"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}

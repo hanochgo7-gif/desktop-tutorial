@@ -1,0 +1,38 @@
+---
+import { site } from '../config/site';
+import { t } from '../i18n/ui';
+const lang = site.locale.lang;
+const year = new Date().getFullYear();
+const socials = Object.entries(site.social).filter(([, url]) => Boolean(url)) as [string, string][];
+const label: Record<string, string> = { instagram: 'Instagram', tiktok: 'TikTok', youtube: 'YouTube' };
+---
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="footer-top">
+      <a class="logo" href="/" aria-label={`${site.name} — home`}>HG</a>
+      <nav aria-label="Footer">
+        <ul class="footer-links" role="list">
+          <li><a href="/fragrances">{t('nav.fragrances', lang)}</a></li>
+          <li><a href="/fragrances/unforgettable">{t('nav.unforgettable', lang)}</a></li>
+          <li><a href="/campaigns">{t('nav.campaigns', lang)}</a></li>
+          <li><a href="/film">{t('nav.film', lang)}</a></li>
+          {site.contact.email && <li><a href={`mailto:${site.contact.email}`}>{site.contact.email}</a></li>}
+          {socials.map(([key, url]) => <li><a href={url} rel="noopener" target="_blank">{label[key] ?? key}</a></li>)}
+        </ul>
+      </nav>
+    </div>
+    <div class="footer-base label">
+      <span class="footer-legal">
+        <a href="/legal/privacy">Privacy</a>
+        <a href="/legal/terms">Terms of sale</a>
+      </span>
+      {site.demo && <span class="footer-demo">{site.demo.notice}</span>}
+      <span class="footer-ai">{site.aiDisclosure}</span>
+      <span class="footer-copy">© {year} {site.legalEntity ?? site.fullName}</span>
+      <button class="motion-toggle label" type="button" data-motion-toggle aria-pressed="false">
+        {t('motion.label', lang)}: <span data-motion-state>{t('motion.on', lang)}</span>
+      </button>
+    </div>
+  </div>
+</footer>

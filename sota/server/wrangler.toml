@@ -1,0 +1,34 @@
+# SOTA: one Worker serves the site (static files from the parent folder) and the API (/api/*).
+name = "sota"
+main = "worker.mjs"
+compatibility_date = "2026-09-01"
+
+[assets]
+directory = "../"
+binding = "ASSETS"
+not_found_handling = "404-page"
+html_handling = "auto-trailing-slash"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "sota"
+database_id = "00000000-0000-0000-0000-000000000000" # TODO: the id printed by `npx wrangler d1 create sota`
+
+[[r2_buckets]]
+binding = "FILES"
+bucket_name = "sota-files"
+
+[vars]
+# Where notification emails go if no address is set in the admin console.
+NOTIFY_EMAIL = ""      # TODO: e.g. office@your-domain.co.il
+# Sender address on a domain verified in Resend.
+MAIL_FROM = ""         # TODO: e.g. "SOTA <noreply@your-domain.co.il>"
+# Link to the admin console, included in notification emails.
+ADMIN_URL = ""         # TODO: e.g. https://your-domain.co.il/admin/
+# Other sites allowed to post to the public forms (comma separated). Empty = same domain only.
+ALLOWED_ORIGINS = ""
+
+# Secrets (never in this file). Set each one with `npx wrangler secret put NAME`:
+#   SESSION_SECRET     random string of 32+ characters (admin sessions)
+#   RESEND_API_KEY     from resend.com (email notifications)
+#   TURNSTILE_SECRET   from Cloudflare Turnstile (optional bot check)

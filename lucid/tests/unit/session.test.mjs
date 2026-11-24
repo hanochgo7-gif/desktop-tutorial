@@ -1,0 +1,263 @@
+// Signing in on a device that already holds learner data (security review S-06), the server-profile
+// gate in front of sync (S-05) and, with no minimum age, the guardian's agreement for learners under 16
+// (migration 004), in js/core/session.js. Browser globals are faked; the dialog closes itself
+// with the answer each test sets.
+import { test, beforeEach } from 'node:test';
+import assert from 'node:assert/strict';
+
+const fakeStorage = () => {
+  const m = new Map();
+  return { get length() { return m.size; }, key: (i) => [...m.keys()][i] ?? null, getItem: (k) => (m.has(k) ? m.get(k) : null), setItem: (k, v) => m.set(k, String(v)), removeItem: (k) => m.delete(k), clear: () => m.clear(), m };
+};
+const USER = { id: 'u-b', email: 'b@example.com' };
+globalThis.localStorage = fakeStorage();
+globalThis.sessionStorage = fakeStorage();
+localStorage.setItem('lucid-session', JSON.stringify({ access_token: 'b-token', refresh_token: 'r', expires_at: Date.now() + 3_600_000, user: USER }));
+globalThis.location = { origin: 'https://example.org', pathname: '/lucid/', search: '', hash: '' };
+globalThis.history = { replaceState: () => {} };
+globalThis.addEventListener = () => {};
+
+let answer = 'cancel';
+let dialogs = [];
+globalThis.document = {
+  visibilityState: 'visible',
+  addEventListener: () => {},
+  getElementById: () => ({ append: () => {} }),
+  createElement: () => {
+    const listeners = {};
+    const d = {
+      innerHTML: '', returnValue: '',
+      setAttribute() {}, remove() {}, querySelectorAll: () => [],
+      addEventListener: (type, fn) => { listeners[type] = fn; },
+      close(v) { d.returnValue = v; listeners.close?.(); },
+      showModal() { dialogs.push(d); setTimeout(() => d.close(answer), 0); },
+    };
+    return d;
+  },
+};
+
+const server = { profile: null, refuse: false, posts: [], patches: [], records: 0 };
+globalThis.fetch = async (url, init = {}) => {
+  const u = new URL(url, 'https://mock.supabase.co');
+  const reply = (status, json) => ({ ok: status < 400, status, text: async () => (json === undefined ? '' : JSON.stringify(json)) });
+  const body = init.body ? JSON.parse(init.body) : null;
+  if (u.pathname === '/rest/v1/lucid_profiles' && init.method === 'GET') return reply(200, server.profile ? [server.profile] : []);
+  if (u.pathname === '/rest/v1/lucid_profiles' && init.method === 'POST') {
+    server.posts.push(body);
+    if (server.refuse) return reply(400, { code: '22023', message: 'The birth year must be a past year, at most 120 years ago' });
+    server.profile = { ...body };
+    return reply(201, [server.profile]);
+  }
+  if (u.pathname === '/rest/v1/lucid_profiles' && init.method === 'PATCH') {
+    server.patches.push(body);
+    server.profile = { ...server.profile, ...body };
+    return reply(204);
+  }
+  if (u.pathname === '/auth/v1/logout') return reply(204);
+  if (u.pathname === '/auth/v1/token') return reply(200, { access_token: 'b-token', refresh_token: 'r', expires_in: 3600, user: USER });
+  return reply(404, { message: 'unmocked' });
+};
+
+const { openStore } = await import('../../js/core/store.js');
+const store = await openStore();
+const { auth } = await import('../../js/core/api.js');
+const { ownership, connectAccount, syncAllowed, syncPauseReason } = await import('../../js/core/session.js');
+const fakeSync = () => { const s = { runs: 0, run: async () => { s.runs++; return { pushed: 0, pulled: 0 }; } }; return s; };
+
+beforeEach(async () => {
+  await store.wipe();
+  Object.assign(server, { profile: null, refuse: false, posts: [], patches: [] });
+  dialogs = []; answer = 'cancel';
+  if (!auth.signedIn) await auth.signIn(USER.email, 'password 123');
+});
+
+test('ownership: never merge another account\'s data; ask before moving unowned data on a sign-in', () => {
+  assert.equal(ownership({ owner: null, userId: 'b', hasData: false, kind: 'signin' }), 'proceed');
+  assert.equal(ownership({ owner: 'b', userId: 'b', hasData: true, kind: 'resume' }), 'proceed');
+  assert.equal(ownership({ owner: 'a', userId: 'b', hasData: true, kind: 'signup' }), 'other');
+  assert.equal(ownership({ owner: 'a', userId: 'b', hasData: true, kind: 'signin' }), 'other');
+  assert.equal(ownership({ owner: null, userId: 'b', hasData: true, kind: 'signin' }), 'unowned');
+  assert.equal(ownership({ owner: null, userId: 'b', hasData: true, kind: 'signup' }), 'proceed', 'the sign-up screen says device progress moves in');
+});
+
+test('the server profile is created from the device profile before the first sync (S-05)', async () => {
+  store.put('profile', { id: 'me', onboarded: true, name: 'B', birth_year: 2000, ui_language: 'he', goals: ['travel'] });
+  store.setOwner(USER.id);
+  const sync = fakeSync();
+  const r = await connectAccount({ kind: 'signin', sync });
+  assert.deepEqual({ ok: r.ok, synced: r.synced }, { ok: true, synced: true });
+  assert.equal(server.posts[0].birth_year, 2000);
+  assert.equal(syncAllowed(), true);
+  assert.equal(sync.runs, 1);
+});
+
+test('when the server refuses the profile, nothing syncs (S-05)', async () => {
+  store.put('profile', { id: 'me', onboarded: true, name: 'B', birth_year: 1990 });
+  store.setOwner(USER.id);
+  server.refuse = true;
+  const sync = fakeSync();
+  const r = await connectAccount({ kind: 'signin', sync });
+  assert.equal(r.reason, 'profile');
+  assert.equal(r.synced, false);
+  assert.equal(syncAllowed(), false, 'the sync guard stays closed');
+  assert.equal(sync.runs, 0);
+});
+
+test('no minimum age: a 10-year-old\'s profile goes to the server only after a guardian agreed', async () => {
+  const year = new Date().getFullYear();
+  store.put('profile', { id: 'me', onboarded: true, name: 'C', birth_year: year - 10, ui_language: 'he', goals: [] });
+  store.setOwner(USER.id);
+  const sync = fakeSync();
+  const r = await connectAccount({ kind: 'signin', sync });
+  assert.deepEqual({ ok: r.ok, synced: r.synced, reason: r.reason }, { ok: true, synced: false, reason: 'guardian' });
+  assert.equal(server.posts.length, 0, 'nothing is sent before the agreement');
+  assert.equal(syncAllowed(), false);
+  assert.equal(sync.runs, 0);
+  const at = new Date().toISOString();
+  store.update('profile', 'me', { guardian_consent_at: at });
+  const r2 = await connectAccount({ kind: 'signin', sync });
+  assert.deepEqual({ ok: r2.ok, synced: r2.synced }, { ok: true, synced: true });
+  assert.equal(server.posts.length, 1);
+  assert.equal(server.posts[0].birth_year, year - 10);
+  assert.equal(server.posts[0].guardian_consent_at, at, 'the agreement is sent with the profile');
+  assert.equal(sync.runs, 1);
+});
+
+test('turning 16 this year may still mean 15: the agreement is still needed', async () => {
+  const year = new Date().getFullYear();
+  store.put('profile', { id: 'me', onboarded: true, name: 'E', birth_year: year - 16 });
+  store.setOwner(USER.id);
+  const r = await connectAccount({ kind: 'signin', sync: fakeSync() });
+  assert.equal(r.reason, 'guardian');
+  assert.equal(syncPauseReason(), 'guardian', 'Settings can tell why sync waits');
+  assert.equal(server.posts.length, 0);
+});
+
+test('surely 16 (turning 17 this year), and adults: no guardian\'s agreement is asked or sent', async () => {
+  const year = new Date().getFullYear();
+  store.put('profile', { id: 'me', onboarded: true, name: 'D', birth_year: year - 17 });
+  store.setOwner(USER.id);
+  const r = await connectAccount({ kind: 'signin', sync: fakeSync() });
+  assert.equal(r.synced, true);
+  assert.equal(syncPauseReason(), null);
+  assert.equal('guardian_consent_at' in server.posts[0], false);
+});
+
+test('a second device adopts the agreement and the terms consent from the server profile, and sync is not paused', async () => {
+  const year = new Date().getFullYear();
+  const at = '2026-10-01T10:00:00.000Z';
+  server.profile = { id: USER.id, display_name: 'K', birth_year: year - 12, ui_language: 'he', goals: [], consent_terms_at: at, guardian_consent_at: at };
+  const sync = fakeSync();
+  const r = await connectAccount({ kind: 'signin', sync });
+  assert.deepEqual({ ok: r.ok, synced: r.synced, reason: r.reason }, { ok: true, synced: true, reason: null });
+  const p = store.get('profile', 'me');
+  assert.equal(p.birth_year, year - 12);
+  assert.equal(p.guardian_consent_at, at, 'the agreement comes along, so the device does not ask again');
+  assert.equal(p.consent_terms_at, at);
+  assert.equal(syncPauseReason(), null, 'nothing says sync is paused');
+  assert.equal(sync.runs, 1);
+  assert.equal(server.posts.length, 0);
+});
+
+test('a device already onboarded without the agreement takes it from the server profile that has it', async () => {
+  const year = new Date().getFullYear();
+  const at = '2026-10-01T10:00:00.000Z';
+  store.put('profile', { id: 'me', onboarded: true, name: 'K', birth_year: year - 12 });
+  store.setOwner(USER.id);
+  server.profile = { id: USER.id, display_name: 'K', birth_year: year - 12, ui_language: 'he', goals: [], guardian_consent_at: at };
+  const r = await connectAccount({ kind: 'signin', sync: fakeSync() });
+  assert.equal(r.synced, true);
+  assert.equal(store.get('profile', 'me').guardian_consent_at, at);
+  assert.equal(syncPauseReason(), null);
+});
+
+// The 16+ gate on main used the older age, so a learner born in year - 16 got a server profile without any
+// guardian's agreement; by the youngest age they count as under 16 now. The existing profile is not enough.
+test('a server profile from the 16+ gate for a learner now counted as under 16: sync waits for the agreement, which is then sent to it', async () => {
+  const year = new Date().getFullYear();
+  const old = '2026-10-01T10:00:00.000Z';
+  store.put('profile', { id: 'me', onboarded: true, name: 'Old', birth_year: year - 16, minor: true, consent_terms_at: old });
+  store.put('settings', { id: 'me', ai_consent: true, ai_consent_at: old });
+  store.setOwner(USER.id);
+  server.profile = { id: USER.id, display_name: 'Old', birth_year: year - 16, ui_language: 'he', goals: [], consent_terms_at: old, consent_ai_at: old, guardian_consent_at: null };
+  const sync = fakeSync();
+  const r = await connectAccount({ kind: 'signin', sync });
+  assert.deepEqual({ ok: r.ok, synced: r.synced, reason: r.reason }, { ok: true, synced: false, reason: 'guardian' });
+  assert.equal(syncAllowed(), false, 'nothing is uploaded without the agreement');
+  assert.equal(syncPauseReason(), 'guardian', 'Settings shows the box');
+  assert.equal(sync.runs, 0);
+  assert.equal(server.posts.length + server.patches.length, 0);
+  const at = new Date().toISOString();
+  store.update('profile', 'me', { guardian_consent_at: at });
+  const r2 = await connectAccount({ kind: 'signin', sync });
+  assert.deepEqual({ ok: r2.ok, synced: r2.synced, reason: r2.reason }, { ok: true, synced: true, reason: null });
+  assert.deepEqual(server.patches, [{ guardian_consent_at: at }], 'the agreement is sent to the existing profile');
+  assert.equal(server.posts.length, 0);
+  assert.equal(sync.runs, 1);
+});
+
+test('a new profile does not send AI consent that an under-16 gave without the guardian\'s agreement', async () => {
+  const year = new Date().getFullYear();
+  const at = new Date().toISOString();
+  store.put('profile', { id: 'me', onboarded: true, name: 'K', birth_year: year - 16, guardian_consent_at: at });
+  store.put('settings', { id: 'me', ai_consent: true, ai_consent_at: at });
+  store.setOwner(USER.id);
+  await connectAccount({ kind: 'signin', sync: fakeSync() });
+  assert.equal(server.posts[0].consent_ai_at, null);
+  store.update('settings', 'me', { ai_guardian_consent_at: at });
+  server.profile = null;
+  await connectAccount({ kind: 'signin', sync: fakeSync() });
+  assert.equal(server.posts[1].consent_ai_at, at, 'with the guardian\'s agreement for AI it is sent');
+});
+
+test('signing in over another account\'s data and cancelling signs out and changes nothing (S-06)', async () => {
+  store.put('profile', { id: 'me', onboarded: true, name: 'A', birth_year: 1990 });
+  store.put('writing', { id: 'ess:a', text: 'A\'s essay' });
+  store.setOwner('u-a');
+  answer = 'cancel';
+  const sync = fakeSync();
+  const r = await connectAccount({ kind: 'signin', sync });
+  assert.deepEqual({ ok: r.ok, reason: r.reason }, { ok: false, reason: 'cancelled' });
+  assert.equal(dialogs.length, 1);
+  assert.match(dialogs[0].innerHTML, /data-owner-dialog="other"/);
+  assert.match(dialogs[0].innerHTML, /b@example\.com/);
+  assert.equal(auth.signedIn, false);
+  assert.equal(store.owner(), 'u-a');
+  assert.equal(store.get('writing', 'ess:a').text, 'A\'s essay');
+  assert.equal(server.posts.length, 0, 'A\'s profile is never written to B\'s account');
+  assert.equal(sync.runs, 0);
+});
+
+test('choosing to remove the other account\'s data wipes it and loads this account\'s profile (S-06)', async () => {
+  store.put('profile', { id: 'me', onboarded: true, name: 'A', birth_year: 1990 });
+  store.setOwner('u-a');
+  localStorage.setItem('lucid-sync-cursor:u-b', '2026-01-01T00:00:00Z');
+  server.profile = { id: USER.id, display_name: 'B', birth_year: 2001, ui_language: 'en', goals: [] };
+  answer = 'clear';
+  const sync = fakeSync();
+  const r = await connectAccount({ kind: 'signin', sync });
+  assert.equal(r.ok, true);
+  assert.equal(store.owner(), USER.id);
+  assert.equal(store.get('profile', 'me').name, 'B');
+  assert.equal(localStorage.getItem('lucid-sync-cursor:u-b'), null, 'B pulls everything again');
+  assert.equal(server.posts.length, 0);
+  assert.equal(sync.runs, 1);
+});
+
+test('unowned data on a sign-in is moved only after the learner agrees (S-06)', async () => {
+  store.put('profile', { id: 'me', onboarded: true, name: 'B', birth_year: 2000 });
+  answer = 'move';
+  const r = await connectAccount({ kind: 'signin', sync: fakeSync() });
+  assert.equal(r.ok, true);
+  assert.match(dialogs[0].innerHTML, /data-owner-dialog="unowned"/);
+  assert.equal(store.owner(), USER.id);
+  assert.equal(store.get('profile', 'me').name, 'B', 'kept');
+});
+
+test('a new device with only anonymous session events signs in without a question', async () => {
+  store.put('events', { id: 'ev1', type: 'session', seconds: 40 });
+  const r = await connectAccount({ kind: 'signin', sync: fakeSync() });
+  assert.equal(r.ok, true);
+  assert.equal(dialogs.length, 0);
+  assert.equal(store.owner(), USER.id);
+});

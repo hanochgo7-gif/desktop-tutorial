@@ -1,0 +1,42 @@
+{
+  "name": "מרקר – המחברת שמסמנת לך מה חשוב",
+  "short_name": "מרקר",
+  "description": "סיכום מסודר לכל שיעור, משימות ודדליינים במקום אחד, וחזרה יומית קצרה שמקבעת את החומר.",
+  "lang": "he",
+  "dir": "rtl",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F2F2F7",
+  "theme_color": "#F2F2F7",
+  "icons": [
+    {
+      "src": "brand/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "brand/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "brand/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "brand/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "id": "./",
+  "orientation": "portrait",
+  "categories": [
+    "education",
+    "productivity"
+  ]
+}

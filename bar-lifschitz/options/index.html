@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>שירותים ותוספות | בר ליפשיץ</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="סמן מה אתה רוצה להציע, ונכניס את זה לאתר ולטופס תיאום הארוחה.">
+<meta property="og:title" content="מה להכניס לאתר? שירותים ותוספות">
+<meta property="og:description" content="סמן וי על מה שאתה עושה. שתי דקות.">
+<meta property="og:image" content="https://hanochgo7-gif.github.io/desktop-tutorial/bar-lifschitz/images/og.jpg">
+<meta name="theme-color" content="#1e0d12">
+<link rel="icon" href="../brand/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bellefair&family=Assistant:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --linen: #f3f2ec; --paper: #ebe9e1; --fig: #2b1219; --night: #1e0d12; --beet: #9c1b2c; --rose: #e7a3ad;
+    --olive: #5e6142; --soft: #6b5a5e; --line: rgba(43,18,25,.16);
+    --display: "Bellefair", "Frank Ruhl Libre", serif;
+    --body: "Assistant", "Heebo", system-ui, sans-serif;
+    --ease: cubic-bezier(.2,.7,.2,1);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); color: var(--fig); font: 400 1.075rem/1.65 var(--body); -webkit-font-smoothing: antialiased; }
+  button, input, textarea { font: inherit; color: inherit; }
+  :focus-visible { outline: 2px solid var(--beet); outline-offset: 3px; }
+  h1, h2, h3 { font-family: var(--display); font-weight: 400; margin: 0; line-height: 1.05; }
+  p { margin: 0 0 1em; }
+
+  /* ---------- מבנה ---------- */
+  .top {
+    position: sticky; top: 0; z-index: 10; background: var(--night); color: var(--linen);
+    padding: 14px clamp(16px, 5vw, 40px) 0;
+  }
+  .top-row { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; max-width: 760px; margin: 0 auto; }
+  .top .mark { font-family: var(--display); font-size: 1.45rem; }
+  .top .where { font-size: .9rem; color: #d4c7ca; }
+  .bar { max-width: 760px; margin: 12px auto 0; height: 2px; background: rgba(243,242,236,.15); }
+  .bar i { display: block; height: 100%; background: var(--rose); transform-origin: right; transform: scaleX(0); transition: transform .6s var(--ease); }
+
+  main { max-width: 760px; margin: 0 auto; padding: clamp(28px, 6vw, 56px) clamp(16px, 5vw, 40px) 140px; }
+  .step { display: none; }
+  .step.on { display: block; animation: rise .55s var(--ease) both; }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @media (prefers-reduced-motion: reduce) { .step.on { animation: none; } .bar i { transition: none; } }
+
+  .kicker { color: var(--beet); font-size: .95rem; font-weight: 600; margin-bottom: 10px; }
+  .step h2 { font-size: clamp(2.2rem, 7vw, 3.2rem); margin-bottom: 12px; }
+  .lead { color: var(--soft); font-size: 1.05rem; max-width: 36em; margin-bottom: 28px; }
+
+  /* ---------- שאלה ---------- */
+  .q { padding: 24px 0; border-top: 1px solid var(--line); }
+  .q[hidden] { display: none; }
+  .q-title { font-weight: 700; font-size: 1.08rem; line-height: 1.45; margin-bottom: 4px; display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+  .q-title .key { font-weight: 600; font-size: .78rem; color: var(--beet); border: 1px solid rgba(156,27,44,.35); border-radius: 999px; padding: 1px 9px; }
+  .q-hint { color: var(--soft); font-size: .95rem; margin-bottom: 12px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+  .chip { position: relative; }
+  .chip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .chip span {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 8px 18px;
+    border: 1px solid rgba(43,18,25,.35); border-radius: 999px; background: var(--linen);
+    cursor: pointer; font-weight: 600; font-size: .98rem; line-height: 1.3;
+    transition: background-color .2s, color .2s, border-color .2s;
+  }
+  .chip input:checked + span { background: var(--fig); border-color: var(--fig); color: var(--linen); }
+  .chip input:focus-visible + span { outline: 2px solid var(--beet); outline-offset: 3px; }
+  .field { margin-top: 12px; }
+  .field input, .field textarea {
+    width: 100%; background: var(--linen); border: 1px solid rgba(43,18,25,.25); border-radius: 2px;
+    padding: 12px 14px; font-size: 1rem; line-height: 1.5;
+  }
+  .field textarea { min-height: 92px; resize: vertical; }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--fig); box-shadow: 0 0 0 1px var(--fig); }
+  .field input::placeholder, .field textarea::placeholder { color: #9a8f8c; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .grid3 { display: grid; grid-template-columns: 2fr 1fr; gap: 10px; }
+  @media (max-width: 520px) { .grid2 { grid-template-columns: 1fr; } }
+  .mini { font-size: .85rem; color: var(--soft); margin: 6px 0 0; }
+
+  /* אישור עובדות מהאתר */
+  .fact { background: var(--linen); border: 1px solid var(--line); padding: 16px 18px; margin-top: 12px; }
+  .fact p { margin: 0 0 10px; font-family: var(--display); font-size: 1.2rem; line-height: 1.35; }
+  .fact .chips { margin-top: 0; }
+
+  /* ---------- פתיחה ---------- */
+  .intro-card { background: var(--night); color: var(--linen); padding: clamp(28px, 6vw, 48px); margin-bottom: 28px; position: relative; overflow: hidden; }
+  .intro-card::after { content: ""; position: absolute; inset: 10px; border: 1px solid rgba(243,242,236,.2); pointer-events: none; }
+  .intro-card h1 { font-size: clamp(2.6rem, 9vw, 4rem); margin-bottom: 14px; }
+  .intro-card p { color: #e2d8da; max-width: 32em; }
+  .intro-list { list-style: none; padding: 0; margin: 22px 0 0; display: grid; gap: 8px; color: #e2d8da; font-size: .98rem; }
+  .intro-list li::before { content: "·"; color: var(--rose); margin-inline-end: 10px; font-weight: 700; }
+  .intro-card a { color: var(--rose); }
+
+  /* ---------- ניווט תחתון ---------- */
+  .nav {
+    position: fixed; inset: auto 0 0 0; z-index: 10; background: rgba(235,233,225,.94);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-top: 1px solid var(--line);
+    padding: 12px clamp(16px, 5vw, 40px) calc(12px + env(safe-area-inset-bottom));
+  }
+  .nav-row { max-width: 760px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; min-height: 50px; padding: 0 26px;
+    border-radius: 999px; border: 1px solid var(--fig); background: var(--fig); color: var(--linen);
+    font-weight: 700; font-size: 1rem; cursor: pointer; text-decoration: none; transition: background-color .2s, border-color .2s;
+  }
+  .btn:hover { background: var(--beet); border-color: var(--beet); }
+  .btn.ghost { background: transparent; color: var(--fig); }
+  .btn.ghost:hover { background: var(--fig); color: var(--linen); }
+  .btn[hidden] { display: none; }
+  .saved { font-size: .85rem; color: var(--soft); }
+
+  /* ---------- סיכום ---------- */
+  .summary { background: var(--linen); border: 1px solid var(--line); padding: 20px; white-space: pre-wrap; font-size: .95rem; line-height: 1.6; max-height: 50vh; overflow: auto; }
+  .done-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
+  .note { color: var(--soft); font-size: .95rem; margin-top: 14px; }
+  .toast { position: fixed; z-index: 20; inset: auto 50% 96px auto; transform: translate(50%, 20px); opacity: 0; background: var(--fig); color: var(--linen); padding: 10px 18px; border-radius: 999px; font-size: .95rem; transition: opacity .3s, transform .3s; pointer-events: none; }
+  .toast.show { opacity: 1; transform: translate(50%, 0); }
+</style>
+
+<style>
+  .sec { padding: 30px 0 8px; border-top: 1px solid var(--line); }
+  .sec h2 { font-size: clamp(1.9rem, 6vw, 2.5rem); margin-bottom: 6px; }
+  .sec .lead { margin-bottom: 14px; }
+  .items { display: grid; gap: 8px; }
+  .item { position: relative; display: flex; gap: 14px; align-items: flex-start; padding: 14px 16px; background: var(--linen); border: 1px solid rgba(43,18,25,.16); cursor: pointer; transition: border-color .2s, background-color .2s; }
+  .item input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .item .box { flex: 0 0 auto; width: 28px; height: 28px; border: 1.5px solid rgba(43,18,25,.5); border-radius: 6px; display: grid; place-items: center; margin-top: 1px; transition: background-color .2s, border-color .2s; }
+  .item .box::after { content: ""; width: 12px; height: 7px; border-left: 2.5px solid var(--linen); border-bottom: 2.5px solid var(--linen); transform: rotate(-45deg) translate(1px, -2px); opacity: 0; }
+  .item input:checked ~ .box { background: var(--fig); border-color: var(--fig); }
+  .item input:checked ~ .box::after { opacity: 1; }
+  .item:has(input:checked) { border-color: var(--fig); }
+  .item input:focus-visible ~ .box { outline: 2px solid var(--beet); outline-offset: 3px; }
+  .txt { display: grid; gap: 2px; }
+  .name { font-weight: 700; font-size: 1.05rem; line-height: 1.4; }
+  .desc { color: var(--soft); font-size: .95rem; }
+  .from { justify-self: start; margin-top: 4px; font-size: .78rem; font-weight: 600; color: var(--beet); border: 1px solid rgba(156,27,44,.35); border-radius: 999px; padding: 1px 9px; }
+  .count { font-size: .95rem; color: var(--soft); }
+  #final { padding-top: 30px; border-top: 1px solid var(--line); }
+</style>
+
+</head>
+<body>
+
+<header class="top">
+  <div class="top-row">
+    <span class="mark">בר ליפשיץ</span>
+    <span class="where count" id="count"></span>
+  </div>
+  <div class="bar" aria-hidden="true"><i id="bar"></i></div>
+</header>
+
+<main>
+  <div class="intro-card">
+    <h1>מה להכניס לאתר?</h1>
+    <p>היי בר. בטופס תיאום הארוחה יופיעו סגנונות הגשה ותוספות שהלקוח יכול לבחור. סמן וי על כל מה שאתה עושה או רוצה להציע. מה שלא תסמן, לא ייכנס.</p>
+    <ul class="intro-list">
+      <li>שתי דקות, הכול בלחיצות</li>
+      <li>מה שכבר כתבת בשאלון מסומן מראש. אפשר להוריד</li>
+      <li>הכול נשמר בטלפון שלך, אז אפשר לעצור ולהמשיך</li>
+      <li>בסוף, לחיצה אחת שולחת לנו בוואטסאפ</li>
+    </ul>
+  </div>
+  <section class="sec" data-sec="serve">
+    <h2>סגנונות הגשה</h2>
+    <p class="lead">באירועים ובארוחות אצל לקוחות. הלקוח יבחר בטופס באתר.</p>
+    <div class="items">
+      <label class="item"><input type="checkbox" id="serve-0" data-name="מנות אישיות"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">מנות אישיות</span><span class="desc">כל אורח מקבל צלחת משלו, מנה אחרי מנה</span></span></label>
+      <label class="item"><input type="checkbox" id="serve-1" data-name="מרכז שולחן"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">מרכז שולחן</span><span class="desc">מגשים משותפים באמצע השולחן</span></span></label>
+      <label class="item"><input type="checkbox" id="serve-2" data-name="בופה"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">בופה</span><span class="desc">עמדה שכל אחד לוקח ממנה</span></span></label>
+      <label class="item"><input type="checkbox" id="serve-3" data-name="מנות קטנות מסתובבות"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">מנות קטנות מסתובבות</span><span class="desc">ביסים שהמלצרים מגישים בין האורחים, בעמידה</span></span></label>
+    </div>
+    <div class="field"><textarea id="serve-note" placeholder="הערות (לא חובה): מחיר נוסף, מינימום אורחים, דרך מי..."></textarea></div>
+  </section>
+  <section class="sec" data-sec="events">
+    <h2>סוגי אירועים</h2>
+    <p class="lead">על מה תרצה לכתוב באתר במפורש.</p>
+    <div class="items">
+      <label class="item"><input type="checkbox" id="events-0" data-name="ימי הולדת וימי נישואין"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">ימי הולדת וימי נישואין</span></span></label>
+      <label class="item"><input type="checkbox" id="events-1" data-name="הצעות נישואין"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">הצעות נישואין</span></span></label>
+      <label class="item"><input type="checkbox" id="events-2" data-name="מסיבות רווקים ורווקות"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">מסיבות רווקים ורווקות</span></span></label>
+      <label class="item"><input type="checkbox" id="events-3" data-name="חתונות קטנות"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">חתונות קטנות</span></span></label>
+      <label class="item"><input type="checkbox" id="events-4" data-name="ארוחות חג"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">ארוחות חג</span><span class="desc">ראש השנה, פסח וכדומה</span></span></label>
+      <label class="item"><input type="checkbox" id="events-5" data-name="ערבי משפחה"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">ערבי משפחה</span></span></label>
+      <label class="item"><input type="checkbox" id="events-6" data-name="ארוחות הנהלה וערבי צוות" checked><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">ארוחות הנהלה וערבי צוות</span><span class="from">כתבת בשאלון</span></span></label>
+      <label class="item"><input type="checkbox" id="events-7" data-name="השקות ושיתופי פעולה עם מותגים" checked><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">השקות ושיתופי פעולה עם מותגים</span><span class="from">כתבת בשאלון</span></span></label>
+    </div>
+    <div class="field"><textarea id="events-note" placeholder="הערות (לא חובה): מחיר נוסף, מינימום אורחים, דרך מי..."></textarea></div>
+  </section>
+  <section class="sec" data-sec="drinks">
+    <h2>שתייה</h2>
+    <div class="items">
+      <label class="item"><input type="checkbox" id="drinks-0" data-name="יין מיקבים מקומיים" checked><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">יין מיקבים מקומיים</span><span class="from">כתבת בשאלון</span></span></label>
+      <label class="item"><input type="checkbox" id="drinks-1" data-name="אפשר להביא יין" checked><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">אפשר להביא יין</span><span class="from">כתבת בשאלון</span></span></label>
+      <label class="item"><input type="checkbox" id="drinks-2" data-name="קוקטיילים של Kuller" checked><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">קוקטיילים של Kuller</span><span class="from">כתבת בשאלון</span></span></label>
+      <label class="item"><input type="checkbox" id="drinks-3" data-name="התאמת יין לכל מנה"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">התאמת יין לכל מנה</span></span></label>
+      <label class="item"><input type="checkbox" id="drinks-4" data-name="הסבר על היין בזמן הארוחה"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">הסבר על היין בזמן הארוחה</span></span></label>
+      <label class="item"><input type="checkbox" id="drinks-5" data-name="התאמה ללא אלכוהול"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">התאמה ללא אלכוהול</span><span class="desc">לימונדות וחליטות בית</span></span></label>
+      <label class="item"><input type="checkbox" id="drinks-6" data-name="עמדת בר עם ברמן"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">עמדת בר עם ברמן</span></span></label>
+    </div>
+    <div class="field"><textarea id="drinks-note" placeholder="הערות (לא חובה): מחיר נוסף, מינימום אורחים, דרך מי..."></textarea></div>
+  </section>
+  <section class="sec" data-sec="staff">
+    <h2>צוות ושירות</h2>
+    <div class="items">
+      <label class="item"><input type="checkbox" id="staff-0" data-name="מלצרים לפי גודל האירוע" checked><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">מלצרים לפי גודל האירוע</span><span class="from">כתבת בשאלון</span></span></label>
+      <label class="item"><input type="checkbox" id="staff-1" data-name="סו־שף ועוזרי מטבח"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">סו־שף ועוזרי מטבח</span></span></label>
+      <label class="item"><input type="checkbox" id="staff-2" data-name="הקמה ופירוק"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">הקמה ופירוק</span></span></label>
+      <label class="item"><input type="checkbox" id="staff-3" data-name="שטיפת כלים ופינוי"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">שטיפת כלים ופינוי</span></span></label>
+    </div>
+    <div class="field"><textarea id="staff-note" placeholder="הערות (לא חובה): מחיר נוסף, מינימום אורחים, דרך מי..."></textarea></div>
+  </section>
+  <section class="sec" data-sec="gear">
+    <h2>ציוד ועיצוב</h2>
+    <p class="lead">אם אתה מביא בעצמך או דרך ספק שאתה עובד איתו.</p>
+    <div class="items">
+      <label class="item"><input type="checkbox" id="gear-0" data-name="השכרת שולחנות וכיסאות"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">השכרת שולחנות וכיסאות</span></span></label>
+      <label class="item"><input type="checkbox" id="gear-1" data-name="כלים ומפות"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">כלים ומפות</span></span></label>
+      <label class="item"><input type="checkbox" id="gear-2" data-name="עיצוב שולחן ופרחים"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">עיצוב שולחן ופרחים</span></span></label>
+      <label class="item"><input type="checkbox" id="gear-3" data-name="תאורה, שרשראות נורות"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">תאורה, שרשראות נורות</span></span></label>
+      <label class="item"><input type="checkbox" id="gear-4" data-name="תנורי חימום ואוהל לחורף"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">תנורי חימום ואוהל לחורף</span></span></label>
+    </div>
+    <div class="field"><textarea id="gear-note" placeholder="הערות (לא חובה): מחיר נוסף, מינימום אורחים, דרך מי..."></textarea></div>
+  </section>
+  <section class="sec" data-sec="experience">
+    <h2>חוויה</h2>
+    <div class="items">
+      <label class="item"><input type="checkbox" id="experience-0" data-name="בישול מול האורחים" checked><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">בישול מול האורחים</span><span class="from">כתבת בשאלון</span></span></label>
+      <label class="item"><input type="checkbox" id="experience-1" data-name="עמדת אש או גריל חיה"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">עמדת אש או גריל חיה</span></span></label>
+      <label class="item"><input type="checkbox" id="experience-2" data-name="הסבר שלך על כל מנה"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">הסבר שלך על כל מנה</span></span></label>
+      <label class="item"><input type="checkbox" id="experience-3" data-name="סדנת בישול לפני הארוחה"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">סדנת בישול לפני הארוחה</span><span class="desc">מתאים במיוחד לחברות</span></span></label>
+      <label class="item"><input type="checkbox" id="experience-4" data-name="משקה ונשנוש בקבלת הפנים"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">משקה ונשנוש בקבלת הפנים</span></span></label>
+      <label class="item"><input type="checkbox" id="experience-5" data-name="שולחן קינוחים או עוגת יום הולדת"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">שולחן קינוחים או עוגת יום הולדת</span></span></label>
+      <label class="item"><input type="checkbox" id="experience-6" data-name="תפריט ילדים באירועים אצל לקוחות"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">תפריט ילדים באירועים אצל לקוחות</span></span></label>
+      <label class="item"><input type="checkbox" id="experience-7" data-name="מנת לילה מאוחרת באירועים ארוכים"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">מנת לילה מאוחרת באירועים ארוכים</span></span></label>
+    </div>
+    <div class="field"><textarea id="experience-note" placeholder="הערות (לא חובה): מחיר נוסף, מינימום אורחים, דרך מי..."></textarea></div>
+  </section>
+  <section class="sec" data-sec="custom">
+    <h2>התאמה אישית</h2>
+    <div class="items">
+      <label class="item"><input type="checkbox" id="custom-0" data-name="תפריט שנבנה לפי האירוע והעונה" checked><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">תפריט שנבנה לפי האירוע והעונה</span><span class="from">כתבת בשאלון</span></span></label>
+      <label class="item"><input type="checkbox" id="custom-1" data-name="צמחוני, ללא גלוטן, ללא אגוזים, ללא לקטוז" checked><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">צמחוני, ללא גלוטן, ללא אגוזים, ללא לקטוז</span><span class="from">כתבת בשאלון</span></span></label>
+      <label class="item"><input type="checkbox" id="custom-2" data-name="טבעוני"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">טבעוני</span></span></label>
+      <label class="item"><input type="checkbox" id="custom-3" data-name="פגישת טעימות לפני אירוע גדול"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">פגישת טעימות לפני אירוע גדול</span></span></label>
+      <label class="item"><input type="checkbox" id="custom-4" data-name="תפריט מודפס עם שמות האורחים"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">תפריט מודפס עם שמות האורחים</span></span></label>
+    </div>
+    <div class="field"><textarea id="custom-note" placeholder="הערות (לא חובה): מחיר נוסף, מינימום אורחים, דרך מי..."></textarea></div>
+  </section>
+  <section class="sec" data-sec="extras">
+    <h2>מתנות ושותפים</h2>
+    <div class="items">
+      <label class="item"><input type="checkbox" id="extras-0" data-name="משהו לקחת הביתה"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">משהו לקחת הביתה</span><span class="desc">צנצנת מהמזווה, פוקאצ׳ה או כרטיס מתכון</span></span></label>
+      <label class="item"><input type="checkbox" id="extras-1" data-name="צלם"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">צלם</span><span class="desc">דרך שותפים</span></span></label>
+      <label class="item"><input type="checkbox" id="extras-2" data-name="נגן או מוזיקאי"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">נגן או מוזיקאי</span><span class="desc">דרך שותפים</span></span></label>
+      <label class="item"><input type="checkbox" id="extras-3" data-name="המלצות על צימרים ליד מצפה מתת"><span class="box" aria-hidden="true"></span><span class="txt"><span class="name">המלצות על צימרים ליד מצפה מתת</span><span class="desc">למי שמגיע מרחוק</span></span></label>
+    </div>
+    <div class="field"><textarea id="extras-note" placeholder="הערות (לא חובה): מחיר נוסף, מינימום אורחים, דרך מי..."></textarea></div>
+  </section>
+
+  <section class="sec" id="final">
+    <h2>עוד משהו?</h2>
+    <p class="lead">שירות שאתה עושה ולא מופיע כאן, או משהו שחשוב שנדע.</p>
+    <div class="field"><textarea id="more" placeholder="למשל: אני עושה גם ארוחות צהריים"></textarea></div>
+    <div class="done-actions"><button class="btn" type="button" id="send">שליחה בוואטסאפ</button><button class="btn ghost" type="button" id="copy">העתקה</button></div>
+    <p class="note">הכפתור פותח וואטסאפ עם כל הסימונים. בוחרים את מי ששלח לך את הקישור, ולוחצים שליחה.</p>
+  </section>
+</main>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+  // למי נשלחות התשובות. ריק: וואטסאפ שואל למי לשלוח.
+  const SEND_TO = '';
+  (function () {
+    const KEY = 'barlif-options-v1';
+    const boxes = [...document.querySelectorAll('.item input')];
+    const notes = [...document.querySelectorAll('textarea')];
+    // שחזור מה שסומן קודם
+    try {
+      const saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+      if (saved) {
+        boxes.forEach(b => { if (b.id in saved.c) b.checked = saved.c[b.id]; });
+        notes.forEach(t => { if (saved.n[t.id]) t.value = saved.n[t.id]; });
+      }
+    } catch (e) {}
+    const save = () => {
+      try { localStorage.setItem(KEY, JSON.stringify({ c: Object.fromEntries(boxes.map(b => [b.id, b.checked])), n: Object.fromEntries(notes.map(t => [t.id, t.value])) })); } catch (e) {}
+    };
+    const count = () => {
+      const n = boxes.filter(b => b.checked).length;
+      document.getElementById('count').textContent = `${n} מסומנים`;
+      document.getElementById('bar').style.transform = `scaleX(${n / boxes.length})`;
+    };
+    document.addEventListener('change', () => { save(); count(); });
+    document.addEventListener('input', save);
+    count();
+
+    const text = () => {
+      const out = ['שירותים ותוספות לאתר של בר', ''];
+      document.querySelectorAll('.sec[data-sec]').forEach(sec => {
+        const yes = [...sec.querySelectorAll('input:checked')].map(b => '✓ ' + b.dataset.name);
+        const note = sec.querySelector('textarea').value.trim();
+        out.push('*' + sec.querySelector('h2').textContent + '*');
+        out.push(...(yes.length ? yes : ['(לא סומן כלום)']));
+        if (note) out.push('הערות: ' + note);
+        out.push('');
+      });
+      const more = document.getElementById('more').value.trim();
+      if (more) out.push('*עוד:* ' + more);
+      return out.join('\n').trim();
+    };
+    const toast = msg => { const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 2200); };
+    document.getElementById('send').addEventListener('click', () => {
+      window.open(`https://wa.me/${SEND_TO}?text=${encodeURIComponent(text())}`, '_blank', 'noopener');
+    });
+    document.getElementById('copy').addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(text()); toast('הסימונים הועתקו'); } catch (e) { toast('לא הצלחתי להעתיק'); }
+    });
+  })();
+</script>
+</body>
+</html>

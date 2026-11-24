@@ -1,0 +1,18 @@
+clinic/preview/
+
+# design-tool working files (dev only, never published)
+crm/.impeccable/
+.impeccable/
+
+# design-skill working files (screenshots, direction sheet), never published
+.taste-skill/
+
+# Lucid: dev dependencies (tests and research tools only)
+lucid/node_modules/
+__pycache__/
+
+# Lucid: the Vercel build output (tools/build/vercel-build.mjs)
+lucid/dist/
+
+# melachot: course material from the student (lecture slides, photos, transcripts). Kept out of the public repo.
+melachot/private/

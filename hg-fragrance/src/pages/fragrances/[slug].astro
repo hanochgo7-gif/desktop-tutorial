@@ -1,0 +1,576 @@
+---
+import FragrancePicker from '../../components/FragrancePicker.astro';
+import { getImage } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Media from '../../components/Media.astro';
+import StillsGrid from '../../components/StillsGrid.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import Purchase from '../../components/Purchase.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { products, bySeason, isPurchasable, type Product } from '../../data/catalog';
+import { img } from '../../assets/images';
+import { commerce, site } from '../../config/site';
+import { t } from '../../i18n/ui';
+
+export function getStaticPaths() {
+  return products.map((product) => ({ params: { slug: product.slug }, props: { product } }));
+}
+
+interface Props {
+  product: Product;
+}
+const { product: p } = Astro.props;
+const lang = site.locale.lang;
+const fmt = new Intl.NumberFormat('en', { style: 'currency', currency: commerce.currency, maximumFractionDigits: 0 });
+const purchasable = isPurchasable(p);
+const variants = p.variants.filter((v) => v.available);
+const first = variants[0];
+const storyTitle = p.storyTitle.split('|');
+
+const share = await getImage({ src: img(p.packshot), width: 1200, format: 'jpg', quality: 80 });
+const zoom = await Promise.all(p.gallery.map((g) => getImage({ src: img(g.name), width: 2000, format: 'webp', quality: 82 })));
+const countryNames = new Intl.DisplayNames(['en'], { type: 'region' });
+const countries = commerce.shippingCountries.map((c) => countryNames.of(c) ?? c);
+const formId = `buy-${p.slug}`;
+const others = bySeason().filter((o) => o.slug !== p.slug);
+// Gallery slides: the images, with the product film (if any) second.
+type Slide = { kind: 'img'; i: number } | { kind: 'film' };
+const slides: Slide[] = p.gallery.map((_, i) => ({ kind: 'img' as const, i }));
+if (p.galleryFilm) slides.splice(1, 0, { kind: 'film' });
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: `HG ${p.name}`,
+  description: p.story[0],
+  image: new URL(share.src, Astro.site).toString(),
+  brand: { '@type': 'Brand', name: site.fullName },
+  category: `Fragrance — ${p.concentration}`,
+  ...(purchasable && commerce.pricesConfirmed
+    ? {
+        offers: variants.map((v) => ({
+          '@type': 'Offer',
+          sku: v.id,
+          name: `${p.name} ${v.label}`,
+          price: v.price,
+          priceCurrency: commerce.currency,
+          availability: 'https://schema.org/InStock',
+          url: new URL(`/fragrances/${p.slug}`, Astro.site).toString(),
+        })),
+      }
+    : {}),
+};
+---
+
+<Base title={p.name} description={`HG ${p.name}, ${p.concentration}${purchasable ? '' : ', coming soon'}. ${p.shortLine}`} image={share.src} jsonLd={ld}>
+  <section class="pdp" aria-labelledby="pdp-title">
+    <div class="wrap grid">
+      <div class="pdp__gallery" data-gallery>
+        <ul class="pdp__track" role="list" data-gallery-track>
+          {
+            slides.map((sl, n) => {
+              if (sl.kind === 'film' && p.galleryFilm) {
+                return (
+                  <li class="pdp__slide">
+                    <div class="pdp__film">
+                      <picture>
+                        <source srcset={`${p.galleryFilm.poster}.webp`} type="image/webp" />
+                        <img src={`${p.galleryFilm.poster}.jpg`} alt={p.galleryFilm.alt} width="1440" height="1800" loading="lazy" decoding="async" />
+                      </picture>
+                      <video id="gallery-film" data-ambient data-src={p.galleryFilm.src} muted playsinline loop preload="none" aria-hidden="true" tabindex="-1" />
+                      <button class="pdp__film-pause label" type="button" data-ambient-toggle aria-controls="gallery-film">Pause</button>
+                    </div>
+                  </li>
+                );
+              }
+              if (sl.kind !== 'img') return null;
+              const i = sl.i;
+              const g = p.gallery[i];
+              return (
+              <li class="pdp__slide">
+                <button
+                  type="button"
+                  class="pdp__zoom"
+                  data-lightbox={`pdp-${p.slug}`}
+                  data-full={zoom[i].src}
+                  data-alt={g.alt}
+                  data-caption={g.alt}
+                  aria-label={`Enlarge image ${n + 1} of ${slides.length}: ${g.alt}`}
+                >
+                  <Media name={g.name} alt={g.alt} ratio="4 / 5" sizes="(min-width: 900px) 52vw, 88vw" position={g.focus ?? '50% 40%'} priority={i === 0} reveal={false} />
+                </button>
+              </li>
+              );
+            })
+          }
+        </ul>
+        {
+          slides.length > 1 && (
+            <div class="pdp__dots" role="group" aria-label="Gallery">
+              {slides.map((_, n) => (
+                <button type="button" class="pdp__dot" data-gallery-dot aria-current={n === 0 ? 'true' : 'false'} aria-label={`Slide ${n + 1} of ${slides.length}`} />
+              ))}
+            </div>
+          )
+        }
+      </div>
+
+      <div class="pdp__info">
+        <div class="pdp__sticky">
+          <FragrancePicker current={p.slug} mode="links" />
+          <h1 class="h1 pdp__title" id="pdp-title">{p.name}</h1>
+          <p class="lead it muted">{p.concentration}</p>
+          <p class="serif pdp__line">{p.shortLine}</p>
+          {
+            purchasable ? (
+              <Purchase product={p} id={formId} pdp />
+            ) : (
+              <div class="pdp__soon">
+                <p class="label">Coming soon</p>
+                <p class="muted">{p.name} is not available yet. Unforgettable is available now.</p>
+                <a class="btn btn--solid" href="/fragrances/unforgettable">Discover Unforgettable</a>
+              </div>
+            )
+          }
+          <div class="pdp__details">
+            <details>
+              <summary class="label">The flacon</summary>
+              <p>{p.bottle}</p>
+            </details>
+            {
+              purchasable && (
+                <>
+                  {site.demo ? (
+                    <details id="pdp-delivery">
+                      <summary class="label">Delivery, returns &amp; payment</summary>
+                      <p>This is a demonstration site: checkout is switched off, so no order is placed, nothing is shipped and nothing is charged. You can still choose a size and use the bag, which stays saved on this device.</p>
+                    </details>
+                  ) : (
+                    <>
+                      <details id="pdp-delivery">
+                        <summary class="label">Delivery &amp; returns</summary>
+                        <p>We deliver to {countries.join(', ')}. Shipping and any taxes are shown on the checkout page, before you pay.</p>
+                        <p>Your rights under the consumer law of your country always apply. <a class="link" href="/legal/terms">Terms of sale</a></p>
+                      </details>
+                      <details>
+                        <summary class="label">Payment</summary>
+                        <p>Payment is taken on Stripe’s secure checkout page — HG never sees your card number. Your bag is kept on this device until you check out.</p>
+                      </details>
+                    </>
+                  )}
+                </>
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {
+    purchasable && (
+  <div class="pdp-bar" data-pdp-bar hidden>
+      <div class="pdp-bar__info">
+        <span class="serif pdp-bar__name">{p.name}</span>
+        <span class="label faint" data-variant-price-for={formId}>{fmt.format(first.price)}</span>
+      </div>
+      <button class="btn btn--solid" type="submit" form={formId}>{t('product.add', lang)}</button>
+    </div>
+    )
+  }
+
+  <section class="section pdp-story" aria-labelledby="story-title">
+    <div class="wrap grid">
+      <div class="pdp-story__visual">
+        {
+          p.storyFilm ? (
+            <div class="pdp-story__film" data-reveal="fade">
+              <picture>
+                <source srcset={`${p.storyFilm.poster}.webp`} type="image/webp" />
+                <img src={`${p.storyFilm.poster}.jpg`} alt={p.storyFilm.alt} width="1080" height="1920" loading="lazy" decoding="async" />
+              </picture>
+              <video id="story-film" data-ambient data-src={p.storyFilm.src} muted playsinline loop preload="none" aria-hidden="true" tabindex="-1" />
+              <button class="pdp-story__pause label" type="button" data-ambient-toggle aria-controls="story-film">Pause</button>
+            </div>
+          ) : (
+            <Media name={p.portrait.name} alt={p.portrait.alt} ratio="4 / 5" sizes="(min-width: 900px) 42vw, 100vw" position={p.portrait.focus ?? '50% 40%'} />
+          )
+        }
+      </div>
+      <div class="pdp-story__copy">
+        <h2 class="h2" id="story-title">{storyTitle[0]}<em>{storyTitle[1]}</em></h2>
+        <div class="prose">
+          {p.story.slice(0, 2).map((para) => <p>{para}</p>)}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {purchasable && p.campaign.length >= 3 && (
+  <section class="section pdp-campaign" aria-label="The campaign">
+    <div class="wrap">
+      <StillsGrid items={p.campaign} group={p.slug} numbered={false} />
+      <p class="pdp-campaign__more"><a class="link label" href="/campaigns">The campaign</a></p>
+    </div>
+  </section>
+  )}
+
+  <section class="section pdp-more" aria-labelledby="more-title">
+    <div class="wrap">
+      <header class="pdp-more__head">
+        <h2 class="h2" id="more-title">The collection</h2>
+        <a class="link label" href="/fragrances">All fragrances</a>
+      </header>
+      <ul class="pdp-more__grid" role="list">
+        {others.map((o) => <li><ProductCard product={o} /></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <Lightbox />
+</Base>
+
+<style is:global>
+  .pdp {
+    padding-top: calc(var(--header-h) + clamp(1.5rem, 4vw, 3rem));
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+  }
+  .pdp .grid {
+    row-gap: 2.5rem;
+    align-items: start;
+  }
+  .pdp__gallery,
+  .pdp__info {
+    grid-column: 1 / -1;
+  }
+  .pdp__gallery {
+    position: relative;
+  }
+  .pdp__track {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 88%;
+    gap: var(--gap);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+    scroll-padding-inline: var(--gutter);
+    scrollbar-width: none;
+  }
+  .pdp__track::-webkit-scrollbar {
+    display: none;
+  }
+  .pdp__slide {
+    scroll-snap-align: start;
+  }
+  .pdp__dots {
+    display: flex;
+    justify-content: center;
+    gap: 0.25rem;
+    margin-top: 1rem;
+  }
+  .pdp__dot {
+    width: 2.25rem;
+    height: 2.25rem;
+    display: grid;
+    place-items: center;
+  }
+  .pdp__dot::before {
+    content: '';
+    width: 1.5rem;
+    height: 1px;
+    background: var(--c-line-strong);
+    transition: background-color var(--dur-2);
+  }
+  .pdp__dot[aria-current='true']::before {
+    background: var(--c-text);
+  }
+  .pdp__sticky {
+    display: grid;
+    gap: 1.25rem;
+    justify-items: start;
+  }
+  .pdp__sticky > .pick {
+    justify-self: stretch;
+    max-width: 30rem;
+    margin-bottom: 0.75rem;
+  }
+  .pdp__title {
+    font-size: clamp(3rem, 1.2rem + 4.4vw, 6.25rem);
+  }
+  .pdp__line {
+    font-size: var(--step-1);
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--c-line);
+    width: 100%;
+  }
+  .pdp__film {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    overflow: hidden;
+    background: #d9d7d3;
+  }
+  .pdp__film img,
+  .pdp__film video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 45%;
+  }
+  .pdp__film video {
+    opacity: 0;
+    transition: opacity 1s var(--ease-soft);
+  }
+  .pdp__film video.is-playing {
+    opacity: 1;
+  }
+  .pdp__film-pause {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    min-height: 2.75rem;
+    padding-inline: 0.75rem;
+    color: rgb(239 231 216 / 0.9);
+    background: rgb(10 9 8 / 0.45);
+    transition: color var(--dur-2);
+  }
+  .pdp__film-pause:hover {
+    color: var(--c-ivory);
+  }
+  .pdp__zoom {
+    position: relative;
+    display: block;
+    width: 100%;
+    cursor: zoom-in;
+  }
+  .pdp__details {
+    width: 100%;
+    margin-top: 0.5rem;
+    border-top: 1px solid var(--c-line);
+  }
+  .pdp__details details {
+    border-bottom: 1px solid var(--c-line);
+  }
+  .pdp__details summary {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 3rem;
+    cursor: pointer;
+    transition: color var(--dur-2);
+  }
+  .pdp__details summary::-webkit-details-marker {
+    display: none;
+  }
+  .pdp__details summary::after {
+    content: '';
+    width: 0.6rem;
+    height: 0.6rem;
+    background:
+      linear-gradient(currentColor, currentColor) center / 100% 1px no-repeat,
+      linear-gradient(currentColor, currentColor) center / 1px 100% no-repeat;
+    transition: transform var(--dur-2) var(--ease-out);
+  }
+  .pdp__details details[open] summary::after {
+    transform: rotate(45deg);
+  }
+  .pdp__details summary:hover {
+    color: var(--c-brass);
+  }
+  .pdp__details details p {
+    font-size: var(--step--1);
+    color: var(--c-muted);
+    line-height: 1.6;
+    padding-bottom: 1.1rem;
+    max-width: 34rem;
+  }
+  .pdp__details details p + p {
+    margin-top: -0.4rem;
+  }
+  .pdp-bar {
+    position: fixed;
+    z-index: 40;
+    inset-inline: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem var(--gutter) calc(0.75rem + env(safe-area-inset-bottom));
+    background: rgb(10 9 8 / 0.86);
+    backdrop-filter: blur(14px);
+    border-top: 1px solid var(--c-line);
+    transform: translateY(105%);
+    transition: transform var(--dur-3) var(--ease-out);
+  }
+  .pdp-bar.is-on {
+    transform: none;
+  }
+  .pdp-bar__info {
+    display: grid;
+    gap: 0.15rem;
+    min-width: 0;
+  }
+  .pdp-bar__name {
+    font-size: 1.25rem;
+    line-height: 1.1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .pdp-bar .btn {
+    min-height: 2.9rem;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 900px) {
+    .pdp-bar {
+      display: none;
+    }
+  }
+  @media (max-width: 899px) {
+    /* keep the end of the page clear of the purchase bar */
+    body:has(.pdp-bar) .site-footer {
+      padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+    }
+  }
+
+  .pdp__soon {
+    display: grid;
+    gap: 1rem;
+    justify-items: start;
+    width: 100%;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--c-line);
+  }
+  .pdp__soon .label {
+    color: var(--c-brass);
+  }
+  .pdp-story .grid {
+    row-gap: 2.5rem;
+    align-items: center;
+  }
+  .pdp-story__visual,
+  .pdp-story__copy {
+    grid-column: 1 / -1;
+  }
+  .pdp-story__copy {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .pdp-story__visual {
+    margin-inline: calc(var(--gutter) * -1);
+  }
+  .pdp-story__film {
+    position: relative;
+    width: min(100%, calc(88svh * 9 / 16));
+    aspect-ratio: 9 / 16;
+    margin-inline: auto;
+    overflow: hidden;
+    background: var(--c-ink);
+  }
+  .pdp-story__film img,
+  .pdp-story__film video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .pdp-story__film video {
+    opacity: 0;
+    transition: opacity 1.2s var(--ease-soft);
+  }
+  .pdp-story__film video.is-playing {
+    opacity: 1;
+  }
+  .pdp-story__pause {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    min-height: 2.75rem;
+    padding-inline: 0.75rem;
+    color: rgb(239 231 216 / 0.8);
+    background: rgb(10 9 8 / 0.35);
+    transition: color var(--dur-2);
+  }
+  .pdp-story__pause:hover {
+    color: var(--c-ivory);
+  }
+  .pdp-campaign {
+    padding-top: 0;
+  }
+  .pdp-more {
+    padding-top: 0;
+  }
+  .pdp-more__head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.5rem 2rem;
+    padding-top: clamp(2rem, 4vw, 3rem);
+    margin-bottom: clamp(2rem, 4vw, 3rem);
+    border-top: 1px solid var(--c-line);
+  }
+  .pdp-more__grid {
+    display: grid;
+    gap: clamp(3rem, 6vw, 4rem) var(--gap);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  @media (min-width: 600px) {
+    .pdp-more__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (min-width: 900px) {
+    .pdp-more__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 899px) {
+    /* three stills: one full width, then a pair */
+    .pdp-campaign .stills__item:first-child {
+      grid-column: 1 / -1;
+    }
+  }
+  .pdp-campaign__more {
+    margin-top: clamp(2rem, 4vw, 3rem);
+    text-align: center;
+  }
+
+  @media (min-width: 900px) {
+    .pdp__gallery {
+      grid-column: 1 / span 7;
+    }
+    .pdp__info {
+      grid-column: 9 / span 4;
+      align-self: stretch;
+    }
+    .pdp__sticky {
+      position: sticky;
+      top: calc(var(--header-h) + 2rem);
+    }
+    .pdp__track {
+      grid-auto-flow: row;
+      grid-auto-columns: auto;
+      overflow: visible;
+      margin: 0;
+      padding: 0;
+    }
+    .pdp__dots {
+      display: none;
+    }
+    .pdp-story__visual {
+      grid-column: 1 / span 6;
+      margin-inline: 0;
+    }
+    .pdp-story__copy {
+      grid-column: 7 / span 5;
+    }
+  }
+</style>
