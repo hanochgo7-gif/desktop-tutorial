@@ -826,13 +826,39 @@ def il_sites(L):
 
 
 def gallery(L):
-    """Merav's project photos, by subject (content.GALLERY)."""
-    G = C.GALLERY
-    groups = "".join(f'<h3 class="gal-h">{esc(t(name, L))}</h3><ul class="field-grid gal-grid{" n4" if len(items) == 4 else ""}">'
-                     + "".join(f'<li><figure>{picture(n, "", L, sizes="(max-width: 760px) 100vw, (max-width: 1100px) 50vw, 33vw")}<figcaption>{esc(t(c, L))}</figcaption></figure></li>' for n, c in items)
-                     + "</ul>" for name, items in G["groups"])
+    """The project photos (content.GALLERY), as a curated gallery (Hanoch, 24 Nov 2026): a filter by subject, every subject as its own
+    set with the first photo large, and a full-screen viewer with the caption, the count and previous / next (site.js)."""
+    G = C.GALLERY; r = rel(L)
+    total = sum(len(items) for _, items in G["groups"])
+    def full(n):
+        for w in (2400, 1600, 1024, 640):
+            if (PUB / f"assets/img/{n}-{w}.webp").exists():
+                return f"{r}assets/img/{n}-{w}.webp"
+    chips = [f'<button type="button" class="gf-chip" data-g="all" aria-pressed="true">{esc(t(G["all"], L))} <span class="gf-n">{total}</span></button>']
+    sets = []
+    for gi, (name, items) in enumerate(G["groups"]):
+        chips.append(f'<button type="button" class="gf-chip" data-g="g{gi}" aria-pressed="false">{esc(t(name, L))} <span class="gf-n">{len(items)}</span></button>')
+        n_ = len(items)
+        leads = {0} if n_ <= 3 else {0, n_ // 2}  # two large photos where one would leave a gap in the 4-column grid
+        if n_ > 3:
+            nl = next(x for x in range(0, 4) if (n_ + 3 * x) % 4 == 0)
+            leads = set() if nl == 0 else ({0} if nl == 1 else ({0, n_ // 2} if nl == 2 else {0, n_ // 3, 2 * n_ // 3}))
+        tiles = "".join(
+            f'<li class="gt{" gt-lead" if k in leads else ""}"><button type="button" class="gt-open" data-full="{full(n)}" aria-label="{esc(tm(G["open"], L))}: {esc(tm(c, L))}">'
+            f'{picture(n, tm(c, L), L, sizes=("(max-width: 760px) 100vw, (max-width: 1100px) 66vw, 50vw" if k in leads else "(max-width: 760px) 50vw, (max-width: 1100px) 33vw, 25vw"))}</button>'
+            f'<p class="gt-cap" title="{esc(tm(c, L))}">{esc(t(c, L))}</p></li>' for k, (n, c) in enumerate(items))
+        sets.append(f'<div class="gset" data-g="g{gi}"><div class="gset-h"><h3>{esc(t(name, L))}</h3><span class="gset-n">{len(items)} {esc(t(G["photos"], L))}</span></div>'
+                    f'<ul class="gtiles{" g3" if len(items) <= 3 else ""}">{tiles}</ul></div>')
+    viewer = (f'<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="{esc(tm(G["viewer"], L))}" hidden>'
+              f'<button type="button" class="lb-x" aria-label="{esc(tm(G["close"], L))}"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></button>'
+              f'<button type="button" class="lb-nav lb-prev" aria-label="{esc(tm(G["prev"], L))}"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>'
+              f'<figure class="lb-fig"><img alt="" decoding="async"><figcaption><span class="lb-set"></span><span class="lb-cap"></span><span class="lb-n"></span></figcaption></figure>'
+              f'<button type="button" class="lb-nav lb-next" aria-label="{esc(tm(G["next"], L))}"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div>')
     return f"""<section class="section white gal" aria-labelledby="gal-h">
-  <div class="wrap"><h2 id="gal-h">{esc(t(G["h"], L))}</h2><p class="lead">{esc(t(G["p"], L))}</p>{groups}</div>
+  <div class="wrap"><h2 id="gal-h">{esc(t(G["h"], L))}</h2><p class="lead">{esc(t(G["p"], L))}</p>
+    <div class="gf" role="group" aria-label="{esc(tm(G["filter"], L))}">{"".join(chips)}</div>
+    <div class="gsets">{"".join(sets)}</div></div>
+  {viewer}
 </section>"""
 
 

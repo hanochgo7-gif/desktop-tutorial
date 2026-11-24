@@ -527,3 +527,53 @@
     });
   });
 })();
+
+/* The gallery (Hanoch, 24 Nov 2026): the subject filter, and a full-screen viewer with previous / next, keys, swipe and the caption */
+(function () {
+  var gal = document.querySelector(".gal"); if (!gal) return;
+  var chips = [].slice.call(gal.querySelectorAll(".gf-chip")), sets = [].slice.call(gal.querySelectorAll(".gset"));
+  chips.forEach(function (c) {
+    c.addEventListener("click", function () {
+      var g = c.getAttribute("data-g");
+      chips.forEach(function (x) { x.setAttribute("aria-pressed", x === c ? "true" : "false"); });
+      sets.forEach(function (s) { s.hidden = g !== "all" && s.getAttribute("data-g") !== g; });
+      var top = gal.querySelector(".gsets").getBoundingClientRect().top + window.scrollY - (gal.querySelector(".gf").offsetHeight + 90);
+      if (window.scrollY > top) window.scrollTo({ top: top, behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    });
+  });
+  var lb = document.getElementById("lb"); if (!lb) return;
+  var img = lb.querySelector("img"), cap = lb.querySelector(".lb-cap"), setn = lb.querySelector(".lb-set"), num = lb.querySelector(".lb-n");
+  var list = [], i = 0, back = null;
+  function items() { return [].slice.call(gal.querySelectorAll(".gset:not([hidden]) .gt-open")); }
+  function show(k) {
+    i = (k + list.length) % list.length; var b = list[i], li = b.closest(".gt");
+    img.src = b.getAttribute("data-full"); img.alt = b.querySelector("img").alt;
+    cap.textContent = li.querySelector(".gt-cap").textContent; setn.textContent = b.closest(".gset").querySelector("h3").textContent;
+    num.textContent = (i + 1) + " / " + list.length;
+    [i + 1, i - 1].forEach(function (n) { var x = list[(n + list.length) % list.length]; if (x) { var p = new Image(); p.src = x.getAttribute("data-full"); } });
+  }
+  function open(b) { list = items(); back = b; lb.hidden = false; document.documentElement.classList.add("lb-open"); show(list.indexOf(b)); lb.querySelector(".lb-x").focus(); }
+  function close() { lb.hidden = true; document.documentElement.classList.remove("lb-open"); img.removeAttribute("src"); if (back) back.focus(); }
+  gal.addEventListener("click", function (e) { var b = e.target.closest(".gt-open"); if (b) open(b); });
+  lb.querySelector(".lb-x").addEventListener("click", close);
+  lb.querySelector(".lb-prev").addEventListener("click", function () { show(i - 1); });
+  lb.querySelector(".lb-next").addEventListener("click", function () { show(i + 1); });
+  lb.addEventListener("click", function (e) { if (e.target === lb || e.target.classList.contains("lb-fig")) close(); });
+  document.addEventListener("keydown", function (e) {
+    if (lb.hidden) return;
+    var rtl = document.documentElement.dir === "rtl";
+    if (e.key === "Escape") close();
+    else if (e.key === "ArrowRight") show(rtl ? i - 1 : i + 1);
+    else if (e.key === "ArrowLeft") show(rtl ? i + 1 : i - 1);
+    else if (e.key === "Tab") {  // keep the focus inside the viewer
+      var f = [].slice.call(lb.querySelectorAll("button")), a = f.indexOf(document.activeElement);
+      e.preventDefault(); f[(a + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+    }
+  });
+  var x0 = null;
+  lb.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener("touchend", function (e) {
+    if (x0 === null) return; var dx = e.changedTouches[0].clientX - x0; x0 = null; if (Math.abs(dx) < 50) return;
+    var rtl = document.documentElement.dir === "rtl"; show((dx < 0) !== rtl ? i + 1 : i - 1);
+  });
+})();

@@ -889,6 +889,10 @@ CROPS = [  # the crop selector; every row traces to the ledger. Four rows for ev
 GALLERY = {
     "h": ("From our projects", "מהפרויקטים שלנו"),
     "p": ("Net houses, shading, installation, folding and the seasons, photographed on our projects.", "בתי רשת, הצללה, הקמה, קיפול ועונות השנה, מצולמים בפרויקטים שלנו."),
+    # the gallery's own controls (Hanoch, 24 Nov 2026: a gallery that is easy to look through and understand)
+    "all": ("All", "הכל"), "photos": ("photos", "תמונות"), "filter": ("Show photos of", "הצגת תמונות של"),
+    "open": ("Open the photo", "פתיחת התמונה"), "close": ("Close", "סגירה"), "prev": ("Previous photo", "התמונה הקודמת"), "next": ("Next photo", "התמונה הבאה"),
+    "viewer": ("Photo viewer", "צפייה בתמונות"),
     "groups": [
         (("From the air", "מהאוויר"), [  # drone stills, Drive folder "סטילס רחפן מיפתח 4:25" (Merav, 22 Nov 2026)
             ("a04", ("A white net house between orchards and forest, along a dirt road", "בית רשת לבן בין מטעים ויער, לאורך דרך עפר")),
