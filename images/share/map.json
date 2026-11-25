@@ -115,7 +115,7 @@
     },
     "careers.html": {
       "image": "images/share/careers.jpg",
-      "alt": "מהנדס/ת או הנדסאי/ת בניין | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: חלק מצוות החברה ביום הכשרת עבודה בגובה, בקסדות ורתמות בטיחות",
+      "alt": "הצטרפו לצוות | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: חלק מצוות החברה ביום הכשרת עבודה בגובה, בקסדות ורתמות בטיחות",
       "width": 1200,
       "height": 630,
       "source": "images/team-wide.webp",
@@ -123,7 +123,7 @@
     },
     "en/careers.html": {
       "image": "images/share/en-careers.jpg",
-      "alt": "Civil Engineer or Practical Engineer | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: Part of the company team on a work-at-height training day, in helmets and safety harnesses",
+      "alt": "Join the Team | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: Part of the company team on a work-at-height training day, in helmets and safety harnesses",
       "width": 1200,
       "height": 630,
       "source": "images/team-wide.webp",
@@ -287,6 +287,70 @@
       "width": 1200,
       "height": 630,
       "source": "images/tank-lift-sonol.webp",
+      "rendering": false
+    },
+    "careers-project-manager.html": {
+      "image": "images/share/careers-project-manager.jpg",
+      "alt": "מנהל/ת פרויקטים | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: מבט מלמעלה על אתר בנייה של חוות שרתים: מנוף צהוב מוריד מיכל דלק שחור לבור מגודר עם יריעת איטום",
+      "width": 1200,
+      "height": 630,
+      "source": "images/hartuv-aerial-lift.webp",
+      "rendering": false
+    },
+    "en/careers-project-manager.html": {
+      "image": "images/share/en-careers-project-manager.jpg",
+      "alt": "Project Manager | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: Top view of a data center construction site: a yellow crane lowering a black fuel tank into a fenced pit with a containment liner",
+      "width": 1200,
+      "height": 630,
+      "source": "images/hartuv-aerial-lift.webp",
+      "rendering": false
+    },
+    "careers-engineer.html": {
+      "image": "images/share/careers-engineer.jpg",
+      "alt": "מהנדס/ת או הנדסאי/ת בניין | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: מיכל דלק שחור מונח בבור על חול, ארבעה עובדים סביבו, סולם נשען עליו, רתמות המנוף מעל",
+      "width": 1200,
+      "height": 630,
+      "source": "images/hartuv-first-tank.webp",
+      "rendering": false
+    },
+    "en/careers-engineer.html": {
+      "image": "images/share/en-careers-engineer.jpg",
+      "alt": "Civil Engineer or Practical Engineer | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: A black fuel tank resting in a pit on sand, four workers around it, a ladder leaning on it, crane slings above",
+      "width": 1200,
+      "height": 630,
+      "source": "images/hartuv-first-tank.webp",
+      "rendering": false
+    },
+    "careers-procurement.html": {
+      "image": "images/share/careers-procurement.jpg",
+      "alt": "קניין/ית רכש | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: מנוף פורק צרור צינורות ממשאית באתר, מחפרון ברקע",
+      "width": 1200,
+      "height": 630,
+      "source": "images/pipe-bundle-crane.webp",
+      "rendering": false
+    },
+    "en/careers-procurement.html": {
+      "image": "images/share/en-careers-procurement.jpg",
+      "alt": "Procurement Buyer | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: A crane unloading a bundle of pipes from a truck on site, an excavator behind",
+      "width": 1200,
+      "height": 630,
+      "source": "images/pipe-bundle-crane.webp",
+      "rendering": false
+    },
+    "careers-billing.html": {
+      "image": "images/share/careers-billing.jpg",
+      "alt": "רכז/ת חשבונות וגבייה | ש.גוטובסקי בע״מ, תשתיות דלק מאז 1972. בתמונה: מיכלי דלק תת־קרקעיים מונחים באתר לפני ההטמנה",
+      "width": 1200,
+      "height": 630,
+      "source": "images/tanks-before-burial.webp",
+      "rendering": false
+    },
+    "en/careers-billing.html": {
+      "image": "images/share/en-careers-billing.jpg",
+      "alt": "Billing and Collections Coordinator | S. Gotovski Ltd., fuel infrastructure since 1972. Photo: Underground fuel tanks laid out on site before burial",
+      "width": 1200,
+      "height": 630,
+      "source": "images/tanks-before-burial.webp",
       "rendering": false
     }
   },

@@ -36,6 +36,7 @@ PAGES = [
     "index.html", "about.html", "projects.html", "contact.html", "story.html",
     "articles.html", "gallery.html", "privacy.html", "terms.html",
     "accessibility.html", "404.html", "careers.html",
+    "careers-project-manager.html", "careers-engineer.html", "careers-procurement.html", "careers-billing.html",
     "services/station-construction.html", "services/station-renovation.html",
     "services/gas-stations.html", "services/fuel-piping.html",
     "services/earthworks.html", "services/data-center.html",
@@ -61,6 +62,12 @@ WA_PREFIX = "https://wa.me/972502703674?text="
 WA_HE = "שלום עוזי, מדבר ____ . מתי תהיה פנוי לשיחה?"
 WA_EN = "Hello, this is ____. When would be a good time to talk?"
 WA_MAP = json.loads((Path(__file__).resolve().parent / "wa.json").read_text(encoding="utf-8"))
+MAIL_SUBJECTS = {
+    "קורות חיים – מהנדס/ת או הנדסאי/ת בניין": "CV – Civil Engineer or Practical Engineer",
+    "קורות חיים – מנהל/ת פרויקטים": "CV – Project Manager",
+    "קורות חיים – קניין/ית רכש": "CV – Procurement Buyer",
+    "קורות חיים – רכז/ת חשבונות וגבייה": "CV – Billing and Collections Coordinator",
+}
 _share_file = Path(__file__).resolve().parents[2] / "images" / "share" / "map.json"
 SHARE = json.loads(_share_file.read_text(encoding="utf-8"))["pages"] if _share_file.exists() else {}
 
@@ -306,8 +313,8 @@ def postprocess(out):
     out = out.replace('<label for="f-phone">phone', '<label for="f-phone">Phone')
     out = out.replace("docs/gotovski-profile-he.pdf", "docs/gotovski-capability-statement.pdf")
     out = out.replace("PDF · 0.6MB", "PDF · 0.5MB")
-    out = out.replace("subject=" + quote("קורות חיים – מהנדס/ת או הנדסאי/ת בניין", safe=""),
-                      "subject=" + quote("CV – Civil Engineer or Practical Engineer", safe=""))
+    for he_subj, en_subj in MAIL_SUBJECTS.items():
+        out = out.replace("subject=" + quote(he_subj, safe=""), "subject=" + quote(en_subj, safe=""))
     return out
 
 
