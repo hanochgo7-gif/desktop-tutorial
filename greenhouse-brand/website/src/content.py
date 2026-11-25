@@ -799,7 +799,7 @@ OS = {
     "sols": [
         {"k": ("Structures", "מבנים"), "h": ("Net houses and agricultural projects", "בתי רשת ופרויקטים חקלאיים"), "img": "forest",
          "alt": ("A large white net house below a wooded hillside", "בית רשת לבן וגדול מתחת לגבעה מיוערת"),
-         "p": ("Net houses for every type of crop, windbreaks, support and trellising, and shade solutions for work areas. All under one roof: design, manufacturing, installation and support, in Israel and abroad.", "בתי רשת לכל סוגי הגידולים החקלאיים, שוברי רוח, פתרונות תמיכה והדליה, פתרונות הצללה לאזורי תפעול. הכל תחת קורת גג אחת: תכנון, יצור, הקמה וליווי בארץ ובחו\"ל."),
+         "p": ("Net houses for every crop, windbreaks, trellising and shade for work areas. From design to installation, in Israel and abroad.", "בתי רשת לכל הגידולים, שוברי רוח, הדליה והצללה לאזורי תפעול. מתכנון ועד הקמה, בארץ ובחו\"ל."),
          "chips": [], "href": "net-houses.html"},  # 1.7, 2.1-2.4
         {"k": ("Turnkey agricultural farms", "חוות חקלאיות עד מפתח"), "h": ("Complete farms worldwide", "חוות שלמות בעולם"), "img": "farm-aerial", "alt": ("Illustration: a complete turnkey farm from the air, with net houses, orchards, a water reservoir and a packhouse", "הדמיה: חווה חקלאית שלמה ממבט על, עם בתי רשת, מטעים, מאגר מים ובית אריזה"),  # AI illustration, Hanoch 25 Nov 2026  # no photo until a delivered farm can be shown (1.3; registry O1 is a banana net house)
          "p": ("Finding and testing land, preparing a business plan, structures and irrigation, and project support. Finding business partners.", "איתור ובדיקת קרקע, הכנת תוכנית עסקית, מבנים והשקיה, ליווי של הפרויקט. מציאת שותפים עסקיים."),
