@@ -2729,8 +2729,8 @@ a, button, .btn, .row, .card, .post { -webkit-tap-highlight-color: transparent; 
    דרך מצע החול, החצץ והאדמה אל הבור הכהה של הפוטר. אריחים סטטיים (בלי תנועה)
    ========================================================================== */
 :root { --slab: #e8e5df; --slab-2: #dedad3; --paper: var(--slab); --paper-2: var(--slab-2); }
-body { background: var(--slab) url("../images/bg/slab.webp") 0 0 / 640px 640px repeat; }
-.section--paper2 { background: var(--slab-2) url("../images/bg/slab-2.webp") 0 0 / 640px 640px repeat; }
+body { background: var(--slab) url("../images/bg/slab.webp?v=2") 0 0 / 640px 640px repeat; }
+.section--paper2 { background: var(--slab-2) url("../images/bg/slab-2.webp?v=2") 0 0 / 640px 640px repeat; }
 .footer { background: linear-gradient(to bottom, transparent 0 150px, var(--pit) 150px) !important; padding-top: calc(150px + clamp(48px, 6vw, 72px)); }
 .footer::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 150px; background: url("../images/bg/strata.webp") 50% 0 / 1600px 150px repeat-x; pointer-events: none; }
 @media (max-width: 760px) {
@@ -2740,6 +2740,6 @@ body { background: var(--slab) url("../images/bg/slab.webp") 0 0 / 640px 640px r
 @media print { body, .section--paper2 { background: #fff; } .footer::before { display: none; } }
 /* טלפון: אריח ברזולוציה כפולה בגודל 320px, כדי שהבטון לא יימרח למשטח אפור במסך חד */
 @media (max-width: 760px) {
-  body { background-image: url("../images/bg/slab-m.webp"); background-size: 360px 360px; }
-  .section--paper2 { background-image: url("../images/bg/slab-2-m.webp"); background-size: 360px 360px; }
+  body { background-image: url("../images/bg/slab-m.webp?v=2"); background-size: 360px 360px; }
+  .section--paper2 { background-image: url("../images/bg/slab-2-m.webp?v=2"); background-size: 360px 360px; }
 }
