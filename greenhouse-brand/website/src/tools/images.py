@@ -27,6 +27,7 @@ JOBS = {
     **{f"s{n:03d}": (f"gallery/s{n:03d}.jpg", None) for n in (13, 89, 95, 117, 124, 143, 99, 101, 104, 110, 216, 226, 242, 250, 128, 130, 131, 136, 138,
                                                             199, 202, 211, 259, 153, 154, 160, 147, 148, 150, 189, 235, 268, 271, 273, 277, 280)},
     **{f"k{n:02d}": (f"gallery/k{n:02d}.jpg", None) for n in (1, 2, 3)},  # kiwi, Hanoch 24 Nov 2026 (portrait phone photos, cut to 4:3)
+    "parts-photo": ("parts-photo.jpg", None),  # the parts of a net house, photoreal illustration (Hanoch, 25 Nov 2026)
     "farm-aerial": ("farm-aerial.jpg", None),  # AI illustration of a complete turnkey farm from the air (Hanoch, 25 Nov 2026)
     "atlantrees": ("atlantrees-poster.jpg", None),  # a frame of the Atlantrees YouTube video without the years (Hanoch, 24 Nov 2026)
     "g-india": ("gallery/g-india.jpg", None),  # old site world.jpg (gallery "פרויקטים בעולם"), AI upscale of the 900px original kept beside it; Hanoch approved it with the children, 16 Nov 2026

@@ -127,7 +127,10 @@ def drawing(L, animate=True, sfx=""):
     """The section drawing: a full desktop version and a two-bay phone version with larger labels, plus the legend."""
     D = C.DRAWING
     legend = "".join(f'<li><span class="k">{i + 1}</span><div><b>{esc(t(a_, L))}</b><span>{esc(t(b_, L))}</span></div></li>' for i, (a_, b_) in enumerate(D["items"]))
-    fig = (f'<figure class="drawing"{" data-animate" if animate else ""}>{_drawing_svg(L, False, sfx)}{_drawing_svg(L, True, sfx)}'
+    # a photoreal illustration with numbered pins at each part (Hanoch, 25 Nov 2026); positions are fractions of the picture, left/top
+    PINS = [(38, 25), (50, 31), (70, 55), (51, 88), (84, 56), (85, 27)]
+    pins = "".join(f'<span class="pp-pin" style="left:{x}%;top:{y}%" aria-hidden="true">{i + 1}</span>' for i, (x, y) in enumerate(PINS))
+    fig = (f'<figure class="drawing parts-photo"><div class="pp-wrap">{picture("parts-photo", tm(D["alt"], L), L, sizes="(max-width: 1240px) 100vw, 1240px")}{pins}</div>'
            f'<figcaption><span>{esc(t(D["caption"], L))}</span></figcaption></figure>')
     return fig, f'<ol class="legend">{legend}</ol>'
 

@@ -84,7 +84,8 @@ DRAWING = {  # labels for the signature section drawing; numbers match the legen
         (("Trellising and support", "הדליה ותמיכה"), ("Trellising and support are built together with the structure, to suit the crop and the grower's requirements: pergola or T-support trellising for kiwi, trellising in orchards, fruit walls, support for bananas.", "ההדליה והתמיכה מוקמות יחד עם המבנה בהתאם לסוג הגידול ולדרישות המגדל: הדליה בשיטת סוכה או תומכות T לקיווי, הדליה במטעים, קיר פירותי, תמיכה לבננות.")),  # 2.2, 3.1
         (("Folding", "קיפול"), ("In orchards the net can fold away in winter and spread again in spring, by hand or automatically.", "במטעים הרשת יכולה להתקפל בחורף ולהיפרס באביב, ידנית או אוטומטית.")),  # 2.3
     ],
-    "caption": ("Schematic, not to scale. Spans, heights and net type are set by the project's requirements.", "סכמה, לא בקנה מידה. המפתחים, הגבהים וסוג הרשת נקבעים בהתאם לדרישות הפרויקט."),
+    "caption": ("Illustration. Spans, heights and net type are set by each project's requirements.", "הדמיה. המפתחים, הגבהים וסוג הרשת נקבעים לפי דרישות כל פרויקט."),  # photoreal illustration in place of the schematic (Hanoch, 25 Nov 2026)
+    "alt": ("Illustration of a MIFTAH net house over a young orchard: the net over steel cables, galvanized poles on concrete blocks, anchored perimeter poles, trellis wires and a bay folded for winter", "הדמיה של בית רשת של מיפתח מעל מטע צעיר: הרשת מעל כבלי הפלדה, עמודים מגולוונים על בלוקי בטון, עמודי שוליים מעוגנים, חוטי הדליה ומפתח שהרשת בו מקופלת לחורף"),
     "span": ("span, set per design", "מפתח, לפי התכנון"),
     "height": ("height, set per crop", "גובה, לפי הגידול"),
     "section": ("Section A–A", "חתך A–A"),

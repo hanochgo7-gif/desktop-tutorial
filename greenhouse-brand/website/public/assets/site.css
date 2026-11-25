@@ -1715,3 +1715,11 @@ body { background: #FBFCFB; }
 /* the turnkey farm illustration, full width (Hanoch, 25 Nov 2026) */
 .farm-fig { margin: clamp(20px, 3vw, 36px) 0 0; border-radius: 8px; overflow: hidden; box-shadow: 0 18px 50px rgba(14, 42, 37, .18); }
 .farm-fig img { display: block; width: 100%; height: auto; }
+
+/* the parts of the structure: a photoreal illustration with numbered pins that match the list (Hanoch, 25 Nov 2026) */
+.parts-photo .pp-wrap { position: relative; border-radius: 8px; overflow: hidden; box-shadow: 0 14px 40px rgba(14, 42, 37, .16); }
+.parts-photo .pp-wrap img { display: block; width: 100%; height: auto; }
+.pp-pin { position: absolute; transform: translate(-50%, -50%); width: clamp(26px, 3vw, 38px); height: clamp(26px, 3vw, 38px); border-radius: 50%;
+  display: grid; place-items: center; background: #0E4239; color: #fff; font-weight: 800; font-size: clamp(.8rem, 1.3vw, 1.05rem);
+  box-shadow: 0 0 0 3px #fff, 0 4px 14px rgba(0, 0, 0, .35); font-variant-numeric: tabular-nums; }
+.parts-photo figcaption { margin-top: 10px; }
