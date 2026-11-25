@@ -347,6 +347,10 @@ PAGES = {
         "h1": ("Turnkey agricultural farms", "חוות חקלאיות עד מפתח"),
         "lead": ("For investors, agricultural companies and entrepreneurs who want a working farm on their land, without hiring a contractor, an agronomist and a site manager separately.",
                  "למשקיעים, לחברות חקלאיות וליזמים שרוצים חווה פעילה על הקרקע שלהם, בלי לשכור בנפרד קבלן, אגרונום ומנהל עבודה."),
+        "farm_h": ("What a turnkey farm can look like", "כך יכולה להיראות חווה עד מפתח"),
+        "farm_p": ("An illustration of a complete farm from the air: net houses over orchards and bananas, open orchard blocks, a lined water reservoir with a pump and filtration station, a packhouse with a shaded loading yard, windbreaks and farm roads. Every farm is planned for its land, its crops and its market.",
+                   "הדמיה של חווה חקלאית שלמה ממבט על: בתי רשת מעל מטעים ובננות, חלקות מטע פתוחות, מאגר מים עם תחנת שאיבה וסינון, בית אריזה עם חצר העמסה מוצללת, שוברי רוח ודרכי שירות. כל חווה מתוכננת לפי הקרקע, הגידולים והשוק שלה."),
+        "farm_alt": ("Illustration: a complete turnkey farm from the air, with net houses over orchards and bananas, orchard blocks, a water reservoir, a packhouse and windbreaks", "הדמיה: חווה חקלאית שלמה ממבט על, עם בתי רשת מעל מטעים ובננות, חלקות מטע, מאגר מים, בית אריזה ושוברי רוח"),
         "honest_h": ("Turnkey agricultural farms", "חוות חקלאיות עד מפתח"),
         "honest_p": ("MIFTAH Projects, in partnership with Green Arava, provides a complete turnkey agricultural solution: from finding the right land (when needed), through a feasibility study, design, construction and setting up every system, to handing over a working farm ready to run. The infrastructure and structures draw on more than two decades of experience in Israel and around the world.",
                      "מיפתח פרויקטים בשיתוף פעולה עם גרין ערבה מספקת פתרון חקלאי מלא במתכונת \"עד מפתח\" - החל מאיתור השטח המתאים (במקרה בצורך), דרך בדיקת היתכנות, תכנון, הקמה והטמעה של כלל המערכות, ועד למסירת חווה פעילה ומוכנה להפעלה. התשתיות והמבנים מבוססים על ניסיון מצטבר של למעלה משני עשורים בישראל וברחבי העולם."),
@@ -797,7 +801,7 @@ OS = {
          "alt": ("A large white net house below a wooded hillside", "בית רשת לבן וגדול מתחת לגבעה מיוערת"),
          "p": ("Net houses for every type of crop, windbreaks, support and trellising, and shade solutions for work areas. All under one roof: design, manufacturing, installation and support, in Israel and abroad.", "בתי רשת לכל סוגי הגידולים החקלאיים, שוברי רוח, פתרונות תמיכה והדליה, פתרונות הצללה לאזורי תפעול. הכל תחת קורת גג אחת: תכנון, יצור, הקמה וליווי בארץ ובחו\"ל."),
          "chips": [], "href": "net-houses.html"},  # 1.7, 2.1-2.4
-        {"k": ("Turnkey agricultural farms", "חוות חקלאיות עד מפתח"), "h": ("Complete farms worldwide", "חוות שלמות בעולם"), "img": None, "alt": None,  # no photo until a delivered farm can be shown (1.3; registry O1 is a banana net house)
+        {"k": ("Turnkey agricultural farms", "חוות חקלאיות עד מפתח"), "h": ("Complete farms worldwide", "חוות שלמות בעולם"), "img": "farm-aerial", "alt": ("Illustration: a complete turnkey farm from the air, with net houses, orchards, a water reservoir and a packhouse", "הדמיה: חווה חקלאית שלמה ממבט על, עם בתי רשת, מטעים, מאגר מים ובית אריזה"),  # AI illustration, Hanoch 25 Nov 2026  # no photo until a delivered farm can be shown (1.3; registry O1 is a banana net house)
          "p": ("Finding and testing land, preparing a business plan, structures and irrigation, and project support. Finding business partners.", "איתור ובדיקת קרקע, הכנת תוכנית עסקית, מבנים והשקיה, ליווי של הפרויקט. מציאת שותפים עסקיים."),
          "chips": [("For investors", "למשקיעים")], "href": "turnkey-farms.html"},  # 1.3, 1.4, 4.2
     ],

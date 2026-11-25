@@ -20,8 +20,8 @@
   "hash": "8ec97be7ad7b4e96"
  },
  "en/index": {
-  "date": "2026-11-23",
-  "hash": "e4c4464453a5b779"
+  "date": "2026-11-25",
+  "hash": "ffd72d6fc312abe2"
  },
  "en/net-houses": {
   "date": "2026-11-23",
@@ -44,8 +44,8 @@
   "hash": "b9875d97be54111e"
  },
  "en/turnkey-farms": {
-  "date": "2026-11-23",
-  "hash": "195182f1f3501388"
+  "date": "2026-11-25",
+  "hash": "eda5c2dde1404b6a"
  },
  "he/about": {
   "date": "2026-11-23",
@@ -68,8 +68,8 @@
   "hash": "bd7941d29dff1ada"
  },
  "he/index": {
-  "date": "2026-11-23",
-  "hash": "f48247c409568422"
+  "date": "2026-11-25",
+  "hash": "cab41fcb0197e973"
  },
  "he/net-houses": {
   "date": "2026-11-23",
@@ -92,7 +92,7 @@
   "hash": "0ee3b2ed155cc0b9"
  },
  "he/turnkey-farms": {
-  "date": "2026-11-23",
-  "hash": "064b915a4ce39fbb"
+  "date": "2026-11-25",
+  "hash": "c869be9336a67fa2"
  }
 }

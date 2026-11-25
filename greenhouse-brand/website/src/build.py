@@ -779,6 +779,10 @@ def p_turnkey(L):
     </div>
   </div>
 </section>
+<section class="section farm-aerial" aria-labelledby="farm-h">
+  <div class="wrap"><div class="sec-head"><h2 id="farm-h">{esc(t(P["farm_h"], L))}</h2><p class="lead">{esc(t(P["farm_p"], L))}</p></div>
+    <figure class="farm-fig">{picture("farm-aerial", tm(P["farm_alt"], L), L, sizes="(max-width: 1240px) 100vw, 1240px")}</figure></div>
+</section>
 <section class="section dark" aria-labelledby="stages-h">
   <div class="wrap">
     <div class="sec-head"><h2 id="stages-h">{esc(t(P["stages_h"], L))}</h2><p class="lead">{esc(t(P["stages_p"], L))}</p></div>
