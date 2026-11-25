@@ -2723,3 +2723,18 @@ a, button, .btn, .row, .card, .post { -webkit-tap-highlight-color: transparent; 
 }
 /* מאמרים: כותרות ארוכות בגודל קריא, עד ארבע שורות */
 .article-hero.hero-split:not(.service-hero) h1 { font-size: clamp(1.9rem, 3.3vw, 3rem); line-height: 1.08; }
+
+/* ==========================================================================
+   רקע: משטח בטון יצוק בכל הדפים, ובסוף כל דף יורדים "מתחת לרחבה"
+   דרך מצע החול, החצץ והאדמה אל הבור הכהה של הפוטר. אריחים סטטיים (בלי תנועה)
+   ========================================================================== */
+:root { --slab: #e8e5df; --slab-2: #dedad3; --paper: var(--slab); --paper-2: var(--slab-2); }
+body { background: var(--slab) url("../images/bg/slab.webp") 0 0 / 640px 640px repeat; }
+.section--paper2 { background: var(--slab-2) url("../images/bg/slab-2.webp") 0 0 / 640px 640px repeat; }
+.footer { background: linear-gradient(to bottom, transparent 0 150px, var(--pit) 150px) !important; padding-top: calc(150px + clamp(48px, 6vw, 72px)); }
+.footer::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 150px; background: url("../images/bg/strata.webp") 50% 0 / 1600px 150px repeat-x; pointer-events: none; }
+@media (max-width: 760px) {
+  .footer { background: linear-gradient(to bottom, transparent 0 100px, var(--pit) 100px) !important; padding-top: calc(100px + 44px); }
+  .footer::before { height: 100px; background-size: 1067px 100px; }
+}
+@media print { body, .section--paper2 { background: #fff; } .footer::before { display: none; } }
