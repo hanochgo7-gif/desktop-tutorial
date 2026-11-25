@@ -2738,3 +2738,8 @@ body { background: var(--slab) url("../images/bg/slab.webp") 0 0 / 640px 640px r
   .footer::before { height: 100px; background-size: 1067px 100px; }
 }
 @media print { body, .section--paper2 { background: #fff; } .footer::before { display: none; } }
+/* טלפון: אריח ברזולוציה כפולה בגודל 320px, כדי שהבטון לא יימרח למשטח אפור במסך חד */
+@media (max-width: 760px) {
+  body { background-image: url("../images/bg/slab-m.webp"); background-size: 360px 360px; }
+  .section--paper2 { background-image: url("../images/bg/slab-2-m.webp"); background-size: 360px 360px; }
+}
