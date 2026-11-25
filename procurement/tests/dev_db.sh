@@ -6,7 +6,7 @@ cd "$(dirname "$0")/.."
 PSQL="psql -h /tmp -p ${PGPORT:-5499} -U postgres -v ON_ERROR_STOP=1 -q"
 $PSQL -d postgres -c "drop database if exists proc_dev" -c "create database proc_dev" >/dev/null
 $PSQL -d proc_dev -f tests/local_supabase_stub.sql >/dev/null 2>&1
-for f in supabase/migrations/*.sql; do $PSQL -d proc_dev -f "$f" >/dev/null 2>&1 || { echo "FAILED in $f"; exit 1; }; done
+for f in supabase/migrations/*.sql; do case "$f" in *_supabase_only.sql) continue;; esac; $PSQL -d proc_dev -f "$f" >/dev/null 2>&1 || { echo "FAILED in $f"; exit 1; }; done
 $PSQL -d proc_dev -f tests/seed_demo.sql >/dev/null
 $PSQL -d proc_dev <<'SQL' >/dev/null
 insert into auth.users(id, email, raw_user_meta_data) values

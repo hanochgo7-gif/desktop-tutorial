@@ -358,3 +358,10 @@ details summary { cursor: pointer; font-weight: 550; }
   .org-switch { max-width: 140px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+/* ---------------- attachments */
+.files__root { display: grid; gap: 10px; }
+.files { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.file { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; font-size: 14px; }
+.file .ic { color: var(--muted); }
+.file .muted { font-size: 12.5px; }

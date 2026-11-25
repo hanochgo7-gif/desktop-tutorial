@@ -131,5 +131,26 @@ class Query {
 }
 export const db = (table) => new Query(table);
 
+// Files in the private 'attachments' bucket. Path: <org>/<entity>/<entity_id>/<unique>-<name>.
+export const storage = {
+  async upload(path, file) {
+    if (!configured()) throw new ApiError('NOT_CONFIGURED', { code: 'NOT_CONFIGURED' });
+    await ensureFresh();
+    let res;
+    try {
+      res = await fetch(`${CONFIG.url}/storage/v1/object/attachments/${path.split('/').map(encodeURIComponent).join('/')}`, {
+        method: 'POST', body: file,
+        headers: { apikey: CONFIG.key, Authorization: `Bearer ${session?.access_token}`, 'Content-Type': file.type || 'application/octet-stream', 'x-upsert': 'false' },
+      });
+    } catch { throw new ApiError('NETWORK', { network: true, code: 'NETWORK' }); }
+    if (!res.ok) { let d = null; try { d = await res.json(); } catch { /* ignore */ } throw new ApiError((d && (d.message || d.error)) || `HTTP ${res.status}`, { status: res.status }); }
+  },
+  async signedUrl(path, seconds = 120) {
+    const { data } = await raw('POST', `${CONFIG.url}/storage/v1/object/sign/attachments/${path.split('/').map(encodeURIComponent).join('/')}`, { expiresIn: seconds });
+    const u = data.signedURL || data.signedUrl;
+    return u.startsWith('http') ? u : `${CONFIG.url}/storage/v1${u.startsWith('/') ? '' : '/'}${u}`;
+  },
+};
+
 // Random key so a retried or double-clicked action is applied once (the server remembers it).
 export const idemKey = () => (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()) + Math.random().toString(16).slice(2));

@@ -4,8 +4,9 @@
 // Usage: node procurement/tests/devserver.mjs [port]   (database: proc_dev on /tmp:5499, see tests/dev_db.sh)
 import http from 'node:http';
 import { spawn } from 'node:child_process';
-import { readFile, stat } from 'node:fs/promises';
+import { readFile, stat, mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import crypto from 'node:crypto';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
@@ -190,6 +191,38 @@ async function table(req, res, uid, name, url, body) {
   return send(res, 405, { message: 'method not allowed' });
 }
 
+// ---------------------------------------------------------------- storage (files kept on disk, dev only)
+const STORE = process.env.DEV_STORAGE || '/var/tmp/proc-dev-storage';
+const signed = new Map();
+async function storageRoute(req, res, url) {
+  const uid = uidFrom(req);
+  const m = /^\/storage\/v1\/object\/(sign\/)?attachments\/(.+)$/.exec(url.pathname);
+  const dl = /^\/storage\/v1\/object\/dev-signed\/([a-f0-9-]+)$/.exec(url.pathname);
+  if (dl) {
+    const p = signed.get(dl[1]);
+    if (!p || p.exp < Date.now()) return send(res, 404, { message: 'expired' });
+    const data = await readFile(path.join(STORE, p.path));
+    res.writeHead(200, { 'Content-Type': 'application/octet-stream', 'Content-Disposition': `attachment; filename*=UTF-8''${encodeURIComponent(p.path.split('/').pop())}` });
+    return res.end(data);
+  }
+  if (!m || !uid) return send(res, 403, { message: 'not allowed' });
+  const rel = decodeURIComponent(m[2]);
+  if (rel.includes('..')) return send(res, 400, { message: 'bad path' });
+  // same rule as the Supabase policy: the first folder is an organization the user belongs to
+  const ok = JSON.parse(await asUser(uid, `select to_json(${lit(rel.split('/')[0])}::uuid in (select public.my_orgs()))`));
+  if (!ok) return send(res, 403, { message: 'not a member of this organization' });
+  if (m[1]) {
+    const token = crypto.randomUUID();
+    signed.set(token, { path: rel, exp: Date.now() + 120000 });
+    return send(res, 200, { signedURL: `/object/dev-signed/${token}` });
+  }
+  const chunks = []; for await (const c of req) chunks.push(c);
+  const file = path.join(STORE, rel);
+  await mkdir(path.dirname(file), { recursive: true });
+  await writeFile(file, Buffer.concat(chunks), { flag: 'wx' }).catch(() => { throw Object.assign(new Error('exists'), { status: 409 }); });
+  return send(res, 200, { Key: `attachments/${rel}` });
+}
+
 // ---------------------------------------------------------------- http
 function send(res, status, data, headers = {}) {
   res.writeHead(status, { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*', ...headers });
@@ -220,6 +253,7 @@ http.createServer(async (req, res) => {
     res.writeHead(204, { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*', 'Access-Control-Allow-Methods': 'GET,POST,PATCH,DELETE,PUT,OPTIONS' });
     return res.end();
   }
+  if (url.pathname.startsWith('/storage/v1/')) { try { return await storageRoute(req, res, url); } catch (e) { return send(res, e.status || 500, { message: e.message }); } }
   let body = null;
   if (['POST', 'PATCH', 'PUT'].includes(req.method)) {
     const chunks = []; for await (const c of req) chunks.push(c);
