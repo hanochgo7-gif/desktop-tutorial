@@ -1,4 +1,0 @@
-/* Screen-specific styles. Each group of screens has its own file so the groups can be worked on separately. */
-@import url("views-procurement.css");
-@import url("views-inventory.css");
-@import url("views-finance.css");
