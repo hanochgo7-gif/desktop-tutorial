@@ -1,41 +1,45 @@
-/* Gotovski Ops – procurement and operations. Light concrete ground, ink, one blue for action and data.
+/* מערך (Maarach) – procurement, inventory and suppliers. Cool paper ground, graphite ink, one indigo for action and data.
    Colour lives on data and status, not on chrome. Flat surfaces separated by 1px lines. */
 
-@font-face { font-family: "Heebo"; font-style: normal; font-weight: 200 700; font-display: swap; src: url("../../fonts/heebo-200-700-hebrew.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
-@font-face { font-family: "Heebo"; font-style: normal; font-weight: 200 700; font-display: swap; src: url("../../fonts/heebo-200-700-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "IBM Plex Sans Hebrew"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/plex-hebrew-400-hebrew.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "IBM Plex Sans Hebrew"; font-style: normal; font-weight: 400; font-display: swap; src: url("../fonts/plex-hebrew-400-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "IBM Plex Sans Hebrew"; font-style: normal; font-weight: 500; font-display: swap; src: url("../fonts/plex-hebrew-500-hebrew.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "IBM Plex Sans Hebrew"; font-style: normal; font-weight: 500; font-display: swap; src: url("../fonts/plex-hebrew-500-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+@font-face { font-family: "IBM Plex Sans Hebrew"; font-style: normal; font-weight: 600; font-display: swap; src: url("../fonts/plex-hebrew-600-hebrew.woff2") format("woff2"); unicode-range: U+0307-0308, U+0590-05FF, U+200C-2010, U+20AA, U+25CC, U+FB1D-FB4F; }
+@font-face { font-family: "IBM Plex Sans Hebrew"; font-style: normal; font-weight: 600; font-display: swap; src: url("../fonts/plex-hebrew-600-latin.woff2") format("woff2"); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
 :root {
-  --ground: #f4f3ef; --surface: #ffffff; --surface-2: #faf9f6; --line: #e3e0d8; --line-2: #d3cfc5;
-  --ink: #1f1b19; --ink-2: #3d3732; --muted: #6b645d; --faint: #8f877e;
-  --accent: #0b668f; --accent-ink: #ffffff; --accent-soft: #e6f1f6; --accent-hover: #095779;
-  --good: #1d7148; --good-soft: #e5f3eb; --warn: #8f5300; --warn-soft: #fbf0dc; --bad: #b3261e; --bad-soft: #fbe9e7; --info: #0b668f; --info-soft: #e6f1f6;
-  --data: #0b668f; --data-2: #9cc4d6; --grid: #ece9e2;
+  --ground: #f4f5f7; --surface: #ffffff; --surface-2: #f9fafb; --line: #e2e4e9; --line-2: #cfd3db;
+  --ink: #16181d; --ink-2: #353944; --muted: #5f6573; --faint: #8a909c;
+  --accent: #4338b8; --accent-ink: #ffffff; --accent-soft: #eceafb; --accent-hover: #372d9c;
+  --good: #1d7148; --good-soft: #e5f3eb; --warn: #8f5300; --warn-soft: #fbf0dc; --bad: #b3261e; --bad-soft: #fbe9e7; --info: #4338b8; --info-soft: #eceafb;
+  --data: #4338b8; --data-2: #b9b4ec; --grid: #eceef2;
   --radius: 8px; --radius-sm: 6px;
   --shadow-pop: 0 12px 32px rgb(31 27 25 / .16), 0 2px 6px rgb(31 27 25 / .08);
-  --font: "Heebo", "Segoe UI", Arial, sans-serif;
+  --font: "IBM Plex Sans Hebrew", "Segoe UI", Arial, sans-serif;
   --side: 248px;
   color-scheme: light;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --ground: #171513; --surface: #1f1c1a; --surface-2: #252220; --line: #34302c; --line-2: #45403a;
-    --ink: #f2efe9; --ink-2: #d9d4cc; --muted: #a8a095; --faint: #847c72;
-    --accent: #5fb3d6; --accent-ink: #0d1a20; --accent-soft: #19303a; --accent-hover: #7cc4e2;
-    --good: #6cc597; --good-soft: #17301f; --warn: #e3b25b; --warn-soft: #33270f; --bad: #f08b7f; --bad-soft: #3a1c19; --info: #5fb3d6; --info-soft: #19303a;
-    --data: #5fb3d6; --data-2: #2f5b6d; --grid: #2b2825; color-scheme: dark;
+    --ground: #121318; --surface: #1a1c22; --surface-2: #20232a; --line: #2e313a; --line-2: #3d414c;
+    --ink: #eef0f4; --ink-2: #d3d6de; --muted: #9da3b0; --faint: #767c89;
+    --accent: #a8a1f2; --accent-ink: #15132e; --accent-soft: #26244a; --accent-hover: #c0bbf7;
+    --good: #6cc597; --good-soft: #17301f; --warn: #e3b25b; --warn-soft: #33270f; --bad: #f08b7f; --bad-soft: #3a1c19; --info: #a8a1f2; --info-soft: #26244a;
+    --data: #a8a1f2; --data-2: #4a4689; --grid: #262931; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --ground: #171513; --surface: #1f1c1a; --surface-2: #252220; --line: #34302c; --line-2: #45403a;
-  --ink: #f2efe9; --ink-2: #d9d4cc; --muted: #a8a095; --faint: #847c72;
-  --accent: #5fb3d6; --accent-ink: #0d1a20; --accent-soft: #19303a; --accent-hover: #7cc4e2;
-  --good: #6cc597; --good-soft: #17301f; --warn: #e3b25b; --warn-soft: #33270f; --bad: #f08b7f; --bad-soft: #3a1c19; --info: #5fb3d6; --info-soft: #19303a;
-  --data: #5fb3d6; --data-2: #2f5b6d; --grid: #2b2825; color-scheme: dark;
+  --ground: #121318; --surface: #1a1c22; --surface-2: #20232a; --line: #2e313a; --line-2: #3d414c;
+    --ink: #eef0f4; --ink-2: #d3d6de; --muted: #9da3b0; --faint: #767c89;
+    --accent: #a8a1f2; --accent-ink: #15132e; --accent-soft: #26244a; --accent-hover: #c0bbf7;
+    --good: #6cc597; --good-soft: #17301f; --warn: #e3b25b; --warn-soft: #33270f; --bad: #f08b7f; --bad-soft: #3a1c19; --info: #a8a1f2; --info-soft: #26244a;
+    --data: #a8a1f2; --data-2: #4a4689; --grid: #262931; color-scheme: dark;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 html { -webkit-text-size-adjust: 100%; }
-body { margin: 0; background: var(--ground); color: var(--ink); font: 400 15px/1.55 var(--font); font-feature-settings: "tnum" 1; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 400 15px/1.55 var(--font); font-synthesis: none; font-feature-settings: "tnum" 1; }
 h1, h2, h3, p { margin: 0; }
 a { color: var(--accent); text-underline-offset: 2px; }
 button, input, select, textarea { font: inherit; color: inherit; }

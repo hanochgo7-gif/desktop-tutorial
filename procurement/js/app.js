@@ -1,4 +1,4 @@
-// Shell: sign-in, organization, navigation, global search, and the route → screen mapping (screens load on demand).
+// מערך (Maarach). Shell: sign-in, organization, navigation, global search, and the route → screen mapping (screens load on demand).
 import { auth, configured, onAuthChange, rpc, db } from './core/api.js';
 import { store, loadSession, selectOrg, onStore } from './core/store.js';
 import { route, current, go } from './core/router.js';
@@ -85,7 +85,7 @@ function login() {
   });
   clear(app).append(h('main.login',
     h('div.login__card',
-      h('div.brand.brand--lg', mark(), h('div', h('span.brand__name', 'ש.גוטובסקי'), h('span.brand__product', 'רכש ותפעול'))),
+      h('div.brand.brand--lg', mark(), h('div', h('span.brand__name', 'מערך'), h('span.brand__product', 'רכש, מלאי וספקים'))),
       h('h1.login__title', 'כניסה למערכת'),
       form,
       CONFIG.env === 'dev' ? note('סביבת פיתוח מקומית: demo@example.com, סיסמה demo1234.') : null)));
@@ -113,7 +113,7 @@ function noOrg() {
 }
 
 // ---------------------------------------------------------------- shell
-const mark = () => h('span.brand__mark', { 'aria-hidden': 'true', html: '<svg viewBox="0 0 32 32" width="30" height="30"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M8 21h16M10 21v-6h12v6M13 15v-4h6v4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' });
+const mark = () => h('span.brand__mark', { 'aria-hidden': 'true', html: '<svg viewBox="0 0 32 32" width="30" height="30"><rect width="32" height="32" rx="8" fill="currentColor"/><rect x="8" y="8" width="7" height="7" rx="1.6" fill="#fff"/><rect x="17" y="8" width="7" height="7" rx="1.6" fill="#fff" opacity=".55"/><rect x="8" y="17" width="7" height="7" rx="1.6" fill="#fff" opacity=".55"/><rect x="17" y="17" width="7" height="7" rx="1.6" fill="#fff" opacity=".55"/></svg>' });
 
 let main, navEl, approvalsBadge;
 function shell() {
@@ -133,7 +133,7 @@ function shell() {
     h('a.skip', { href: '#main', onclick: (e) => { e.preventDefault(); main.focus(); } }, 'דילוג לתוכן'),
     h('div.layout',
       h('aside.sidebar',
-        h('a.brand', { href: '#/' }, mark(), h('div', h('span.brand__name', 'ש.גוטובסקי'), h('span.brand__product', 'רכש ותפעול'))),
+        h('a.brand', { href: '#/' }, mark(), h('div', h('span.brand__name', 'מערך'), h('span.brand__product', 'רכש, מלאי וספקים'))),
         store.org.is_demo ? h('div.env-flag', 'ארגון הדגמה: הנתונים לדוגמה בלבד') : null,
         navEl),
       h('div.workspace',
@@ -173,7 +173,7 @@ async function render() {
   document.body.classList.remove('nav-open');
   drawNav();
   if (!r) { clear(main).append(h('div.empty', h('p.empty__title', 'העמוד לא נמצא'), h('a.btn', { href: '#/' }, 'למרכז השליטה'))); return; }
-  document.title = `${r.route.meta.title} · רכש ותפעול`;
+  document.title = `${r.route.meta.title} · מערך`;
   clear(main).append(skeleton(8));
   try {
     const mod = await import(`./views/${r.route.handler}.js`);
