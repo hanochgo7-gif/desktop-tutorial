@@ -465,7 +465,7 @@ a.at-feature { text-decoration: none; color: inherit; }
 .at-faq summary::after { content: ""; flex: none; width: 14px; height: 14px; background: linear-gradient(var(--fg), var(--fg)) center / 100% 1px no-repeat, linear-gradient(var(--fg), var(--fg)) center / 1px 100% no-repeat; transition: transform .4s var(--ease); }
 .at-faq details[open] summary::after { transform: rotate(45deg); }
 .at-faq h2 { font: 700 clamp(1.4rem, 2.3vw, 2rem)/1.3 var(--serif); }
-.at-faq p { padding-bottom: 1.8rem; max-width: 44rem; color: rgba(237, 232, 222, .8); }
+.at-faq p { padding-bottom: 1.8rem; max-width: 64ch; color: rgba(237, 232, 222, .88); font-size: 1.1875rem; line-height: 1.7; }
 .at-faq-end { margin-top: clamp(3rem, 9vh, 5rem); display: flex; flex-wrap: wrap; gap: 1rem 2rem; align-items: center; }
 
 /* ---------- בריף (brief.html): אותו טופס, בשפה של האתר ---------- */

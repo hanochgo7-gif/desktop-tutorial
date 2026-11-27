@@ -77,7 +77,7 @@
 }
 html.motion .hx-fig { animation: hx-scan 9.5s linear infinite; }
 html.motion .hx-fig.is-paused { animation-play-state: paused; }
-html.motion .hx-s-both { visibility: hidden; }
+html.motion .hx-s-both { display: none; }
 html.motion .hx-s-old { visibility: visible; opacity: calc(1 - var(--st)); }
 html.motion .hx-s-new { visibility: visible; opacity: var(--st); }
 

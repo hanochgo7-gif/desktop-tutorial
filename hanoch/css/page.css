@@ -102,7 +102,8 @@ html[dir="ltr"] .sv-call td.sv-call-n { background-position: left top; }
 /* ---------- רשימת הסצנות בעמוד, בצד במסך רחב ---------- */
 .sv-aside { display: none; }
 @media (min-width: 1100px) {
-  .sv.sv-has-aside > :not(.sv-aside):not(.sv-cta) { max-width: min(var(--col), 64%); }
+  .sv.sv-has-aside > :not(.sv-aside) { max-width: min(var(--col), 64%); }
+  .sv.sv-has-aside > .sv-cta { max-width: 64%; }
   .sv-aside { display: block; position: absolute; top: clamp(1.6rem, 5vw, 4rem); bottom: 40px; inset-inline-end: 0; width: 24%; max-width: none !important; }
   .sv-aside-in { position: sticky; top: 100px; padding-top: 14px; border-top: 1px solid var(--fg-line); }
   .sv-aside-k { margin: 0 0 .6rem !important; color: var(--fg-dim) !important; font: 500 .92rem/1.3 var(--f-body) !important; }
