@@ -1,23 +1,24 @@
 # הכותרת העליונה והתחתונה האחידות של האתר: סימן מסחרי, חמישה קישורים, EN וכפתור וואטסאפ.
 # משמש את tools/seo_pages.py, tools/blog.py ו-tools/legal.py, ואת העמודים שנכתבים ביד (tools/header_apply.py).
 # up: הקידומת לשורש האתר ('' בדף הבית, '../' או '/' בשאר). current: הקישור שמסומן aria-current.
-# העיצוב: css/head.css (בכל העמודים). בעברית (body.st): המסגרת הכהה של חדר ההקרנה, ועמודת קריאה בהירה בעמודי טקסט. עמוד בעברית בשפת הסטודיו מקבל class="st" על body ואת studio_head().
+# העיצוב: בעברית css/xr.css (שפת הרנטגן, כמו הפרקים באינסטגרם), ובעמודי טקסט גם css/page.css. עמוד בעברית מקבל class="st" על body ואת studio_head().
+# העמודים באנגלית נשארים עם css/head.css.
 import html
 
 
 def studio_head(up, page_css=True):
-    # השפה של הסטודיו (css/head.css): שני הגופנים של המסך הראשון נטענים מראש, ואחריהם head.css ו-page.css (עמודי טקסט)
-    return (f'<link rel="preload" as="font" type="font/woff2" href="{up}fonts/b/noto-serif-hebrew-c.woff2" crossorigin>\n'
-            f'<link rel="preload" as="font" type="font/woff2" href="{up}fonts/b/plex-he-400.woff2" crossorigin>\n'
-            f'<link rel="stylesheet" href="{up}css/head.css?v=7">'
-            + (f'\n<link rel="stylesheet" href="{up}css/page.css?v=2">' if page_css else ''))
+    # שפת הרנטגן (css/xr.css): שני הגופנים של המסך הראשון (Handjet לכותרות, Rubik לטקסט) נטענים מראש, ואחריהם xr.css ו-page.css (עמודי טקסט)
+    return (f'<link rel="preload" as="font" type="font/woff2" href="{up}fonts/handjet-hebrew.woff2" crossorigin>\n'
+            f'<link rel="preload" as="font" type="font/woff2" href="{up}fonts/g/rubik-hebrew-423ede.woff2" crossorigin>\n'
+            f'<link rel="stylesheet" href="{up}css/xr.css?v=1">'
+            + (f'\n<link rel="stylesheet" href="{up}css/page.css?v=3">' if page_css else ''))
 
 
 def header(up, wa, current='', he=True):
     esc = html.escape
     if he:
-        # מערכות: בדף הבית קפיצה לאולם המערכות, ובשאר העמודים לעמוד המערכות
-        links = [('archive/', 'עבודות'), ('#systems' if up == '' else 'systems.html', 'מערכות'), ('#films', 'סרטים'), ('gallery/', 'תמונות'), ('services/', 'שירותים'), ('#contact', 'צור קשר')]
+        # חמישה קישורים: העבודות, הסרטים ויצירת הקשר בדף הבית, השירותים ועמוד המערכות. התמונות בכותרת התחתונה
+        links = [('#work', 'עבודות'), ('services/', 'שירותים'), ('#films', 'סרטים'), ('systems.html', 'מערכות'), ('#contact', 'צור קשר')]
         lang = f'<a class="top-lang" href="{up}en.html" lang="en" hreflang="en">EN</a>'
         home, home_label, nav_label, menu_label, cta = (up or '/'), 'HG Studio, לדף הבית', 'ראשי', 'תפריט', 'וואטסאפ'
         extra = (f'<a class="menu-wa" href="{esc(wa)}" target="_blank" rel="noopener">וואטסאפ</a>'
@@ -48,10 +49,10 @@ WA_DEFAULT = 'https://wa.me/972545522053'
 
 def footer(up, he=True, wa=WA_DEFAULT):
     # שורה אחת: הסימן, טלפון, מייל, וקישורים למה שלא צריך להיות בתפריט הראשי.
-    # אחריה פס הפנייה הקבוע של הטלפון (css/head.css, js/chrome.js): וואטסאפ בצד של האגודל (ימין), וחיוג לידו.
+    # אחריה פס הפנייה הקבוע של הטלפון (css/xr.css, js/chrome.js): וואטסאפ בצד של האגודל (ימין), וחיוג לידו.
     # עמוד עם אלמנט data-dock-wait (למשל הכפתור בפתיחה) מציג את הפס רק אחרי שהאלמנט יצא מהמסך למעלה
     if he:
-        links = [('faq.html', 'שאלות'), ('blog/', 'מאמרים'), ('accessibility.html', 'נגישות'), ('privacy.html', 'פרטיות'), ('terms.html', 'תנאים')]
+        links = [('faq.html', 'שאלות'), ('blog/', 'מאמרים'), ('gallery/', 'תמונות'), ('accessibility.html', 'נגישות'), ('privacy.html', 'פרטיות'), ('terms.html', 'תנאים')]
         home, nav_label, cookies, tel = (up or '/'), 'תחתון', 'עוגיות', '054-5522053'
         dock_label, dock_wa, dock_call = 'פנייה מהירה', 'וואטסאפ', 'חיוג'
     else:

@@ -7,14 +7,14 @@
   if (reduce || !matchMedia('(pointer: fine)').matches || !window.Lenis) return;
   var lenis = new Lenis({ lerp: 0.12, wheelMultiplier: 1, smoothWheel: true,
     prevent: function (n) { return !!(n.closest && n.closest('.ht-panel, .ht-body, .a11y__panel, dialog, [data-lenis-prevent]')); } });
-  // דף הבית (js/room.js) מזיז את המצלמה לפי אותה גלילה, ומבקש ממנה קפיצות מדויקות
+  // חשוף לסקריפטים אחרים שצריכים קפיצה מדויקת בגלילה
   window.hgLenis = lenis;
   (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(performance.now());
   addEventListener('load', function () { lenis.resize(); });
   d.addEventListener('load', function (e) { if (e.target.tagName === 'IMG') { clearTimeout(lenis._rz); lenis._rz = setTimeout(function () { lenis.resize(); }, 150); } }, true);
   new MutationObserver(function () { if (d.querySelector('dialog[open]')) lenis.stop(); else lenis.start(); })
     .observe(d.body, { subtree: true, attributes: true, attributeFilter: ['open'] });
-  // מקלדת: מה שמקבל מיקוד בטאב נגלל אל המסך גם כשהגלילה החלקה פעילה (אחרי פריים, כדי שדף הבית יספיק לשים את המצלמה)
+  // מקלדת: מה שמקבל מיקוד בטאב נגלל אל המסך גם כשהגלילה החלקה פעילה (אחרי פריים)
   d.addEventListener('focusin', function (e) {
     var t = e.target; if (!t || !t.getBoundingClientRect || t === d.body) return;
     requestAnimationFrame(function () {
